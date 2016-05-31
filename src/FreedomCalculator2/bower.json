@@ -1,0 +1,8 @@
+{
+  "name": "asp.net",
+  "private": true,
+  "dependencies": {
+    "angular": "1.5.5",
+    "angular-jwt": "0.0.9"
+  }
+}
