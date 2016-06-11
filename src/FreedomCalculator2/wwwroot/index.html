@@ -1,10 +1,30 @@
 ﻿<!DOCTYPE html>
-<html>
+<html ng-app="freedomCalculatorApp">
 <head>
-    <meta charset="utf-8" />
-    <title></title>
+	<meta charset="utf-8" />
+	<title></title>
+	<script type="text/javascript" src="lib/angular/angular.min.js" defer></script>
+	<script type="text/javascript" src="lib/angular-route/angular-route.min.js" defer></script>
+	<script type="text/javascript" src="scripts/app.js" defer></script>
 </head>
-<body>
-    <p>Freedom Calculator - ASP.NET CORE</p>
+<body ng-controller="mainController">
+	<header>
+		<nav>
+			<div>
+				<div>
+					<a href="/">Freedom Calculator</a>
+				</div>
+				<ul>
+					<li><a href="#">Home</a></li>
+					<li><a href="#login">Login</a></li>
+				</ul>
+			</div>
+		</nav>
+	</header>
+	<div id="main">
+		<p>Freedom Calculator - ASP.NET CORE</p>
+		{{ message }}
+		<div ng-view></div>
+	</div>
 </body>
 </html>
