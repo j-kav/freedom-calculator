@@ -1,24 +1,23 @@
-﻿var freedomCalculatorApp = angular.module('freedomCalculatorApp', ['ngRoute']);
+﻿var freedomCalculatorApp = angular.module('freedomCalculatorApp', ['ui.router', 'angular-jwt', 'angular-storage']);
 
 // configure our routes
-freedomCalculatorApp.config(function ($routeProvider) {
-	$routeProvider
-		// route for the home page
-		.when('/', {
-			templateUrl: 'templates/home.html',
-			controller: 'mainController'
+freedomCalculatorApp.config(function ($stateProvider, $urlRouterProvider) {
+	// For any unmatched url, redirect to /home
+	$urlRouterProvider.otherwise("/home");
+	// Now set up the states
+	$stateProvider
+		.state('home', {
+			url: "/home", // which keep root url.
+			templateUrl: "templates/home.html"
 		})
-		// route for the login page
-		.when('/login', {
-			templateUrl: 'templates/login.html',
-			controller: 'loginController'
+		.state('login', {
+			url: "/login",
+			templateUrl: "templates/login.html"
 		});
 });
 
-freedomCalculatorApp.controller('mainController', function ($scope) {
-	$scope.message = 'from the main controller!';
-});
-
-freedomCalculatorApp.controller('loginController', function ($scope) {
-	$scope.message = 'from the login controller!';
+freedomCalculatorApp.constant("appSettings", {
+	apiServiceBaseUri: window.location.toString().substring(0, window.location.toString().indexOf(window.location.pathname)) + "/",
+	authClientId: "openiddicttest",
+	apiPrefix: "api/"
 });

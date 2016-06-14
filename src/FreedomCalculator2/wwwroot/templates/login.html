@@ -1,4 +1,13 @@
-﻿<div>
-	LOGIN
-	{{ message }}
+﻿<div ng-controller="loginController">
+	<form id="loginForm" name="loginForm" ng-submit="login()">
+		<fieldset>
+			<div>
+				<div>
+					<input id="email" type="text" ng-model="email" max="100" placeholder="Email address" autofocus="" />
+					<input type="password" id="password" ng-model="password" max="100" placeholder="Password" />
+				</div>
+			</div>
+			<p><input id="loginButton" type="submit" value="Login" /></p>
+		</fieldset>
+	</form>
 </div>
