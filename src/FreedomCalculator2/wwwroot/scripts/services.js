@@ -3,7 +3,7 @@
 freedomCalculatorApp.factory("authService", ["$http", "$q", "$rootScope", "appSettings", "store", "jwtHelper", function($http, $q, $rootScope, appSettings, store, jwtHelper) {
 	var storageKey = "authorizationData";
 	var authenticated = false;
-	var identity = undefined;
+	var identity;
 	var service = {
 		login: login,
 		logout: logout,
@@ -18,11 +18,11 @@ freedomCalculatorApp.factory("authService", ["$http", "$q", "$rootScope", "appSe
 	};
 	return service;
 	function login(loginData) {
-		var data = "grant_type=password"
-			+ "&scope=offline_access profile email roles"
-			+ "&resource=" + appSettings.apiServiceBaseUri
-			+ "&username=" + loginData.userName
-			+ "&password=" + loginData.password;
+		var data = "grant_type=password" +
+			"&scope=offline_access profile email roles" +
+			"&resource=" + appSettings.apiServiceBaseUri +
+			"&username=" + loginData.userName +
+			"&password=" + loginData.password;
 		var deferred = $q.defer();
 		$http.post(appSettings.apiServiceBaseUri + "connect/token", data, { headers: { "Content-Type": "application/x-www-form-urlencoded" } }).success(function (response) {
 			// todo: on 500 error, this function is still being called, hence this check
@@ -151,7 +151,7 @@ freedomCalculatorApp.factory("authorization", ["$rootScope", "$state", "authServ
 						else if (!authService.isInAnyRole($rootScope.toState.data.roles)) {
 							$state.go("accessdenied");
 						}
-					};
+					}
 				});
 		}
 	};

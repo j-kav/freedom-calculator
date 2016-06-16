@@ -17,7 +17,7 @@ freedomCalculatorApp.config(function ($stateProvider, $urlRouterProvider) {
 		.state('profile', {
 			url: "/profile",
 			templateUrl: "templates/profile.html"
-		});;
+		});
 });
 
 freedomCalculatorApp.constant("appSettings", {
