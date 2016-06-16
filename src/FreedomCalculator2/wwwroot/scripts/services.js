@@ -45,7 +45,8 @@ freedomCalculatorApp.factory("authService", ["$http", "$q", "$rootScope", "appSe
 	function isLoggedIn() {
 		var authData = getData();
 		// must have auth token and (be non-expired or have refresh token)
-		return (authenticated && authData && authData.token && (!jwtHelper.isTokenExpired(authData.token) || authData.refreshToken));
+		//return (authenticated && authData && authData.token && (!jwtHelper.isTokenExpired(authData.token) || authData.refreshToken));
+		return (authData && authData.token && (!jwtHelper.isTokenExpired(authData.token) || authData.refreshToken));
 	}
 	function getToken() {
 		var data = getData();
@@ -137,7 +138,6 @@ freedomCalculatorApp.factory("authorization", ["$rootScope", "$state", "authServ
 		authorize: function () {
 			return authService.getIdentity()
 				.then(function () {
-
 					if (!authService.isLoggedIn()) {
 						// redirect to login
 						$window.location.assign("/login?url=" + encodeURIComponent($window.location.pathname + $window.location.search));
@@ -152,7 +152,6 @@ freedomCalculatorApp.factory("authorization", ["$rootScope", "$state", "authServ
 							$state.go("accessdenied");
 						}
 					};
-
 				});
 		}
 	};

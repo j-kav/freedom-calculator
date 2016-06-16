@@ -13,11 +13,15 @@ freedomCalculatorApp.config(function ($stateProvider, $urlRouterProvider) {
 		.state('login', {
 			url: "/login",
 			templateUrl: "templates/login.html"
-		});
+		})
+		.state('profile', {
+			url: "/profile",
+			templateUrl: "templates/profile.html"
+		});;
 });
 
 freedomCalculatorApp.constant("appSettings", {
-	apiServiceBaseUri: window.location.toString().substring(0, window.location.toString().indexOf(window.location.pathname)) + "/",
-	authClientId: "openiddicttest",
+	apiServiceBaseUri: window.location.toString(),
+	authClientId: "freedomcalculator2",
 	apiPrefix: "api/"
 });
