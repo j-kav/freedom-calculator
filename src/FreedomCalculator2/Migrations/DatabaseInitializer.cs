@@ -22,14 +22,6 @@ namespace FreedomCalculator2
 		{
 			_context.Database.EnsureCreated();
 
-			// Add Mvc.Client to the known applications.
-			if (_context.Applications.Any())
-			{
-				foreach (var application in _context.Applications)
-					_context.Remove(application);
-				_context.SaveChanges();
-			}
-
 			if (_context.Users.Any())
 			{
 				foreach (var u in _context.Users)
@@ -38,7 +30,7 @@ namespace FreedomCalculator2
 			}
 
 			// TODO remove
-			var email = "scott@test.com";
+			var email = "andersco@gmail.com";
 			ApplicationUser user;
 			if (await _userManager.FindByEmailAsync(email) == null)
 			{
@@ -50,19 +42,7 @@ namespace FreedomCalculator2
 					EmailConfirmed = true,
 					GivenName = "Scott"
 				};
-				await _userManager.CreateAsync(user, "P2ssw0rd!");
-			}
-
-			user = await _userManager.FindByEmailAsync(email);
-			var roleName = "testrole";
-			if (await _roleManager.FindByNameAsync(roleName) == null)
-			{
-				await _roleManager.CreateAsync(new ApplicationRole() { Name = roleName });
-			}
-
-			if (!await _userManager.IsInRoleAsync(user, roleName))
-			{
-				await _userManager.AddToRoleAsync(user, roleName);
+				IdentityResult userResult = await _userManager.CreateAsync(user, "Freedom-2k16");
 			}
 		}
 	}

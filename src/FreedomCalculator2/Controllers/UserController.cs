@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FreedomCalculator2.Controllers
 {
-	[Authorize(Roles = "testrole")]
+	[Authorize]
 	public class UserController : Controller
 	{
 		private ApplicationDbContext _context;

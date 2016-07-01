@@ -1,10 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OpenIddict;
-using OpenIddict.Models;
 
 namespace FreedomCalculator2.Models
 {
-	public class ApplicationDbContext : OpenIddictContext<ApplicationUser, Application, ApplicationRole, string>
+	public class ApplicationDbContext : OpenIddictDbContext<ApplicationUser>
 	{
 		public ApplicationDbContext(DbContextOptions options) : base(options)
 		{ }

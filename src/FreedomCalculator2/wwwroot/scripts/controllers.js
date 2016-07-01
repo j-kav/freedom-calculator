@@ -22,6 +22,23 @@ freedomCalculatorApp.controller('loginController', ['$scope', 'authService', '$s
 				alert(err.error_description);
 		});
 	};
+	$scope.register = function () {
+	    var user = { userName: $scope.email, password: $scope.password };
+	    authService.register(user).then(function () {
+	        authService.getIdentity().then(function (identity) {
+	            alert("Hello " + identity.email + ". You can now redirect!");
+	            if ($stateParams.url)
+	                $window.location.assign($stateParams.url);
+	            else
+	                $window.location.assign("/");
+	        });
+	    }, function (err) {
+	        if (!err)
+	            alert("No response was received from the server");
+	        else
+	            alert(err.error_description);
+	    });
+	}
 }]);
 
 freedomCalculatorApp.controller('profileController', ['$scope', '$http', 'authService', function ($scope, $http, authService) {

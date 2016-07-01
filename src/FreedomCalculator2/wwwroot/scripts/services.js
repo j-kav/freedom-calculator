@@ -14,7 +14,8 @@ freedomCalculatorApp.factory("authService", ["$http", "$q", "$rootScope", "appSe
 		isInRole: isInRole,
 		isInAnyRole: isInAnyRole,
 		identity: identity,
-		getIdentity: getIdentity
+		getIdentity: getIdentity,
+        register: register
 	};
 	return service;
 	function login(loginData) {
@@ -129,30 +130,17 @@ freedomCalculatorApp.factory("authService", ["$http", "$q", "$rootScope", "appSe
 	function getData() {
 		return store.get(storageKey);
 	}
-}]);
-
-freedomCalculatorApp.factory("authorization", ["$rootScope", "$state", "authService", "notifications", "$window", function ($rootScope, $state, authService, notifications, $window) {
-	// from: http://stackoverflow.com/questions/22537311/angular-ui-router-login-authentication
-	// todo: might be a better option?: http://www.codelord.net/2015/10/29/angular-authentication-remember-where-you-were-plus-demo-project/?utm_campaign=NG-Newsletter&utm_medium=email&utm_source=NG-Newsletter_121
-	return {
-		authorize: function () {
-			return authService.getIdentity()
-				.then(function () {
-					if (!authService.isLoggedIn()) {
-						// redirect to login
-						$window.location.assign("/login?url=" + encodeURIComponent($window.location.pathname + $window.location.search));
-					}
-					else {
-						if ($rootScope.toState.data.allowAny) {
-						}
-						else if (Object.prototype.toString.call($rootScope.toState.data.roles) !== "[object Array]") {
-							throw ("Route does not have any permissions");
-						}
-						else if (!authService.isInAnyRole($rootScope.toState.data.roles)) {
-							$state.go("accessdenied");
-						}
-					}
-				});
-		}
-	};
+	function register(registerData) {
+	    var deferred = $q.defer();
+	    var data = "username=" + registerData.userName +
+                   "&email=" + registerData.email +
+	               "&password=" + registerData.password;
+	    $http.post(appSettings.apiServiceBaseUri + "api/account").success(function (response) {
+	        deferred.resolve(response);
+	    }).error(function (data) {
+	        logout();
+	        deferred.reject(data);
+	    });
+	    return deferred.promise;
+    }
 }]);

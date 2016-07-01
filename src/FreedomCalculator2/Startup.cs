@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OpenIddict;
-using OpenIddict.Models;
 
 namespace FreedomCalculator2
 {
@@ -24,6 +23,9 @@ namespace FreedomCalculator2
 			builder.AddJsonFile("appsettings.json");
 			Configuration = builder.Build();
 
+			// add MVC for web api
+			services.AddMvc();
+
 			// add entity framework using the config connection string
 			services.AddEntityFrameworkSqlServer()
 				.AddDbContext<ApplicationDbContext>(options =>
@@ -32,16 +34,18 @@ namespace FreedomCalculator2
 			// add identity with openiddict
 			services.AddIdentity<ApplicationUser, ApplicationRole>()
 				.AddEntityFrameworkStores<ApplicationDbContext>()
-				.AddDefaultTokenProviders()
-				.AddOpenIddictCore<Application>(config => config.UseEntityFramework());
+				.AddDefaultTokenProviders();
 
-			// add MVC for web api
-			services.AddMvc();
+			services.AddOpenIddict<ApplicationUser, ApplicationDbContext>()
+				.AddTokenManager<CustomOpenIddictManager>()
+				// During development, you can disable the HTTPS requirement.
+				.DisableHttpsRequirement()
+				.UseJsonWebTokens();
 
 			// for seeding the database with the demo user details
 			// TODO determine if this stuff is needed after POC is done
 			services.AddTransient<IDatabaseInitializer, DatabaseInitializer>();
-			services.AddScoped<OpenIddictManager<ApplicationUser, Application>, CustomOpenIddictManager>();
+			services.AddScoped<OpenIddictTokenManager<OpenIddictToken>, CustomOpenIddictManager>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,14 +56,7 @@ namespace FreedomCalculator2
 			app.UseDefaultFiles();
 			app.UseStaticFiles();
 
-			app.UseOpenIddictCore(builder =>
-			{
-				// tell openiddict you're wanting to use jwt tokens
-				builder.Options.UseJwtTokens();
-				// NOTE: for dev consumption only! for live, this is not encouraged!
-				builder.Options.AllowInsecureHttp = true;
-				builder.Options.ApplicationCanDisplayErrors = true;
-			});
+			app.UseOpenIddict();
 
 			// use jwt bearer authentication
 			app.UseJwtBearerAuthentication(new JwtBearerOptions
