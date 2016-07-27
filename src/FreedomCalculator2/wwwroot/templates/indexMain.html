@@ -1,0 +1,16 @@
+﻿<header>
+	<h1>Freedom Calculator - ASP.NET CORE</h1>
+</header>
+<div id="main">
+	<nav>
+		<div>
+			<ul>
+				<li><a ui-sref="home">Home</a></li>
+				<li ng-hide="authService.isLoggedIn()"><a ui-sref="login">Login</a></li>
+				<li ng-show="authService.isLoggedIn()"><a href="#" ng-click="authService.logout()">Logout</a></li>
+				<li ng-show="authService.isLoggedIn()"><a ui-sref="profile">Profile</a></li>
+			</ul>
+		</div>
+	</nav>
+	<div ui-view></div>
+</div>

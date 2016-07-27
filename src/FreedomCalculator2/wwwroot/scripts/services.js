@@ -15,7 +15,7 @@ freedomCalculatorApp.factory("authService", ["$http", "$q", "$rootScope", "appSe
 		isInAnyRole: isInAnyRole,
 		identity: identity,
 		getIdentity: getIdentity,
-        register: register
+		register: register
 	};
 	return service;
 	function login(loginData) {
@@ -101,13 +101,9 @@ freedomCalculatorApp.factory("authService", ["$http", "$q", "$rootScope", "appSe
 				roles.push(payload.role);
 			else if (Object.prototype.toString.call(payload.role) === "[object Array]")
 				roles = payload.role;
-			identity = payload;
-			// I prefer to limit the profile. Add any custom properties to this object here.
-			//identity = {
-			//    email: payload.email,
-			//    userId: payload.nameid,
-			//    roles: roles
-			//};
+			identity = {
+				email: payload.email
+			};
 			authenticated = true;
 		}
 		else {
@@ -131,16 +127,26 @@ freedomCalculatorApp.factory("authService", ["$http", "$q", "$rootScope", "appSe
 		return store.get(storageKey);
 	}
 	function register(registerData) {
-	    var deferred = $q.defer();
-	    var data = "username=" + registerData.userName +
-                   "&email=" + registerData.email +
-	               "&password=" + registerData.password;
-	    $http.post(appSettings.apiServiceBaseUri + "api/account").success(function (response) {
-	        deferred.resolve(response);
-	    }).error(function (data) {
-	        logout();
-	        deferred.reject(data);
-	    });
-	    return deferred.promise;
-    }
+		var deferred = $q.defer();
+		var data = {
+			"GivenName": registerData.givenName,
+			"Email": registerData.email,
+			"Password": registerData.password,
+			"ConfirmPassword": registerData.confirmPassword
+		};
+		$http.post(
+			appSettings.apiServiceBaseUri + "api/account",
+			JSON.stringify(data),
+			{
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			}).success(function (response) {
+				deferred.resolve(response);
+			}).error(function (data) {
+				logout();
+				deferred.reject(data);
+			});
+		return deferred.promise;
+	}
 }]);

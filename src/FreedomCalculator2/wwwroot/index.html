@@ -12,21 +12,6 @@
 	<script type="text/javascript" src="scripts/controllers.js" defer></script>
 </head>
 <body ng-controller="mainController">
-	<header>
-		<nav>
-			<div>
-				<ul>
-					<li><a ui-sref="home">Home</a></li>
-					<li ng-hide="authService.isLoggedIn()"><a ui-sref="login">Login</a></li>
-					<li ng-show="authService.isLoggedIn()"><a href="#" ng-click="authService.logout()">Logout</a></li>
-					<li ng-show="authService.isLoggedIn()"><a ui-sref="profile">Profile</a></li>
-				</ul>
-			</div>
-		</nav>
-	</header>
-	<div id="main">
-		<p>Freedom Calculator - ASP.NET CORE</p>
-		<div ui-view></div>
-	</div>
+	<ng-include src="'templates/indexMain.html'"></ng-include>
 </body>
 </html>

@@ -14,6 +14,10 @@ freedomCalculatorApp.config(function ($stateProvider, $urlRouterProvider) {
 			url: "/login",
 			templateUrl: "templates/login.html"
 		})
+		.state('register', {
+			url: "/register",
+			templateUrl: "templates/register.html"
+		})
 		.state('profile', {
 			url: "/profile",
 			templateUrl: "templates/profile.html"
@@ -21,7 +25,7 @@ freedomCalculatorApp.config(function ($stateProvider, $urlRouterProvider) {
 });
 
 freedomCalculatorApp.constant("appSettings", {
-	apiServiceBaseUri: window.location.toString(),
+	apiServiceBaseUri: [window.location.protocol, '//', window.location.host, window.location.pathname].join(''),
 	authClientId: "freedomcalculator2",
 	apiPrefix: "api/"
 });
