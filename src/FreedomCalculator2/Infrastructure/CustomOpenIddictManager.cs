@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using AspNet.Security.OpenIdConnect.Extensions;
 using FreedomCalculator2.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
@@ -8,16 +12,32 @@ using OpenIddict;
 
 namespace FreedomCalculator2.Infrastructure
 {
-	public class CustomOpenIddictManager : OpenIddictTokenManager<OpenIddictToken>
+	public class CustomOpenIddictManager : OpenIddictUserManager<ApplicationUser>
 	{
 		public CustomOpenIddictManager(
 			IServiceProvider services,
-			IOpenIddictTokenStore<OpenIddictToken> store,
-			UserManager<ApplicationUser> users,
+			IOpenIddictUserStore<ApplicationUser> store,
 			IOptions<IdentityOptions> options,
-			ILogger<OpenIddictTokenManager<OpenIddictToken>> logger)
-			: base(services, store, options, logger)
+			ILogger<OpenIddictUserManager<ApplicationUser>> logger,
+			IPasswordHasher<ApplicationUser> hasher,
+			IEnumerable<IUserValidator<ApplicationUser>> userValidators,
+			IEnumerable<IPasswordValidator<ApplicationUser>> passwordValidators,
+			ILookupNormalizer keyNormalizer,
+			IdentityErrorDescriber errors
+			)
+			: base(services, store, options, logger, hasher, userValidators, passwordValidators, keyNormalizer, errors)
 		{
+		}
+
+		public override async Task<ClaimsIdentity> CreateIdentityAsync(ApplicationUser user, IEnumerable<string> scopes)
+		{
+			var claimsIdentity = await base.CreateIdentityAsync(user, scopes);
+
+			claimsIdentity.AddClaim("given_name", user.GivenName,
+				OpenIdConnectConstants.Destinations.AccessToken,
+				OpenIdConnectConstants.Destinations.IdentityToken);
+
+			return claimsIdentity;
 		}
 	}
 }

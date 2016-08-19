@@ -4,15 +4,15 @@ freedomCalculatorApp.controller('mainController', ['$scope', 'authService', func
 	$scope.authService = authService;
 }]);
 
-freedomCalculatorApp.controller('loginController', ['$scope', 'authService', '$stateParams', '$window', function ($scope, authService, $stateParams, $window) {
+freedomCalculatorApp.controller('loginController', ['$scope', 'authService', '$stateParams', '$window', '$location', function ($scope, authService, $stateParams, $window, $location) {
 	$scope.login = function () {
 		var user = { userName: $scope.email, password: $scope.password };
 		authService.login(user).then(function () {
 			authService.getIdentity().then(function (identity) {
 				if ($stateParams.url)
-					$window.location.assign($stateParams.url);
+					$location.url($stateParams.url);
 				else
-					$window.location.assign("/");
+					$location.url("/statistics");
 			});
 		}, function (err) {
 			if (!err)
@@ -50,6 +50,25 @@ freedomCalculatorApp.controller('profileController', ['$scope', '$http', 'authSe
 		}).
 			success(function () {
 				alert('success');
+			}).
+			error(function (data, status) {
+				alert(data);
+				alert(status);
+			});
+	});
+}]);
+
+freedomCalculatorApp.controller('assetController', ['$scope', '$http', 'authService', function ($scope, $http, authService) {
+	$scope.$on('$stateChangeSuccess', function () {
+		$http({
+			method: 'GET',
+			url: '/api/assets',
+			headers: {
+				'Authorization': 'Bearer ' + authService.getToken()
+			}
+		}).
+			success(function (data) {
+				alert('success:' + JSON.stringify(data));
 			}).
 			error(function (data, status) {
 				alert(data);

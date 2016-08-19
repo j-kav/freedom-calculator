@@ -12,5 +12,7 @@ namespace FreedomCalculator2.Models
 		{
 			base.OnModelCreating(builder);
 		}
+
+		public DbSet<Asset> Assets { get; set; }
 	}
 }

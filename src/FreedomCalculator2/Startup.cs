@@ -34,18 +34,22 @@ namespace FreedomCalculator2
 			// add identity with openiddict
 			services.AddIdentity<ApplicationUser, ApplicationRole>()
 				.AddEntityFrameworkStores<ApplicationDbContext>()
+				.AddUserManager<CustomOpenIddictManager>()
 				.AddDefaultTokenProviders();
 
 			services.AddOpenIddict<ApplicationUser, ApplicationDbContext>()
-				.AddTokenManager<CustomOpenIddictManager>()
 				// During development, you can disable the HTTPS requirement.
 				.DisableHttpsRequirement()
-				.UseJsonWebTokens();
+				.EnableTokenEndpoint("/connect/token")
+				.AllowPasswordFlow()
+				.AllowRefreshTokenFlow()
+				.UseJsonWebTokens()
+				.AddEphemeralSigningKey();
 
 			// for seeding the database with the demo user details
 			// TODO determine if this stuff is needed after POC is done
 			services.AddTransient<IDatabaseInitializer, DatabaseInitializer>();
-			services.AddScoped<OpenIddictTokenManager<OpenIddictToken>, CustomOpenIddictManager>();
+			services.AddScoped<IFreedomCalculatorRepository, FreedomCalculatorRepository>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -7,7 +7,7 @@ freedomCalculatorApp.config(function ($stateProvider, $urlRouterProvider) {
 	// Now set up the states
 	$stateProvider
 		.state('home', {
-			url: "/home", // which keep root url.
+			url: "/home", // root url.
 			templateUrl: "templates/home.html"
 		})
 		.state('login', {
@@ -21,6 +21,22 @@ freedomCalculatorApp.config(function ($stateProvider, $urlRouterProvider) {
 		.state('profile', {
 			url: "/profile",
 			templateUrl: "templates/profile.html"
+		})
+		.state('statistics', {
+			url: "/statistics",
+			templateUrl: "templates/statistics.html"
+		})
+		.state('assets', {
+			url: "/assets",
+			templateUrl: "templates/assets.html"
+		})
+		.state('liabilities', {
+			url: "/liabilities",
+			templateUrl: "templates/liabilities.html"
+		})
+		.state('budgets', {
+			url: "/statistics",
+			templateUrl: "templates/budgets.html"
 		});
 });
 
