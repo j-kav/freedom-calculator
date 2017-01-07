@@ -1,19 +1,43 @@
 ﻿<!DOCTYPE html>
-<html ng-app="freedomCalculatorApp">
+<html>
 <head>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width">
-	<title></title>
-	<script type="text/javascript" src="lib/angular/angular.js" defer></script>
-	<script type="text/javascript" src="lib/angular-ui-router/release/angular-ui-router.js" defer></script>
-	<script type="text/javascript" src="lib/a0-angular-storage/dist/angular-storage.js" defer></script>
-	<script type="text/javascript" src="lib/angular-jwt/dist/angular-jwt.js" defer></script>
-	<script type="text/javascript" src="scripts/app.js" defer></script>
-	<script type="text/javascript" src="scripts/services.js" defer></script>
-	<script type="text/javascript" src="scripts/controllers.js" defer></script>
-	<link rel="stylesheet" type="text/css" href="css/site.css" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width">
+    <title>Freedom Calculator</title>
+    <link rel="stylesheet" type="text/css" href="css/site.css" />
+    <script src="lib/vue/dist/vue.min.js"></script>
+    <script src="lib/vue-router/dist/vue-router.min.js"></script>
+    <script src="scripts/login.js"></script>
 </head>
-<body ng-controller="mainController">
-	<ng-include src="'templates/indexMain.html'"></ng-include>
+<body>
+    <div id="app">
+        <h1>Freedom Calculator</h1>
+        <p>
+            <router-link to="/login">Login</router-link>
+            <router-link to="/home">Home</router-link>
+        </p>
+
+        <router-view></router-view>
+    </div>
+    <script type="text/javascript">
+
+        const Home = { template: '<div>home</div>' }
+
+        const routes = [
+            { path: '/login', component: Login },
+            { path: '/home', component: Home }
+        ];
+
+        const router = new VueRouter({
+            routes
+        });
+
+        const app = new Vue({
+            router,
+            el: '#app',
+            data: {
+            }
+        }).$mount('#app');
+    </script>
 </body>
 </html>

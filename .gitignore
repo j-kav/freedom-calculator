@@ -11,6 +11,7 @@ PublishProfiles/
 bower_components/
 node_modules/
 **/wwwroot/lib/
+**/wwwroot/dist/
 launchSettings.json
 debugSettings.json
 project.lock.json
@@ -36,3 +37,4 @@ nuget.exe
 node_modules
 **/[Cc]ompiler/[Rr]esources/**/*.js
 *~
+.vscode/

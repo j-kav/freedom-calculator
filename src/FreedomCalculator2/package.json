@@ -1,10 +1,14 @@
 {
-	"version": "1.0.0",
-	"name": "asp.net",
-	"private": true,
-	"devDependencies": {
-			"grunt": "1.0.1",
-			"grunt-contrib-jshint": "1.0.0",
-			"grunt-contrib-watch": "1.0.0"
-	}
+  "version": "1.0.0",
+  "name": "asp.net",
+  "private": true,
+  "devDependencies": {
+    "babel-core": "^6.21.0",
+    "babel-loader": "^6.2.10",
+    "css-loader": "^0.26.1",
+    "vue-loader": "^10.0.2",
+    "vue-template-compiler": "^2.1.8",
+    "webpack": "^1.14.0"
+  },
+  "dependencies": {}
 }
