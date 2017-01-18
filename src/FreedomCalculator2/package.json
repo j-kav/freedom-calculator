@@ -1,14 +1,22 @@
 {
-  "version": "1.0.0",
-  "name": "asp.net",
+  "version": "2.0.0",
+  "name": "freedomcalculator",
   "private": true,
+  "scripts": {
+    "build": "webpack"
+  },
+  "author": "Scott Anderson",
   "devDependencies": {
     "babel-core": "^6.21.0",
     "babel-loader": "^6.2.10",
+    "babel-preset-env": "^1.1.8",
     "css-loader": "^0.26.1",
     "vue-loader": "^10.0.2",
-    "vue-template-compiler": "^2.1.8",
-    "webpack": "^1.14.0"
+    "vue-template-compiler": "^2.1.10",
+    "webpack": "^2.2.0-rc.8"
   },
-  "dependencies": {}
+  "dependencies": {
+    "vue": "^2.1.10",
+    "vue-router": "^2.1.1"
+  }
 }

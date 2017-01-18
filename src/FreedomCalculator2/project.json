@@ -3,6 +3,7 @@
     "emitEntryPoint": true,
     "warningsAsErrors": true,
     "preserveCompilationContext": true,
+    "debugType": "portable",
 
     "copyToOutput": {
       "include": [

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace FreedomCalculator2
 {
@@ -12,14 +12,20 @@ namespace FreedomCalculator2
 	{
 		public IConfigurationRoot Configuration { get; set; }
 
+        public Startup(IHostingEnvironment env)
+        {
+            // add the config file which stores the connection string
+            IConfigurationBuilder builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json")
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+
+            //builder.AddEnvironmentVariables();
+            Configuration = builder.Build();
+        }
+
 		public void ConfigureServices(IServiceCollection services)
 		{
-			// add the config file which stores the connection string
-			ConfigurationBuilder builder = new ConfigurationBuilder();
-			builder.SetBasePath(Directory.GetCurrentDirectory());
-			builder.AddJsonFile("appsettings.json");
-			Configuration = builder.Build();
-
 			// add MVC for web api
 			services.AddMvc();
 

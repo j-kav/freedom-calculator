@@ -5,39 +5,9 @@
     <meta name="viewport" content="width=device-width">
     <title>Freedom Calculator</title>
     <link rel="stylesheet" type="text/css" href="css/site.css" />
-    <script src="lib/vue/dist/vue.min.js"></script>
-    <script src="lib/vue-router/dist/vue-router.min.js"></script>
-    <script src="scripts/login.js"></script>
 </head>
 <body>
-    <div id="app">
-        <h1>Freedom Calculator</h1>
-        <p>
-            <router-link to="/login">Login</router-link>
-            <router-link to="/home">Home</router-link>
-        </p>
-
-        <router-view></router-view>
-    </div>
-    <script type="text/javascript">
-
-        const Home = { template: '<div>home</div>' }
-
-        const routes = [
-            { path: '/login', component: Login },
-            { path: '/home', component: Home }
-        ];
-
-        const router = new VueRouter({
-            routes
-        });
-
-        const app = new Vue({
-            router,
-            el: '#app',
-            data: {
-            }
-        }).$mount('#app');
-    </script>
+    <div id="app"></div>
+    <script src="scripts/dist/bundle.js"></script>
 </body>
 </html>
