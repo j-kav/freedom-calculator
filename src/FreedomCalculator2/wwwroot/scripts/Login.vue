@@ -12,9 +12,9 @@
                 <p>
                     <input id="loginButton" type="submit" value="Login" />
                 </p>
-                <button v-on:click="createAccount">Register</button>
-                <button v-on:click="getToken">Get Token</button>
-                <button v-on:click="getUser">Get User</button>
+                <button v-on:click.prevent="createAccount">Register</button>
+                <button v-on:click.prevent="getToken">Get Token</button>
+                <button v-on:click.prevent="getUser">Get User</button>
             </fieldset>
         </form>
     </div>
@@ -24,6 +24,7 @@
     var token;
 
     export default {
+        name: 'Login',
         methods: {
             createAccount: function () {
                 var fetchProps = {
@@ -42,22 +43,23 @@
                     alert(error);
                 });
             },
-            getToken: function() {
+            getToken: function () {
                 var fetchProps = {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                     body: 'grant_type=password&username=testEmail@email.com&password=testPassword@1'
                 };
-                fetch('/connect/token', fetchProps).then(function (response) {
+                fetch('./connect/token', fetchProps).then(function (response) {
                     return response.json();
                 }).then(function (data) {
                     alert(JSON.stringify(data));
                     token = data.access_token;
+                    router.push('/');
                 }).catch(function (error) {
                     alert(error);
                 });
             },
-            getUser: function() {
+            getUser: function () {
                 var fetchProps = {
                     headers: { Authorization: 'Bearer ' + token }
                 }

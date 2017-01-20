@@ -11,4 +11,3 @@ npm run build
 ```
 * Open root directory with Visual Studio Code
 * Select ".NET Core Launch (web)" config in debug menu to debug the app
-* TODO: use setup linter with webpack, fix vue-routing when making fetches to use the right relative path

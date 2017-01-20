@@ -3,7 +3,7 @@
   "name": "freedomcalculator",
   "private": true,
   "scripts": {
-    "build": "webpack"
+    "build": "webpack --hide-modules --progress"
   },
   "author": "Scott Anderson",
   "devDependencies": {
