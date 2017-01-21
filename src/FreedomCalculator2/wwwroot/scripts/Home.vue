@@ -9,8 +9,8 @@
     export default {
         name: 'Home',
         methods: {
-            test: function() {
-                alert('test');
+            test: function () {
+                window.alert('test')
             }
         }
     }

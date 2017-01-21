@@ -3,7 +3,7 @@
   "name": "freedomcalculator",
   "private": true,
   "scripts": {
-    "build": "webpack --hide-modules --progress"
+    "dev-build": "webpack --hide-modules --progress"
   },
   "author": "Scott Anderson",
   "devDependencies": {
@@ -11,6 +11,10 @@
     "babel-loader": "^6.2.10",
     "babel-preset-env": "^1.1.8",
     "css-loader": "^0.26.1",
+    "eslint": "^3.13.1",
+    "eslint-config-vue": "^2.0.1",
+    "eslint-loader": "^1.6.1",
+    "eslint-plugin-vue": "^1.0.0",
     "vue-loader": "^10.0.2",
     "vue-template-compiler": "^2.1.10",
     "webpack": "^2.2.0-rc.8"

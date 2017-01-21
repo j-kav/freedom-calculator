@@ -8,7 +8,19 @@
         rules: [
             {
                 test: /\.vue$/,
+                loader: 'eslint-loader',
+                enforce: 'pre',
+                exclude: /node_modules/
+            },
+            {
+                test: /\.vue$/,
                 loader: 'vue-loader'
+            },
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                enforce: 'pre',
+                use: [{ loader: 'eslint-loader', options: { rules: { semi: 0 } } }],
             },
             {
                 test: /\.js$/,
