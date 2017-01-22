@@ -1,9 +1,17 @@
-﻿module.exports = {
+﻿var webpack = require('webpack');
+var PROD = JSON.parse(process.env.NODE_ENV || '0');
+
+module.exports = {
     entry: './wwwroot/scripts/main.js',
     output: {
         path: './wwwroot/scripts/dist',
-        filename: 'bundle.js'
+        filename: PROD ? 'bundle.min.js' : 'bundle.js'
     },
+    plugins: PROD ? [
+        new webpack.optimize.UglifyJsPlugin({
+            compress: { warnings: false }
+        })
+    ] : [],
     module: {
         rules: [
             {
