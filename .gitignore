@@ -1,8 +1,6 @@
 [Oo]bj/
 [Bb]in/
 node_modules/
-**/wwwroot/lib/
-**/wwwroot/scripts/dist/
+wwwroot/lib/
+wwwroot/scripts/dist/
 project.lock.json
-*.user
-*.suo

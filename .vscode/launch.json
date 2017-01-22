@@ -6,9 +6,9 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceRoot}\\src\\FreedomCalculator2\\bin\\Debug\\netcoreapp1.1\\FreedomCalculator2.dll",
+            "program": "${workspaceRoot}\\bin\\Debug\\netcoreapp1.1\\FreedomCalculator2.dll",
             "args": [],
-            "cwd": "${workspaceRoot}\\src\\FreedomCalculator2",
+            "cwd": "${workspaceRoot}",
             "stopAtEntry": false,
             "internalConsoleOptions": "openOnSessionStart",
             "launchBrowser": {

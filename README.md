@@ -2,7 +2,7 @@
 
 Setup
 * Frontend
-  * In /src/FreedomCalculator2 directory, run 
+  * In root directory, run 
     ```javascript
     npm install
     ```
