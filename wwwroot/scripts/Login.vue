@@ -13,7 +13,7 @@
                     <button v-on:click.prevent="getToken">Login</button>
                 </p>
                 <button v-on:click.prevent="createAccount">Register New User</button>
-                
+
                 <button v-on:click.prevent="getUser">Get User</button>
             </fieldset>
         </form>
@@ -25,9 +25,15 @@
 
     export default {
         name: 'Login',
+        data: function () {
+            return {
+                email: '',
+                password: ''
+            }
+        },
         methods: {
             createAccount: function () {
-                window.router.push('/register')
+                this.$router.push('/register')
             },
             getToken: function () {
                 var fetchProps = {
@@ -35,12 +41,13 @@
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                     body: 'grant_type=password&username=' + this.email + '&password=' + this.password
                 }
+                var self = this
                 window.fetch('/connect/token', fetchProps).then(function (response) {
                     return response.json()
                 }).then(function (data) {
                     window.alert(JSON.stringify(data))
                     token = data.access_token
-                    window.router.push('/')
+                    self.$router.push('/')
                 }).catch(function (error) {
                     window.alert(error)
                 })

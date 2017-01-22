@@ -22,6 +22,14 @@
 <script>
     export default {
         name: 'Register',
+        data: function () {
+            return {
+                name: '',
+                email: '',
+                password: '',
+                confirmPassword: ''
+            }
+        },
         methods: {
             createAccount: function () {
                 var fetchProps = {
