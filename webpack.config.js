@@ -1,5 +1,5 @@
 ﻿var webpack = require('webpack');
-var PROD = JSON.parse(process.env.NODE_ENV || '0');
+var PROD = process.env.NODE_ENV === 'PROD';
 
 module.exports = {
     entry: './wwwroot/scripts/main.js',

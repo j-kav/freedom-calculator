@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev-build": "webpack --hide-modules --progress",
-    "rel-build": "set NODE_ENV=1&& webpack --hide-modules --progress"
+    "rel-build": "set NODE_ENV=PROD&& webpack --hide-modules --progress"
   },
   "author": "Scott Anderson",
   "devDependencies": {
