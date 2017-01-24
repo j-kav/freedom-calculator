@@ -36,6 +36,7 @@
             login: function () {
                 var self = this
                 api.getToken(this.email, this.password).then(function () {
+                    self.$store.commit('login')
                     self.$router.push('/user')
                 }).catch(function (error) {
                     window.alert(error)

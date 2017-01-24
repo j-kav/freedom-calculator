@@ -1,7 +1,16 @@
 <template>
     <div>
-        <textarea v-model="userData"></textarea>
-        <button v-on:click.prevent="getUser">Get User</button>
+        <div v-if="loading">
+            Loading...
+        </div>
+
+        <div v-if="error">
+            {{ error }}
+        </div>
+        <div v-if="user">
+            <h2>{{ user.givenName }}</h2>
+            <p>{{ user.userName }}</p>
+        </div>
     </div>
 </template>
 
@@ -12,16 +21,23 @@
         name: 'Login',
         data: function () {
             return {
-                userData: ''
+                loading: true,
+                error: null,
+                user: null
             }
+        },
+        created () {
+            this.getUser()
         },
         methods: {
             getUser: function () {
                 var self = this
-                api.getUser().then(function (data) {
-                    self.userData = data
-                }).catch(function (error) {
-                    window.alert(error)
+                api.getUser().then((data) => {
+                    this.loading = false
+                    self.user = data
+                }).catch((error) => {
+                    this.loading = false
+                    self.error = error
                 })
             }
         }
