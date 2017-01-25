@@ -2,8 +2,9 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import VueRouter from 'vue-router'
 import App from './components/App.vue'
-import Home from './components/Home.vue'
 import Login from './components/Login.vue'
+import Home from './components/Home.vue'
+import Statistics from './components/Statistics.vue'
 import Register from './components/Register.vue'
 import User from './components/User.vue'
 
@@ -17,6 +18,9 @@ const store = new Vuex.Store({
     mutations: {
         login (state) {
             state.isLoggedIn = true
+        },
+        logout (state) {
+            state.isLoggedIn = false
         }
     }
 })
@@ -25,6 +29,7 @@ const routes = [
     { path: '/', component: Home },
     { path: '/login', component: Login },
     { path: '/register', component: Register },
+    { path: '/statistics', component: Statistics },
     { path: '/user', component: User }
 ]
 

@@ -7,7 +7,6 @@ export default {
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: 'grant_type=password&username=' + email + '&password=' + password
         }
-
         var p = new Promise(function (resolve, reject) {
             window.fetch('/connect/token', fetchProps).then(function (response) {
                 return response.json()
@@ -22,7 +21,6 @@ export default {
                 reject(error)
             })
         });
-
         return p;
     },
     getUser: function () {
@@ -37,8 +35,31 @@ export default {
             }).catch(function (error) {
                 reject(error)
             })
-        });
-
-        return p;
+        })
+        return p
+    },
+    createAccount: function (name, email, password, confirmPassword) {
+        var fetchProps = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                GivenName: name,
+                Email: email,
+                Password: password,
+                ConfirmPassword: confirmPassword
+            })
+        }
+        var p = new Promise((resolve, reject) => {
+            window.fetch('/api/account', fetchProps).then((response) => {
+                if (response.ok) {
+                    resolve(response)
+                } else {
+                    reject()
+                }
+            }).catch((error) => {
+                reject(error)
+            })
+        })
+        return p
     }
 }

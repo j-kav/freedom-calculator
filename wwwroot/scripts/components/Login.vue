@@ -37,7 +37,7 @@
                 var self = this
                 api.getToken(this.email, this.password).then(function () {
                     self.$store.commit('login')
-                    self.$router.push('/user')
+                    self.$router.push('/statistics')
                 }).catch(function (error) {
                     window.alert(error)
                 })

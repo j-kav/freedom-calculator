@@ -18,7 +18,7 @@
     import api from '../api'
 
     export default {
-        name: 'Login',
+        name: 'User',
         data: function () {
             return {
                 loading: true,

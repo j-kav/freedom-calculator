@@ -20,6 +20,8 @@
 </template>
 
 <script>
+    import api from '../api'
+
     export default {
         name: 'Register',
         data: function () {
@@ -32,19 +34,15 @@
         },
         methods: {
             createAccount: function () {
-                var fetchProps = {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ GivenName: this.name, Email: this.email, Password: this.password, ConfirmPassword: this.confirmPassword })
-                }
-                window.fetch('/api/account', fetchProps).then(function (response) {
-                    if (response.ok) {
-                        window.alert('ok')
-                    } else {
-                        window.alert('not ok')
-                    }
-                    window.alert(JSON.stringify(response))
-                }).catch(function (error) {
+                var self = this
+                api.createAccount(this.name, this.email, this.password, this.confirmPassword).then(() => {
+                    api.getToken(this.email, this.password).then(() => {
+                        self.$store.commit('login')
+                        self.$router.push('/statistics')
+                    }).catch((error) => {
+                        window.alert(error)
+                    })
+                }).catch((error) => {
                     window.alert(error)
                 })
             }

@@ -2,8 +2,9 @@
     <div id="#app">
         <h1>Freedom Calculator</h1>
         <nav>
-            <router-link to="/login">Login</router-link>
-            <router-link to="/">Home</router-link>
+            <router-link v-if="!$store.state.isLoggedIn" to="/login">Login</router-link>
+            <a href="#" v-if="$store.state.isLoggedIn" v-on:click="logout">Logout</a></router-link>
+            <router-link v-if="$store.state.isLoggedIn" to="/statistics">Statistics</router-link>
             <router-link v-if="$store.state.isLoggedIn" to="/user">Profile</router-link>
         </nav>
         <router-view></router-view>
@@ -12,6 +13,11 @@
 
 <script>
     export default {
-        name: 'App'
+        name: 'App',
+        methods: {
+            logout: function () {
+                this.$store.commit('logout')
+            }
+        }
     }
 </script>
