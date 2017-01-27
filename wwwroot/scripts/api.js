@@ -7,17 +7,17 @@ export default {
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: 'grant_type=password&username=' + email + '&password=' + password
         }
-        var p = new Promise(function (resolve, reject) {
-            window.fetch('/connect/token', fetchProps).then(function (response) {
+        var p = new Promise((resolve, reject) => {
+            window.fetch('/connect/token', fetchProps).then((response) => {
                 return response.json()
-            }).then(function (data) {
+            }).then((data) => {
                 if (data.error) {
                     reject(data.error_description)
                 } else {
                     token = data.access_token
                     resolve()
                 }
-            }).catch(function (error) {
+            }).catch((error) => {
                 reject(error)
             })
         });
@@ -27,12 +27,12 @@ export default {
         var fetchProps = {
             headers: { Authorization: 'Bearer ' + token }
         }
-        var p = new Promise(function (resolve, reject) {
-            window.fetch('/api/user', fetchProps).then(function (response) {
+        var p = new Promise((resolve, reject) => {
+            window.fetch('/api/user', fetchProps).then((response) => {
                 return response.json()
-            }).then(function (data) {
+            }).then((data) => {
                 resolve(data)
-            }).catch(function (error) {
+            }).catch((error) => {
                 reject(error)
             })
         })
@@ -56,6 +56,21 @@ export default {
                 } else {
                     reject()
                 }
+            }).catch((error) => {
+                reject(error)
+            })
+        })
+        return p
+    },
+    getAssets: function () {
+        var fetchProps = {
+            headers: { Authorization: 'Bearer ' + token }
+        }
+        var p = new Promise((resolve, reject) => {
+            window.fetch('/api/assets', fetchProps).then((response) => {
+                return response.json()
+            }).then((data) => {
+                resolve(data)
             }).catch((error) => {
                 reject(error)
             })

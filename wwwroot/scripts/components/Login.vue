@@ -9,6 +9,9 @@
                         <input v-model="password" type="password" max="100" placeholder="Password" />
                     </div>
                 </div>
+                <div v-if="error" class="error">
+                    {{ error }}
+                </div>
                 <p>
                     <button v-on:click.prevent="login">Login</button>
                 </p>
@@ -26,7 +29,8 @@
         data: function () {
             return {
                 email: '',
-                password: ''
+                password: '',
+                error: null
             }
         },
         methods: {
@@ -39,7 +43,7 @@
                     self.$store.commit('login')
                     self.$router.push('/statistics')
                 }).catch(function (error) {
-                    window.alert(error)
+                    self.error = error
                 })
             }
         }

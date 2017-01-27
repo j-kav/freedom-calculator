@@ -3,9 +3,10 @@ import Vuex from 'vuex'
 import VueRouter from 'vue-router'
 import App from './components/App.vue'
 import Login from './components/Login.vue'
+import Register from './components/Register.vue'
 import Home from './components/Home.vue'
 import Statistics from './components/Statistics.vue'
-import Register from './components/Register.vue'
+import Assets from './components/Assets.vue'
 import User from './components/User.vue'
 
 Vue.use(Vuex)
@@ -30,6 +31,7 @@ const routes = [
     { path: '/login', component: Login },
     { path: '/register', component: Register },
     { path: '/statistics', component: Statistics },
+    { path: '/assets', component: Assets },
     { path: '/user', component: User }
 ]
 

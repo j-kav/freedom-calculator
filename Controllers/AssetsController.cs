@@ -4,10 +4,13 @@ using System.Threading.Tasks;
 using FreedomCalculator2.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using AspNet.Security.OAuth.Validation;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FreedomCalculator2.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/assets")]
+    [Authorize(ActiveAuthenticationSchemes = OAuthValidationDefaults.AuthenticationScheme)]
     public class AssetsController : Controller
     {
 		UserManager<ApplicationUser> _userManager;
@@ -24,7 +27,8 @@ namespace FreedomCalculator2.Controllers
         public async Task<IEnumerable<Asset>> Get()
         {
 			ApplicationUser user = await _userManager.GetUserAsync(User);
-			return _repository.GetUserAssets(Guid.Parse(user.Id), AssetType.Any);
+			List<Asset> assets = _repository.GetUserAssets(Guid.Parse(user.Id), AssetType.Any);
+            return assets;
         }
 
         // GET api/assets/5

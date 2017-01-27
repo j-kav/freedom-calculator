@@ -11,6 +11,9 @@
                         <input v-model="confirmPassword" type="password" max="100" placeholder="Confirm Password" />
                     </div>
                 </div>
+                <div v-if="error" class="error">
+                    {{ error }}
+                </div>
                 <p>
                     <button v-on:click.prevent="createAccount">Register</button>
                 </p>
@@ -29,7 +32,8 @@
                 name: '',
                 email: '',
                 password: '',
-                confirmPassword: ''
+                confirmPassword: '',
+                error: null
             }
         },
         methods: {
@@ -40,10 +44,10 @@
                         self.$store.commit('login')
                         self.$router.push('/statistics')
                     }).catch((error) => {
-                        window.alert(error)
+                        self.error = error
                     })
                 }).catch((error) => {
-                    window.alert(error)
+                    self.error = error
                 })
             }
         }
