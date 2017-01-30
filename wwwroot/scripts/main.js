@@ -14,7 +14,8 @@ Vue.use(VueRouter)
 
 const store = new Vuex.Store({
     state: {
-        isLoggedIn: false
+        isLoggedIn: false,
+        assets: null
     },
     mutations: {
         login (state) {
@@ -22,6 +23,10 @@ const store = new Vuex.Store({
         },
         logout (state) {
             state.isLoggedIn = false
+            state.assets = null
+        },
+        setAssets (state, assets) {
+            state.assets = assets
         }
     }
 })

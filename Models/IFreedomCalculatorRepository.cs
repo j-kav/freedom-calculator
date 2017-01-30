@@ -5,6 +5,6 @@ namespace FreedomCalculator2.Models
 {
 	public interface IFreedomCalculatorRepository
 	{
-		List<Asset> GetUserAssets(Guid userId, AssetType type);
+		List<Asset> GetUserAssets(Guid userId);
 	}
 }

@@ -13,9 +13,9 @@ namespace FreedomCalculator2.Models
 			db = dbContext;
 		}
 
-		public List<Asset> GetUserAssets(Guid userId, AssetType type)
+		public List<Asset> GetUserAssets(Guid userId)
 		{
-			return db.Assets.ToList<Asset>();
+			return db.Assets.Where((asset) => asset.User.Id == userId.ToString()).ToList<Asset>();
 		}
 	}
 }

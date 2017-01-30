@@ -27,7 +27,7 @@ namespace FreedomCalculator2.Controllers
         public async Task<IEnumerable<Asset>> Get()
         {
 			ApplicationUser user = await _userManager.GetUserAsync(User);
-			List<Asset> assets = _repository.GetUserAssets(Guid.Parse(user.Id), AssetType.Any);
+			List<Asset> assets = _repository.GetUserAssets(Guid.Parse(user.Id));
             return assets;
         }
 
