@@ -16,19 +16,19 @@
 
                 <div v-bind:class="{ activeAssetList: cashActive, inactiveAssetList: !cashActive }">
                     <b>cash</b>
-                    <assetList assetType='cash list'></assetList>
+                    <assetList v-bind:assetType='0'></assetList>
                 </div>
                 <div v-bind:class="{ activeAssetList: realEstateActive, inactiveAssetList: !realEstateActive }">
                     <b>real estate</b>
-                    <assetList assetType='real estate list'></assetList>
+                    <assetList v-bind:assetType='1'></assetList>
                 </div>
                 <div v-bind:class="{ activeAssetList: bondsActive, inactiveAssetList: !bondsActive }">
                     <b>bonds</b>
-                    <assetList assetType='bonds list'></assetList>
+                    <assetList v-bind:assetType='2'></assetList>
                 </div>
                 <div v-bind:class="{ activeAssetList: stocksActive, inactiveAssetList: !stocksActive }">
                     <b>stocks</b>
-                    <assetList assetType='stocks list'></assetList>
+                    <assetList v-bind:assetType='3'></assetList>
                 </div>
             </div>
         </div>
@@ -46,7 +46,7 @@
         },
         data: function () {
             return {
-                loading: true,
+                loading: !this.$store.state.assets,
                 error: null,
                 cashActive: true,
                 realEstateActive: false,
@@ -54,7 +54,7 @@
                 stocksActive: false
             }
         },
-        created () {
+        created() {
             if (!this.$store.state.assets) {
                 this.getAssets()
             }

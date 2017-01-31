@@ -40,8 +40,11 @@ namespace FreedomCalculator2.Controllers
 
         // POST api/assets
         [HttpPost]
-        public void Post([FromBody]Asset value)
+        public async Task<int> Post([FromBody]Asset asset)
         {
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+            asset.User = user;
+            return await _repository.AddUserAsset(asset);
         }
 
         // PUT api/assets/5

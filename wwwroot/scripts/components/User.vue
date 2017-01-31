@@ -26,7 +26,7 @@
                 user: null
             }
         },
-        created () {
+        created() {
             this.getUser()
         },
         methods: {

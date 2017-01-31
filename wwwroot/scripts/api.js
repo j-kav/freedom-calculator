@@ -76,5 +76,32 @@ export default {
             })
         })
         return p
+    },
+    addAsset: function (newAsset) {
+        var fetchProps = {
+            method: 'POST',
+            headers: {
+                Authorization: 'Bearer ' + token,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                AssetType: newAsset.assetType,
+                Name: newAsset.name,
+                Symbol: newAsset.symbol,
+                NumShares: newAsset.numShares,
+                SharePrice: newAsset.sharePrice,
+                Value: newAsset.value
+            })
+        }
+        var p = new Promise((resolve, reject) => {
+            window.fetch('/api/assets', fetchProps).then((response) => {
+                return response.json()
+            }).then((data) => {
+                resolve(data)
+            }).catch((error) => {
+                reject(error.message) // TODO sanitize error
+            })
+        })
+        return p
     }
 }

@@ -1,6 +1,6 @@
 <template>
     <div id="#app">
-        <h1>Freedom Calculator</h1>
+        <!--<h1>Freedom Calculator</h1>-->
         <nav>
             <router-link v-if="!$store.state.isLoggedIn" to="/login">Login</router-link>
             <a href="#" v-if="$store.state.isLoggedIn" v-on:click="logout">Logout</a></router-link>

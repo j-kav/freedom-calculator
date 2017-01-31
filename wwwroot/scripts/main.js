@@ -18,15 +18,18 @@ const store = new Vuex.Store({
         assets: null
     },
     mutations: {
-        login (state) {
+        login(state) {
             state.isLoggedIn = true
         },
-        logout (state) {
+        logout(state) {
             state.isLoggedIn = false
             state.assets = null
         },
-        setAssets (state, assets) {
+        setAssets(state, assets) {
             state.assets = assets
+        },
+        addAsset(state, asset) {
+            state.assets.push(asset)
         }
     }
 })
