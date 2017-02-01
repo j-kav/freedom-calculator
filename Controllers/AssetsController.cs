@@ -27,7 +27,7 @@ namespace FreedomCalculator2.Controllers
         public async Task<IEnumerable<Asset>> Get()
         {
 			ApplicationUser user = await _userManager.GetUserAsync(User);
-			List<Asset> assets = _repository.GetUserAssets(Guid.Parse(user.Id));
+			List<Asset> assets = _repository.GetAssets(Guid.Parse(user.Id));
             return assets;
         }
 
@@ -44,7 +44,7 @@ namespace FreedomCalculator2.Controllers
         {
             ApplicationUser user = await _userManager.GetUserAsync(User);
             asset.User = user;
-            return await _repository.AddUserAsset(asset);
+            return await _repository.AddAsset(asset);
         }
 
         // PUT api/assets/5
@@ -55,8 +55,9 @@ namespace FreedomCalculator2.Controllers
 
         // DELETE api/asssets/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
+            await _repository.RemoveAsset(id);
         }
     }
 }

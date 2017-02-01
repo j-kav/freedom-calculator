@@ -6,8 +6,8 @@ namespace FreedomCalculator2.Models
 {
 	public interface IFreedomCalculatorRepository
 	{
-		List<Asset> GetUserAssets(Guid userId);
-
-		Task<int> AddUserAsset(Asset asset);
+		List<Asset> GetAssets(Guid userId);
+		Task<int> AddAsset(Asset asset);
+		Task RemoveAsset(int id);
 	}
 }

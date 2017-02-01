@@ -17,6 +17,11 @@ const store = new Vuex.Store({
         isLoggedIn: false,
         assets: null
     },
+    getters: {
+        assetsByType: (state, getters) => (assetTypeArray) => {
+            return state.assets.filter(asset => assetTypeArray.includes(asset.assetType))
+        }
+    },
     mutations: {
         login(state) {
             state.isLoggedIn = true
@@ -30,6 +35,9 @@ const store = new Vuex.Store({
         },
         addAsset(state, asset) {
             state.assets.push(asset)
+        },
+        removeAsset(state, id) {
+            state.assets = state.assets.filter(asset => asset.assetId !== id)
         }
     }
 })

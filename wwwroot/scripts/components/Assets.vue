@@ -16,19 +16,19 @@
 
                 <div v-bind:class="{ activeAssetList: cashActive, inactiveAssetList: !cashActive }">
                     <b>cash</b>
-                    <assetList v-bind:assetType='0'></assetList>
+                    <assetList v-bind:assetTypeArray="[assetTypes.Cash]"></assetList>
                 </div>
                 <div v-bind:class="{ activeAssetList: realEstateActive, inactiveAssetList: !realEstateActive }">
                     <b>real estate</b>
-                    <assetList v-bind:assetType='1'></assetList>
+                    <assetList v-bind:assetTypeArray="[assetTypes.RealEstate]"></assetList>
                 </div>
                 <div v-bind:class="{ activeAssetList: bondsActive, inactiveAssetList: !bondsActive }">
                     <b>bonds</b>
-                    <assetList v-bind:assetType='2'></assetList>
+                    <assetList v-bind:assetTypeArray="[assetTypes.DomesticBond, assetTypes.InternationalBond]"></assetList>
                 </div>
                 <div v-bind:class="{ activeAssetList: stocksActive, inactiveAssetList: !stocksActive }">
                     <b>stocks</b>
-                    <assetList v-bind:assetType='3'></assetList>
+                    <assetList v-bind:assetTypeArray="[assetTypes.DomesticStock, assetTypes.InternationalStock]"></assetList>
                 </div>
             </div>
         </div>
@@ -37,6 +37,7 @@
 
 <script>
     import api from '../api'
+    import assetTypes from '../assetTypes'
     import AssetList from './AssetList.vue'
 
     export default {
@@ -48,6 +49,7 @@
             return {
                 loading: !this.$store.state.assets,
                 error: null,
+                assetTypes: assetTypes,
                 cashActive: true,
                 realEstateActive: false,
                 bondsActive: false,

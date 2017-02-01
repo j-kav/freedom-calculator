@@ -103,5 +103,25 @@ export default {
             })
         })
         return p
+    },
+    removeAsset: function (id) {
+        var fetchProps = {
+            method: 'DELETE',
+            headers: {
+                Authorization: 'Bearer ' + token
+            }
+        }
+        var p = new Promise((resolve, reject) => {
+            window.fetch('/api/assets/' + id, fetchProps).then((response) => {
+                if (response.ok) {
+                    resolve(response)
+                } else {
+                    reject()
+                }
+            }).catch((error) => {
+                reject(error)
+            })
+        })
+        return p
     }
 }
