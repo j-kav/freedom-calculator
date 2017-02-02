@@ -49,8 +49,9 @@ namespace FreedomCalculator2.Controllers
 
         // PUT api/assets/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]Asset value)
+        public async Task Put(int id, [FromBody]Asset asset)
         {
+            await _repository.UpdateAsset(id, asset);
         }
 
         // DELETE api/asssets/5

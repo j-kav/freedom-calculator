@@ -29,3 +29,6 @@ tall:       (min-height: 780px)
 .error {
 	color: red;
 }
+.success {
+	color: green;
+}

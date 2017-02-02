@@ -8,17 +8,14 @@
                     <th v-if="isStockOrBond">Number of Shares</th>
                     <th v-if="isStockOrBond">Share Price</th>
                     <th>Value</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="asset in assets">
-                    <td>{{ asset.name }}</td>
-                    <td v-if="isStockOrBond">{{ asset.symbol }}</td>
-                    <td v-if="isStockOrBond">{{ asset.numShares }}</td>
-                    <td v-if="isStockOrBond">{{ asset.sharePrice }}</td>
-                    <td>{{ asset.value }}</td>
-                    <td><button v-on:click.prevent=removeAsset(asset.assetId)>Delete</button></td>
-                    <td v-if="rowError" class="error">{{ rowError }}</td>
+                    <asset v-bind:assetModel="asset">
                 </tr>
             </tbody>
         </table>
@@ -47,9 +44,13 @@
 <script>
     import api from '../api'
     import assetTypes from '../assetTypes'
+    import Asset from './Asset.vue'
 
     export default {
         name: 'AssetList',
+        components: {
+            'asset': Asset
+        },
         data: function () {
             return {
                 name: '',
@@ -58,7 +59,6 @@
                 sharePrice: 0,
                 value: 0,
                 error: null,
-                rowError: null,
                 isStockOrBond: this.assetTypeArray.includes(assetTypes.DomesticBond) ||
                 this.assetTypeArray.includes(assetTypes.InternationalBond) ||
                 this.assetTypeArray.includes(assetTypes.DomesticStock) ||
@@ -87,13 +87,6 @@
                 }).catch((error) => {
                     this.error = error
                 })
-            },
-            removeAsset: function (id) {
-                api.removeAsset(id).then(() => {
-                    this.$store.commit('removeAsset', id)
-                }).catch((error) => {
-                    this.rowError = error
-                })
             }
         }
     }
@@ -101,9 +94,15 @@
 
 <style scoped>
     label {
-        width: 200px;
+        display: inline-block;
+        width: 100px;
     }
     input {
         width: 200px;
+    }
+    table {
+        /* This is to fix an apparent bug in chrome that made the column sizes wrong. TODO figure out why */
+        table-layout: fixed; 
+        width: 100%;
     }
 </style>

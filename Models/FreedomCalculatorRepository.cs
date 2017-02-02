@@ -32,5 +32,15 @@ namespace FreedomCalculator2.Models
 			db.Assets.Remove(assetToRemove);
 			await db.SaveChangesAsync();
 		}
+
+		public async Task UpdateAsset(int id, Asset updatedAsset)
+		{
+			Asset assetToUpdate = db.Assets.Where(asset => asset.AssetId == id).FirstOrDefault();
+			assetToUpdate.Name = updatedAsset.Name;
+			assetToUpdate.NumShares = updatedAsset.NumShares;
+			assetToUpdate.Symbol = updatedAsset.Symbol;
+			assetToUpdate.Value = updatedAsset.Value;
+			await db.SaveChangesAsync();
+		}
 	}
 }

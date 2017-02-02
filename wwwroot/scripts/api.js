@@ -107,16 +107,42 @@ export default {
     removeAsset: function (id) {
         var fetchProps = {
             method: 'DELETE',
-            headers: {
-                Authorization: 'Bearer ' + token
-            }
+            headers: { Authorization: 'Bearer ' + token }
         }
         var p = new Promise((resolve, reject) => {
             window.fetch('/api/assets/' + id, fetchProps).then((response) => {
                 if (response.ok) {
                     resolve(response)
                 } else {
-                    reject()
+                    reject(response.statusText) // TODO sanitize error
+                }
+            }).catch((error) => {
+                reject(error)
+            })
+        })
+        return p
+    },
+    updateAsset: function (id, updatedAsset) {
+        var fetchProps = {
+            method: 'PUT',
+            headers: {
+                Authorization: 'Bearer ' + token,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                Name: updatedAsset.name,
+                Symbol: updatedAsset.symbol,
+                NumShares: updatedAsset.numShares,
+                SharePrice: updatedAsset.sharePrice,
+                Value: updatedAsset.value
+            })
+        }
+        var p = new Promise((resolve, reject) => {
+            window.fetch('/api/assets/' + id, fetchProps).then((response) => {
+                if (response.ok) {
+                    resolve(response)
+                } else {
+                    reject(response.statusText) // TODO sanitize error
                 }
             }).catch((error) => {
                 reject(error)

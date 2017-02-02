@@ -36,6 +36,10 @@ const store = new Vuex.Store({
         addAsset(state, asset) {
             state.assets.push(asset)
         },
+        updateAsset(state, updatedAsset) {
+            var assetIndex = state.assets.findIndex(asset => asset.assetId === updatedAsset.assetId);
+            state.assets[assetIndex] = updatedAsset;
+        },
         removeAsset(state, id) {
             state.assets = state.assets.filter(asset => asset.assetId !== id)
         }
