@@ -8,10 +8,12 @@ namespace FreedomCalculator2.Models
 	public class FreedomCalculatorRepository : IFreedomCalculatorRepository
 	{
 		ApplicationDbContext db;
+		ZillowClient _zillowClient;
 
-		public FreedomCalculatorRepository(ApplicationDbContext dbContext)
+		public FreedomCalculatorRepository(ApplicationDbContext dbContext, ZillowClient zillowClient)
 		{
 			db = dbContext;
+			_zillowClient = zillowClient;
 		}
 
 		public List<Asset> GetAssets(Guid userId)

@@ -10,22 +10,18 @@ using Microsoft.AspNetCore.Http.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OpenIddict.Core;
-using OpenIddict.Models;
 
 namespace FreedomCalculator2.Controllers
 {
     public class AuthorizationController : Controller
     {
-        private readonly OpenIddictApplicationManager<OpenIddictApplication> _applicationManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
 
         public AuthorizationController(
-            OpenIddictApplicationManager<OpenIddictApplication> applicationManager,
             SignInManager<ApplicationUser> signInManager,
             UserManager<ApplicationUser> userManager)
         {
-            _applicationManager = applicationManager;
             _signInManager = signInManager;
             _userManager = userManager;
         }

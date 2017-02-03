@@ -15,11 +15,13 @@ namespace FreedomCalculator2.Controllers
     {
 		UserManager<ApplicationUser> _userManager;
 		IFreedomCalculatorRepository _repository;
+        ZillowClient _zillowClient;
 
-        public AssetsController(UserManager<ApplicationUser> userManager, IFreedomCalculatorRepository repository)
+        public AssetsController(UserManager<ApplicationUser> userManager, IFreedomCalculatorRepository repository, ZillowClient zillowClient)
         {
 			_userManager = userManager;
 			_repository = repository;
+            _zillowClient = zillowClient;
         }
 
         // GET: api/assets
@@ -31,19 +33,18 @@ namespace FreedomCalculator2.Controllers
             return assets;
         }
 
-        // GET api/assets/5
-        [HttpGet("{id}")]
-        public Asset Get(int id)
-        {
-            return new Asset();
-        }
-
         // POST api/assets
         [HttpPost]
         public async Task<int> Post([FromBody]Asset asset)
         {
             ApplicationUser user = await _userManager.GetUserAsync(User);
             asset.User = user;
+            if (asset.AssetType == AssetType.RealEstate)
+            {
+                // get the zillow id and set the symbol
+                AssetQuoter assetQuoter = new AssetQuoter(_zillowClient);
+                //assetQuoter.GetPropertyId("", "", "", "");
+            }
             return await _repository.AddAsset(asset);
         }
 

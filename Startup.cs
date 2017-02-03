@@ -17,10 +17,8 @@ namespace FreedomCalculator2
             // add the config file which stores the connection string
             IConfigurationBuilder builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json")
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+                .AddJsonFile("appsettings.json");
 
-            //builder.AddEnvironmentVariables();
             Configuration = builder.Build();
         }
 
@@ -28,6 +26,10 @@ namespace FreedomCalculator2
 		{
 			// add MVC for web api
 			services.AddMvc();
+
+            // add options to be injected (settings from app.settings file)
+            services.AddOptions();
+            services.Configure<FreedomCalculatorConfig>((options) => Configuration.GetSection("FreedomCalculatorConfig").Bind(options));
 
 			// add entity framework using the config connection string
 			services.AddEntityFrameworkSqlServer()
@@ -82,10 +84,10 @@ namespace FreedomCalculator2
             //          password: "OpenIddict");
 
 
-            // for seeding the database with the demo user details
-            // TODO determine if this stuff is needed after POC is done
+            // for creating and seeding the database if necessary
             services.AddTransient<IDatabaseInitializer, DatabaseInitializer>();
 			services.AddScoped<IFreedomCalculatorRepository, FreedomCalculatorRepository>();
+            services.AddScoped<ZillowClient, ZillowClient>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
