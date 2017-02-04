@@ -88,6 +88,10 @@ export default {
                 AssetType: newAsset.assetType,
                 Name: newAsset.name,
                 Symbol: newAsset.symbol,
+                Address: newAsset.address,
+                City: newAsset.city,
+                State: newAsset.state,
+                Zip: newAsset.zip,
                 NumShares: newAsset.numShares,
                 SharePrice: newAsset.sharePrice,
                 Value: newAsset.value

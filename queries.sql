@@ -1,4 +1,4 @@
---SELECT * FROM information_schema.tables WHERE TABLE_TYPE='BASE TABLE';
+SELECT * FROM information_schema.tables WHERE TABLE_TYPE='BASE TABLE';
 --select * from aspnetusers;
 select * from Asset;
 select * from Liability;

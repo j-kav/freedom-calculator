@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,6 +16,18 @@ namespace FreedomCalculator2.Models
 			db = dbContext;
 			_zillowClient = zillowClient;
 		}
+		async Task SaveChanges()
+        {
+            try
+            {
+                await db.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                // TODO handle errors...these are swallowed so when it happens on production there is no indication
+                Debug.WriteLine(e.ToString());
+            }
+        }
 
 		public List<Asset> GetAssets(Guid userId)
 		{
@@ -24,7 +37,7 @@ namespace FreedomCalculator2.Models
 		public async Task<int> AddAsset(Asset asset)
 		{
 			await db.Assets.AddAsync(asset);
-			await db.SaveChangesAsync();
+			await SaveChanges();
 			return asset.AssetId;
 		}
 
@@ -32,7 +45,7 @@ namespace FreedomCalculator2.Models
 		{
 			Asset assetToRemove = db.Assets.Where(asset => asset.AssetId == id).FirstOrDefault();
 			db.Assets.Remove(assetToRemove);
-			await db.SaveChangesAsync();
+			await SaveChanges();
 		}
 
 		public async Task UpdateAsset(int id, Asset updatedAsset)
@@ -42,7 +55,7 @@ namespace FreedomCalculator2.Models
 			assetToUpdate.NumShares = updatedAsset.NumShares;
 			assetToUpdate.Symbol = updatedAsset.Symbol;
 			assetToUpdate.Value = updatedAsset.Value;
-			await db.SaveChangesAsync();
+			await SaveChanges();
 		}
 	}
 }

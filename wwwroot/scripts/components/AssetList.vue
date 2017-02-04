@@ -96,6 +96,10 @@
                     symbol: this.symbol,
                     numShares: this.numShares,
                     sharePrice: this.sharePrice,
+                    address: this.address,
+                    city: this.city,
+                    state: this.state,
+                    zip: this.zip,
                     value: this.value
                 }
                 api.addAsset(newAsset).then((id) => {
