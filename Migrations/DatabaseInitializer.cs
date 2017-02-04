@@ -1,4 +1,5 @@
 ﻿using FreedomCalculator2.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace FreedomCalculator2.Migrations
 {
@@ -13,7 +14,8 @@ namespace FreedomCalculator2.Migrations
 
 		public void Seed()
 		{
-			_context.Database.EnsureCreated();
+			// creates database in a way that is compatible with migrations, or performs any pending migrations if already created
+			_context.Database.Migrate();
 		}
 	}
 
