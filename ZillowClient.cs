@@ -1,5 +1,8 @@
 using System;
+using System.IO;
 using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 using Microsoft.Extensions.Options;
 
@@ -16,21 +19,26 @@ namespace FreedomCalculator2
             zwsid = _optionsAccessor.ZillowClientId;
         }
 
-        public XDocument GetSearchResults(string address, string cityStateZip)
+        public async Task<XDocument> GetSearchResults(string address, string cityStateZip)
         {
             string url = String.Format(
-                "https://www.zillow.com/webservice/GetSearchResults.htm?zws-id={0}&address={1}&citystatezip={2}", 
+                "https://www.zillow.com/webservice/GetSearchResults.htm?zws-id={0}&address={1}&citystatezip={2}",
                 zwsid,
                 WebUtility.UrlEncode(address),
                 WebUtility.UrlEncode(cityStateZip));
 
-            return XDocument.Load(url);
+            HttpClient client = new HttpClient();
+            Stream stream = await client.GetStreamAsync(url);
+
+            return XDocument.Load(stream);
         }
 
-        public XDocument GetZestimate(string zpid)
+        public async Task<XDocument> GetZestimate(string zpid)
         {
             string url = String.Format("https://www.zillow.com/webservice/GetZestimate.htm?zws-id={0}&zpid={1}", zwsid, zpid);
-            return XDocument.Load(url);
+            HttpClient client = new HttpClient();
+            Stream stream = await client.GetStreamAsync(url);
+            return XDocument.Load(stream);
         }
     }
 }

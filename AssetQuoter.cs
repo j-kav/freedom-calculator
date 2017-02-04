@@ -1,6 +1,7 @@
 using System;
 //using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace FreedomCalculator2
@@ -22,9 +23,9 @@ namespace FreedomCalculator2
             //this.yahooFinanceClient = yahooFinanceClient;
         }
 
-        public string GetPropertyId(string address, string city, string state, string zip)
+        public async Task<string> GetPropertyId(string address, string city, string state, string zip)
         {
-            XDocument zillowResponse = _zillowClient.GetSearchResults(address, city + ", " + state + " " + zip);
+            XDocument zillowResponse = await _zillowClient.GetSearchResults(address, city + ", " + state + " " + zip);
 
             var codeQuery = from message in zillowResponse.Descendants("message")
                             select message.Element("code").Value;
@@ -41,9 +42,9 @@ namespace FreedomCalculator2
             return zpIdQuery.FirstOrDefault<string>();
         }
 
-        public PropertyValue GetPropertyValue(string zillowPropertyId)
+        public async Task<PropertyValue> GetPropertyValue(string zillowPropertyId)
         {
-            XDocument zillowResponse = _zillowClient.GetZestimate(zillowPropertyId);
+            XDocument zillowResponse = await _zillowClient.GetZestimate(zillowPropertyId);
 
             var amountQuery = from zestimate in zillowResponse.Descendants("zestimate")
                               select zestimate.Element("amount").Value;

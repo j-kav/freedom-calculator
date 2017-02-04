@@ -29,7 +29,7 @@ namespace FreedomCalculator2.Controllers
         public async Task<IEnumerable<Asset>> Get()
         {
 			ApplicationUser user = await _userManager.GetUserAsync(User);
-			List<Asset> assets = _repository.GetAssets(Guid.Parse(user.Id));
+			List<Asset> assets = await _repository.GetAssets(Guid.Parse(user.Id));
             return assets;
         }
 
@@ -43,7 +43,8 @@ namespace FreedomCalculator2.Controllers
             {
                 // get the zillow id and set the symbol
                 AssetQuoter assetQuoter = new AssetQuoter(_zillowClient);
-                //assetQuoter.GetPropertyId("", "", "", "");
+                string zpid = await assetQuoter.GetPropertyId(asset.Address, asset.City, asset.State, asset.Zip);
+                asset.Symbol = zpid;
             }
             return await _repository.AddAsset(asset);
         }
