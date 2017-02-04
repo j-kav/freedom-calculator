@@ -21,6 +21,18 @@ namespace FreedomCalculator2.Models
         [Required, StringLength(50)]
         public string Symbol { get; set; }
 
+        [Required, StringLength(50)]
+        public string Address { get; set; }
+
+        [Required, StringLength(50)]
+        public string City { get; set; }
+
+        [Required, StringLength(2)]
+        public string State { get; set; }
+
+        [Required, StringLength(10)]
+        public string Zip { get; set; }
+
         [Required(ErrorMessage = "Number of shares is required")]
         [Range(0, double.MaxValue, ErrorMessage="Value must be positve")]
         public double NumShares { get; set; }

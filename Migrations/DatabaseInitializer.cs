@@ -1,6 +1,6 @@
 ﻿using FreedomCalculator2.Models;
 
-namespace FreedomCalculator2
+namespace FreedomCalculator2.Migrations
 {
 	public class DatabaseInitializer : IDatabaseInitializer
 	{
