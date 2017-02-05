@@ -1,14 +1,20 @@
 <template>
-    <div>
-        <td><input v-model="asset.name"></input></td>
+    <tr>
+        <td><input v-model="asset.name"></input>
+        </td>
         <td v-if="isStockOrBond">{{ asset.symbol }}</td>
         <td v-if="isStockOrBond">{{ asset.numShares }}</td>
         <td v-if="isStockOrBond">{{ asset.sharePrice }}</td>
-        <td><input v-model="asset.value"></input></td>
+        <td v-if="isRealEstate">{{ asset.address }}</td>
+        <td v-if="isRealEstate">{{ asset.city }}</td>
+        <td v-if="isRealEstate">{{ asset.state }}</td>
+        <td v-if="isRealEstate">{{ asset.zip }}</td>
+        <td><input v-model="asset.value"></input>
+        </td>
         <td><button v-on:click.prevent=updateAsset()>Update</button></td>
         <td><button v-on:click.prevent=removeAsset()>Delete</button></td>
         <td v-if="message" v-bind:class="messageClass">{{ message }}</td>
-    </div>
+    </tr>
 </template>
 
 <script>
@@ -23,7 +29,8 @@
                 message: null,
                 asset: this.assetModel,
                 isStockOrBond: this.assetModel.assetType === assetTypes.DomesticBond || this.assetModel.assetType === assetTypes.InternationalBond ||
-                this.assetModel.assetType === assetTypes.DomesticStock || this.assetModel.assetType === assetTypes.InternationalStock
+                this.assetModel.assetType === assetTypes.DomesticStock || this.assetModel.assetType === assetTypes.InternationalStock,
+                isRealEstate: this.assetModel.assetType === assetTypes.RealEstate
             }
         },
         computed: {
@@ -57,4 +64,5 @@
             }
         }
     }
+
 </script>

@@ -13,14 +13,14 @@ namespace FreedomCalculator2.Controllers
     [Authorize(ActiveAuthenticationSchemes = OAuthValidationDefaults.AuthenticationScheme)]
     public class AssetsController : Controller
     {
-		UserManager<ApplicationUser> _userManager;
-		IFreedomCalculatorRepository _repository;
+        UserManager<ApplicationUser> _userManager;
+        IFreedomCalculatorRepository _repository;
         ZillowClient _zillowClient;
 
         public AssetsController(UserManager<ApplicationUser> userManager, IFreedomCalculatorRepository repository, ZillowClient zillowClient)
         {
-			_userManager = userManager;
-			_repository = repository;
+            _userManager = userManager;
+            _repository = repository;
             _zillowClient = zillowClient;
         }
 
@@ -28,25 +28,36 @@ namespace FreedomCalculator2.Controllers
         [HttpGet]
         public async Task<IEnumerable<Asset>> Get()
         {
-			ApplicationUser user = await _userManager.GetUserAsync(User);
-			List<Asset> assets = await _repository.GetAssets(Guid.Parse(user.Id));
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+            List<Asset> assets = await _repository.GetAssets(Guid.Parse(user.Id));
             return assets;
         }
 
         // POST api/assets
         [HttpPost]
-        public async Task<int> Post([FromBody]Asset asset)
+        public async Task<Asset> Post([FromBody]Asset asset)
         {
             ApplicationUser user = await _userManager.GetUserAsync(User);
             asset.User = user;
+            AssetQuoter assetQuoter = null;
             if (asset.AssetType == AssetType.RealEstate)
             {
                 // get the zillow id and set the symbol
-                AssetQuoter assetQuoter = new AssetQuoter(_zillowClient);
+                assetQuoter = new AssetQuoter(_zillowClient);
                 string zpid = await assetQuoter.GetPropertyId(asset.Address, asset.City, asset.State, asset.Zip);
                 asset.Symbol = zpid;
             }
-            return await _repository.AddAsset(asset);
+            asset.AssetId = await _repository.AddAsset(asset);
+            if (asset.AssetType == AssetType.RealEstate)
+            {
+                AssetQuoter.PropertyValue propValue = await assetQuoter.GetPropertyValue(asset.Symbol);
+                decimal decimalValue;
+                if (decimal.TryParse(propValue.amount, out decimalValue))
+                {
+                    asset.Value = decimalValue;
+                }
+            }
+            return asset;
         }
 
         // PUT api/assets/5

@@ -7,6 +7,10 @@
                     <th v-if="isStockOrBond">Symbol</th>
                     <th v-if="isStockOrBond">Number of Shares</th>
                     <th v-if="isStockOrBond">Share Price</th>
+                    <th v-if="isRealEstate">Address</th>
+                    <th v-if="isRealEstate">City</th>
+                    <th v-if="isRealEstate">State</th>
+                    <th v-if="isRealEstate">Zip</th>
                     <th>Value</th>
                     <th></th>
                     <th></th>
@@ -102,9 +106,8 @@
                     zip: this.zip,
                     value: this.value
                 }
-                api.addAsset(newAsset).then((id) => {
-                    newAsset.assetId = id
-                    this.$store.commit('addAsset', newAsset)
+                api.addAsset(newAsset).then((addedAsset) => {
+                    this.$store.commit('addAsset', addedAsset)
                 }).catch((error) => {
                     this.error = error
                 })
