@@ -18,9 +18,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="asset in assets">
-                    <asset v-bind:assetModel="asset">
-                </tr>
+                <asset v-for="asset in assets" v-bind:assetModel="asset"></asset>
             </tbody>
         </table>
         <div>Add new</div>
@@ -125,11 +123,5 @@
     
     input {
         width: 200px;
-    }
-    
-    table {
-        /* This is to fix an apparent bug in chrome that made the column sizes wrong. TODO figure out why */
-        table-layout: fixed;
-        width: 100%;
     }
 </style>
