@@ -16,12 +16,14 @@ namespace FreedomCalculator2.Controllers
         UserManager<ApplicationUser> _userManager;
         IFreedomCalculatorRepository _repository;
         ZillowClient _zillowClient;
+        YahooFinanceClient _yahooFinanceClient;
 
-        public AssetsController(UserManager<ApplicationUser> userManager, IFreedomCalculatorRepository repository, ZillowClient zillowClient)
+        public AssetsController(UserManager<ApplicationUser> userManager, IFreedomCalculatorRepository repository, ZillowClient zillowClient, YahooFinanceClient yahooFinanceClient)
         {
             _userManager = userManager;
             _repository = repository;
             _zillowClient = zillowClient;
+            _yahooFinanceClient = yahooFinanceClient;
         }
 
         // GET: api/assets
@@ -39,23 +41,31 @@ namespace FreedomCalculator2.Controllers
         {
             ApplicationUser user = await _userManager.GetUserAsync(User);
             asset.User = user;
-            AssetQuoter assetQuoter = null;
+            AssetQuoter assetQuoter = new AssetQuoter(_zillowClient, _yahooFinanceClient);
             if (asset.AssetType == AssetType.RealEstate)
             {
                 // get the zillow id and set the symbol
-                assetQuoter = new AssetQuoter(_zillowClient);
                 string zpid = await assetQuoter.GetPropertyId(asset.Address, asset.City, asset.State, asset.Zip);
                 asset.Symbol = zpid;
             }
             asset.AssetId = await _repository.AddAsset(asset);
             if (asset.AssetType == AssetType.RealEstate)
             {
+                // set the current value
                 AssetQuoter.PropertyValue propValue = await assetQuoter.GetPropertyValue(asset.Symbol);
                 decimal decimalValue;
                 if (decimal.TryParse(propValue.amount, out decimalValue))
                 {
                     asset.Value = decimalValue;
                 }
+            }
+            else if (asset.AssetType == AssetType.DomesticBond || asset.AssetType == AssetType.DomesticStock ||
+                asset.AssetType == AssetType.InternationalBond || asset.AssetType == AssetType.InternationalStock)
+            {
+                // set the current value
+                AssetQuote quote = await assetQuoter.GetQuote(asset.Symbol);
+                asset.SharePrice = quote.SharePrice;
+                asset.Value = quote.SharePrice * (decimal)asset.NumShares;
             }
             return asset;
         }

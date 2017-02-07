@@ -10,11 +10,13 @@ namespace FreedomCalculator2.Models
     {
         ApplicationDbContext db;
         ZillowClient _zillowClient;
+        YahooFinanceClient _yahooFinanceClient;
 
-        public FreedomCalculatorRepository(ApplicationDbContext dbContext, ZillowClient zillowClient)
+        public FreedomCalculatorRepository(ApplicationDbContext dbContext, ZillowClient zillowClient, YahooFinanceClient yahooFinanceClient)
         {
             db = dbContext;
             _zillowClient = zillowClient;
+            _yahooFinanceClient = yahooFinanceClient;
         }
         async Task SaveChanges()
         {
@@ -31,9 +33,10 @@ namespace FreedomCalculator2.Models
 
         public async Task<List<Asset>> GetAssets(Guid userId)
         {
-            AssetQuoter quoter = new AssetQuoter(_zillowClient);
+            AssetQuoter quoter = new AssetQuoter(_zillowClient, _yahooFinanceClient);
 
             List<Asset> retVal = db.Assets.Where((asset) => asset.User.Id == userId.ToString()).ToList<Asset>();
+            List<string> symbols = new List<string>(retVal.Count);
 
             foreach (Asset asset in retVal)
             {
@@ -41,6 +44,27 @@ namespace FreedomCalculator2.Models
                 {
                     AssetQuoter.PropertyValue property = await quoter.GetPropertyValue(asset.Symbol);
                     asset.Value = decimal.Parse(property.amount);
+                }
+                else if (asset.AssetType == AssetType.DomesticBond || asset.AssetType == AssetType.InternationalBond ||
+                        asset.AssetType == AssetType.DomesticStock || asset.AssetType == AssetType.InternationalStock)
+                {
+                    symbols.Add(asset.Symbol);
+                }
+            }
+
+            if (symbols.Count > 0)
+            {
+                // populate the prices and values for the assets
+                List<AssetQuote> quotes = await quoter.GetQuotes(symbols);
+
+                foreach (AssetQuote quote in quotes)
+                {
+                    IEnumerable<Asset> assets = retVal.Where(a => string.Equals(a.Symbol.Trim(), quote.Symbol.Trim(), StringComparison.OrdinalIgnoreCase));
+                    foreach (Asset asset in assets)
+                    {
+                        asset.SharePrice = quote.SharePrice;
+                        asset.Value = quote.SharePrice * (decimal)asset.NumShares;
+                    }
                 }
             }
 

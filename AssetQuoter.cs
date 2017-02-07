@@ -1,8 +1,9 @@
 using System;
-//using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using FreedomCalculator2.Models;
 
 namespace FreedomCalculator2
 {
@@ -15,12 +16,12 @@ namespace FreedomCalculator2
         }
 
         ZillowClient _zillowClient;
-        //YahooFinanceClient yahooFinanceClient;
+        YahooFinanceClient yahooFinanceClient;
 
-        public AssetQuoter(ZillowClient zillowClient) //, IYahooFinanceClient yahooFinanceClient)
+        public AssetQuoter(ZillowClient zillowClient, YahooFinanceClient yahooFinanceClient)
         {
             _zillowClient = zillowClient;
-            //this.yahooFinanceClient = yahooFinanceClient;
+            this.yahooFinanceClient = yahooFinanceClient;
         }
 
         public async Task<string> GetPropertyId(string address, string city, string state, string zip)
@@ -52,20 +53,20 @@ namespace FreedomCalculator2
             return new PropertyValue { zillowPropertyId = zillowPropertyId, amount = amountQuery.FirstOrDefault<string>() };
         }
 
-        // public AssetQuote GetQuote(string symbol)
-        // {
-        //     if (string.IsNullOrWhiteSpace(symbol))
-        //         throw new ArgumentException("symbol cannot be null or whitespace", "symbol");
+        public async Task<AssetQuote> GetQuote(string symbol)
+        {
+            if (string.IsNullOrWhiteSpace(symbol))
+                throw new ArgumentException("symbol cannot be null or whitespace", "symbol");
 
-        //     return yahooFinanceClient.GetQuote(symbol);
-        // }
+            return await yahooFinanceClient.GetQuote(symbol);
+        }
 
-        // public List<AssetQuote> GetQuotes(List<string> symbols)
-        // {
-        //     if (symbols == null || symbols.Count == 0)
-        //         throw new ArgumentException("symbols cannot be null or empty", "symbols");
+        public async Task<List<AssetQuote>> GetQuotes(List<string> symbols)
+        {
+            if (symbols == null || symbols.Count == 0)
+                throw new ArgumentException("symbols cannot be null or empty", "symbols");
 
-        //     return yahooFinanceClient.GetQuotes(symbols);
-        // }
+            return await yahooFinanceClient.GetQuotes(symbols);
+        }
     }
 }

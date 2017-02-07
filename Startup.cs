@@ -10,8 +10,8 @@ using FreedomCalculator2.Migrations;
 namespace FreedomCalculator2
 {
     public class Startup
-	{
-		public IConfigurationRoot Configuration { get; set; }
+    {
+        public IConfigurationRoot Configuration { get; set; }
 
         public Startup(IHostingEnvironment env)
         {
@@ -23,21 +23,21 @@ namespace FreedomCalculator2
             Configuration = builder.Build();
         }
 
-		public void ConfigureServices(IServiceCollection services)
-		{
-			// add MVC for web api
-			services.AddMvc();
+        public void ConfigureServices(IServiceCollection services)
+        {
+            // add MVC for web api
+            services.AddMvc();
 
             // add options to be injected (settings from app.settings file)
             services.AddOptions();
             services.Configure<FreedomCalculatorConfig>((options) => Configuration.GetSection("FreedomCalculatorConfig").Bind(options));
 
-			// add entity framework using the config connection string
-			services.AddEntityFrameworkSqlServer()
-				.AddDbContext<ApplicationDbContext>(options =>
-					options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
+            // add entity framework using the config connection string
+            services.AddEntityFrameworkSqlServer()
+                .AddDbContext<ApplicationDbContext>(options =>
+                    options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
 
-			// add identity
+            // add identity
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
@@ -87,34 +87,35 @@ namespace FreedomCalculator2
 
             // for creating and seeding the database if necessary
             services.AddTransient<IDatabaseInitializer, DatabaseInitializer>();
-			services.AddScoped<IFreedomCalculatorRepository, FreedomCalculatorRepository>();
+            services.AddScoped<IFreedomCalculatorRepository, FreedomCalculatorRepository>();
             services.AddScoped<ZillowClient, ZillowClient>();
-		}
+            services.AddScoped<YahooFinanceClient, YahooFinanceClient>();
+        }
 
-		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, IDatabaseInitializer databaseInitializer)
-		{
-			app.UseDeveloperExceptionPage();
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IDatabaseInitializer databaseInitializer)
+        {
+            app.UseDeveloperExceptionPage();
 
             // Add a middleware used to validate access
             // tokens and protect the API endpoints.
             app.UseOAuthValidation();
 
             app.UseDefaultFiles();
-			app.UseStaticFiles();
+            app.UseStaticFiles();
 
-			app.UseOpenIddict();
+            app.UseOpenIddict();
 
-			// setup API
-			app.UseMvc(routes =>
-			{
-				routes.MapRoute(
-					name: "default",
-					template: "{controller=Home}/{action=Index}/{id?}");
-			});
+            // setup API
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}");
+            });
 
-			// seed the database
-			databaseInitializer.Seed();
-		}
-	}
+            // seed the database
+            databaseInitializer.Seed();
+        }
+    }
 }
