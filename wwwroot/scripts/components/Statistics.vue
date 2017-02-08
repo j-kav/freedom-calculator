@@ -1,11 +1,54 @@
 <template>
     <div>
         <p>Statistics</p>
+        <div v-if="loading">
+            Loading...
+        </div>
+        <div v-else>
+            <div v-if="error">
+                {{ error }}
+            </div>
+            <div v-else>
+                Loaded!
+                <p>netWorth: {{ netWorth }}</p>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
+    import api from '../api'
+
     export default {
-        name: 'Statistics'
+        name: 'Statistics',
+        created() {
+            if (!this.$store.state.assets) {
+                this.getAssets()
+            }
+        },
+        data: function () {
+            return {
+                loading: !this.$store.state.assets,
+                error: null
+            }
+        },
+        computed: {
+            netWorth() {
+                return this.$store.getters.netWorth
+            }
+        },
+        methods: {
+            getAssets: function () {
+                var self = this
+                api.getAssets().then((data) => {
+                    self.loading = false
+                    self.$store.commit('setAssets', data)
+                }).catch((error) => {
+                    self.loading = false
+                    self.error = error
+                })
+            }
+        }
     }
+
 </script>

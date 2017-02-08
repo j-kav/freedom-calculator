@@ -20,6 +20,13 @@ const store = new Vuex.Store({
     getters: {
         assetsByType: (state, getters) => (assetTypeArray) => {
             return state.assets.filter(asset => assetTypeArray.includes(asset.assetType))
+        },
+        netWorth: (state) => {
+            let netWorth = 0
+            for (const asset of state.assets) {
+                netWorth += asset.value
+            }
+            return netWorth
         }
     },
     mutations: {

@@ -5,7 +5,7 @@
             <router-link v-if="!$store.state.isLoggedIn" to="/login">Login</router-link>
             <a href="#" v-if="$store.state.isLoggedIn" v-on:click="logout">Logout</a></router-link>
             <router-link v-if="$store.state.isLoggedIn" to="/statistics">Statistics</router-link>
-            <router-link v-if="$store.state.isLoggedIn" to="/assets">Assets</router-link>
+            <router-link v-if="$store.state.isLoggedIn && $store.state.assets" to="/assets">Assets</router-link>
             <router-link v-if="$store.state.isLoggedIn" to="/user">Profile</router-link>
         </nav>
         <router-view></router-view>

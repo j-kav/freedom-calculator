@@ -32,9 +32,6 @@
             <div>
                 <label>NumShares</label><input v-model="numShares"></input>
             </div>
-            <div>
-                <label>SharePrice</label><input v-model="sharePrice"></input>
-            </div>
         </div>
         <div v-if="isRealEstate">
             <div>
