@@ -7,6 +7,7 @@ import Register from './components/Register.vue'
 import Home from './components/Home.vue'
 import Statistics from './components/Statistics.vue'
 import Assets from './components/Assets.vue'
+import Liabilities from './components/Liabilities.vue'
 import User from './components/User.vue'
 
 Vue.use(Vuex)
@@ -15,7 +16,8 @@ Vue.use(VueRouter)
 const store = new Vuex.Store({
     state: {
         isLoggedIn: false,
-        assets: null
+        assets: null,
+        liabilities: null
     },
     getters: {
         assetsByType: (state, getters) => (assetTypeArray) => {
@@ -49,6 +51,9 @@ const store = new Vuex.Store({
         },
         removeAsset(state, id) {
             state.assets = state.assets.filter(asset => asset.assetId !== id)
+        },
+        setLiabilities(state, liabilities) {
+            state.liabilities = liabilities
         }
     }
 })
@@ -59,6 +64,7 @@ const routes = [
     { path: '/register', component: Register },
     { path: '/statistics', component: Statistics },
     { path: '/assets', component: Assets },
+    { path: '/liabilities', component: Liabilities },
     { path: '/user', component: User }
 ]
 

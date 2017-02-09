@@ -97,5 +97,11 @@ namespace FreedomCalculator2.Models
             }
             await SaveChanges();
         }
+
+        public List<Liability> GetLiabilities(Guid userId)
+        {
+            List<Liability> retVal = db.Liabilities.Where((liability) => liability.User.Id == userId.ToString()).ToList<Liability>();
+            return retVal;
+        }
     }
 }

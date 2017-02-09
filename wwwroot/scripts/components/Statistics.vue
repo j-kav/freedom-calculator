@@ -23,7 +23,7 @@
         name: 'Statistics',
         created() {
             if (!this.$store.state.assets) {
-                this.getAssets()
+                this.getData()
             }
         },
         data: function () {
@@ -38,11 +38,15 @@
             }
         },
         methods: {
-            getAssets: function () {
+            getData: function () {
                 var self = this
                 api.getAssets().then((data) => {
-                    self.loading = false
                     self.$store.commit('setAssets', data)
+                }).then(() => {
+                    api.getLiabilities().then((data) => {
+                        self.$store.commit('setLiabilities', data)
+                        self.loading = false
+                    })
                 }).catch((error) => {
                     self.loading = false
                     self.error = error

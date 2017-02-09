@@ -10,5 +10,6 @@ namespace FreedomCalculator2.Models
 		Task<int> AddAsset(Asset asset);
 		Task RemoveAsset(int id);
 		Task UpdateAsset(int id, Asset updatedAsset);
+		List<Liability> GetLiabilities(Guid userId);
 	}
 }
