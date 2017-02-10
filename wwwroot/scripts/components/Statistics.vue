@@ -10,6 +10,8 @@
             </div>
             <div v-else>
                 Loaded!
+                <p>total assets: {{ totalAssets }}</p>
+                <p>total liabilities: {{ totalLiabilities }}</p>
                 <p>netWorth: {{ netWorth }}</p>
             </div>
         </div>
@@ -33,6 +35,12 @@
             }
         },
         computed: {
+            totalAssets() {
+                return this.$store.getters.totalAssets
+            },
+            totalLiabilities() {
+                return this.$store.getters.totalLiabilities
+            },
             netWorth() {
                 return this.$store.getters.netWorth
             }

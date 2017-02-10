@@ -168,5 +168,71 @@ export default {
             })
         })
         return p
+    },
+    addLiability: function (newLiability) {
+        var fetchProps = {
+            method: 'POST',
+            headers: {
+                Authorization: 'Bearer ' + token,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                Name: newLiability.name,
+                Principal: newLiability.principal
+            })
+        }
+        var p = new Promise((resolve, reject) => {
+            window.fetch('/api/liabilities', fetchProps).then((response) => {
+                return response.json()
+            }).then((data) => {
+                resolve(data)
+            }).catch((error) => {
+                reject(error.message) // TODO sanitize error
+            })
+        })
+        return p
+    },
+    removeLiability: function (id) {
+        var fetchProps = {
+            method: 'DELETE',
+            headers: { Authorization: 'Bearer ' + token }
+        }
+        var p = new Promise((resolve, reject) => {
+            window.fetch('/api/liabilities/' + id, fetchProps).then((response) => {
+                if (response.ok) {
+                    resolve(response)
+                } else {
+                    reject(response.statusText) // TODO sanitize error
+                }
+            }).catch((error) => {
+                reject(error)
+            })
+        })
+        return p
+    },
+    updateLiability: function (id, updatedLiability) {
+        var fetchProps = {
+            method: 'PUT',
+            headers: {
+                Authorization: 'Bearer ' + token,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                Name: updatedLiability.name,
+                Principal: updatedLiability.principal
+            })
+        }
+        var p = new Promise((resolve, reject) => {
+            window.fetch('/api/liabilities/' + id, fetchProps).then((response) => {
+                if (response.ok) {
+                    resolve(response)
+                } else {
+                    reject(response.statusText) // TODO sanitize error
+                }
+            }).catch((error) => {
+                reject(error)
+            })
+        })
+        return p
     }
 }

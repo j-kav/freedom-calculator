@@ -103,5 +103,27 @@ namespace FreedomCalculator2.Models
             List<Liability> retVal = db.Liabilities.Where((liability) => liability.User.Id == userId.ToString()).ToList<Liability>();
             return retVal;
         }
+
+        public async Task<int> AddLiability(Liability liability)
+        {
+            await db.Liabilities.AddAsync(liability);
+            await SaveChanges();
+            return liability.LiabilityId;
+        }
+
+        public async Task RemoveLiability(int id)
+        {
+            Liability liabilityToRemove = db.Liabilities.Where(liability => liability.LiabilityId == id).FirstOrDefault();
+            db.Liabilities.Remove(liabilityToRemove);
+            await SaveChanges();
+        }
+
+        public async Task UpdateLiability(int id, Liability updatedLiability)
+        {
+            Liability liabilityToUpdate = db.Liabilities.Where(liability => liability.LiabilityId == id).FirstOrDefault();
+            liabilityToUpdate.Name = updatedLiability.Name;
+            liabilityToUpdate.Principal = updatedLiability.Principal;
+            await SaveChanges();
+        }
     }
 }

@@ -20,15 +20,25 @@ const store = new Vuex.Store({
         liabilities: null
     },
     getters: {
-        assetsByType: (state, getters) => (assetTypeArray) => {
+        assetsByType: (state) => (assetTypeArray) => {
             return state.assets.filter(asset => assetTypeArray.includes(asset.assetType))
         },
-        netWorth: (state) => {
-            let netWorth = 0
+        totalAssets: (state) => {
+            let total = 0
             for (const asset of state.assets) {
-                netWorth += asset.value
+                total += parseFloat(asset.value)
             }
-            return netWorth
+            return total
+        },
+        totalLiabilities: (state) => {
+            let total = 0
+            for (const liability of state.liabilities) {
+                total += parseFloat(liability.principal)
+            }
+            return total
+        },
+        netWorth: (state, getters) => {
+            return getters.totalAssets - getters.totalLiabilities
         }
     },
     mutations: {
@@ -54,6 +64,16 @@ const store = new Vuex.Store({
         },
         setLiabilities(state, liabilities) {
             state.liabilities = liabilities
+        },
+        addLiability(state, liability) {
+            state.liabilities.push(liability)
+        },
+        updateLiability(state, updatedLiability) {
+            var liabilityIndex = state.liabilities.findIndex(liability => liability.liabilityId === updatedLiability.liabilityId);
+            state.liabilities[liabilityIndex] = updatedLiability;
+        },
+        removeLiability(state, id) {
+            state.liabilities = state.liabilities.filter(liability => liability.liabilityId !== id)
         }
     }
 })
