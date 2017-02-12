@@ -51,7 +51,7 @@
                 api.getAssets().then((data) => {
                     self.$store.commit('setAssets', data)
                 }).then(() => {
-                    api.getLiabilities().then((data) => {
+                    return api.getLiabilities().then((data) => {
                         self.$store.commit('setLiabilities', data)
                     })
                 }).then(() => {
