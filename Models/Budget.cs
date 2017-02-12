@@ -35,9 +35,9 @@ namespace FreedomCalculator2.Models
         // [Display(Name = "Add")]
         // public decimal AddPassiveIncomeAmount { get; set; }
 
-        // [Display(Name = "Manditory Expenses")]
+        // [Display(Name = "Mandatory Expenses")]
         // [DataType(DataType.Currency)]
-        // public decimal ManditoryExpenses { get; set; }
+        // public decimal MandatoryExpenses { get; set; }
 
         // [Display(Name = "Discretionary Expenses")]
         // [DataType(DataType.Currency)]
@@ -50,7 +50,7 @@ namespace FreedomCalculator2.Models
         // {
         //     get
         //     {
-        //         return ManditoryExpenses + DiscretionaryExpenses;
+        //         return MandatoryExpenses + DiscretionaryExpenses;
         //     }
         // }
 

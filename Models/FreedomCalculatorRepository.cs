@@ -125,5 +125,33 @@ namespace FreedomCalculator2.Models
             liabilityToUpdate.Principal = updatedLiability.Principal;
             await SaveChanges();
         }
+
+        public List<Expense> GetExpenses(Guid userId)
+        {
+            List<Expense> retVal = db.Expenses.Where((expense) => expense.User.Id == userId.ToString()).ToList<Expense>();
+            return retVal;
+        }
+
+        public async Task<int> AddExpense(Expense expense)
+        {
+            await db.Expenses.AddAsync(expense);
+            await SaveChanges();
+            return expense.ExpenseId;
+        }
+
+        public async Task RemoveExpense(int id)
+        {
+            Expense expenseToRemove = db.Expenses.Where(expense => expense.ExpenseId == id).FirstOrDefault();
+            db.Expenses.Remove(expenseToRemove);
+            await SaveChanges();
+        }
+
+        public async Task UpdateExpense(int id, Expense updatedExpense)
+        {
+            Expense expenseToUpdate = db.Expenses.Where(expense => expense.ExpenseId == id).FirstOrDefault();
+            expenseToUpdate.Name = updatedExpense.Name;
+            expenseToUpdate.IsMandatory = updatedExpense.IsMandatory;
+            await SaveChanges();
+        }
     }
 }

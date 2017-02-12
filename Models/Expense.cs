@@ -10,8 +10,8 @@ namespace FreedomCalculator2.Models
 
         public virtual ApplicationUser User { get; set; }
 
-        [Display(Name="Manditory")]
-        public bool IsManditory { get; set; }
+        [Display(Name="Mandatory")]
+        public bool IsMandatory { get; set; }
 
         [Required, StringLength(50)]
         public string Name { get; set; }

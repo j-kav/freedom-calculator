@@ -8,6 +8,7 @@ import Home from './components/Home.vue'
 import Statistics from './components/Statistics.vue'
 import Assets from './components/Assets.vue'
 import Liabilities from './components/Liabilities.vue'
+import Expenses from './components/Expenses.vue'
 import User from './components/User.vue'
 
 Vue.use(Vuex)
@@ -17,7 +18,8 @@ const store = new Vuex.Store({
     state: {
         isLoggedIn: false,
         assets: null,
-        liabilities: null
+        liabilities: null,
+        expenses: null
     },
     getters: {
         assetsByType: (state) => (assetTypeArray) => {
@@ -74,6 +76,19 @@ const store = new Vuex.Store({
         },
         removeLiability(state, id) {
             state.liabilities = state.liabilities.filter(liability => liability.liabilityId !== id)
+        },
+        setExpenses(state, expenses) {
+            state.expenses = expenses
+        },
+        addExpense(state, expense) {
+            state.expenses.push(expense)
+        },
+        updateExpense(state, updatedExpense) {
+            var expenseIndex = state.expenses.findIndex(expense => expense.expenseId === updatedExpense.expenseId);
+            state.expenses[expenseIndex] = updatedExpense;
+        },
+        removeExpense(state, id) {
+            state.expenses = state.expenses.filter(expense => expense.expenseId !== id)
         }
     }
 })
@@ -85,6 +100,7 @@ const routes = [
     { path: '/statistics', component: Statistics },
     { path: '/assets', component: Assets },
     { path: '/liabilities', component: Liabilities },
+    { path: '/expenses', component: Expenses },
     { path: '/user', component: User }
 ]
 

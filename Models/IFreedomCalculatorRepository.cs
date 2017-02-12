@@ -14,5 +14,9 @@ namespace FreedomCalculator2.Models
 		Task<int> AddLiability(Liability liability);
 		Task RemoveLiability(int id);
 		Task UpdateLiability(int id, Liability updatedLiability);
+		List<Expense> GetExpenses(Guid userId);
+		Task<int> AddExpense(Expense expense);
+		Task RemoveExpense(int id);
+		Task UpdateExpense(int id, Expense updatedExpense);
 	}
 }

@@ -234,5 +234,86 @@ export default {
             })
         })
         return p
+    },
+    getExpenses: function () {
+        var fetchProps = {
+            headers: { Authorization: 'Bearer ' + token }
+        }
+        var p = new Promise((resolve, reject) => {
+            window.fetch('/api/expenses', fetchProps).then((response) => {
+                return response.json()
+            }).then((data) => {
+                resolve(data)
+            }).catch((error) => {
+                reject(error)
+            })
+        })
+        return p
+    },
+    addExpense: function (newExpense) {
+        var fetchProps = {
+            method: 'POST',
+            headers: {
+                Authorization: 'Bearer ' + token,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                Name: newExpense.name,
+                IsMandatory: newExpense.isMandatory
+            })
+        }
+        var p = new Promise((resolve, reject) => {
+            window.fetch('/api/expenses', fetchProps).then((response) => {
+                return response.json()
+            }).then((data) => {
+                resolve(data)
+            }).catch((error) => {
+                reject(error.message) // TODO sanitize error
+            })
+        })
+        return p
+    },
+    removeExpense: function (id) {
+        var fetchProps = {
+            method: 'DELETE',
+            headers: { Authorization: 'Bearer ' + token }
+        }
+        var p = new Promise((resolve, reject) => {
+            window.fetch('/api/expenses/' + id, fetchProps).then((response) => {
+                if (response.ok) {
+                    resolve(response)
+                } else {
+                    reject(response.statusText) // TODO sanitize error
+                }
+            }).catch((error) => {
+                reject(error)
+            })
+        })
+        return p
+    },
+    updateExpense: function (id, updatedExpense) {
+        var fetchProps = {
+            method: 'PUT',
+            headers: {
+                Authorization: 'Bearer ' + token,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                Name: updatedExpense.name,
+                IsMandatory: updatedExpense.isMandatory
+            })
+        }
+        var p = new Promise((resolve, reject) => {
+            window.fetch('/api/expenses/' + id, fetchProps).then((response) => {
+                if (response.ok) {
+                    resolve(response)
+                } else {
+                    reject(response.statusText) // TODO sanitize error
+                }
+            }).catch((error) => {
+                reject(error)
+            })
+        })
+        return p
     }
 }
