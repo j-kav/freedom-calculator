@@ -55,13 +55,13 @@
                         self.$store.commit('setLiabilities', data)
                     })
                 }).then(() => {
-                    api.getExpenses().then((data) => {
+                    return api.getExpenses().then((data) => {
                         self.$store.commit('setExpenses', data)
                         self.loading = false
-                    }).catch((error) => {
-                        self.loading = false
-                        self.error = error
                     })
+                }).catch((error) => {
+                    self.loading = false
+                    self.error = error
                 })
             }
         }
