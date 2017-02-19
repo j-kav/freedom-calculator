@@ -6,9 +6,9 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceRoot}\\bin\\Debug\\netcoreapp1.1\\FreedomCalculator2.dll",
+            "program": "${workspaceRoot}\\src\\bin\\Debug\\netcoreapp1.1\\src.dll",
             "args": [],
-            "cwd": "${workspaceRoot}",
+            "cwd": "${workspaceRoot}/src",
             "stopAtEntry": false,
             "internalConsoleOptions": "openOnSessionStart",
             "launchBrowser": {
@@ -27,9 +27,6 @@
             },
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development"
-            },
-            "sourceFileMap": {
-                "/Views": "${workspaceRoot}/Views"
             }
         }
     ]
