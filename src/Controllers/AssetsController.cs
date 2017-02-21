@@ -15,10 +15,10 @@ namespace FreedomCalculator2.Controllers
     {
         UserManager<ApplicationUser> _userManager;
         IFreedomCalculatorRepository _repository;
-        ZillowClient _zillowClient;
-        YahooFinanceClient _yahooFinanceClient;
+        IZillowClient _zillowClient;
+        IYahooFinanceClient _yahooFinanceClient;
 
-        public AssetsController(UserManager<ApplicationUser> userManager, IFreedomCalculatorRepository repository, ZillowClient zillowClient, YahooFinanceClient yahooFinanceClient)
+        public AssetsController(UserManager<ApplicationUser> userManager, IFreedomCalculatorRepository repository, IZillowClient zillowClient, IYahooFinanceClient yahooFinanceClient)
         {
             _userManager = userManager;
             _repository = repository;

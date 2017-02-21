@@ -8,7 +8,7 @@ using FreedomCalculator2.Models;
 
 namespace FreedomCalculator2
 {
-    public class YahooFinanceClient
+    public class YahooFinanceClient : IYahooFinanceClient
     {
         static readonly string yahooFinanceUrl = @"https://download.finance.yahoo.com/d/quotes.csv?s={0}&f=l1p2ns";
 

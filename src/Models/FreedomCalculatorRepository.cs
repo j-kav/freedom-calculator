@@ -9,10 +9,10 @@ namespace FreedomCalculator2.Models
     public class FreedomCalculatorRepository : IFreedomCalculatorRepository
     {
         ApplicationDbContext db;
-        ZillowClient _zillowClient;
-        YahooFinanceClient _yahooFinanceClient;
+        IZillowClient _zillowClient;
+        IYahooFinanceClient _yahooFinanceClient;
 
-        public FreedomCalculatorRepository(ApplicationDbContext dbContext, ZillowClient zillowClient, YahooFinanceClient yahooFinanceClient)
+        public FreedomCalculatorRepository(ApplicationDbContext dbContext, IZillowClient zillowClient, IYahooFinanceClient yahooFinanceClient)
         {
             db = dbContext;
             _zillowClient = zillowClient;

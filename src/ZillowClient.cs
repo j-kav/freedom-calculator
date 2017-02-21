@@ -8,7 +8,7 @@ using Microsoft.Extensions.Options;
 
 namespace FreedomCalculator2
 {
-    public class ZillowClient
+    public class ZillowClient : IZillowClient
     {
         private readonly FreedomCalculatorConfig _optionsAccessor;
         private string zwsid;

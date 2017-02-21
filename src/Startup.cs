@@ -88,8 +88,8 @@ namespace FreedomCalculator2
             // for creating and seeding the database if necessary
             services.AddTransient<IDatabaseInitializer, DatabaseInitializer>();
             services.AddScoped<IFreedomCalculatorRepository, FreedomCalculatorRepository>();
-            services.AddScoped<ZillowClient, ZillowClient>();
-            services.AddScoped<YahooFinanceClient, YahooFinanceClient>();
+            services.AddScoped<IZillowClient, ZillowClient>();
+            services.AddScoped<IYahooFinanceClient, YahooFinanceClient>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

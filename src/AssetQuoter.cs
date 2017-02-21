@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using FreedomCalculator2.Exceptions;
 using FreedomCalculator2.Models;
 
 namespace FreedomCalculator2
@@ -15,10 +16,10 @@ namespace FreedomCalculator2
             public string amount;
         }
 
-        ZillowClient _zillowClient;
-        YahooFinanceClient yahooFinanceClient;
+        IZillowClient _zillowClient;
+        IYahooFinanceClient yahooFinanceClient;
 
-        public AssetQuoter(ZillowClient zillowClient, YahooFinanceClient yahooFinanceClient)
+        public AssetQuoter(IZillowClient zillowClient, IYahooFinanceClient yahooFinanceClient)
         {
             _zillowClient = zillowClient;
             this.yahooFinanceClient = yahooFinanceClient;
@@ -35,7 +36,7 @@ namespace FreedomCalculator2
 
             int parsedCode;
             if (!Int32.TryParse(code, out parsedCode) || parsedCode >= 500)
-                throw new Exception("property not found");//throw new ZillowPropertyNotFoundException();
+                throw new ZillowPropertyNotFoundException();
 
             var zpIdQuery = from result in zillowResponse.Descendants("result")
                             select result.Element("zpid").Value;

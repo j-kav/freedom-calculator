@@ -4,3 +4,6 @@ src/node_modules/
 src/wwwroot/lib/
 src/wwwroot/scripts/dist/
 src/project.lock.json
+test/project.lock.json
+test/[Oo]bj/
+test/[Bb]in/
