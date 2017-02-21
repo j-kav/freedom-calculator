@@ -1,6 +1,6 @@
-[Oo]bj/
-[Bb]in/
-node_modules/
-wwwroot/lib/
-wwwroot/scripts/dist/
-project.lock.json
+src/[Oo]bj/
+src/[Bb]in/
+src/node_modules/
+src/wwwroot/lib/
+src/wwwroot/scripts/dist/
+src/project.lock.json
