@@ -83,7 +83,7 @@ namespace FreedomCalculator2.Tests
         [Fact]
         public void GetPropertyId_PropertyNotFound_ExceptionThrown()
         {
-            zillowClient.Setup<XDocument>(z => z.GetSearchResults(fakeAddress, fakeCityStateZip).Result).Returns(fakeNotFoundZillowSearchResult);
+            zillowClient.Setup<Task<XDocument>>(z => z.GetSearchResults(fakeAddress, fakeCityStateZip)).ReturnsAsync(fakeNotFoundZillowSearchResult);
             AssetQuoter assetQuoter = new AssetQuoter(zillowClient.Object, yahooFinanceClient.Object);
             Assert.ThrowsAsync<ZillowPropertyNotFoundException>(() => assetQuoter.GetPropertyId(fakeAddress, fakeCity, fakeState, fakeZip));
         }
@@ -91,7 +91,7 @@ namespace FreedomCalculator2.Tests
         [Fact]
         public async Task GetPropertyId_PropertyFound_ExpectedResult()
         {
-            zillowClient.Setup<XDocument>(z => z.GetSearchResults(fakeAddress, fakeCityStateZip).Result).Returns(fakeFoundZillowSearchResult);
+            zillowClient.Setup<Task<XDocument>>(z => z.GetSearchResults(fakeAddress, fakeCityStateZip)).ReturnsAsync(fakeFoundZillowSearchResult);
             AssetQuoter assetQuoter = new AssetQuoter(zillowClient.Object, yahooFinanceClient.Object);
             string propertyId = await assetQuoter.GetPropertyId(fakeAddress, fakeCity, fakeState, fakeZip);
             Assert.Equal<string>(fakeZpId, propertyId);
@@ -100,7 +100,7 @@ namespace FreedomCalculator2.Tests
         [Fact]
         public async Task GetPropertyValue_ExpectedResult()
         {
-            zillowClient.Setup<XDocument>(z => z.GetZestimate(fakeZpId).Result).Returns(fakeZestimateSearchResult);
+            zillowClient.Setup<Task<XDocument>>(z => z.GetZestimate(fakeZpId)).ReturnsAsync(fakeZestimateSearchResult);
             AssetQuoter assetQuoter = new AssetQuoter(zillowClient.Object, yahooFinanceClient.Object);
             AssetQuoter.PropertyValue propVal = await assetQuoter.GetPropertyValue(fakeZpId);
             Assert.Equal<string>(fakeZestimateAmount, propVal.amount);
@@ -109,7 +109,7 @@ namespace FreedomCalculator2.Tests
         [Fact]
         public async Task GetQuote_InvalidSymbol_ExceptionThrown()
         {
-            yahooFinanceClient.Setup<AssetQuote>(y => y.GetQuote(string.Empty).Result).Returns(new AssetQuote());
+            yahooFinanceClient.Setup<Task<AssetQuote>>(y => y.GetQuote(string.Empty)).ReturnsAsync(new AssetQuote());
             AssetQuoter assetQuoter = new AssetQuoter(zillowClient.Object, yahooFinanceClient.Object);
             await Assert.ThrowsAsync<ArgumentException>(async () => await assetQuoter.GetQuote(string.Empty));
         }
@@ -117,7 +117,7 @@ namespace FreedomCalculator2.Tests
         [Fact]
         public async Task GetQuotes_InvalidSymbols_ExceptionThrown()
         {
-            yahooFinanceClient.Setup<List<AssetQuote>>(y => y.GetQuotes(new List<string>()).Result).Returns(new List<AssetQuote>());
+            yahooFinanceClient.Setup<Task<List<AssetQuote>>>(y => y.GetQuotes(new List<string>())).ReturnsAsync(new List<AssetQuote>());
             AssetQuoter assetQuoter = new AssetQuoter(zillowClient.Object, yahooFinanceClient.Object);
             await Assert.ThrowsAsync<ArgumentException>(async () => await assetQuoter.GetQuotes(new List<string>()));
         }

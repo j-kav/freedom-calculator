@@ -5,10 +5,11 @@
   },
   "dependencies": {
     "System.Runtime.Serialization.Primitives": "4.3.0",
-    "xunit": "2.1.0",
-    "dotnet-test-xunit": "1.0.0-rc2-build10015",
-    "Microsoft.DotNet.InternalAbstractions": "1.0.0",
+    "xunit": "2.2.0",
+    "dotnet-test-xunit": "2.2.0-preview2-build1029",
+    "Microsoft.DotNet.InternalAbstractions": "1.0.500-preview2-1-003177",
     "moq.netcore": "4.4.0-beta8",
+    "System.Diagnostics.TraceSource": "4.3.0",
     "src": "*"
   },
   "testRunner": "xunit",
