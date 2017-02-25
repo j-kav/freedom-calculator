@@ -1,9 +1,18 @@
-src/[Oo]bj/
-src/[Bb]in/
-src/node_modules/
-src/wwwroot/lib/
+[Oo]bj/
+[Bb]in/
+node_modules/
+wwwroot/lib/
 src/wwwroot/scripts/dist/
-src/project.lock.json
+project.lock.json
+src/appsettings.production.json
 test/project.lock.json
-test/[Oo]bj/
-test/[Bb]in/
+
+# files created by VS for publishing to azure.
+# TODO remove when CI/CD is setup 
+*.xproj*
+*.sln
+*.suo
+restore.dg
+*PublishProfiles*
+*.PublishSettings
+npm-debug.log

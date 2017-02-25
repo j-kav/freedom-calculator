@@ -8,6 +8,7 @@
       "include": [
         "wwwroot",
         "appsettings.json",
+        "appsettings.*.json",
         "web.config"
       ]
     }
@@ -22,6 +23,7 @@
     "Microsoft.AspNetCore.Hosting": "1.1.0",
     "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "1.1.0",
     "Microsoft.AspNetCore.Mvc": "1.1.0",
+    "Microsoft.AspNetCore.Server.IISIntegration": "1.0.0",
     "Microsoft.AspNetCore.Server.Kestrel": "1.1.0",
     "Microsoft.AspNetCore.StaticFiles": "1.1.0",
     "Microsoft.EntityFrameworkCore.Design": "1.1.0",
@@ -50,7 +52,16 @@
     "include": [
       "wwwroot",
       "appsettings.json",
+      "appsettings.*.json",
       "web.config"
+    ]
+  },
+  "scripts": {
+    "prepublish": [
+      "npm install"
+    ],
+    "postpublish": [
+      "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%"
     ]
   },
   "runtimes": {
@@ -58,6 +69,10 @@
   },
   "tools": {
     "Microsoft.EntityFrameworkCore.Tools": "1.1.0-preview4-final",
-    "Microsoft.EntityFrameworkCore.Tools.DotNet": "1.1.0-preview4-final"
+    "Microsoft.EntityFrameworkCore.Tools.DotNet": "1.1.0-preview4-final",
+    "Microsoft.AspNetCore.Server.IISIntegration.Tools": {
+      "version": "1.1.0-preview4-final",
+      "imports": "portable-net45+win8+dnxcore50"
+    },
   }
 }
