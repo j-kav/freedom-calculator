@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using AspNet.Security.OpenIdConnect.Primitives;
 
 namespace FreedomCalculator2
 {
@@ -43,48 +44,57 @@ namespace FreedomCalculator2
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddOpenIddict()
+            // Configure Identity to use the same JWT claims as OpenIddict instead
+            // of the legacy WS-Federation claims it uses by default (ClaimTypes),
+            // which saves you from doing the mapping in your authorization controller.
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.ClaimsIdentity.UserNameClaimType = OpenIdConnectConstants.Claims.Name;
+                options.ClaimsIdentity.UserIdClaimType = OpenIdConnectConstants.Claims.Subject;
+                options.ClaimsIdentity.RoleClaimType = OpenIdConnectConstants.Claims.Role;
+            });
+
+            services.AddOpenIddict(options =>
+            {
                 // Register the Entity Framework stores.
-                .AddEntityFrameworkCoreStores<ApplicationDbContext>()
+                options.AddEntityFrameworkCoreStores<ApplicationDbContext>();
 
                 // Register the ASP.NET Core MVC binder used by OpenIddict.
                 // Note: if you don't call this method, you won't be able to
                 // bind OpenIdConnectRequest or OpenIdConnectResponse parameters.
-                .AddMvcBinders()
+                options.AddMvcBinders();
 
                 // Enable the token endpoint.
-                .EnableTokenEndpoint("/connect/token")
-
-                // added for JWT (not in sample)
-                //.UseJsonWebTokens()
+                options.EnableTokenEndpoint("/connect/token");
 
                 // Enable the password flow.
-                .AllowPasswordFlow()
+                options.AllowPasswordFlow();
 
                 // During development, you can disable the HTTPS requirement.
-                .DisableHttpsRequirement()
+                options.DisableHttpsRequirement();
 
-                // Register a new ephemeral key, that is discarded when the application
-                // shuts down. Tokens signed using this key are automatically invalidated.
-                // This method should only be used during development.
-                .AddEphemeralSigningKey();
+                // Note: to use JWT access tokens instead of the default
+                // encrypted format, the following lines are required:
+                //
+                // options.UseJsonWebTokens();
+                // options.AddEphemeralSigningKey();
 
-            // On production, using a X.509 certificate stored in the machine store is recommended.
-            // You can generate a self-signed certificate using Pluralsight's self-cert utility:
-            // https://s3.amazonaws.com/pluralsight-free/keith-brown/samples/SelfCert.zip
-            // 
-            // services.AddOpenIddict<ApplicationDbContext>()
-            //     .AddSigningCertificate("7D2A741FE34CC2C7369237A5F2078988E17A6A75");
-            // 
-            // Alternatively, you can also store the certificate as an embedded .pfx resource
-            // directly in this assembly or in a file published alongside this project:
-            // 
-            // services.AddOpenIddict<ApplicationDbContext>()
-            //     .AddSigningCertificate(
-            //          assembly: typeof(Startup).GetTypeInfo().Assembly,
-            //          resource: "AuthorizationServer.Certificate.pfx",
-            //          password: "OpenIddict");
-
+                // On production, using a X.509 certificate stored in the machine store is recommended.
+                // You can generate a self-signed certificate using Pluralsight's self-cert utility:
+                // https://s3.amazonaws.com/pluralsight-free/keith-brown/samples/SelfCert.zip
+                // 
+                // services.AddOpenIddict<ApplicationDbContext>()
+                //     .AddSigningCertificate("7D2A741FE34CC2C7369237A5F2078988E17A6A75");
+                // 
+                // Alternatively, you can also store the certificate as an embedded .pfx resource
+                // directly in this assembly or in a file published alongside this project:
+                // 
+                // services.AddOpenIddict<ApplicationDbContext>()
+                //     .AddSigningCertificate(
+                //          assembly: typeof(Startup).GetTypeInfo().Assembly,
+                //          resource: "AuthorizationServer.Certificate.pfx",
+                //          password: "OpenIddict");
+            });
 
             // for creating and seeding the database if necessary
             services.AddTransient<IDatabaseInitializer, DatabaseInitializer>();
@@ -102,10 +112,27 @@ namespace FreedomCalculator2
             // tokens and protect the API endpoints.
             app.UseOAuthValidation();
 
+            // If you prefer using JWT, don't forget to disable the automatic
+            // JWT -> WS-Federation claims mapping used by the JWT middleware:
+            //
+            // JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+            // JwtSecurityTokenHandler.DefaultOutboundClaimTypeMap.Clear();
+            //
+            // app.UseJwtBearerAuthentication(new JwtBearerOptions
+            // {
+            //     Authority = "http://localhost:58795/",
+            //     Audience = "resource_server",
+            //     RequireHttpsMetadata = false,
+            //     TokenValidationParameters = new TokenValidationParameters
+            //     {
+            //         NameClaimType = OpenIdConnectConstants.Claims.Subject,
+            //         RoleClaimType = OpenIdConnectConstants.Claims.Role
+            //     }
+            // });
+            app.UseOpenIddict();
+
             app.UseDefaultFiles();
             app.UseStaticFiles();
-
-            app.UseOpenIddict();
 
             // setup API
             app.UseMvc(routes =>
