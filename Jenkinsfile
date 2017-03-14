@@ -20,7 +20,7 @@ pipeline {
             steps {
                 dir("src") {
                   bat "dotnet publish"
-                  bat "msdeploy -verb:sync -source:contentPath='%CD%\\bin\\Debug\\netcoreapp1.1\\publish' -dest:contentPath=publishsettings=%FreedomCalculator2PublishSettings%"
+                  bat "msdeploy -verb:sync -source:contentPath='%CD%\\bin\\Debug\\netcoreapp1.1\\publish' -dest:contentPath=freedomcalculator2,publishsettings=%FreedomCalculator2PublishSettings%"
                 }
             }
         }
