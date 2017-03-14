@@ -5,7 +5,7 @@ module.exports = {
     entry: './wwwroot/scripts/main.js',
     output: {
         path: './wwwroot/scripts/dist',
-        filename: PROD ? 'bundle.min.js' : 'bundle.js'
+        filename: 'bundle.js'
     },
     plugins: PROD ? [
         new webpack.optimize.UglifyJsPlugin({
