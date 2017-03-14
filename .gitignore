@@ -9,7 +9,6 @@ test/project.lock.json
 
 # files created by VS for publishing to azure.
 # TODO remove when CI/CD is setup 
-*.sln
 *.suo
 restore.dg
 *PublishProfiles*
