@@ -20,7 +20,7 @@ pipeline {
             steps {
                 dir("src") {
                   bat "dotnet publish"
-                  bat 'copy %FreedomCalculator2appSettingsProduction% "%CD%\\bin\\Debug\\netcoreapp1.1\\publish"'
+                  bat 'copy %FreedomCalculator2appSettingsProduction% "%CD%\\bin\\Debug\\netcoreapp1.1\\publish\\appsettings.json"'
                   bat "msdeploy -enableRule:AppOffline \
                                 -verb:sync \
                                 -source:contentPath='%CD%\\bin\\Debug\\netcoreapp1.1\\publish' \
