@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev-build": "webpack --hide-modules --progress",
-    "rel-build": "set NODE_ENV=PROD&& webpack --hide-modules --progress"
+    "rel-build": "set NODE_ENV=PROD&& webpack --hide-modules --progress",
+    "test": "node node_modules/mocha/bin/mocha --compilers js:babel-core/register wwwroot/scripts/test"
   },
   "author": "Scott Anderson",
   "devDependencies": {

@@ -1,7 +1,7 @@
-var apiinstance = require('../src/api');
+var api = require('../src/api');
 var assert = require('assert');
-describe('apiinstance', function() {
-    it('should be an instance of api', function() {
-        assert.ok(apiinstance instanceof Array);
+describe('api', function() {
+    it('should have a getToken() Function', function() {
+        assert.ok(typeof api.default.getToken == 'function');
     });
 });
