@@ -28,7 +28,10 @@
     * Select ".NET Core Launch (web)" config in debug menu to debug the app
 * Testing
     * Frontend
-      * TODO
+      * In the src directory, run
+      ```javascript
+      npm test
+      ```
     * Backend
       * In the test directory, run
       ```bat

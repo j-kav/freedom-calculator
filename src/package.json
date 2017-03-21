@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev-build": "webpack --hide-modules --progress",
-    "rel-build": "set NODE_ENV=PROD&& webpack --hide-modules --progress"
+    "rel-build": "set NODE_ENV=PROD&& webpack --hide-modules --progress",
+    "test": "node node_modules/mocha/bin/mocha --compilers js:babel-core/register wwwroot/scripts/test"
   },
   "author": "Scott Anderson",
   "devDependencies": {
@@ -16,6 +17,7 @@
     "eslint-config-vue": "^2.0.1",
     "eslint-loader": "^1.6.1",
     "eslint-plugin-vue": "^1.0.0",
+    "mocha": "^3.2.0",
     "vue-loader": "^10.0.2",
     "vue-template-compiler": "^2.1.10",
     "webpack": "^2.2.0-rc.8"

@@ -15,10 +15,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Update="wwwroot\**\*">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </None>
+    <Content Update="wwwroot\scripts\src\**\*" CopyToPublishDirectory="Never" />
+    <Content Update="wwwroot\scripts\test\**\*" CopyToPublishDirectory="Never" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,8 +1,9 @@
 ﻿var webpack = require('webpack');
 var PROD = process.env.NODE_ENV === 'PROD';
 
+
 module.exports = {
-    entry: './wwwroot/scripts/main.js',
+    entry: './wwwroot/scripts/src/main.js',
     output: {
         path: './wwwroot/scripts/dist',
         filename: 'bundle.js'
