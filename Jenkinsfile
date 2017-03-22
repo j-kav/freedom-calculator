@@ -14,6 +14,10 @@ pipeline {
                 dir("test") {
                   bat "dotnet test"
                 }
+                dir("src") {
+                  bat "npm install"
+                  bat "npm test"
+                }
             }
         }
         stage("Deploy") {
