@@ -9,14 +9,18 @@ pipeline {
                 bat "dotnet build --version-suffix ${env.BUILD_NUMBER}"
             }
         }
-        stage("Test") {
+        stage("Test Frontend") {
             steps {
-                dir("test") {
-                  bat "dotnet test"
-                }
                 dir("src") {
                   bat "npm install"
                   bat "npm test"
+                }
+            }
+        }
+        stage("Test Backend") {
+            steps {
+                dir("test") {
+                  bat "dotnet test"
                 }
             }
         }
