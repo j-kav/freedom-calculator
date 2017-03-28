@@ -1,23 +1,28 @@
-var api = require('../src/api');
-var assert = require('assert');
-var sinon = require('sinon');
-var sinonTest = require('sinon-test');
+import api from '../src/api'
+import assert from 'assert'
+import fetchMock from 'fetch-mock'
 
-sinon.test = sinonTest.configureTest(sinon);
-sinon.testCase = sinonTest.configureTestCase(sinon);
+// node doesn't have window so just set a global window object to global
+global.window = global
 
-describe('api', function() {
-    it('should have a getToken() Function', function() {
-        assert.ok(typeof api.default.getToken == 'function', 'getToken function not found');
-    });
+describe('api', function () {
+    it('should have a getToken() Function', function () {
+        assert.ok(typeof api.getToken == 'function', 'getToken function not found')
+    })
 
-    it('should have an addBudget() function', function() {
-        assert.ok(typeof api.default.addBudget == 'function', 'addBudget function not found');
-    });
+    it('should have an addBudget() function', function () {
+        assert.ok(typeof api.addBudget == 'function', 'addBudget function not found')
+    })
 
-    describe('addBudget', function() {
-        it('should get the added budget object with an id', sinon.test(function() {
-            //assert.ok(true, true);
-        }));
-    });
-});
+    describe('addBudget', function () {
+        it('should get the added budget object with an id', function () {
+            var newBudget = {}
+            fetchMock.post('/api/budgets', { BudgetId: 1 })
+            return api.addBudget(newBudget).then((addedBudget) => {
+                assert.ok(addedBudget.BudgetId === 1)
+            }).catch((error) => {
+                assert.fail(error)
+            })
+        })
+    })
+})

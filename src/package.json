@@ -17,9 +17,8 @@
     "eslint-config-vue": "^2.0.1",
     "eslint-loader": "^1.6.1",
     "eslint-plugin-vue": "^1.0.0",
+    "fetch-mock": "^5.9.4",
     "mocha": "^3.2.0",
-    "sinon": "^2.1.0",
-    "sinon-test": "^1.0.1",
     "vue-loader": "^10.0.2",
     "vue-template-compiler": "^2.1.10",
     "webpack": "^2.2.0-rc.8"
