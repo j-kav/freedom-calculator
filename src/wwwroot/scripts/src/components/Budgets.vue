@@ -37,7 +37,7 @@
                     date: this.date
                 }
                 api.addBudget(newBudget).then((addedBudget) => {
-                    //this.$store.commit('addBudget', addedBudget)
+                    // this.$store.commit('addBudget', addedBudget)
                 }).catch((error) => {
                     this.error = error
                 })

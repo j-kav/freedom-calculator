@@ -5,7 +5,7 @@ var PROD = process.env.NODE_ENV === 'PROD';
 module.exports = {
     entry: './wwwroot/scripts/src/main.js',
     output: {
-        path: './wwwroot/scripts/dist',
+        path: __dirname + '/wwwroot/scripts/dist',
         filename: 'bundle.js'
     },
     plugins: PROD ? [
