@@ -18,6 +18,7 @@ namespace FreedomCalculator2.Models
 		Task<int> AddExpense(Expense expense);
 		Task RemoveExpense(int id);
 		Task UpdateExpense(int id, Expense updatedExpense);
+		List<Budget> GetBudgets(Guid userId);
 		Task<int> AddBudget(Budget budget);
 	}
 }

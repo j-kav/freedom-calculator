@@ -154,6 +154,12 @@ namespace FreedomCalculator2.Models
             await SaveChanges();
         }
 
+        public List<Budget> GetBudgets(Guid userId)
+        {
+            List<Budget> retVal = db.Budgets.Where((budget) => budget.User.Id == userId.ToString()).ToList<Budget>();
+            return retVal;
+        }
+
         public async Task<int> AddBudget(Budget budget)
         {
             await db.Budgets.AddAsync(budget);
