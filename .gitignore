@@ -13,4 +13,6 @@ test/project.lock.json
 restore.dg
 *PublishProfiles*
 *.PublishSettings
+
+src/.tmp/*
 npm-debug.log

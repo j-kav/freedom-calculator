@@ -315,5 +315,27 @@ export default {
             })
         })
         return p
+    },
+    addBudget: function (newBudget) {
+        var fetchProps = {
+            method: 'POST',
+            headers: {
+                Authorization: 'Bearer ' + token,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                Date: newBudget.date
+            })
+        }
+        var p = new Promise((resolve, reject) => {
+            window.fetch('/api/budgets', fetchProps).then((response) => {
+                return response.json()
+            }).then((data) => {
+                resolve(data)
+            }).catch((error) => {
+                reject(error.message) // TODO sanitize error
+            })
+        })
+        return p
     }
 }

@@ -9,6 +9,7 @@ import Statistics from './components/Statistics.vue'
 import Assets from './components/Assets.vue'
 import Liabilities from './components/Liabilities.vue'
 import Expenses from './components/Expenses.vue'
+import Budgets from './components/Budgets.vue'
 import User from './components/User.vue'
 
 Vue.use(Vuex)
@@ -101,6 +102,7 @@ const routes = [
     { path: '/assets', component: Assets },
     { path: '/liabilities', component: Liabilities },
     { path: '/expenses', component: Expenses },
+    { path: '/budgets', component: Budgets },
     { path: '/user', component: User }
 ]
 

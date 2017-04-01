@@ -153,5 +153,12 @@ namespace FreedomCalculator2.Models
             expenseToUpdate.IsMandatory = updatedExpense.IsMandatory;
             await SaveChanges();
         }
+
+        public async Task<int> AddBudget(Budget budget)
+        {
+            await db.Budgets.AddAsync(budget);
+            await SaveChanges();
+            return budget.BudgetId;
+        }
     }
 }
