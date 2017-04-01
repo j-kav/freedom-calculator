@@ -7,7 +7,7 @@
                 </tr>
             </thead>
             <tbody>
-                
+
             </tbody>
         </table>
         <div>Add new</div>
@@ -18,6 +18,7 @@
         <div v-if="error" class="error">{{ error }}</div>
     </div>
 </template>
+
 <script>
     import api from '../api'
 
@@ -36,11 +37,17 @@
                 var newBudget = {
                     date: this.date
                 }
-                api.addBudget(newBudget).then((addedBudget) => {
-                    // this.$store.commit('addBudget', addedBudget)
-                }).catch((error) => {
-                    this.error = error
+                // return promise for unit testing purposes
+                var p = new Promise((resolve, reject) => {
+                    api.addBudget(newBudget).then((addedBudget) => {
+                        this.$store.commit('addBudget', addedBudget)
+                        resolve()
+                    }).catch((error) => {
+                        this.error = error
+                        reject(error.message) // TODO sanitize error
+                    })
                 })
+                return p
             }
         }
     }
