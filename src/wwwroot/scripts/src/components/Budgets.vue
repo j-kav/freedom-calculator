@@ -11,9 +11,6 @@
             </tbody>
         </table>
         <div>Add new</div>
-        <div>
-            <label>Date</label><input v-model="date"></input>
-        </div>
         <button v-on:click.prevent=addBudget>Submit</button>
         <div v-if="error" class="error">{{ error }}</div>
     </div>
@@ -28,14 +25,15 @@
         },
         data: function () {
             return {
-                Date: '',
                 error: null
             }
         },
         methods: {
             addBudget: function () {
+                var date = new Date()
+                var datestring = date.toISOString()
                 var newBudget = {
-                    date: this.date
+                    date: datestring
                 }
                 // return promise for unit testing purposes
                 var p = new Promise((resolve, reject) => {
