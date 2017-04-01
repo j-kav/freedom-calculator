@@ -1,5 +1,5 @@
-// using System;
-// using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -22,13 +22,13 @@ namespace FreedomCalculator2.Controllers
             _repository = repository;
         }
 
-        // [HttpGet]
-        // public async Task<IEnumerable<Budget>> Get()
-        // {
-        //     ApplicationUser user = await _userManager.GetUserAsync(User);
-        //     List<Budget> budgets = _repository.GetBudgets(Guid.Parse(user.Id));
-        //     return budgets;
-        // }
+        [HttpGet]
+        public async Task<IEnumerable<Budget>> Get()
+        {
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+            List<Budget> budgets = _repository.GetBudgets(Guid.Parse(user.Id));
+            return budgets;
+        }
 
         // POST api/expenses
         [HttpPost]
