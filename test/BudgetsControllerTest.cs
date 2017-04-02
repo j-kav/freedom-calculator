@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Principal;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -21,12 +23,22 @@ namespace FreedomCalculator2.Tests
 
         public BudgetsControllerTests()
         {
-            Mock<IUserStore<ApplicationUser>> mockUserStore = new Mock<IUserStore<ApplicationUser>>();
-            UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(mockUserStore.Object, null, null, null, null, null, null, null, null);
+            // mock the app's database
             mockRepo = new Mock<IFreedomCalculatorRepository>();
-            ClaimsPrincipal user = new ClaimsPrincipal(new ClaimsIdentity());
+
+            // mock an asp.net identity user with a principal and claim
             userId = Guid.NewGuid();
-            // mockUserStore.Setup(store => store.FindByIdAsync(userId.ToString())).Returns(Task.FromResult(user));
+            GenericIdentity mockIdentity = new GenericIdentity("mockUser");
+            mockIdentity.AddClaim(new Claim("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier", userId.ToString()));
+            ClaimsPrincipal user = new ClaimsPrincipal(mockIdentity);
+            ApplicationUser mockUser = new ApplicationUser { Id = userId.ToString() };
+
+            // mock the asp.net identity database and manager
+            Mock<IUserStore<ApplicationUser>> mockUserStore = new Mock<IUserStore<ApplicationUser>>();
+            mockUserStore.Setup(store => store.FindByIdAsync(userId.ToString(), new CancellationToken())).Returns(Task.FromResult(mockUser));
+            UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(mockUserStore.Object, null, null, null, null, null, null, null, null);
+
+            // inject the mocked repository and usermanager into the controller
             controller = new BudgetController(userManager, mockRepo.Object);
             controller.ControllerContext = new ControllerContext() { HttpContext = new DefaultHttpContext() { User = user } };
         }
@@ -45,18 +57,22 @@ namespace FreedomCalculator2.Tests
             Assert.Equal(1, result.BudgetId);
         }
 
-        // [Fact]
-        // public async Task Get_GetsBudgets()
-        // {
-        //     // Arrange
-        //     List<Budget> fakeBudgets = new List<Budget> { new Budget { BudgetId = 1, Date = DateTime.Now } };
-        //     mockRepo.Setup(repo => repo.GetBudgets(userId)).Returns(fakeBudgets);
+        [Fact]
+        public async Task Get_GetsBudgets()
+        {
+            // Arrange
+            DateTime fakeBudgetDate = DateTime.Now;
+            List<Budget> fakeBudgets = new List<Budget> { new Budget { BudgetId = 1, Date = fakeBudgetDate } };
+            mockRepo.Setup(repo => repo.GetBudgets(userId)).Returns(fakeBudgets);
 
-        //     // Act
-        //     IEnumerable<Budget> results = await controller.Get();
+            // Act
+            IEnumerable<Budget> results = await controller.Get();
 
-        //     // Assert
-        //     Assert.Equal(fakeBudgets.Count, results.ToList().Count);
-        // }
+            // Assert
+            Assert.Equal(fakeBudgets.Count, 1);
+            Budget fakeBudget = fakeBudgets[0];
+            Assert.Equal(fakeBudget.BudgetId, 1);
+            Assert.Equal(fakeBudget.Date, fakeBudgetDate);
+        }
     }
 }
