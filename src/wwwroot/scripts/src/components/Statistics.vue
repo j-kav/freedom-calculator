@@ -47,7 +47,7 @@
         },
         methods: {
             getData: function () {
-                // get all data needed sequentially, and set show it when done.
+                // get all data needed sequentially, and set "show it" when done.
                 var self = this
                 api.getAssets().then((data) => {
                     self.$store.commit('setAssets', data)
