@@ -49,21 +49,30 @@
             getData: function () {
                 // get all data needed sequentially, and set "show it" when done.
                 var self = this
-                api.getAssets().then((data) => {
-                    self.$store.commit('setAssets', data)
-                }).then(() => {
-                    return api.getLiabilities().then((data) => {
-                        self.$store.commit('setLiabilities', data)
-                    })
-                }).then(() => {
-                    return api.getExpenses().then((data) => {
-                        self.$store.commit('setExpenses', data)
+                var p = new Promise((resolve, reject) => {
+                    api.getAssets().then((data) => {
+                        self.$store.commit('setAssets', data)
+                    }).then(() => {
+                        return api.getLiabilities().then((data) => {
+                            self.$store.commit('setLiabilities', data)
+                        })
+                    }).then(() => {
+                        return api.getExpenses().then((data) => {
+                            self.$store.commit('setExpenses', data)
+                        })
+                    }).then(() => {
+                        return api.getBudgets().then((data) => {
+                            self.$store.commit('setBudgets', data)
+                            self.loading = false
+                            resolve()
+                        })
+                    }).catch((error) => {
                         self.loading = false
+                        self.error = error
+                        reject()
                     })
-                }).catch((error) => {
-                    self.loading = false
-                    self.error = error
                 })
+                return p // return promise for unit testing purposes
             }
         }
     }

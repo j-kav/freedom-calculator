@@ -337,5 +337,20 @@ export default {
             })
         })
         return p
+    },
+    getBudgets: function () {
+        var fetchProps = {
+            headers: { Authorization: 'Bearer ' + token }
+        }
+        var p = new Promise((resolve, reject) => {
+            window.fetch('/api/budgets', fetchProps).then((response) => {
+                return response.json()
+            }).then((data) => {
+                resolve(data)
+            }).catch((error) => {
+                reject(error)
+            })
+        })
+        return p
     }
 }

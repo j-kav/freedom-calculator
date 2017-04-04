@@ -20,7 +20,8 @@ const store = new Vuex.Store({
         isLoggedIn: false,
         assets: null,
         liabilities: null,
-        expenses: null
+        expenses: null,
+        budgets: null
     },
     getters: {
         assetsByType: (state) => (assetTypeArray) => {
@@ -90,6 +91,12 @@ const store = new Vuex.Store({
         },
         removeExpense(state, id) {
             state.expenses = state.expenses.filter(expense => expense.expenseId !== id)
+        },
+        setBudgets(state, budgets) {
+            state.budgets = budgets
+        },
+        addBudget(state, budget) {
+            state.budgets.push(budget)
         }
     }
 })
