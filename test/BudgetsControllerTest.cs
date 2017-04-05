@@ -73,5 +73,22 @@ namespace FreedomCalculator2.Tests
             Assert.Equal(fakeBudget.BudgetId, 1);
             Assert.Equal(fakeBudget.Date, fakeBudgetDate);
         }
+
+        [Fact]
+        public async Task Put_UpdatesBudget()
+        {
+            // Arrange
+            DateTime fakeBudgetDate = DateTime.Now;
+            int budgetId = 1;
+            Budget fakeBudget = new Budget { BudgetId = budgetId, Date = fakeBudgetDate.AddDays(1) };
+            mockRepo.Setup(repo => repo.UpdateBudget(budgetId, fakeBudget)).Returns(Task.FromResult(fakeBudget));
+
+            // Act
+            Budget updatedBudget = await controller.Put(budgetId, fakeBudget);
+
+            // Assert
+            Assert.Equal(fakeBudget.BudgetId, 1);
+            Assert.Equal(fakeBudget.Date, fakeBudgetDate.AddDays(1));
+        }
     }
 }

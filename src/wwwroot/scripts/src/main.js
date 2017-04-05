@@ -97,6 +97,13 @@ const store = new Vuex.Store({
         },
         addBudget(state, budget) {
             state.budgets.push(budget)
+        },
+        updateBudget(state, updatedBudget) {
+            var budgetIndex = state.budgets.findIndex(budget => budget.budgetId === updatedBudget.budgetId);
+            state.budgets[budgetIndex] = updatedBudget;
+        },
+        removeBudget(state, id) {
+            state.budgets = state.budgets.filter(budget => budget.budgetId !== id)
         }
     }
 })

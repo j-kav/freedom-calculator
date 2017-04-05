@@ -7,7 +7,7 @@
                 </tr>
             </thead>
             <tbody>
-
+                <budget v-for="budget in $store.state.budgets" v-bind:budgetModel="budget"></budget>
             </tbody>
         </table>
         <div>Add new</div>
@@ -18,10 +18,12 @@
 
 <script>
     import api from '../api'
+    import Budget from './Budget.vue'
 
     export default {
         name: 'Budgets',
         components: {
+            'budget': Budget
         },
         data: function () {
             return {

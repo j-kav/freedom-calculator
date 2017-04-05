@@ -352,5 +352,47 @@ export default {
             })
         })
         return p
+    },
+    removeBudget: function (id) {
+        var fetchProps = {
+            method: 'DELETE',
+            headers: { Authorization: 'Bearer ' + token }
+        }
+        var p = new Promise((resolve, reject) => {
+            window.fetch('/api/budgets/' + id, fetchProps).then((response) => {
+                if (response.ok) {
+                    resolve(response)
+                } else {
+                    reject(response.statusText) // TODO sanitize error
+                }
+            }).catch((error) => {
+                reject(error)
+            })
+        })
+        return p
+    },
+    updateBudget: function (id, updatedBudget) {
+        var fetchProps = {
+            method: 'PUT',
+            headers: {
+                Authorization: 'Bearer ' + token,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                Date: updatedBudget.Date
+            })
+        }
+        var p = new Promise((resolve, reject) => {
+            window.fetch('/api/budgets/' + id, fetchProps).then((response) => {
+                if (response.ok) {
+                    resolve(response)
+                } else {
+                    reject(response.statusText) // TODO sanitize error
+                }
+            }).catch((error) => {
+                reject(error)
+            })
+        })
+        return p
     }
 }

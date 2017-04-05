@@ -166,5 +166,20 @@ namespace FreedomCalculator2.Models
             await SaveChanges();
             return budget.BudgetId;
         }
+
+        public async Task RemoveBudget(int id)
+        {
+            Budget budgetToRemove = db.Budgets.Where(budget => budget.BudgetId == id).FirstOrDefault();
+            db.Budgets.Remove(budgetToRemove);
+            await SaveChanges();
+        }
+
+        public async Task<Budget> UpdateBudget(int id, Budget updatedBudget)
+        {
+            Budget budgetToUpdate = db.Budgets.Where(budget => budget.BudgetId == id).FirstOrDefault();
+            budgetToUpdate.Date = updatedBudget.Date;
+            await SaveChanges();
+            return budgetToUpdate;
+        }
     }
 }

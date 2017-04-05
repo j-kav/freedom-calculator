@@ -41,17 +41,18 @@ namespace FreedomCalculator2.Controllers
         }
 
         // PUT api/expenses/5
-        // [HttpPut("{id}")]
-        // public async Task Put(int id, [FromBody]Budget budget)
-        // {
-        //     await _repository.UpdateBudget(id, budget);
-        // }
+        [HttpPut("{id}")]
+        public async Task<Budget> Put(int id, [FromBody]Budget budget)
+        {
+            Budget updatedBudget = await _repository.UpdateBudget(id, budget);
+            return updatedBudget;
+        }
 
-        // // DELETE api/expenses/5
-        // [HttpDelete("{id}")]
-        // public async Task Delete(int id)
-        // {
-        //     await _repository.RemoveBudget(id);
-        // }
+        // DELETE api/expenses/5
+        [HttpDelete("{id}")]
+        public async Task Delete(int id)
+        {
+            await _repository.RemoveBudget(id);
+        }
     }
 }
