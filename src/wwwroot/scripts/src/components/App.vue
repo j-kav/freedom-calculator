@@ -8,7 +8,7 @@
             <router-link v-if="$store.state.isLoggedIn && $store.state.assets" to="/assets">Assets</router-link>
             <router-link v-if="$store.state.isLoggedIn && $store.state.liabilities" to="/liabilities">Liabilities</router-link>
             <router-link v-if="$store.state.isLoggedIn && $store.state.expenses" to="/expenses">Expenses</router-link>
-            <router-link v-if="$store.state.isLoggedIn" to="/budgets">Budgets</router-link>
+            <router-link v-if="$store.state.isLoggedIn && $store.state.budgets" to="/budgets">Budgets</router-link>
             <router-link v-if="$store.state.isLoggedIn" to="/user">Profile</router-link>
         </nav>
         <router-view></router-view>

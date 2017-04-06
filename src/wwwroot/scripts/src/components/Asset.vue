@@ -10,6 +10,7 @@
         <td v-if="isRealEstate">{{ asset.zip }}</td>
         <td v-if="isCash"><input v-model="asset.value"></input></td>
         <td v-else>{{ asset.value }}</td>
+        <td v-if="isRealEstate">{{ asset.equity }}</td>
         <td><button v-on:click.prevent=updateAsset()>Update</button></td>
         <td><button v-on:click.prevent=removeAsset()>Delete</button></td>
         <td v-if="message" v-bind:class="messageClass">{{ message }}</td>

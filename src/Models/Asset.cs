@@ -34,7 +34,7 @@ namespace FreedomCalculator2.Models
         public string Zip { get; set; }
 
         [Required(ErrorMessage = "Number of shares is required")]
-        [Range(0, double.MaxValue, ErrorMessage="Value must be positve")]
+        [Range(0, double.MaxValue, ErrorMessage = "Value must be positve")]
         public double NumShares { get; set; }
 
         [NotMapped]
@@ -43,5 +43,10 @@ namespace FreedomCalculator2.Models
         [Range(0, (double)decimal.MaxValue, ErrorMessage = "Value must be positve")]
         [DataType(DataType.Currency)]
         public decimal Value { get; set; }
+
+        // optional link to liability (such as a mortgage for real estate)
+        public Liability Liability { get; set; }
+        [ForeignKey("Liability")]
+        public int? LiabilityId { get; set; }
     }
 }

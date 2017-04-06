@@ -94,7 +94,8 @@ export default {
                 Zip: newAsset.zip,
                 NumShares: newAsset.numShares,
                 SharePrice: newAsset.sharePrice,
-                Value: newAsset.value
+                Value: newAsset.value,
+                LiabilityId: newAsset.liabilityId
             })
         }
         var p = new Promise((resolve, reject) => {

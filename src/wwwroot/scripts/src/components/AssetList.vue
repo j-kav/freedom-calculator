@@ -12,6 +12,7 @@
                     <th v-if="isRealEstate">State</th>
                     <th v-if="isRealEstate">Zip</th>
                     <th>Value</th>
+                    <th v-if="isRealEstate">Equity</th>
                     <th></th>
                     <th></th>
                     <th></th>
@@ -46,6 +47,14 @@
             <div>
                 <label>Zip</label><input v-model="zip"></input>
             </div>
+            <div>
+                <label>Linked to Liability</label>
+                <select v-model="liabilityId">
+                    <option v-for="liability in $store.state.liabilities" v-bind:value="liability.liabilityId">
+                        {{ liability.name }}
+                    </option>
+                </select>
+            </div>
         </div>
         <div v-if="isCash">
             <label>Value</label><input v-model="value"></input>
@@ -78,7 +87,8 @@
                 error: null,
                 isCash: this.assetTypeArray.includes(assetTypes.Cash),
                 isRealEstate: this.assetTypeArray.includes(assetTypes.RealEstate),
-                isStockOrBond: !this.assetTypeArray.includes(assetTypes.Cash) && !this.assetTypeArray.includes(assetTypes.RealEstate)
+                isStockOrBond: !this.assetTypeArray.includes(assetTypes.Cash) && !this.assetTypeArray.includes(assetTypes.RealEstate),
+                liabilityId: null
             }
         },
         props: ['assetTypeArray'],
@@ -99,7 +109,8 @@
                     city: this.city,
                     state: this.state,
                     zip: this.zip,
-                    value: this.value
+                    value: this.value,
+                    liabilityId: this.liabilityId
                 }
                 api.addAsset(newAsset).then((addedAsset) => {
                     this.$store.commit('addAsset', addedAsset)
@@ -115,7 +126,7 @@
 <style scoped>
     label {
         display: inline-block;
-        width: 100px;
+        width: 150px;
     }
     
     input {
