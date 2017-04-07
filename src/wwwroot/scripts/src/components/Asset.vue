@@ -10,6 +10,13 @@
         <td v-if="isRealEstate">{{ asset.zip }}</td>
         <td v-if="isCash"><input v-model="asset.value"></input></td>
         <td v-else>{{ asset.value }}</td>
+        <td v-if="isRealEstate">
+            <select v-model="asset.liabilityId" v-on:change.prevent=updateEquity()>
+                <option v-for="liability in $store.state.liabilities" v-bind:value="liability.liabilityId">
+                     {{ liability.name }}
+                 </option>
+            </select>
+        </td>
         <td v-if="isRealEstate">{{ asset.equity }}</td>
         <td><button v-on:click.prevent=updateAsset()>Update</button></td>
         <td><button v-on:click.prevent=removeAsset()>Delete</button></td>
@@ -44,6 +51,9 @@
         },
         props: ['assetModel'],
         methods: {
+            updateEquity: function () {
+                this.$store.commit('updateAsset', this.asset)
+            },
             updateAsset: function () {
                 api.updateAsset(this.asset.assetId, this.asset).then(() => {
                     this.$store.commit('updateAsset', this.asset)

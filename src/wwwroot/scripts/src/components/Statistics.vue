@@ -50,11 +50,11 @@
                 // get all data needed sequentially, and set "show it" when done.
                 var self = this
                 var p = new Promise((resolve, reject) => {
-                    api.getAssets().then((data) => {
-                        self.$store.commit('setAssets', data)
+                    api.getLiabilities().then((data) => {
+                        self.$store.commit('setLiabilities', data)
                     }).then(() => {
-                        return api.getLiabilities().then((data) => {
-                            self.$store.commit('setLiabilities', data)
+                        return api.getAssets().then((data) => {
+                            self.$store.commit('setAssets', data)
                         })
                     }).then(() => {
                         return api.getExpenses().then((data) => {

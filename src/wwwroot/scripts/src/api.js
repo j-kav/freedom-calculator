@@ -139,7 +139,8 @@ export default {
                 Symbol: updatedAsset.symbol,
                 NumShares: updatedAsset.numShares,
                 SharePrice: updatedAsset.sharePrice,
-                Value: updatedAsset.value
+                Value: updatedAsset.value,
+                LiabilityId: updatedAsset.liabilityId
             })
         }
         var p = new Promise((resolve, reject) => {

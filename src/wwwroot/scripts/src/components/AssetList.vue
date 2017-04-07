@@ -12,6 +12,7 @@
                     <th v-if="isRealEstate">State</th>
                     <th v-if="isRealEstate">Zip</th>
                     <th>Value</th>
+                    <th v-if="isRealEstate">Linked-Liability</th>
                     <th v-if="isRealEstate">Equity</th>
                     <th></th>
                     <th></th>
@@ -48,7 +49,7 @@
                 <label>Zip</label><input v-model="zip"></input>
             </div>
             <div>
-                <label>Linked to Liability</label>
+                <label>Linked-Liability</label>
                 <select v-model="liabilityId">
                     <option v-for="liability in $store.state.liabilities" v-bind:value="liability.liabilityId">
                         {{ liability.name }}

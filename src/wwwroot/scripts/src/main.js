@@ -54,12 +54,30 @@ const store = new Vuex.Store({
             state.assets = null
         },
         setAssets(state, assets) {
+            for (var i = 0; i < assets.length; i++) {
+                var asset = assets[i];
+                asset.equity = asset.value
+                if (asset.liabilityId) {
+                    var liabilityIndex = state.liabilities.findIndex(liability => liability.liabilityId === asset.liabilityId)
+                    asset.equity -= state.liabilities[liabilityIndex].principal
+                }
+            }
             state.assets = assets
         },
         addAsset(state, asset) {
+            asset.equity = asset.value
+            if (asset.liabilityId) {
+                var liabilityIndex = state.liabilities.findIndex(liability => liability.liabilityId === asset.liabilityId)
+                asset.equity -= state.liabilities[liabilityIndex].principal
+            }
             state.assets.push(asset)
         },
         updateAsset(state, updatedAsset) {
+            updatedAsset.equity = updatedAsset.value
+            if (updatedAsset.liabilityId) {
+                var liabilityIndex = state.liabilities.findIndex(liability => liability.liabilityId === updatedAsset.liabilityId)
+                updatedAsset.equity -= state.liabilities[liabilityIndex].principal
+            }
             var assetIndex = state.assets.findIndex(asset => asset.assetId === updatedAsset.assetId);
             state.assets[assetIndex] = updatedAsset;
         },
@@ -73,7 +91,7 @@ const store = new Vuex.Store({
             state.liabilities.push(liability)
         },
         updateLiability(state, updatedLiability) {
-            var liabilityIndex = state.liabilities.findIndex(liability => liability.liabilityId === updatedLiability.liabilityId);
+            var liabilityIndex = state.liabilities.findIndex(liability => liability.liabilityId === updatedLiability.liabilityId)
             state.liabilities[liabilityIndex] = updatedLiability;
         },
         removeLiability(state, id) {
@@ -86,7 +104,7 @@ const store = new Vuex.Store({
             state.expenses.push(expense)
         },
         updateExpense(state, updatedExpense) {
-            var expenseIndex = state.expenses.findIndex(expense => expense.expenseId === updatedExpense.expenseId);
+            var expenseIndex = state.expenses.findIndex(expense => expense.expenseId === updatedExpense.expenseId)
             state.expenses[expenseIndex] = updatedExpense;
         },
         removeExpense(state, id) {
@@ -99,8 +117,8 @@ const store = new Vuex.Store({
             state.budgets.push(budget)
         },
         updateBudget(state, updatedBudget) {
-            var budgetIndex = state.budgets.findIndex(budget => budget.budgetId === updatedBudget.budgetId);
-            state.budgets[budgetIndex] = updatedBudget;
+            var budgetIndex = state.budgets.findIndex(budget => budget.budgetId === updatedBudget.budgetId)
+            state.budgets[budgetIndex] = updatedBudget
         },
         removeBudget(state, id) {
             state.budgets = state.budgets.filter(budget => budget.budgetId !== id)
