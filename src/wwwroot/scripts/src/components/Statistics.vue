@@ -13,6 +13,7 @@
                 <p>total assets: {{ totalAssets }}</p>
                 <p>total liabilities: {{ totalLiabilities }}</p>
                 <p>netWorth: {{ netWorth }}</p>
+                <router-link v-if="$store.state.isLoggedIn && $store.state.assets" to="/assetbreakdown">Asset Breakdown</router-link>
             </div>
         </div>
     </div>
