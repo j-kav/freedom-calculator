@@ -33,7 +33,7 @@ describe('AssetBreakdown', () => {
                 'test': AssetBreakdown
             }
         }).$mount()
-        expect(vm.$refs.test.totalCash).to.equal(14000)
+        expect(vm.$refs.test.totalCash).to.equal('$14,000.00')
     })
 
     it('should compute total real estate on load', function () {
@@ -44,7 +44,7 @@ describe('AssetBreakdown', () => {
                 'test': AssetBreakdown
             }
         }).$mount()
-        expect(vm.$refs.test.totalRealEstate).to.equal(125000)
+        expect(vm.$refs.test.totalRealEstate).to.equal('$125,000.00')
     })
 
     it('should compute total stock on load', function () {
@@ -55,6 +55,6 @@ describe('AssetBreakdown', () => {
                 'test': AssetBreakdown
             }
         }).$mount()
-        expect(vm.$refs.test.totalStock).to.equal(120000)
+        expect(vm.$refs.test.totalStock).to.equal('$120,000.00')
     })
 })
