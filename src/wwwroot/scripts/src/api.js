@@ -135,6 +135,7 @@ export default {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
+                AssetType: updatedAsset.assetType,
                 Name: updatedAsset.name,
                 Symbol: updatedAsset.symbol,
                 NumShares: updatedAsset.numShares,
@@ -145,11 +146,9 @@ export default {
         }
         var p = new Promise((resolve, reject) => {
             window.fetch('/api/assets/' + id, fetchProps).then((response) => {
-                if (response.ok) {
-                    resolve(response)
-                } else {
-                    reject(response.statusText) // TODO sanitize error
-                }
+                return response.json()
+            }).then((data) => {
+                resolve(data)
             }).catch((error) => {
                 reject(error)
             })

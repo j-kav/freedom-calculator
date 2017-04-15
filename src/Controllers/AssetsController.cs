@@ -72,9 +72,20 @@ namespace FreedomCalculator2.Controllers
 
         // PUT api/assets/5
         [HttpPut("{id}")]
-        public async Task Put(int id, [FromBody]Asset asset)
+        public async Task<Asset> Put(int id, [FromBody]Asset asset)
         {
             await _repository.UpdateAsset(id, asset);
+            asset.AssetId = id;
+            AssetQuoter assetQuoter = new AssetQuoter(_zillowClient, _yahooFinanceClient);
+            if (asset.AssetType == AssetType.DomesticBond || asset.AssetType == AssetType.DomesticStock ||
+                asset.AssetType == AssetType.InternationalBond || asset.AssetType == AssetType.InternationalStock)
+            {
+                // set the current value
+                AssetQuote quote = await assetQuoter.GetQuote(asset.Symbol);
+                asset.SharePrice = quote.SharePrice;
+                asset.Value = quote.SharePrice * (decimal)asset.NumShares;
+            }
+            return asset;
         }
 
         // DELETE api/asssets/5

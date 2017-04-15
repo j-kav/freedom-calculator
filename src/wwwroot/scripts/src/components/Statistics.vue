@@ -10,9 +10,20 @@
             </div>
             <div v-else>
                 Loaded!
-                <p>total assets: {{ totalAssets }}</p>
-                <p>total liabilities: {{ totalLiabilities }}</p>
-                <p>netWorth: {{ netWorth }}</p>
+                <table>
+                    <tr>
+                        <td>Total Assets</td>
+                        <td>{{ totalAssets }}</td>
+                    </tr>
+                    <tr>
+                        <td>Total Liabilities</td>
+                        <td>{{ totalLiabilities }}</td>
+                    </tr>
+                    <tr>
+                        <td>Net Worth</td>
+                        <td>{{ netWorth }}</td>
+                    </tr>
+                </table>
                 <router-link v-if="$store.state.isLoggedIn && $store.state.assets" to="/assetbreakdown">Asset Breakdown</router-link>
             </div>
         </div>
@@ -21,6 +32,7 @@
 
 <script>
     import api from '../api'
+    import utils from '../utils'
 
     export default {
         name: 'Statistics',
@@ -37,13 +49,13 @@
         },
         computed: {
             totalAssets() {
-                return this.$store.getters.totalAssets
+                return utils.usdFormmater.format(this.$store.getters.totalAssets)
             },
             totalLiabilities() {
-                return this.$store.getters.totalLiabilities
+                return utils.usdFormmater.format(this.$store.getters.totalLiabilities)
             },
             netWorth() {
-                return this.$store.getters.netWorth
+                return utils.usdFormmater.format(this.$store.getters.netWorth)
             }
         },
         methods: {

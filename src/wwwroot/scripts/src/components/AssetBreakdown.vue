@@ -20,11 +20,11 @@
         <table>
             <tr>
                 <td>Total Domestic</td>
-                <td>{{ totalDomesticStock }}</td>
+                <td>{{ totalDomesticStockFormatted }}</td>
             </tr>
             <tr>
                 <td>Total International</td>
-                <td>{{ totalInternationalStock }}</td>
+                <td>{{ totalInternationalStockFormatted }}</td>
             </tr>
         </table>
         <router-link v-if="$store.state.isLoggedIn" to="/statistics">Back to Statistics</router-link>
@@ -33,6 +33,7 @@
 
 <script>
     import assetTypes from '../assetTypes'
+    import utils from '../utils'
 
     export default {
         name: 'AssetBreakdown',
@@ -43,7 +44,7 @@
                 for (const cashAsset of cashAssets) {
                     totalCash += cashAsset.value
                 }
-                return totalCash
+                return utils.usdFormmater.format(totalCash)
             },
             totalRealEstate() {
                 let totalRealEstate = 0
@@ -51,7 +52,7 @@
                 for (const realEstateAsset of realEstateAssets) {
                     totalRealEstate += realEstateAsset.equity
                 }
-                return totalRealEstate
+                return utils.usdFormmater.format(totalRealEstate)
             },
             totalDomesticStock() {
                 let totalStock = 0
@@ -61,6 +62,9 @@
                 }
                 return totalStock
             },
+            totalDomesticStockFormatted() {
+                return utils.usdFormmater.format(this.totalDomesticStock)
+            },
             totalInternationalStock() {
                 let totalStock = 0
                 const stockAssets = this.$store.getters.assetsByType([assetTypes.InternationalStock])
@@ -69,8 +73,11 @@
                 }
                 return totalStock
             },
+            totalInternationalStockFormatted() {
+                return utils.usdFormmater.format(this.totalInternationalStock)
+            },
             totalStock() {
-                return this.totalDomesticStock + this.totalInternationalStock
+                return utils.usdFormmater.format(this.totalDomesticStock + this.totalInternationalStock)
             }
         }
     }

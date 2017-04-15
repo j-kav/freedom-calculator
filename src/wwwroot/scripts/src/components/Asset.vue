@@ -2,7 +2,7 @@
     <tr>
         <td><input v-model="asset.name"></input></td>
         <td v-if="isStockOrBond">{{ asset.symbol }}</td>
-        <td v-if="isStockOrBond">{{ asset.numShares }}</td>
+        <td v-if="isStockOrBond"><input v-model="asset.numShares"></input></td>
         <td v-if="isStockOrBond">{{ asset.sharePrice }}</td>
         <td v-if="isRealEstate">{{ asset.address }}</td>
         <td v-if="isRealEstate">{{ asset.city }}</td>
@@ -55,7 +55,8 @@
                 this.$store.commit('updateAsset', this.asset)
             },
             updateAsset: function () {
-                api.updateAsset(this.asset.assetId, this.asset).then(() => {
+                api.updateAsset(this.asset.assetId, this.asset).then((updatedAsset) => {
+                    this.asset = updatedAsset
                     this.$store.commit('updateAsset', this.asset)
                     this.error = false
                     this.message = 'updated'
