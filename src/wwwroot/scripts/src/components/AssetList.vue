@@ -34,6 +34,28 @@
             <div>
                 <label>NumShares</label><input v-model="numShares"></input>
             </div>
+            <div v-if="isStock">
+                <label>Type</label>
+                <select v-model="assetType">
+                    <option value="4">
+                        Domestic Stock
+                    </option>
+                    <option value="5">
+                        International Stock
+                    </option>
+                </select>
+            </div>
+            <div v-else>
+                <label>Type</label>
+                <select v-model="assetType">
+                    <option value="2">
+                        Domestic Bond
+                    </option>
+                    <option value="3">
+                        International Bond
+                    </option>
+                </select>
+            </div>
         </div>
         <div v-if="isRealEstate">
             <div>
@@ -80,6 +102,8 @@
                 symbol: '',
                 numShares: 0,
                 sharePrice: 0,
+                assetType: this.assetTypeArray[0],
+                assetTypes: assetTypes,
                 address: '',
                 city: '',
                 state: '',
@@ -89,6 +113,7 @@
                 isCash: this.assetTypeArray.includes(assetTypes.Cash),
                 isRealEstate: this.assetTypeArray.includes(assetTypes.RealEstate),
                 isStockOrBond: !this.assetTypeArray.includes(assetTypes.Cash) && !this.assetTypeArray.includes(assetTypes.RealEstate),
+                isStock: this.assetTypeArray.includes(assetTypes.DomesticStock),
                 liabilityId: null
             }
         },
@@ -101,7 +126,7 @@
         methods: {
             addAsset: function () {
                 var newAsset = {
-                    assetType: this.assetTypeArray[0],
+                    assetType: this.assetType,
                     name: this.name,
                     symbol: this.symbol,
                     numShares: this.numShares,

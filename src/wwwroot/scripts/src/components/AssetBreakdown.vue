@@ -27,6 +27,17 @@
                 <td>{{ totalInternationalStockFormatted }}</td>
             </tr>
         </table>
+        <p>Bonds Breakdown</p>
+        <table>
+            <tr>
+                <td>Total Domestic</td>
+                <td>{{ totalDomesticBondFormatted }}</td>
+            </tr>
+            <tr>
+                <td>Total International</td>
+                <td>{{ totalInternationalBondFormatted }}</td>
+            </tr>
+        </table>
         <router-link v-if="$store.state.isLoggedIn" to="/statistics">Back to Statistics</router-link>
     </div>
 </template>
@@ -78,6 +89,31 @@
             },
             totalStock() {
                 return utils.usdFormmater.format(this.totalDomesticStock + this.totalInternationalStock)
+            },
+            totalDomesticBond() {
+                let totalBond = 0
+                const bondAssets = this.$store.getters.assetsByType([assetTypes.DomesticBond])
+                for (const bondAsset of bondAssets) {
+                    totalBond += bondAsset.value
+                }
+                return totalBond
+            },
+            totalDomesticBondFormatted() {
+                return utils.usdFormmater.format(this.totalDomesticBond)
+            },
+            totalInternationalBond() {
+                let totalBond = 0
+                const bondAssets = this.$store.getters.assetsByType([assetTypes.InternationalBond])
+                for (const bondAsset of bondAssets) {
+                    totalBond += bondAsset.value
+                }
+                return totalBond
+            },
+            totalInternationalBondFormatted() {
+                return utils.usdFormmater.format(this.totalInternationalBond)
+            },
+            totalBond() {
+                return utils.usdFormmater.format(this.totalDomesticBond + this.totalInternationalBond)
             }
         }
     }
