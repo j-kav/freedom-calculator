@@ -10,7 +10,7 @@ describe('AssetBreakdown', () => {
     const mockedStore = {
         state: {
             assets: [
-                { assetType: assetTypes.Cash, value: 4000 }, 
+                { assetType: assetTypes.Cash, value: 4000 },
                 { assetType: assetTypes.DomesticStock, value: 80000 },
                 { assetType: assetTypes.Cash, value: 10000 },
                 { assetType: assetTypes.RealEstate, value: 450000, equity: 125000 },
@@ -19,6 +19,17 @@ describe('AssetBreakdown', () => {
         },
 
         getters: {
+            totalAssetEquity: (state) => {
+                let total = 0
+                for (const asset of state.assets) {
+                    if (asset.assetType === assetTypes.RealEstate) {
+                        total += parseFloat(asset.equity)
+                    } else {
+                        total += parseFloat(asset.value)
+                    }
+                }
+                return total
+            },
             assetsByType: (state) => (assetTypeArray) => {
                 return state.assets.filter(asset => assetTypeArray.includes(asset.assetType))
             }
@@ -33,7 +44,7 @@ describe('AssetBreakdown', () => {
                 'test': AssetBreakdown
             }
         }).$mount()
-        expect(vm.$refs.test.totalCash).to.equal('$14,000.00')
+        expect(vm.$refs.test.totalCashFormatted).to.equal('$14,000.00')
     })
 
     it('should compute total real estate on load', function () {
@@ -56,5 +67,16 @@ describe('AssetBreakdown', () => {
             }
         }).$mount()
         expect(vm.$refs.test.totalStock).to.equal('$120,000.00')
+    })
+
+    it('should calculate percentages on load', function () {
+        const vm = new Vue({
+            template: '<div><test ref="test"></test></div>',
+            store: new Vuex.Store(mockedStore),
+            components: {
+                'test': AssetBreakdown
+            }
+        }).$mount()
+        expect(vm.$refs.test.percentCash).to.equal('5.41%')
     })
 })

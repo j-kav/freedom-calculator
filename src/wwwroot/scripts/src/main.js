@@ -12,6 +12,7 @@ import Liabilities from './components/Liabilities.vue'
 import Expenses from './components/Expenses.vue'
 import Budgets from './components/Budgets.vue'
 import User from './components/User.vue'
+import assetTypes from './assetTypes'
 
 Vue.use(Vuex)
 Vue.use(VueRouter)
@@ -32,6 +33,17 @@ const store = new Vuex.Store({
             let total = 0
             for (const asset of state.assets) {
                 total += parseFloat(asset.value)
+            }
+            return total
+        },
+        totalAssetEquity: (state) => {
+            let total = 0
+            for (const asset of state.assets) {
+                if (asset.assetType === assetTypes.RealEstate) {
+                    total += parseFloat(asset.equity)
+                } else {
+                    total += parseFloat(asset.value)
+                }
             }
             return total
         },

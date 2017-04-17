@@ -5,7 +5,8 @@
         <table>
             <tr>
                 <td>Total Cash</td>
-                <td>{{ totalCash }}</td>
+                <td>{{ totalCashFormatted }}</td>
+                <td>{{ percentCash }}</td>
             </tr>
             <tr>
                 <td>Total Real Estate (Equity)</td>
@@ -55,7 +56,10 @@
                 for (const cashAsset of cashAssets) {
                     totalCash += cashAsset.value
                 }
-                return utils.usdFormmater.format(totalCash)
+                return totalCash
+            },
+            totalCashFormatted() {
+                return utils.usdFormmater.format(this.totalCash)
             },
             totalRealEstate() {
                 let totalRealEstate = 0
@@ -114,6 +118,10 @@
             },
             totalBond() {
                 return utils.usdFormmater.format(this.totalDomesticBond + this.totalInternationalBond)
+            },
+            percentCash() {
+                const percentCash = this.totalCash / this.$store.getters.totalAssetEquity
+                return (percentCash * 100).toFixed(2) + '%'
             }
         }
     }
