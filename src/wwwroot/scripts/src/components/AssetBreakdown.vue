@@ -10,11 +10,18 @@
             </tr>
             <tr>
                 <td>Total Real Estate (Equity)</td>
-                <td>{{ totalRealEstate }}</td>
+                <td>{{ totalRealEstateFormatted }}</td>
+                <td>{{ percentRealEstate }}</td>
             </tr>
             <tr>
                 <td>Total Stock</td>
-                <td>{{ totalStock }}</td>
+                <td>{{ totalStockFormatted }}</td>
+                <td>{{ percentStock }}</td>
+            </tr>
+            <tr>
+                <td>Total Bonds</td>
+                <td>{{ totalBondsFormatted }}</td>
+                <td>{{ percentBonds }}</td>
             </tr>
         </table>
         <p>Stocks Breakdown</p>
@@ -67,7 +74,10 @@
                 for (const realEstateAsset of realEstateAssets) {
                     totalRealEstate += realEstateAsset.equity
                 }
-                return utils.usdFormmater.format(totalRealEstate)
+                return totalRealEstate
+            },
+            totalRealEstateFormatted() {
+                return utils.usdFormmater.format(this.totalRealEstate)
             },
             totalDomesticStock() {
                 let totalStock = 0
@@ -92,7 +102,10 @@
                 return utils.usdFormmater.format(this.totalInternationalStock)
             },
             totalStock() {
-                return utils.usdFormmater.format(this.totalDomesticStock + this.totalInternationalStock)
+                return this.totalDomesticStock + this.totalInternationalStock
+            },
+            totalStockFormatted() {
+                return utils.usdFormmater.format(this.totalStock)
             },
             totalDomesticBond() {
                 let totalBond = 0
@@ -116,13 +129,29 @@
             totalInternationalBondFormatted() {
                 return utils.usdFormmater.format(this.totalInternationalBond)
             },
-            totalBond() {
-                return utils.usdFormmater.format(this.totalDomesticBond + this.totalInternationalBond)
+            totalBonds() {
+                return this.totalDomesticBond + this.totalInternationalBond
+            },
+            totalBondsFormatted() {
+                return utils.usdFormmater.format(this.totalBonds)
             },
             percentCash() {
                 const percentCash = this.totalCash / this.$store.getters.totalAssetEquity
                 return (percentCash * 100).toFixed(2) + '%'
+            },
+            percentBonds() {
+                const percentBonds = this.totalBonds / this.$store.getters.totalAssetEquity
+                return (percentBonds * 100).toFixed(2) + '%'
+            },
+            percentStock() {
+                const percentStock = this.totalStock / this.$store.getters.totalAssetEquity
+                return (percentStock * 100).toFixed(2) + '%'
+            },
+            percentRealEstate() {
+                const percentRealEstate = this.totalRealEstate / this.$store.getters.totalAssetEquity
+                return (percentRealEstate * 100).toFixed(2) + '%'
             }
         }
     }
+
 </script>

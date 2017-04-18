@@ -15,6 +15,8 @@ describe('AssetBreakdown', () => {
                 { assetType: assetTypes.Cash, value: 10000 },
                 { assetType: assetTypes.RealEstate, value: 450000, equity: 125000 },
                 { assetType: assetTypes.InternationalStock, value: 40000 },
+                { assetType: assetTypes.InternationalBond, value: 1000 },
+                { assetType: assetTypes.DomesticBond, value: 2000 }
             ]
         },
 
@@ -55,7 +57,7 @@ describe('AssetBreakdown', () => {
                 'test': AssetBreakdown
             }
         }).$mount()
-        expect(vm.$refs.test.totalRealEstate).to.equal('$125,000.00')
+        expect(vm.$refs.test.totalRealEstateFormatted).to.equal('$125,000.00')
     })
 
     it('should compute total stock on load', function () {
@@ -66,7 +68,7 @@ describe('AssetBreakdown', () => {
                 'test': AssetBreakdown
             }
         }).$mount()
-        expect(vm.$refs.test.totalStock).to.equal('$120,000.00')
+        expect(vm.$refs.test.totalStockFormatted).to.equal('$120,000.00')
     })
 
     it('should calculate percentages on load', function () {
@@ -77,6 +79,9 @@ describe('AssetBreakdown', () => {
                 'test': AssetBreakdown
             }
         }).$mount()
-        expect(vm.$refs.test.percentCash).to.equal('5.41%')
+        expect(vm.$refs.test.percentCash).to.equal('5.34%')
+        expect(vm.$refs.test.percentBonds).to.equal('1.15%')
+        expect(vm.$refs.test.percentStock).to.equal('45.80%')
+        expect(vm.$refs.test.percentRealEstate).to.equal('47.71%')
     })
 })
