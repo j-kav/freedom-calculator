@@ -325,7 +325,8 @@ export default {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                Date: newBudget.date
+                Month: newBudget.Month,
+                Year: newBudget.Year
             })
         }
         var p = new Promise((resolve, reject) => {

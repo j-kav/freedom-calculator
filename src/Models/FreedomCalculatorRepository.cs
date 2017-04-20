@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FreedomCalculator2.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -163,6 +164,13 @@ namespace FreedomCalculator2.Models
 
         public async Task<int> AddBudget(Budget budget)
         {
+            List<Budget> budgetsWithSameDate = db.Budgets.Where((b) => b.User.Id == budget.User.Id.ToString() && b.Month == budget.Month && b.Year == budget.Year).ToList<Budget>();
+
+            if (budgetsWithSameDate.Any())
+            {
+                throw new BudgetAlreadyExistsException();
+            }
+
             await db.Budgets.AddAsync(budget);
             await SaveChanges();
             return budget.BudgetId;
@@ -178,7 +186,7 @@ namespace FreedomCalculator2.Models
         public async Task<Budget> UpdateBudget(int id, Budget updatedBudget)
         {
             Budget budgetToUpdate = db.Budgets.Where(budget => budget.BudgetId == id).FirstOrDefault();
-            budgetToUpdate.Date = updatedBudget.Date;
+            // TODO update fields in budgetToUpdate from updatedBudget
             await SaveChanges();
             return budgetToUpdate;
         }

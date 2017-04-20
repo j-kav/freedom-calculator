@@ -1,4 +1,4 @@
-using System;
+// using System;
 // using System.Collections.Generic;
 // using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -12,7 +12,9 @@ namespace FreedomCalculator2.Models
 
         public virtual ApplicationUser User { get; set; }
 
-        public DateTime Date { get; set; }
+        public int Month { get; set; }
+
+        public int Year { get; set; }
 
         // [Display(Name="Earned Income")]
         // [DataType(DataType.Currency)]

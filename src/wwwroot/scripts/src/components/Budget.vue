@@ -1,6 +1,6 @@
 <template>
     <tr>
-        <td><input v-model="budget.date"></input>
+        <td>{{ budget.year }} - {{ budget.month }}</input>
         </td>
         <td><button v-on:click.prevent=updateBudget()>Update</button></td>
         <td><button v-on:click.prevent=removeBudget()>Delete</button></td>

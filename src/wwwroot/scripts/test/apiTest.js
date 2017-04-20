@@ -56,7 +56,7 @@ describe('api', function () {
     describe('addBudget', function () {
         it('should get the added budget object with an id', function () {
             var newBudget = {}
-            fetchMock.post('/api/budgets', { BudgetId: 1 })
+            fetchMock.post('/api/budgets', { BudgetId: 1, Month: 4, Year: 2017 })
             return api.addBudget(newBudget).then((addedBudget) => {
                 expect(addedBudget.BudgetId).to.equal(1)
             }).catch((error) => {

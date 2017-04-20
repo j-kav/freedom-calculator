@@ -18,4 +18,5 @@
 -- delete Asset
 -- delete Liability
 -- delete Expense
+-- delete Budget
 -- delete aspnetusers

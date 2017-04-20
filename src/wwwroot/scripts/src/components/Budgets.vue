@@ -32,20 +32,27 @@
         },
         methods: {
             addBudget: function () {
-                var date = new Date()
-                var datestring = date.toISOString()
+                var now = new Date(Date.now())
+                var month = now.getMonth() + 1
+                var year = now.getFullYear()
                 var newBudget = {
-                    date: datestring
+                    Month: month,
+                    Year: year
                 }
                 // return promise for unit testing purposes
                 var p = new Promise((resolve, reject) => {
-                    api.addBudget(newBudget).then((addedBudget) => {
-                        this.$store.commit('addBudget', addedBudget)
-                        resolve()
-                    }).catch((error) => {
-                        this.error = error
-                        reject(error.message) // TODO sanitize error
-                    })
+                    if (this.$store.getters.budgetByDate(month, year).length !== 0) {
+                        this.error = 'Budget already exists for the current month and year'
+                        resolve(this.error)
+                    } else {
+                        api.addBudget(newBudget).then((addedBudget) => {
+                            this.$store.commit('addBudget', addedBudget)
+                            resolve()
+                        }).catch((error) => {
+                            this.error = 'error'
+                            reject(error.message) // TODO sanitize error
+                        })
+                    }
                 })
                 return p
             }

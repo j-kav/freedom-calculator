@@ -56,6 +56,9 @@ const store = new Vuex.Store({
         },
         netWorth: (state, getters) => {
             return getters.totalAssets - getters.totalLiabilities
+        },
+        budgetByDate: (state) => (month, year) => {
+            return state.budgets.filter(budget => month === budget.month && year === budget.year)
         }
     },
     mutations: {

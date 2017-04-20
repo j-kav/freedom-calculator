@@ -1,4 +1,5 @@
 using FreedomCalculator2.Controllers;
+using FreedomCalculator2.Exceptions;
 using FreedomCalculator2.Models;
 using System;
 using System.Collections.Generic;
@@ -60,8 +61,10 @@ namespace FreedomCalculator2.Tests
         public async Task Get_GetsBudgets()
         {
             // Arrange
-            DateTime fakeBudgetDate = DateTime.Now;
-            List<Budget> fakeBudgets = new List<Budget> { new Budget { BudgetId = 1, Date = fakeBudgetDate } };
+            DateTime now = DateTime.Now;
+            int fakeBudgetMonth = now.Month;
+            int FakeBudgetYear = now.Year;
+            List<Budget> fakeBudgets = new List<Budget> { new Budget { BudgetId = 1, Month = fakeBudgetMonth, Year = FakeBudgetYear } };
             mockRepo.Setup(repo => repo.GetBudgets(userId)).Returns(fakeBudgets);
 
             // Act
@@ -71,24 +74,36 @@ namespace FreedomCalculator2.Tests
             Assert.Equal(fakeBudgets.Count, 1);
             Budget fakeBudget = fakeBudgets[0];
             Assert.Equal(fakeBudget.BudgetId, 1);
-            Assert.Equal(fakeBudget.Date, fakeBudgetDate);
+            Assert.Equal(fakeBudget.Month, fakeBudgetMonth);
+            Assert.Equal(fakeBudget.Year, FakeBudgetYear);
         }
 
         [Fact]
-        public async Task Put_UpdatesBudget()
+        public async Task Post_DoesNotDuplicate()
         {
             // Arrange
-            DateTime fakeBudgetDate = DateTime.Now;
-            int budgetId = 1;
-            Budget fakeBudget = new Budget { BudgetId = budgetId, Date = fakeBudgetDate.AddDays(1) };
-            mockRepo.Setup(repo => repo.UpdateBudget(budgetId, fakeBudget)).Returns(Task.FromResult(fakeBudget));
-
-            // Act
-            Budget updatedBudget = await controller.Put(budgetId, fakeBudget);
-
-            // Assert
-            Assert.Equal(fakeBudget.BudgetId, 1);
-            Assert.Equal(fakeBudget.Date, fakeBudgetDate.AddDays(1));
+            ApplicationUser user = new ApplicationUser { Id = userId.ToString() };
+            mockRepo.Setup(repo => repo.AddBudget(It.IsAny<Budget>())).Throws(new BudgetAlreadyExistsException());
+            Budget newBudget = new Budget { User = user, Month = 4, Year = 2017 };
+            // Act & Assert
+            BudgetAlreadyExistsException ex = await Assert.ThrowsAsync<BudgetAlreadyExistsException>(() => controller.Post(newBudget));
         }
+
+        // [Fact]
+        // public async Task Put_UpdatesBudget()
+        // {
+        //     // Arrange
+        //     DateTime fakeBudgetDate = DateTime.Now;
+        //     int budgetId = 1;
+        //     Budget fakeBudget = new Budget { BudgetId = budgetId /* TODO add some updated fields */ };
+        //     mockRepo.Setup(repo => repo.UpdateBudget(budgetId, fakeBudget)).Returns(Task.FromResult(fakeBudget));
+
+        //     // Act
+        //     Budget updatedBudget = await controller.Put(budgetId, fakeBudget);
+
+        //     // Assert
+        //     Assert.Equal(fakeBudget.BudgetId, 1);
+        //     // TODO more assertions
+        // }
     }
 }
