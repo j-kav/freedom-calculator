@@ -5,7 +5,7 @@ namespace FreedomCalculator2.Models
     [Table("BudgetEarnedIncomeItem")]
     public class BudgetEarnedIncomeItem
     {
-        public int BudgetEarnedIncomeId { get; set; }
+        public int BudgetEarnedIncomeItemId { get; set; }
 
         public decimal Amount { get; set; }
 
