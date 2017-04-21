@@ -1,5 +1,5 @@
 // using System;
-// using System.Collections.Generic;
+using System.Collections.Generic;
 // using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -16,15 +16,7 @@ namespace FreedomCalculator2.Models
 
         public int Year { get; set; }
 
-        // [Display(Name="Earned Income")]
-        // [DataType(DataType.Currency)]
-        // public decimal EarnedIncome { get; set; }
-
-        // [NotMapped]
-        // [Range(0, (double)decimal.MaxValue, ErrorMessage = "Value must be positve")]
-        // [DataType(DataType.Currency)]
-        // [Display(Name="Add")]
-        // public decimal AddEarnedIncomeAmount { get; set; }
+        public virtual List<BudgetEarnedIncomeItem> EarnedIncome { get; set; }
 
         // [Display(Name = "Passive Income")]
         // [DataType(DataType.Currency)]

@@ -11,6 +11,7 @@ import AssetBreakdown from './components/AssetBreakdown.vue'
 import Liabilities from './components/Liabilities.vue'
 import Expenses from './components/Expenses.vue'
 import Budgets from './components/Budgets.vue'
+import BudgetDetail from './components/BudgetDetail.vue'
 import User from './components/User.vue'
 import assetTypes from './assetTypes'
 
@@ -59,6 +60,9 @@ const store = new Vuex.Store({
         },
         budgetByDate: (state) => (month, year) => {
             return state.budgets.filter(budget => month === budget.month && year === budget.year)
+        },
+        budgetById: (state) => (id) => {
+            return state.budgets.find(budget => budget.budgetId === id)
         }
     },
     mutations: {
@@ -152,6 +156,7 @@ const routes = [
     { path: '/liabilities', component: Liabilities },
     { path: '/expenses', component: Expenses },
     { path: '/budgets', component: Budgets },
+    { name: 'budget', path: '/budget/:id', component: BudgetDetail },
     { path: '/user', component: User }
 ]
 

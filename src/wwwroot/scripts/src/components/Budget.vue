@@ -1,8 +1,7 @@
 <template>
     <tr>
-        <td>{{ budget.year }} - {{ budget.month }}</input>
+        <td><router-link :to="{ name: 'budget', params: { id: budget.budgetId } }">{{ budget.year }} - {{ budget.month }}</router-link></input>
         </td>
-        <td><button v-on:click.prevent=updateBudget()>Update</button></td>
         <td><button v-on:click.prevent=removeBudget()>Delete</button></td>
         <td v-if="message" v-bind:class="messageClass">{{ message }}</td>
     </tr>
@@ -30,24 +29,16 @@
         },
         props: ['budgetModel'],
         methods: {
-            updateBudget: function () {
-                api.updateBudget(this.budget.budgetId, this.budget).then(() => {
-                    this.$store.commit('updateBudget', this.budget)
-                    this.error = false
-                    this.message = 'updated'
-                }).catch((error) => {
-                    this.error = true
-                    this.message = error
-                })
-            },
             removeBudget: function () {
-                api.removeBudget(this.budget.budgetId).then(() => {
-                    this.$store.commit('removeBudget', this.budget.budgetId)
-                    this.error = false
-                }).catch((error) => {
-                    this.error = true
-                    this.message = error
-                })
+                if (window.confirm('Are you sure?')) {
+                    api.removeBudget(this.budget.budgetId).then(() => {
+                        this.$store.commit('removeBudget', this.budget.budgetId)
+                        this.error = false
+                    }).catch((error) => {
+                        this.error = true
+                        this.message = error
+                    })
+                }
             }
         }
     }
