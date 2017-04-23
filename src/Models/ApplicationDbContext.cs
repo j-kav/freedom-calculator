@@ -17,5 +17,6 @@ namespace FreedomCalculator2.Models
 		public DbSet<Liability> Liabilities { get; set; }
 		public DbSet<Expense> Expenses { get; set; }
 		public DbSet<Budget> Budgets { get; set; }
+		public DbSet<BudgetEarnedIncomeItem> BudgetEarnedIncomeItems { get; set; }
 	}
 }

@@ -30,7 +30,7 @@ namespace FreedomCalculator2.Controllers
             return budgets;
         }
 
-        // POST api/expenses
+        // POST api/budgets
         [HttpPost]
         public async Task<Budget> Post([FromBody]Budget budget)
         {
@@ -40,15 +40,7 @@ namespace FreedomCalculator2.Controllers
             return budget;
         }
 
-        // PUT api/expenses/5
-        [HttpPut("{id}")]
-        public async Task<Budget> Put(int id, [FromBody]Budget budget)
-        {
-            Budget updatedBudget = await _repository.UpdateBudget(id, budget);
-            return updatedBudget;
-        }
-
-        // DELETE api/expenses/5
+        // DELETE api/budgets/5
         [HttpDelete("{id}")]
         public async Task Delete(int id)
         {

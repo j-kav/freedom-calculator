@@ -1,4 +1,5 @@
 ﻿using FreedomCalculator2.Exceptions;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -158,7 +159,7 @@ namespace FreedomCalculator2.Models
 
         public List<Budget> GetBudgets(Guid userId)
         {
-            List<Budget> retVal = db.Budgets.Where((budget) => budget.User.Id == userId.ToString()).ToList<Budget>();
+            List<Budget> retVal = db.Budgets.Include(budget => budget.EarnedIncome).Where((budget) => budget.User.Id == userId.ToString()).ToList<Budget>();
             return retVal;
         }
 
@@ -183,12 +184,11 @@ namespace FreedomCalculator2.Models
             await SaveChanges();
         }
 
-        public async Task<Budget> UpdateBudget(int id, Budget updatedBudget)
+        public async Task<int> AddBudgetEarnedIncomeItem(BudgetEarnedIncomeItem budgetEarnedIncomeItem)
         {
-            Budget budgetToUpdate = db.Budgets.Where(budget => budget.BudgetId == id).FirstOrDefault();
-            // TODO update fields in budgetToUpdate from updatedBudget
+            await db.BudgetEarnedIncomeItems.AddAsync(budgetEarnedIncomeItem);
             await SaveChanges();
-            return budgetToUpdate;
+            return budgetEarnedIncomeItem.BudgetEarnedIncomeItemId;
         }
     }
 }

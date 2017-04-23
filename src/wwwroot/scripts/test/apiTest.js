@@ -77,4 +77,16 @@ describe('api', function () {
             })
         })
     })
+
+    describe('addBudgetEarnedIncomeItem', function () {
+        it('should get the added budgetEarnedIncome object with an id', function () {
+            var newBudgetEarnedIncomeItem = { BudgetId: 1, Amount: 200 }
+            fetchMock.post('/api/budgetearnedincomeitems', { BudgetEarnedIncomeId: 1, BudgetId: 1, Amount: 200 })
+            return api.addBudgetEarnedIncomeItem(newBudgetEarnedIncomeItem).then((addedBudgetEarnedIncomeItem) => {
+                expect(addedBudgetEarnedIncomeItem.BudgetEarnedIncomeId).to.equal(1)
+            }).catch((error) => {
+                assert.fail(error)
+            })
+        })
+    })
 })

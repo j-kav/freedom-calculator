@@ -28,7 +28,10 @@ namespace FreedomCalculator2
         public void ConfigureServices(IServiceCollection services)
         {
             // add MVC for web api
-            services.AddMvc();
+            services.AddMvc().AddJsonOptions(options =>
+            {
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            });
 
             // add options to be injected (settings from app.settings file)
             services.AddOptions();

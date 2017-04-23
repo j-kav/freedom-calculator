@@ -16,7 +16,7 @@ namespace FreedomCalculator2.Models
 
         public int Year { get; set; }
 
-        public virtual List<BudgetEarnedIncomeItem> EarnedIncome { get; set; }
+        public List<BudgetEarnedIncomeItem> EarnedIncome { get; set; }
 
         // [Display(Name = "Passive Income")]
         // [DataType(DataType.Currency)]
