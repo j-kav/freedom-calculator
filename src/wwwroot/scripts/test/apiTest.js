@@ -1,5 +1,6 @@
 import api from '../src/api'
 import { expect } from 'chai'
+import assert from 'assert'
 import fetchMock from 'fetch-mock'
 
 // node doesn't have window so just set a global window object to global
@@ -80,10 +81,10 @@ describe('api', function () {
 
     describe('addBudgetEarnedIncomeItem', function () {
         it('should get the added budgetEarnedIncome object with an id', function () {
-            var newBudgetEarnedIncomeItem = { BudgetId: 1, Amount: 200 }
-            fetchMock.post('/api/budgetearnedincomeitems', { BudgetEarnedIncomeId: 1, BudgetId: 1, Amount: 200 })
+            var newBudgetEarnedIncomeItem = { budgetId: 1, amount: 200 }
+            fetchMock.post('/api/budgetearnedincomeitems', { budgetEarnedIncomeId: 1, budgetId: 1, amount: 200 })
             return api.addBudgetEarnedIncomeItem(newBudgetEarnedIncomeItem).then((addedBudgetEarnedIncomeItem) => {
-                expect(addedBudgetEarnedIncomeItem.BudgetEarnedIncomeId).to.equal(1)
+                expect(addedBudgetEarnedIncomeItem.budgetEarnedIncomeId).to.equal(1)
             }).catch((error) => {
                 assert.fail(error)
             })

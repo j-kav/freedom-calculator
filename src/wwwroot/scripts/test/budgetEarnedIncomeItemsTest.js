@@ -9,7 +9,7 @@ describe('BudgetEarnedIncomeItems', () => {
 
     const mockedStore = {
         state: {
-            budgets: [ { budgetId: 1, earnedIncome: [] }]
+            budgets: [{ budgetId: 1, earnedIncome: [] }]
         },
         getters: {
             budgetById: (state) => (id) => {
@@ -26,17 +26,22 @@ describe('BudgetEarnedIncomeItems', () => {
 
     it('should add a budgetEarnedIncomeItem to the store when addBudgetEarnedIncomeItem is called', function () {
         const vm = new Vue({
-            template: '<div><test ref="test"></test></div>',
+            template: '<div><test ref="test" v-bind:budget="budget"></test></div>',
             store: new Vuex.Store(mockedStore),
             components: {
                 'test': BudgetEarnedIncomeItems
+            },
+            data: function () {
+               return {
+                    budget: { budgetId: 1, earnedIncome: [] }
+                }
             }
         }).$mount()
         vm.$refs.test.amount = 200
         expect(vm.$store.getters.budgetById(1).earnedIncome.length).to.equal(0)
         return vm.$refs.test.addAmount().then(() => {
-            expect(vm.$store.getters.budgetById(1).earnedIncome.length).to.equal(1)
-            expect(vm.$store.getters.budgetById(1).earnedIncome[0].Amount).to.equal(200)
+           expect(vm.$store.getters.budgetById(1).earnedIncome.length).to.equal(1)
+            expect(vm.$store.getters.budgetById(1).earnedIncome[0].amount).to.equal(200)
         }).catch((error) => {
             assert.fail(error)
         })
