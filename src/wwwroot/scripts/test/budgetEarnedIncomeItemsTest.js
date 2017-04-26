@@ -1,6 +1,6 @@
 import Vue from 'vue/dist/vue.js'
 import Vuex from 'vuex'
-import Budgets from '../src/components/BudgetEarnedIncomeItems.vue'
+import BudgetEarnedIncomeItems from '../src/components/BudgetEarnedIncomeItems.vue'
 import assert from 'assert'
 import { expect } from 'chai'
 
@@ -9,17 +9,17 @@ describe('BudgetEarnedIncomeItems', () => {
 
     const mockedStore = {
         state: {
-            budgets: [ { BudgetId: 1, BudgetEarnedIncomeItems: [] }]
+            budgets: [ { budgetId: 1, earnedIncome: [] }]
         },
         getters: {
             budgetById: (state) => (id) => {
-                return state.budgets.find(budget => id === budget.BudgetId)
+                return state.budgets.find(budget => id === budget.budgetId)
             }
         },
         mutations: {
             addBudgetEarnedIncomeItem(state, budgetEarnedIncomeItem) {
-                var budget = state.budgets.find(budget => budget.BudgetId === budgetEarnedIncomeItem.BudgetId)
-                budget.BudgetEarnedIncomeItems.push(budgetEarnedIncomeItem)
+                var budget = state.budgets.find(budget => budget.budgetId === budgetEarnedIncomeItem.budgetId)
+                budget.earnedIncome.push(budgetEarnedIncomeItem)
             }
         }
     }
@@ -29,14 +29,14 @@ describe('BudgetEarnedIncomeItems', () => {
             template: '<div><test ref="test"></test></div>',
             store: new Vuex.Store(mockedStore),
             components: {
-                'test': Budgets
+                'test': BudgetEarnedIncomeItems
             }
         }).$mount()
         vm.$refs.test.amount = 200
-        expect(vm.$store.getters.budgetById(1).BudgetEarnedIncomeItems.length).to.equal(0)
+        expect(vm.$store.getters.budgetById(1).earnedIncome.length).to.equal(0)
         return vm.$refs.test.addAmount().then(() => {
-            expect(vm.$store.getters.budgetById(1).BudgetEarnedIncomeItems.length).to.equal(1)
-            expect(vm.$store.getters.budgetById(1).BudgetEarnedIncomeItems[0].Amount).to.equal(200)
+            expect(vm.$store.getters.budgetById(1).earnedIncome.length).to.equal(1)
+            expect(vm.$store.getters.budgetById(1).earnedIncome[0].Amount).to.equal(200)
         }).catch((error) => {
             assert.fail(error)
         })
