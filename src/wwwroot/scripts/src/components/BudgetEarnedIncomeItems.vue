@@ -1,6 +1,16 @@
 <template>
     <div>
         <p>Budget Earned Income</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <budgetEarnedIncomeItem v-for="item in parentBudget.earnedIncome" v-bind:budgetEarnedIncomeItemModel="item"></budgetEarnedIncomeItem>
+            </tbody>
+        </table>
         <div>Add new</div>
         <div>
             <label>Amount</label>
@@ -13,9 +23,13 @@
 
 <script>
     import api from '../api'
+    import BudgetEarnedIncomeItem from './BudgetEarnedIncomeItem.vue'
 
     export default {
         name: 'BudgetEarnedIncomeItems',
+        components: {
+            'budgetEarnedIncomeItem': BudgetEarnedIncomeItem
+        },
         data: function () {
             return {
                 amount: null,
@@ -23,7 +37,7 @@
                 error: null
             }
         },
-        props: ['budget', 'budgetEarnedIncomeItems'],
+        props: ['budget'],
         methods: {
             addAmount: function () {
                 // return promise for unit testing purposes

@@ -7,7 +7,7 @@
         </div>
         <div>
             <label>Net Earned Income</label>
-            <button @click="showEarnedIncomeItems=true">Amount</button>
+            <button @click="showEarnedIncomeItems=true">{{ earnedIncome }}</button>
             <budgetEarnedIncomeItems v-if="showEarnedIncomeItems" v-bind:budget="budget" @close="showEarnedIncomeItems=false"></budgetEarnedIncomeItems>
         </div>
     </div>
@@ -24,10 +24,14 @@
         },
         created() {
             this.budget = this.$store.getters.budgetById(this.$route.params.id)
+            for (const item of this.budget.earnedIncome) {
+                this.earnedIncome += item.amount
+            }
         },
         data: function () {
             return {
                 budget: null,
+                earnedIncome: 0,
                 showEarnedIncomeItems: false
             }
         },

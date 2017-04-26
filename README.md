@@ -2,6 +2,7 @@
 
 * Setup
   * Frontend
+    * Install Node.js
     * In src directory, run 
     ```javascript
     npm install
@@ -11,13 +12,11 @@
     npm run dev-build
     ```
   * Backend
-    * Install SQL Server Express with LocalDB enabled
-    * Install .NET Core 1.1
+    * Install SQL Server Express with LocalDB enabled (it's unchecked by default in the installation options)
+    * Install .NET Core SDK from https://www.microsoft.com/net/core#windowscmd
     * Install Visual Studio Code with extensions:
       * C#
       * mssql
-        * To query db, open queries.sql, and create connection to (localdb)\\MSSQLLocalDB, then execute the statement(s)
-        * Use [.NET Core CLI](https://docs.microsoft.com/en-us/ef/core/miscellaneous/cli/dotnet) to perform Entity Framework migrations when needed
       * In preferences->settings, associate .vue files with html:
       ```javascript
       "files.associations": {
@@ -32,6 +31,11 @@
     dotnet restore
     ```
     * Select ".NET Core Launch (web)" config in debug menu to debug the app
+      * The database is created the first time the app runs, and is updated with migrations as they are available when it runs
+        * To query db, open queries.sql, and create connection with the mssql extension with parameters:
+          * server: (localdb)\\MSSQLLocalDB, then execute the statement(s)
+          * database: FreedomCalculator2
+        * Use [.NET Core CLI](https://docs.microsoft.com/en-us/ef/core/miscellaneous/cli/dotnet) to perform Entity Framework migrations when needed
 * Testing
     * Frontend
       * In the src directory, run

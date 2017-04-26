@@ -136,19 +136,31 @@
                 return utils.usdFormmater.format(this.totalBonds)
             },
             percentCash() {
-                const percentCash = this.totalCash / this.$store.getters.totalAssetEquity
+                var percentCash = 0
+                if (this.$store.getters.totalAssetEquity !== 0) {
+                    percentCash = this.totalCash / this.$store.getters.totalAssetEquity
+                }
                 return (percentCash * 100).toFixed(2) + '%'
             },
             percentBonds() {
-                const percentBonds = this.totalBonds / this.$store.getters.totalAssetEquity
+                var percentBonds = 0
+                if (this.$store.getters.totalAssetEquity !== 0) {
+                    percentBonds = this.totalBonds / this.$store.getters.totalAssetEquity
+                }
                 return (percentBonds * 100).toFixed(2) + '%'
             },
             percentStock() {
-                const percentStock = this.totalStock / this.$store.getters.totalAssetEquity
+                var percentStock = 0
+                if (this.$store.getters.totalAssetEquity !== 0) {
+                    percentStock = this.totalStock / this.$store.getters.totalAssetEquity
+                }
                 return (percentStock * 100).toFixed(2) + '%'
             },
             percentRealEstate() {
-                const percentRealEstate = this.totalRealEstate / this.$store.getters.totalAssetEquity
+                var percentRealEstate = 0
+                if (this.$store.getters.totalAssetEquity !== 0) {
+                    percentRealEstate = this.totalRealEstate / this.$store.getters.totalAssetEquity
+                }
                 return (percentRealEstate * 100).toFixed(2) + '%'
             }
         }
