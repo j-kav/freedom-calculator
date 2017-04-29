@@ -33,8 +33,9 @@
     * Select ".NET Core Launch (web)" config in debug menu to debug the app
       * The database is created the first time the app runs, and is updated with migrations as they are available when it runs
         * To query db, open queries.sql, and create connection with the mssql extension with parameters:
-          * server: (localdb)\\MSSQLLocalDB, then execute the statement(s)
-          * database: FreedomCalculator2
+          * server: (localdb)\\MSSQLLocalDB
+          * database: FreedomCalculator2  
+          Then execute the statement(s) using Ctrl+Shift+e, and selecting the connection created.
         * Use [.NET Core CLI](https://docs.microsoft.com/en-us/ef/core/miscellaneous/cli/dotnet) to perform Entity Framework migrations when needed
 * Testing
     * Frontend
