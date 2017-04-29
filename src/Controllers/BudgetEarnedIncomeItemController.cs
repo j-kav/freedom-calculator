@@ -29,5 +29,12 @@ namespace FreedomCalculator2.Controllers
             budgetEarnedIncomeItem.BudgetEarnedIncomeItemId = await _repository.AddBudgetEarnedIncomeItem(budgetEarnedIncomeItem);
             return budgetEarnedIncomeItem;
         }
+
+        // PUT api/budgetearnedincomeitems/5
+        [HttpPut("{id}")]
+        public async Task Put(int id, [FromBody]BudgetEarnedIncomeItem budgetEarnedIncomeItem)
+        {
+            await _repository.UpdateBudgetEarnedIncomeItem(id, budgetEarnedIncomeItem);
+        }
     }
 }

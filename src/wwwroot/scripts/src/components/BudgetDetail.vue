@@ -35,7 +35,7 @@
             earnedIncome() {
                 let earnedInc = 0
                 for (const item of this.budget.earnedIncome) {
-                    earnedInc += item.amount
+                    earnedInc += Number.parseFloat(item.amount)
                 }
                 return earnedInc
             }

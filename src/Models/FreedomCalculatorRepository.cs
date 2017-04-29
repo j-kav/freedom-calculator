@@ -190,5 +190,12 @@ namespace FreedomCalculator2.Models
             await SaveChanges();
             return budgetEarnedIncomeItem.BudgetEarnedIncomeItemId;
         }
+
+        public async Task UpdateBudgetEarnedIncomeItem(int id, BudgetEarnedIncomeItem updatedBudgetEarnedIncomeItem)
+        {
+            BudgetEarnedIncomeItem budgetEarnedIncomeItemToUpdate = db.BudgetEarnedIncomeItems.Where(budgetEarnedIncomeItem => budgetEarnedIncomeItem.BudgetEarnedIncomeItemId == id).FirstOrDefault();
+            budgetEarnedIncomeItemToUpdate.Amount = updatedBudgetEarnedIncomeItem.Amount;
+            await SaveChanges();
+        }
     }
 }

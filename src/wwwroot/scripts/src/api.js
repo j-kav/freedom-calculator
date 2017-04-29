@@ -419,5 +419,29 @@ export default {
             })
         })
         return p
+    },
+    updateEarnedIncomeItem: function (id, updatedBudgetIncomeItem) {
+        var fetchProps = {
+            method: 'PUT',
+            headers: {
+                Authorization: 'Bearer ' + token,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                Amount: updatedBudgetIncomeItem.amount
+            })
+        }
+        var p = new Promise((resolve, reject) => {
+            window.fetch('/api/budgetearnedincomeitems/' + id, fetchProps).then((response) => {
+                if (response.ok) {
+                    resolve(response)
+                } else {
+                    reject(response.statusText) // TODO sanitize error
+                }
+            }).catch((error) => {
+                reject(error)
+            })
+        })
+        return p
     }
 }

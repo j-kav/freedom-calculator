@@ -9,7 +9,7 @@
 </template>
 
 <script>
-    // import api from '../api'
+    import api from '../api'
 
     export default {
         name: 'BudgetEarnedIncomeItem',
@@ -31,15 +31,13 @@
         props: ['budgetEarnedIncomeItemModel'],
         methods: {
             updateEarnedIncomeItem: function () {
-                // api.updateEarnedIncomeItem('TODO').then(() => {
-                //     this.$store.commit('TODO')
-                //     this.error = false
-                //     this.message = 'updated'
-                // }).catch((error) => {
-                //     this.error = true
-                //     this.message = error
-                // })
-                window.alert('TODO')
+                api.updateEarnedIncomeItem(this.budgetEarnedIncomeItem.budgetEarnedIncomeItemId, this.budgetEarnedIncomeItem).then(() => {
+                    this.error = false
+                    this.message = 'updated'
+                }).catch((error) => {
+                    this.error = true
+                    this.message = error
+                })
             },
             removeEarnedIncomeItem: function () {
                 // api.removeEarnedIncomeItem('TODO').then(() => {
