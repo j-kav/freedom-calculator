@@ -443,5 +443,23 @@ export default {
             })
         })
         return p
+    },
+    removeEarnedIncomeItem: function (id) {
+        var fetchProps = {
+            method: 'DELETE',
+            headers: { Authorization: 'Bearer ' + token }
+        }
+        var p = new Promise((resolve, reject) => {
+            window.fetch('/api/budgetearnedincomeitems/' + id, fetchProps).then((response) => {
+                if (response.ok) {
+                    resolve(response)
+                } else {
+                    reject(response.statusText) // TODO sanitize error
+                }
+            }).catch((error) => {
+                reject(error)
+            })
+        })
+        return p
     }
 }

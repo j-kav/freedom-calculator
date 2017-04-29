@@ -40,14 +40,13 @@
                 })
             },
             removeEarnedIncomeItem: function () {
-                // api.removeEarnedIncomeItem('TODO').then(() => {
-                //     this.$store.commit('TODO')
-                //     this.error = false
-                // }).catch((error) => {
-                //     this.error = true
-                //     this.message = error
-                // })
-                window.alert('TODO')
+                api.removeEarnedIncomeItem(this.budgetEarnedIncomeItem.budgetEarnedIncomeItemId).then(() => {
+                    this.$store.commit('removeBudgetEarnedIncomeItem', this.budgetEarnedIncomeItem)
+                    this.error = false
+                }).catch((error) => {
+                    this.error = true
+                    this.message = error
+                })
             }
         }
     }

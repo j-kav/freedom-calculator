@@ -146,6 +146,11 @@ const store = new Vuex.Store({
         addBudgetEarnedIncomeItem(state, budgetEarnedIncomeItem) {
             var budget = state.budgets.find(budget => budget.budgetId === budgetEarnedIncomeItem.budgetId)
             budget.earnedIncome.push(budgetEarnedIncomeItem)
+        },
+        removeBudgetEarnedIncomeItem(state, budgetEarnedIncomeItem) {
+            var budget = state.budgets.find(budget => budget.budgetId === budgetEarnedIncomeItem.budgetId)
+            var position = budget.earnedIncome.indexOf(budgetEarnedIncomeItem)
+            budget.earnedIncome.splice(position, 1)
         }
     }
 })

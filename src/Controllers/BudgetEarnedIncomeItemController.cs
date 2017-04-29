@@ -36,5 +36,12 @@ namespace FreedomCalculator2.Controllers
         {
             await _repository.UpdateBudgetEarnedIncomeItem(id, budgetEarnedIncomeItem);
         }
+
+        // DELETE api/budgetearnedincomeitems/5
+        [HttpDelete("{id}")]
+        public async Task Delete(int id)
+        {
+            await _repository.RemoveBudgetEarnedIncomeItem(id);
+        }
     }
 }

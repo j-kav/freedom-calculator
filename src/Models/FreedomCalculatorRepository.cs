@@ -197,5 +197,12 @@ namespace FreedomCalculator2.Models
             budgetEarnedIncomeItemToUpdate.Amount = updatedBudgetEarnedIncomeItem.Amount;
             await SaveChanges();
         }
+
+        public async Task RemoveBudgetEarnedIncomeItem(int id)
+        {
+            BudgetEarnedIncomeItem budgetEarnedIncomeItemToRemove = db.BudgetEarnedIncomeItems.Where(budgetEarnedIncomeItem => budgetEarnedIncomeItem.BudgetEarnedIncomeItemId == id).FirstOrDefault();
+            db.BudgetEarnedIncomeItems.Remove(budgetEarnedIncomeItemToRemove);
+            await SaveChanges();
+        }
     }
 }

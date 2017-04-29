@@ -23,5 +23,6 @@ namespace FreedomCalculator2.Models
         Task RemoveBudget(int id);
         Task<int> AddBudgetEarnedIncomeItem(BudgetEarnedIncomeItem budgetEarnedIncomeItem);
         Task UpdateBudgetEarnedIncomeItem(int id, BudgetEarnedIncomeItem updatedBudgetEarnedIncomeItem);
+        Task RemoveBudgetEarnedIncomeItem(int id);
     }
 }
