@@ -15,6 +15,19 @@ describe('api', function () {
         expect(typeof api.addBudget).to.equal('function')
     })
 
+    describe('getUser', function () {
+        it('should get user from the backend', function () {
+            var newBudget = {}
+            fetchMock.get('/api/user', { givenName: 'test', userName: 'testUser' })
+            return api.getUser().then((user) => {
+                expect(user.givenName).to.equal('test')
+                expect(user.userName).to.equal('testUser')
+            }).catch((error) => {
+                assert.fail(error)
+            })
+        })
+    })
+
     describe('getAssets', function () {
         it('should get assets from the backend', function () {
             var newBudget = {}
@@ -22,6 +35,31 @@ describe('api', function () {
             return api.getAssets().then((assets) => {
                 expect(assets.length).to.equal(2)
                 expect(assets[0].AssetId).to.equal(1)
+            }).catch((error) => {
+                assert.fail(error)
+            })
+        })
+    })
+
+    describe('addAsset', function () {
+        it('should get the added asset object with an id', function () {
+            var newAsset = { assetId: 1, value: 200 }
+            fetchMock.post('/api/assets', { AssetId: 1, Name: 'test', Value: 300 })
+            return api.addAsset(newAsset).then((addedAsset) => {
+                expect(addedAsset.AssetId).to.equal(1)
+            }).catch((error) => {
+                assert.fail(error)
+            })
+        })
+    })
+
+    describe('updateAsset', function () {
+        it('should get the updated asset object', function () {
+            var asset = { AssetId: 1, Name: 'test', Value: 300 }
+            fetchMock.put('/api/assets/1', { AssetId: 1, Name: 'test', Value: 300 })
+            return api.updateAsset(1, asset).then((updatedAsset) => {
+                expect(updatedAsset.AssetId).to.equal(1)
+                expect(updatedAsset.Value).to.equal(300)
             }).catch((error) => {
                 assert.fail(error)
             })
@@ -41,6 +79,18 @@ describe('api', function () {
         })
     })
 
+    describe('addExpense', function () {
+        it('should get the added expense object with an id', function () {
+            var newExpense = { expenseId: 1, name: 'test' }
+            fetchMock.post('/api/expenses', { ExpenseId: 1, Name: 'test' })
+            return api.addExpense(newExpense).then((addedExpense) => {
+                expect(addedExpense.ExpenseId).to.equal(1)
+            }).catch((error) => {
+                assert.fail(error)
+            })
+        })
+    })
+
     describe('getLiabilities', function () {
         it('should get liabilities from the backend', function () {
             var newBudget = {}
@@ -54,10 +104,29 @@ describe('api', function () {
         })
     })
 
+    describe('addLiability', function () {
+        it('should get the added liability object with an id', function () {
+            var newLiability = { LiabilityId: 1, name: 'test', principal: 200 }
+            fetchMock.post('/api/liabilities', { LiabilityId: 1, Name: 'test', Principal: 300 })
+            return api.addLiability(newLiability).then((addedLiability) => {
+                expect(addedLiability.LiabilityId).to.equal(1)
+            }).catch((error) => {
+                assert.fail(error)
+            })
+        })
+    })
+
     describe('addBudget', function () {
         it('should get the added budget object with an id', function () {
-            var newBudget = {}
-            fetchMock.post('/api/budgets', { BudgetId: 1, Month: 4, Year: 2017 })
+            var now = new Date(Date.now())
+            var month = now.getMonth() + 1
+            var year = now.getFullYear()
+            var newBudget = {
+                BudgetId: 1,
+                Month: month,
+                Year: year
+            }
+            fetchMock.post('/api/budgets', newBudget)
             return api.addBudget(newBudget).then((addedBudget) => {
                 expect(addedBudget.BudgetId).to.equal(1)
             }).catch((error) => {

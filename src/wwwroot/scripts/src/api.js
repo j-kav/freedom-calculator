@@ -1,5 +1,43 @@
 var token
 
+// create a fetch request with url and props passed and return a promise with the data returned
+// also add the auth header
+function getFetchRequestPromise(url, fetchProps) {
+    fetchProps = fetchProps || {}
+    fetchProps.headers = fetchProps.headers || {}
+    fetchProps.headers.Authorization = 'Bearer ' + token
+    var p = new Promise((resolve, reject) => {
+        window.fetch(url, fetchProps).then((response) => {
+            return response.json()
+        }).then((data) => {
+            resolve(data)
+        }).catch((error) => {
+            reject(error.message) // TODO sanitize error
+        })
+    })
+    return p
+}
+
+// create a fetch request with url and props passed and return a promise with the response returned
+// also add the auth header
+function getNonDataFetchRequestPromise(url, fetchProps) {
+    fetchProps = fetchProps || {}
+    fetchProps.headers = fetchProps.headers || {}
+    fetchProps.headers.Authorization = 'Bearer ' + token
+    var p = new Promise((resolve, reject) => {
+        window.fetch(url, fetchProps).then((response) => {
+            if (response.ok) {
+                resolve(response)
+            } else {
+                reject(response.statusText) // TODO sanitize error
+            }
+        }).catch((error) => {
+            reject(error)
+        })
+    })
+    return p
+}
+
 export default {
     getToken: function (email, password) {
         var fetchProps = {
@@ -24,19 +62,7 @@ export default {
         return p;
     },
     getUser: function () {
-        var fetchProps = {
-            headers: { Authorization: 'Bearer ' + token }
-        }
-        var p = new Promise((resolve, reject) => {
-            window.fetch('/api/user', fetchProps).then((response) => {
-                return response.json()
-            }).then((data) => {
-                resolve(data)
-            }).catch((error) => {
-                reject(error)
-            })
-        })
-        return p
+        return getFetchRequestPromise('/api/user');
     },
     createAccount: function (name, email, password, confirmPassword) {
         var fetchProps = {
@@ -63,25 +89,12 @@ export default {
         return p
     },
     getAssets: function () {
-        var fetchProps = {
-            headers: { Authorization: 'Bearer ' + token }
-        }
-        var p = new Promise((resolve, reject) => {
-            window.fetch('/api/assets', fetchProps).then((response) => {
-                return response.json()
-            }).then((data) => {
-                resolve(data)
-            }).catch((error) => {
-                reject(error)
-            })
-        })
-        return p
+        return getFetchRequestPromise('/api/assets');
     },
     addAsset: function (newAsset) {
         var fetchProps = {
             method: 'POST',
             headers: {
-                Authorization: 'Bearer ' + token,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
@@ -98,40 +111,18 @@ export default {
                 LiabilityId: newAsset.liabilityId
             })
         }
-        var p = new Promise((resolve, reject) => {
-            window.fetch('/api/assets', fetchProps).then((response) => {
-                return response.json()
-            }).then((data) => {
-                resolve(data)
-            }).catch((error) => {
-                reject(error.message) // TODO sanitize error
-            })
-        })
-        return p
+        return getFetchRequestPromise('/api/assets', fetchProps);
     },
     removeAsset: function (id) {
         var fetchProps = {
-            method: 'DELETE',
-            headers: { Authorization: 'Bearer ' + token }
+            method: 'DELETE'
         }
-        var p = new Promise((resolve, reject) => {
-            window.fetch('/api/assets/' + id, fetchProps).then((response) => {
-                if (response.ok) {
-                    resolve(response)
-                } else {
-                    reject(response.statusText) // TODO sanitize error
-                }
-            }).catch((error) => {
-                reject(error)
-            })
-        })
-        return p
+        return getNonDataFetchRequestPromise('/api/assets/' + id, fetchProps);
     },
     updateAsset: function (id, updatedAsset) {
         var fetchProps = {
             method: 'PUT',
             headers: {
-                Authorization: 'Bearer ' + token,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
@@ -144,37 +135,15 @@ export default {
                 LiabilityId: updatedAsset.liabilityId
             })
         }
-        var p = new Promise((resolve, reject) => {
-            window.fetch('/api/assets/' + id, fetchProps).then((response) => {
-                return response.json()
-            }).then((data) => {
-                resolve(data)
-            }).catch((error) => {
-                reject(error)
-            })
-        })
-        return p
+        return getFetchRequestPromise('/api/assets/' + id, fetchProps);
     },
     getLiabilities: function () {
-        var fetchProps = {
-            headers: { Authorization: 'Bearer ' + token }
-        }
-        var p = new Promise((resolve, reject) => {
-            window.fetch('/api/liabilities', fetchProps).then((response) => {
-                return response.json()
-            }).then((data) => {
-                resolve(data)
-            }).catch((error) => {
-                reject(error)
-            })
-        })
-        return p
+        return getFetchRequestPromise('/api/liabilities');
     },
     addLiability: function (newLiability) {
         var fetchProps = {
             method: 'POST',
             headers: {
-                Authorization: 'Bearer ' + token,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
@@ -182,40 +151,18 @@ export default {
                 Principal: newLiability.principal
             })
         }
-        var p = new Promise((resolve, reject) => {
-            window.fetch('/api/liabilities', fetchProps).then((response) => {
-                return response.json()
-            }).then((data) => {
-                resolve(data)
-            }).catch((error) => {
-                reject(error.message) // TODO sanitize error
-            })
-        })
-        return p
+        return getFetchRequestPromise('/api/liabilities', fetchProps);
     },
     removeLiability: function (id) {
         var fetchProps = {
-            method: 'DELETE',
-            headers: { Authorization: 'Bearer ' + token }
+            method: 'DELETE'
         }
-        var p = new Promise((resolve, reject) => {
-            window.fetch('/api/liabilities/' + id, fetchProps).then((response) => {
-                if (response.ok) {
-                    resolve(response)
-                } else {
-                    reject(response.statusText) // TODO sanitize error
-                }
-            }).catch((error) => {
-                reject(error)
-            })
-        })
-        return p
+        return getNonDataFetchRequestPromise('/api/liabilities/' + id, fetchProps)
     },
     updateLiability: function (id, updatedLiability) {
         var fetchProps = {
             method: 'PUT',
             headers: {
-                Authorization: 'Bearer ' + token,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
@@ -223,39 +170,15 @@ export default {
                 Principal: updatedLiability.principal
             })
         }
-        var p = new Promise((resolve, reject) => {
-            window.fetch('/api/liabilities/' + id, fetchProps).then((response) => {
-                if (response.ok) {
-                    resolve(response)
-                } else {
-                    reject(response.statusText) // TODO sanitize error
-                }
-            }).catch((error) => {
-                reject(error)
-            })
-        })
-        return p
+        return getNonDataFetchRequestPromise('/api/liabilities/' + id, fetchProps)
     },
     getExpenses: function () {
-        var fetchProps = {
-            headers: { Authorization: 'Bearer ' + token }
-        }
-        var p = new Promise((resolve, reject) => {
-            window.fetch('/api/expenses', fetchProps).then((response) => {
-                return response.json()
-            }).then((data) => {
-                resolve(data)
-            }).catch((error) => {
-                reject(error)
-            })
-        })
-        return p
+        return getFetchRequestPromise('/api/expenses');
     },
     addExpense: function (newExpense) {
         var fetchProps = {
             method: 'POST',
             headers: {
-                Authorization: 'Bearer ' + token,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
@@ -263,40 +186,18 @@ export default {
                 IsMandatory: newExpense.isMandatory
             })
         }
-        var p = new Promise((resolve, reject) => {
-            window.fetch('/api/expenses', fetchProps).then((response) => {
-                return response.json()
-            }).then((data) => {
-                resolve(data)
-            }).catch((error) => {
-                reject(error.message) // TODO sanitize error
-            })
-        })
-        return p
+        return getFetchRequestPromise('/api/expenses', fetchProps);
     },
     removeExpense: function (id) {
         var fetchProps = {
-            method: 'DELETE',
-            headers: { Authorization: 'Bearer ' + token }
+            method: 'DELETE'
         }
-        var p = new Promise((resolve, reject) => {
-            window.fetch('/api/expenses/' + id, fetchProps).then((response) => {
-                if (response.ok) {
-                    resolve(response)
-                } else {
-                    reject(response.statusText) // TODO sanitize error
-                }
-            }).catch((error) => {
-                reject(error)
-            })
-        })
-        return p
+        return getNonDataFetchRequestPromise('/api/expenses/' + id, fetchProps)
     },
     updateExpense: function (id, updatedExpense) {
         var fetchProps = {
             method: 'PUT',
             headers: {
-                Authorization: 'Bearer ' + token,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
@@ -304,24 +205,12 @@ export default {
                 IsMandatory: updatedExpense.isMandatory
             })
         }
-        var p = new Promise((resolve, reject) => {
-            window.fetch('/api/expenses/' + id, fetchProps).then((response) => {
-                if (response.ok) {
-                    resolve(response)
-                } else {
-                    reject(response.statusText) // TODO sanitize error
-                }
-            }).catch((error) => {
-                reject(error)
-            })
-        })
-        return p
+        return getNonDataFetchRequestPromise('/api/expenses/' + id, fetchProps)
     },
     addBudget: function (newBudget) {
         var fetchProps = {
             method: 'POST',
             headers: {
-                Authorization: 'Bearer ' + token,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
@@ -329,49 +218,16 @@ export default {
                 Year: newBudget.Year
             })
         }
-        var p = new Promise((resolve, reject) => {
-            window.fetch('/api/budgets', fetchProps).then((response) => {
-                return response.json()
-            }).then((data) => {
-                resolve(data)
-            }).catch((error) => {
-                reject(error.message) // TODO sanitize error
-            })
-        })
-        return p
+        return getFetchRequestPromise('/api/budgets', fetchProps);
     },
     getBudgets: function () {
-        var fetchProps = {
-            headers: { Authorization: 'Bearer ' + token }
-        }
-        var p = new Promise((resolve, reject) => {
-            window.fetch('/api/budgets', fetchProps).then((response) => {
-                return response.json()
-            }).then((data) => {
-                resolve(data)
-            }).catch((error) => {
-                reject(error)
-            })
-        })
-        return p
+        return getFetchRequestPromise('/api/budgets');
     },
     removeBudget: function (id) {
         var fetchProps = {
-            method: 'DELETE',
-            headers: { Authorization: 'Bearer ' + token }
+            method: 'DELETE'
         }
-        var p = new Promise((resolve, reject) => {
-            window.fetch('/api/budgets/' + id, fetchProps).then((response) => {
-                if (response.ok) {
-                    resolve(response)
-                } else {
-                    reject(response.statusText) // TODO sanitize error
-                }
-            }).catch((error) => {
-                reject(error)
-            })
-        })
-        return p
+        return getNonDataFetchRequestPromise('/api/budgets/' + id, fetchProps)
     },
     updateBudget: function (id, updatedBudget) {
         var fetchProps = {
@@ -384,24 +240,12 @@ export default {
                 Date: updatedBudget.Date
             })
         }
-        var p = new Promise((resolve, reject) => {
-            window.fetch('/api/budgets/' + id, fetchProps).then((response) => {
-                if (response.ok) {
-                    resolve(response)
-                } else {
-                    reject(response.statusText) // TODO sanitize error
-                }
-            }).catch((error) => {
-                reject(error)
-            })
-        })
-        return p
+        return getNonDataFetchRequestPromise('/api/budgets/' + id, fetchProps)
     },
     addBudgetEarnedIncomeItem: function (newBudgetEarnedIncomeItem) {
         var fetchProps = {
             method: 'POST',
             headers: {
-                Authorization: 'Bearer ' + token,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
@@ -409,57 +253,24 @@ export default {
                 Amount: newBudgetEarnedIncomeItem.Amount
             })
         }
-        var p = new Promise((resolve, reject) => {
-            window.fetch('/api/budgetearnedincomeitems', fetchProps).then((response) => {
-                return response.json()
-            }).then((data) => {
-                resolve(data)
-            }).catch((error) => {
-                reject(error.message) // TODO sanitize error
-            })
-        })
-        return p
+        return getFetchRequestPromise('/api/budgetearnedincomeitems', fetchProps);
     },
     updateEarnedIncomeItem: function (id, updatedBudgetIncomeItem) {
         var fetchProps = {
             method: 'PUT',
             headers: {
-                Authorization: 'Bearer ' + token,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 Amount: updatedBudgetIncomeItem.amount
             })
         }
-        var p = new Promise((resolve, reject) => {
-            window.fetch('/api/budgetearnedincomeitems/' + id, fetchProps).then((response) => {
-                if (response.ok) {
-                    resolve(response)
-                } else {
-                    reject(response.statusText) // TODO sanitize error
-                }
-            }).catch((error) => {
-                reject(error)
-            })
-        })
-        return p
+        return getNonDataFetchRequestPromise('/api/budgetearnedincomeitems/' + id, fetchProps)
     },
     removeEarnedIncomeItem: function (id) {
         var fetchProps = {
-            method: 'DELETE',
-            headers: { Authorization: 'Bearer ' + token }
+            method: 'DELETE'
         }
-        var p = new Promise((resolve, reject) => {
-            window.fetch('/api/budgetearnedincomeitems/' + id, fetchProps).then((response) => {
-                if (response.ok) {
-                    resolve(response)
-                } else {
-                    reject(response.statusText) // TODO sanitize error
-                }
-            }).catch((error) => {
-                reject(error)
-            })
-        })
-        return p
+        return getNonDataFetchRequestPromise('/api/budgetearnedincomeitems/' + id, fetchProps)
     }
 }

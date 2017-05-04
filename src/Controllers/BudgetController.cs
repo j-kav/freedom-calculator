@@ -37,6 +37,7 @@ namespace FreedomCalculator2.Controllers
             ApplicationUser user = await _userManager.GetUserAsync(User);
             budget.User = user;
             budget.BudgetId = await _repository.AddBudget(budget);
+            budget.EarnedIncome = new List<BudgetEarnedIncomeItem>();
             return budget;
         }
 
