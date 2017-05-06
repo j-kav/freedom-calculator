@@ -9,24 +9,11 @@ namespace FreedomCalculator2.Models
     public class Budget
     {
         public int BudgetId { get; set; }
-
         public virtual ApplicationUser User { get; set; }
-
         public int Month { get; set; }
-
         public int Year { get; set; }
-
         public List<BudgetEarnedIncomeItem> EarnedIncome { get; set; }
-
-        // [Display(Name = "Passive Income")]
-        // [DataType(DataType.Currency)]
-        // public decimal PassiveIncome { get; set; }
-
-        // [NotMapped]
-        // [Range(0, (double)decimal.MaxValue, ErrorMessage = "Value must be positve")]
-        // [DataType(DataType.Currency)]
-        // [Display(Name = "Add")]
-        // public decimal AddPassiveIncomeAmount { get; set; }
+        public List<BudgetPassiveIncomeItem> PassiveIncome { get; set; }
 
         // [Display(Name = "Mandatory Expenses")]
         // [DataType(DataType.Currency)]

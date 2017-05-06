@@ -1,10 +1,10 @@
 <template>
     <tr>
-        <td>{{ budgetEarnedIncomeItem.timeStamp }}</td>
-        <td><input v-model="budgetEarnedIncomeItem.amount"></input>
+        <td>{{ budgetPassiveIncomeItem.timeStamp }}
+        <td><input v-model="budgetPassiveIncomeItem.amount"></input>
         </td>
-        <td><button v-on:click.prevent=updateEarnedIncomeItem()>Update</button></td>
-        <td><button v-on:click.prevent=removeEarnedIncomeItem()>Delete</button></td>
+        <td><button v-on:click.prevent=updatePassiveIncomeItem()>Update</button></td>
+        <td><button v-on:click.prevent=removePassiveIncomeItem()>Delete</button></td>
         <td v-if="message" v-bind:class="messageClass">{{ message }}</td>
     </tr>
 </template>
@@ -13,12 +13,12 @@
     import api from '../api'
 
     export default {
-        name: 'BudgetEarnedIncomeItem',
+        name: 'BudgetPassiveIncomeItem',
         data: function () {
             return {
                 error: false,
                 message: null,
-                budgetEarnedIncomeItem: this.budgetEarnedIncomeItemModel
+                budgetPassiveIncomeItem: this.budgetPassiveIncomeItemModel
             }
         },
         computed: {
@@ -29,10 +29,10 @@
                 }
             }
         },
-        props: ['budgetEarnedIncomeItemModel'],
+        props: ['budgetPassiveIncomeItemModel'],
         methods: {
-            updateEarnedIncomeItem: function () {
-                api.updateEarnedIncomeItem(this.budgetEarnedIncomeItem.budgetEarnedIncomeItemId, this.budgetEarnedIncomeItem).then(() => {
+            updatePassiveIncomeItem: function () {
+                api.updatePassiveIncomeItem(this.budgetPassiveIncomeItem.budgetPassiveIncomeItemId, this.budgetPassiveIncomeItem).then(() => {
                     this.error = false
                     this.message = 'updated'
                 }).catch((error) => {
@@ -40,9 +40,9 @@
                     this.message = error
                 })
             },
-            removeEarnedIncomeItem: function () {
-                api.removeEarnedIncomeItem(this.budgetEarnedIncomeItem.budgetEarnedIncomeItemId).then(() => {
-                    this.$store.commit('removeBudgetEarnedIncomeItem', this.budgetEarnedIncomeItem)
+            removePassiveIncomeItem: function () {
+                api.removePassiveIncomeItem(this.budgetPassiveIncomeItem.budgetPassiveIncomeItemId).then(() => {
+                    this.$store.commit('removeBudgetPassiveIncomeItem', this.budgetPassiveIncomeItem)
                     this.error = false
                 }).catch((error) => {
                     this.error = true

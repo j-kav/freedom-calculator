@@ -250,6 +250,7 @@ export default {
             },
             body: JSON.stringify({
                 BudgetId: newBudgetEarnedIncomeItem.BudgetId,
+                Timestamp: newBudgetEarnedIncomeItem.Timestamp,
                 Amount: newBudgetEarnedIncomeItem.Amount
             })
         }
@@ -272,5 +273,37 @@ export default {
             method: 'DELETE'
         }
         return getNonDataFetchRequestPromise('/api/budgetearnedincomeitems/' + id, fetchProps)
+    },
+    addBudgetPassiveIncomeItem: function (newBudgetPassiveIncomeItem) {
+        var fetchProps = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                BudgetId: newBudgetPassiveIncomeItem.BudgetId,
+                Timestamp: newBudgetPassiveIncomeItem.Timestamp,
+                Amount: newBudgetPassiveIncomeItem.Amount
+            })
+        }
+        return getFetchRequestPromise('/api/budgetpassiveincomeitems', fetchProps);
+    },
+    updatePassiveIncomeItem: function (id, updatedBudgetIncomeItem) {
+        var fetchProps = {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                Amount: updatedBudgetIncomeItem.amount
+            })
+        }
+        return getNonDataFetchRequestPromise('/api/budgetpassiveincomeitems/' + id, fetchProps)
+    },
+    removePassiveIncomeItem: function (id) {
+        var fetchProps = {
+            method: 'DELETE'
+        }
+        return getNonDataFetchRequestPromise('/api/budgetpassiveincomeitems/' + id, fetchProps)
     }
 }

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <p>Budget Earned Income</p>
+        <p>Budget Passive Income</p>
         <table>
             <thead>
                 <tr>
@@ -9,7 +9,7 @@
                 </tr>
             </thead>
             <tbody>
-                <budgetEarnedIncomeItem v-for="item in parentBudget.earnedIncome" v-bind:budgetEarnedIncomeItemModel="item"></budgetEarnedIncomeItem>
+                <budgetPassiveIncomeItem v-for="item in parentBudget.passiveIncome" v-bind:budgetPassiveIncomeItemModel="item"></budgetPassiveIncomeItem>
             </tbody>
         </table>
         <div>Add new</div>
@@ -24,12 +24,12 @@
 
 <script>
     import api from '../api'
-    import BudgetEarnedIncomeItem from './BudgetEarnedIncomeItem.vue'
+    import BudgetPassiveIncomeItem from './BudgetPassiveIncomeItem.vue'
 
     export default {
-        name: 'BudgetEarnedIncomeItems',
+        name: 'BudgetPassiveIncomeItems',
         components: {
-            'budgetEarnedIncomeItem': BudgetEarnedIncomeItem
+            'budgetPassiveIncomeItem': BudgetPassiveIncomeItem
         },
         data: function () {
             return {
@@ -43,9 +43,9 @@
             addAmount: function () {
                 // return promise for unit testing purposes
                 var p = new Promise((resolve, reject) => {
-                    var newBudgetEarnedIncomeItem = { BudgetId: this.parentBudget.budgetId, Amount: this.amount, Timestamp: new Date(Date.now()) }
-                    api.addBudgetEarnedIncomeItem(newBudgetEarnedIncomeItem).then((addedBudgetEarnedIncomeItem) => {
-                        this.$store.commit('addBudgetEarnedIncomeItem', addedBudgetEarnedIncomeItem)
+                    var newBudgetPassiveIncomeItem = { BudgetId: this.parentBudget.budgetId, Amount: this.amount, Timestamp: new Date(Date.now()) }
+                    api.addBudgetPassiveIncomeItem(newBudgetPassiveIncomeItem).then((addedBudgetPassiveIncomeItem) => {
+                        this.$store.commit('addBudgetPassiveIncomeItem', addedBudgetPassiveIncomeItem)
                         resolve()
                     }).catch((error) => {
                         this.error = 'error'

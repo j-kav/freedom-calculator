@@ -159,7 +159,9 @@ namespace FreedomCalculator2.Models
 
         public List<Budget> GetBudgets(Guid userId)
         {
-            List<Budget> retVal = db.Budgets.Include(budget => budget.EarnedIncome).Where((budget) => budget.User.Id == userId.ToString()).ToList<Budget>();
+            List<Budget> retVal = db.Budgets.Include(budget => budget.EarnedIncome)
+                                            .Include(budget => budget.PassiveIncome)
+                                            .Where((budget) => budget.User.Id == userId.ToString()).ToList<Budget>();
             return retVal;
         }
 
@@ -202,6 +204,27 @@ namespace FreedomCalculator2.Models
         {
             BudgetEarnedIncomeItem budgetEarnedIncomeItemToRemove = db.BudgetEarnedIncomeItems.Where(budgetEarnedIncomeItem => budgetEarnedIncomeItem.BudgetEarnedIncomeItemId == id).FirstOrDefault();
             db.BudgetEarnedIncomeItems.Remove(budgetEarnedIncomeItemToRemove);
+            await SaveChanges();
+        }
+
+        public async Task<int> AddBudgetPassiveIncomeItem(BudgetPassiveIncomeItem budgetPassiveIncomeItem)
+        {
+            await db.BudgetPassiveIncomeItems.AddAsync(budgetPassiveIncomeItem);
+            await SaveChanges();
+            return budgetPassiveIncomeItem.BudgetPassiveIncomeItemId;
+        }
+
+        public async Task UpdateBudgetPassiveIncomeItem(int id, BudgetPassiveIncomeItem updatedBudgetPassiveIncomeItem)
+        {
+            BudgetPassiveIncomeItem budgetPassiveIncomeItemToUpdate = db.BudgetPassiveIncomeItems.Where(budgetPassiveIncomeItem => budgetPassiveIncomeItem.BudgetPassiveIncomeItemId == id).FirstOrDefault();
+            budgetPassiveIncomeItemToUpdate.Amount = updatedBudgetPassiveIncomeItem.Amount;
+            await SaveChanges();
+        }
+
+        public async Task RemoveBudgetPassiveIncomeItem(int id)
+        {
+            BudgetPassiveIncomeItem budgetPassiveIncomeItemToRemove = db.BudgetPassiveIncomeItems.Where(budgetPassiveIncomeItem => budgetPassiveIncomeItem.BudgetPassiveIncomeItemId == id).FirstOrDefault();
+            db.BudgetPassiveIncomeItems.Remove(budgetPassiveIncomeItemToRemove);
             await SaveChanges();
         }
     }

@@ -3,10 +3,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FreedomCalculator2.Models
 {
-    [Table("BudgetEarnedIncomeItem")]
-    public class BudgetEarnedIncomeItem
+    [Table("BudgetPassiveIncomeItem")]
+    public class BudgetPassiveIncomeItem
     {
-        public int BudgetEarnedIncomeItemId { get; set; }
+        public int BudgetPassiveIncomeItemId { get; set; }
         public int BudgetId { get; set; }
         public virtual Budget Budget { get; set; }
         public decimal Amount { get; set; }
