@@ -1,6 +1,5 @@
 <template>
     <div>
-        <p>Budget Passive Income</p>
         <table>
             <thead>
                 <tr>
@@ -18,7 +17,6 @@
             <input type="text" v-model="amount"></input>
             <button v-on:click.prevent=addAmount>Submit</button>
         </div>
-        <button @click="$emit('close')">Close</button>
     </div>
 </template>
 
