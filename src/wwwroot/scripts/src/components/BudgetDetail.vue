@@ -21,6 +21,14 @@
                 <budgetPassiveIncomeItems slot="body" v-if="showPassiveIncomeItems" v-bind:budget="budget" @close="showPassiveIncomeItems=false"></budgetPassiveIncomeItems>
             </modal>
         </div>
+        <div>
+            <label>Investments</label>
+            <span class="link" @click="showInvestmentItems=true">{{ investments }}</span>
+            <modal v-if="showInvestmentItems" @close="showInvestmentItems=false">
+                <h3 slot="header">Investment Items</h3>
+                <budgetInvestmentItems slot="body" v-if="showInvestmentItems" v-bind:budget="budget" @close="showInvestmentItems=false"></budgetInvestmentItems>
+            </modal>
+        </div>
     </div>
 </template>
 
@@ -28,6 +36,7 @@
     import api from '../api'
     import BudgetEarnedIncomeItems from './BudgetEarnedIncomeItems.vue'
     import BudgetPassiveIncomeItems from './BudgetPassiveIncomeItems.vue'
+    import BudgetInvestmentItems from './BudgetInvestmentItems.vue'
     import Modal from './Modal.vue'
 
     export default {
@@ -35,6 +44,7 @@
         components: {
             'budgetEarnedIncomeItems': BudgetEarnedIncomeItems,
             'budgetPassiveIncomeItems': BudgetPassiveIncomeItems,
+            'budgetInvestmentItems': BudgetInvestmentItems,
             'modal': Modal
         },
         created() {
@@ -44,7 +54,8 @@
             return {
                 budget: null,
                 showEarnedIncomeItems: false,
-                showPassiveIncomeItems: false
+                showPassiveIncomeItems: false,
+                showInvestmentItems: false
             }
         },
         computed: {
@@ -61,6 +72,13 @@
                     passiveInc += Number.parseFloat(item.amount)
                 }
                 return passiveInc
+            },
+            investments() {
+                let investments = 0
+                for (const item of this.budget.investments) {
+                    investments += Number.parseFloat(item.amount)
+                }
+                return investments
             }
         },
         methods: {

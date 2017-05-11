@@ -227,5 +227,26 @@ namespace FreedomCalculator2.Models
             db.BudgetPassiveIncomeItems.Remove(budgetPassiveIncomeItemToRemove);
             await SaveChanges();
         }
+
+        public async Task<int> AddBudgetInvestmentItem(BudgetInvestmentItem budgetInvestmentItem)
+        {
+            await db.BudgetInvestmentItems.AddAsync(budgetInvestmentItem);
+            await SaveChanges();
+            return budgetInvestmentItem.BudgetInvestmentItemId;
+        }
+
+        public async Task UpdateBudgetInvestmentItem(int id, BudgetInvestmentItem updatedBudgetInvestmentItem)
+        {
+            BudgetInvestmentItem budgetInvestmentItemToUpdate = db.BudgetInvestmentItems.Where(budgetInvestmentItem => budgetInvestmentItem.BudgetInvestmentItemId == id).FirstOrDefault();
+            budgetInvestmentItemToUpdate.Amount = updatedBudgetInvestmentItem.Amount;
+            await SaveChanges();
+        }
+
+        public async Task RemoveBudgetInvestmentItem(int id)
+        {
+            BudgetInvestmentItem budgetInvestmentItemToRemove = db.BudgetInvestmentItems.Where(budgetInvestmentItem => budgetInvestmentItem.BudgetInvestmentItemId == id).FirstOrDefault();
+            db.BudgetInvestmentItems.Remove(budgetInvestmentItemToRemove);
+            await SaveChanges();
+        }
     }
 }

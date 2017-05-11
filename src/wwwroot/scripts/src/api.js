@@ -305,5 +305,37 @@ export default {
             method: 'DELETE'
         }
         return getNonDataFetchRequestPromise('/api/budgetpassiveincomeitems/' + id, fetchProps)
+    },
+    addBudgetInvestmentItem: function (newBudgetInvestmentItem) {
+        var fetchProps = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                BudgetId: newBudgetInvestmentItem.BudgetId,
+                Timestamp: newBudgetInvestmentItem.Timestamp,
+                Amount: newBudgetInvestmentItem.Amount
+            })
+        }
+        return getFetchRequestPromise('/api/budgetinvestmentitems', fetchProps);
+    },
+    updateInvestmentItem: function (id, updatedBudgetInvestmentItem) {
+        var fetchProps = {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                Amount: updatedBudgetInvestmentItem.amount
+            })
+        }
+        return getNonDataFetchRequestPromise('/api/budgetinvestmentitems/' + id, fetchProps)
+    },
+    removeInvestmentItem: function (id) {
+        var fetchProps = {
+            method: 'DELETE'
+        }
+        return getNonDataFetchRequestPromise('/api/budgetinvestmentitems/' + id, fetchProps)
     }
 }
