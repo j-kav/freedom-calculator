@@ -13,6 +13,6 @@ namespace FreedomCalculator2.Models
         public List<BudgetEarnedIncomeItem> EarnedIncome { get; set; }
         public List<BudgetPassiveIncomeItem> PassiveIncome { get; set; }
         public List<BudgetInvestmentItem> Investments { get; set; }
-        // public virtual List<BudgetExpense> Expenses { get; set; }
+        public List<BudgetExpense> Expenses { get; set; }
     }
 }
