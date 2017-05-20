@@ -1,0 +1,64 @@
+<template>
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Expense</th>
+                    <th>Projected</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!--<budgetExpenseItem v-for="item in parentBudget.expenses" v-bind:budgetExpenseItemModel="item"></budgetExpenseItem>-->
+            </tbody>
+        </table>
+        <div>Add new</div>
+        <div>
+            <select v-model="expenseId">
+                <option v-for="expense in $store.state.expenses" v-bind:value="expense.expenseId">
+                    {{ expense.name }}
+                </option>
+            </select>
+            <label>Projected Amount</label>
+            <input type="text" v-model="projected"></input>
+            <button v-on:click.prevent=addExpense>Submit</button>
+        </div>
+    </div>
+</template>
+
+<script>
+    import api from '../api'
+    // import BudgetExpenseItem from './BudgetExpenseItem.vue'
+
+    export default {
+        name: 'BudgetExpenses',
+        components: {
+            // 'budgetExpenseItem': BudgetExpenseItem
+        },
+        data: function () {
+            return {
+                projected: null,
+                expenseId: null,
+                parentBudget: this.budget,
+                error: null
+            }
+        },
+        props: ['budget'],
+        methods: {
+            addExpense: function () {
+                // return promise for unit testing purposes
+                var p = new Promise((resolve, reject) => {
+                    var newBudgetExpense = { BudgetId: this.parentBudget.budgetId, Projected: this.projected, ExpenseId: this.expenseId }
+                    api.addBudgetExpense(newBudgetExpense).then((addedBudgetExpense) => {
+                        // this.$store.commit('addBudgetExpenseItem', addedBudgetExpenseItem)
+                        resolve()
+                    }).catch((error) => {
+                        this.error = 'error'
+                        reject(error.message) // TODO sanitize error
+                    })
+                })
+                return p
+            }
+        }
+    }
+
+</script>

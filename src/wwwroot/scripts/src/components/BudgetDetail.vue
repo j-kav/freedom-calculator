@@ -29,6 +29,14 @@
                 <budgetInvestmentItems slot="body" v-if="showInvestmentItems" v-bind:budget="budget" @close="showInvestmentItems=false"></budgetInvestmentItems>
             </modal>
         </div>
+        <div>
+            <label>Expenses</label>
+            <span class="link" @click="showExpenses=true">{{ expenses }}</span>
+            <modal v-if="showExpenses" @close="showExpenses=false">
+                <h3 slot="header">Expenses</h3>
+                <budgetExpenses slot="body" v-if="showExpenses" v-bind:budget="budget" @close="showExpenses=false"></budgetExpenses>
+            </modal>
+        </div>
     </div>
 </template>
 
@@ -37,6 +45,7 @@
     import BudgetEarnedIncomeItems from './BudgetEarnedIncomeItems.vue'
     import BudgetPassiveIncomeItems from './BudgetPassiveIncomeItems.vue'
     import BudgetInvestmentItems from './BudgetInvestmentItems.vue'
+    import BudgetExpenses from './BudgetExpenses.vue'
     import Modal from './Modal.vue'
 
     export default {
@@ -45,6 +54,7 @@
             'budgetEarnedIncomeItems': BudgetEarnedIncomeItems,
             'budgetPassiveIncomeItems': BudgetPassiveIncomeItems,
             'budgetInvestmentItems': BudgetInvestmentItems,
+            'budgetExpenses': BudgetExpenses,
             'modal': Modal
         },
         created() {
@@ -55,7 +65,8 @@
                 budget: null,
                 showEarnedIncomeItems: false,
                 showPassiveIncomeItems: false,
-                showInvestmentItems: false
+                showInvestmentItems: false,
+                showExpenses: false
             }
         },
         computed: {
@@ -79,6 +90,13 @@
                     investments += Number.parseFloat(item.amount)
                 }
                 return investments
+            },
+            expenses() {
+                let expenses = 0
+                for (const item of this.budget.expenses) {
+                    expenses += Number.parseFloat(item.amount)
+                }
+                return expenses
             }
         },
         methods: {

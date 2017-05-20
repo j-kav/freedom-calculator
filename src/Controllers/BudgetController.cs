@@ -40,6 +40,7 @@ namespace FreedomCalculator2.Controllers
             budget.EarnedIncome = new List<BudgetEarnedIncomeItem>();
             budget.PassiveIncome = new List<BudgetPassiveIncomeItem>();
             budget.Investments = new List<BudgetInvestmentItem>();
+            budget.Expenses = new List<BudgetExpense>();
             return budget;
         }
 

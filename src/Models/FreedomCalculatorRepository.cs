@@ -161,6 +161,8 @@ namespace FreedomCalculator2.Models
         {
             List<Budget> retVal = db.Budgets.Include(budget => budget.EarnedIncome)
                                             .Include(budget => budget.PassiveIncome)
+                                            .Include(budget => budget.Investments)
+                                            .Include(budget => budget.Expenses)
                                             .Where((budget) => budget.User.Id == userId.ToString()).ToList<Budget>();
             return retVal;
         }
@@ -248,5 +250,27 @@ namespace FreedomCalculator2.Models
             db.BudgetInvestmentItems.Remove(budgetInvestmentItemToRemove);
             await SaveChanges();
         }
+
+        public async Task<int> AddBudgetExpense(BudgetExpense budgetExpense)
+        {
+            await db.BudgetExpenses.AddAsync(budgetExpense);
+            await SaveChanges();
+            return budgetExpense.BudgetExpenseId;
+        }
+
+        public async Task UpdateBudgetExpense(int id, BudgetExpense updatedBudgetExpense)
+        {
+            BudgetExpense budgetExpenseToUpdate = db.BudgetExpenses.Where(budgetExpense => budgetExpense.BudgetExpenseId == id).FirstOrDefault();
+            budgetExpenseToUpdate.Projected = updatedBudgetExpense.Projected;
+            await SaveChanges();
+        }
+
+        public async Task RemoveBudgetExpense(int id)
+        {
+            BudgetExpense budgetExpenseToRemove = db.BudgetExpenses.Where(budgetExpense => budgetExpense.BudgetExpenseId == id).FirstOrDefault();
+            db.BudgetExpenses.Remove(budgetExpenseToRemove);
+            await SaveChanges();
+        }
+
     }
 }

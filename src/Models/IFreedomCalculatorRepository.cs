@@ -30,5 +30,8 @@ namespace FreedomCalculator2.Models
         Task<int> AddBudgetInvestmentItem(BudgetInvestmentItem budgetInvestmentItem);
         Task UpdateBudgetInvestmentItem(int id, BudgetInvestmentItem updatedBudgetInvestmentItem);
         Task RemoveBudgetInvestmentItem(int id);
+        Task<int> AddBudgetExpense(BudgetExpense budgetExpense);
+        Task UpdateBudgetExpense(int id, BudgetExpense updatedBudgetExpense);
+        Task RemoveBudgetExpense(int id);
     }
 }

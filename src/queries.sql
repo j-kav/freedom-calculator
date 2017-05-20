@@ -20,8 +20,10 @@
 -- insert into Asset (AssetType, Name, NumShares, Symbol, UserId, Value) values (4, 'Microsoft', 10, 'msft', '3daf0738-c3ed-4030-b940-32ae0eac231d', 1000);
 -- delete Liability where LiabilityId = 4;
 
--- delete Asset
--- delete Liability
--- delete Expense
--- delete Budget
--- delete aspnetusers
+-- delete Asset;
+-- delete Liability;
+-- delete Expense;
+-- delete Budget;
+-- delete aspnetusers;
+-- delete BudgetExpense;
+-- delete BudgetExpenseItem;
