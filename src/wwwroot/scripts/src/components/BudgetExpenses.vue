@@ -3,12 +3,12 @@
         <table>
             <thead>
                 <tr>
-                    <th>Expense</th>
+                    <!--<th>Expense</th>-->
                     <th>Projected</th>
                 </tr>
             </thead>
             <tbody>
-                <!--<budgetExpenseItem v-for="item in parentBudget.expenses" v-bind:budgetExpenseItemModel="item"></budgetExpenseItem>-->
+                <budgetExpense v-for="item in parentBudget.expenses" v-bind:budgetExpenseModel="item"></budgetExpense>
             </tbody>
         </table>
         <div>Add new</div>
@@ -27,12 +27,12 @@
 
 <script>
     import api from '../api'
-    // import BudgetExpenseItem from './BudgetExpenseItem.vue'
+    import BudgetExpense from './BudgetExpense.vue'
 
     export default {
         name: 'BudgetExpenses',
         components: {
-            // 'budgetExpenseItem': BudgetExpenseItem
+            'budgetExpense': BudgetExpense
         },
         data: function () {
             return {

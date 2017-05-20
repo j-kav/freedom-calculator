@@ -94,7 +94,7 @@
             expenses() {
                 let expenses = 0
                 for (const item of this.budget.expenses) {
-                    expenses += Number.parseFloat(item.amount)
+                    expenses += Number.parseFloat(item.projected) // TODO change this to actual
                 }
                 return expenses
             }
