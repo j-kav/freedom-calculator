@@ -359,7 +359,7 @@ export default {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                Projected: updatedBudgetExpense.Projected
+                Projected: updatedBudgetExpense.projected
             })
         }
         return getNonDataFetchRequestPromise('/api/budgetexpenses/' + id, fetchProps)

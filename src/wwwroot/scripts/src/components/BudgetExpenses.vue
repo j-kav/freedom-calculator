@@ -3,7 +3,7 @@
         <table>
             <thead>
                 <tr>
-                    <!--<th>Expense</th>-->
+                    <th>Expense</th>
                     <th>Projected</th>
                 </tr>
             </thead>
@@ -49,7 +49,7 @@
                 var p = new Promise((resolve, reject) => {
                     var newBudgetExpense = { BudgetId: this.parentBudget.budgetId, Projected: this.projected, ExpenseId: this.expenseId }
                     api.addBudgetExpense(newBudgetExpense).then((addedBudgetExpense) => {
-                        // this.$store.commit('addBudgetExpenseItem', addedBudgetExpenseItem)
+                        this.$store.commit('addBudgetExpense', addedBudgetExpense)
                         resolve()
                     }).catch((error) => {
                         this.error = 'error'

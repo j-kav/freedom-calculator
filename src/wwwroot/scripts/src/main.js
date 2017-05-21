@@ -63,6 +63,9 @@ const store = new Vuex.Store({
         },
         budgetById: (state) => (id) => {
             return state.budgets.find(budget => budget.budgetId === id)
+        },
+        expenseById: (state) => (id) => {
+            return state.expenses.find(expense => expense.expenseId === id)
         }
     },
     mutations: {
@@ -169,6 +172,15 @@ const store = new Vuex.Store({
             var budget = state.budgets.find(budget => budget.budgetId === budgetInvestmentItem.budgetId)
             var position = budget.investments.indexOf(budgetInvestmentItem)
             budget.investments.splice(position, 1)
+        },
+        addBudgetExpense(state, budgetExpense) {
+            var budget = state.budgets.find(budget => budget.budgetId === budgetExpense.budgetId)
+            budget.expenses.push(budgetExpense)
+        },
+        removeBudgetExpense(state, budgetExpense) {
+            var budget = state.budgets.find(budget => budget.budgetId === budgetExpense.budgetId)
+            var position = budget.expenses.indexOf(budgetExpense)
+            budget.expenses.splice(position, 1)
         }
     }
 })
