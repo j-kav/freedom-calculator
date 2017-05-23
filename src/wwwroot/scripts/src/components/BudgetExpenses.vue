@@ -5,6 +5,7 @@
                 <tr>
                     <th>Expense</th>
                     <th>Projected</th>
+                    <th>Actual</th>
                 </tr>
             </thead>
             <tbody>
