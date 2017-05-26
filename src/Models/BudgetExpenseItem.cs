@@ -7,7 +7,7 @@ namespace FreedomCalculator2.Models
     public class BudgetExpenseItem
     {
         public int BudgetExpenseItemId { get; set; }
-        public int BugetExpenseId { get; set; }
+        public int BudgetExpenseId { get; set; }
         public virtual BudgetExpense BudgetExpense { get; set; }
         public decimal Amount { get; set; }
         public DateTime TimeStamp { get; set; }

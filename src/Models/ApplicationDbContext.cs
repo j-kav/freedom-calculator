@@ -21,5 +21,6 @@ namespace FreedomCalculator2.Models
 		public DbSet<BudgetPassiveIncomeItem> BudgetPassiveIncomeItems { get; set; }
 		public DbSet<BudgetInvestmentItem> BudgetInvestmentItems { get; set; }
 		public DbSet<BudgetExpense> BudgetExpenses { get; set; }
+		public DbSet<BudgetExpenseItem> BudgetExpenseItems { get; set; }
 	}
 }

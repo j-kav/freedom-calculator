@@ -369,5 +369,37 @@ export default {
             method: 'DELETE'
         }
         return getNonDataFetchRequestPromise('/api/budgetexpenses/' + id, fetchProps)
+    },
+    addBudgetExpenseItem: function (newBudgetExpenseItem) {
+        var fetchProps = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                BudgetExpenseId: newBudgetExpenseItem.BudgetExpenseId,
+                Amount: newBudgetExpenseItem.Amount,
+                Timestamp: newBudgetExpenseItem.Timestamp
+            })
+        }
+        return getFetchRequestPromise('/api/budgetexpenseitems', fetchProps);
+    },
+    updateBudgetExpenseItem: function (id, updatedBudgetExpenseItem) {
+        var fetchProps = {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                Amount: updatedBudgetExpenseItem.amount
+            })
+        }
+        return getNonDataFetchRequestPromise('/api/budgetexpenseitems/' + id, fetchProps)
+    },
+    removeBudgetExpenseItem: function (id) {
+        var fetchProps = {
+            method: 'DELETE'
+        }
+        return getNonDataFetchRequestPromise('/api/budgetexpenseitems/' + id, fetchProps)
     }
 }

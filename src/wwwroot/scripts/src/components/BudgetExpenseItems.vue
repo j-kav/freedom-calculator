@@ -21,7 +21,7 @@
 </template>
 
 <script>
-    // import api from '../api'
+    import api from '../api'
     // import BudgetExpenseItem from './BudgetExpenseItem.vue'
 
     export default {
@@ -32,25 +32,25 @@
         data: function () {
             return {
                 amount: null,
-                // parentBudget: this.budget,
+                parentBudgetExpense: this.budgetExpense,
                 error: null
             }
         },
-        // props: ['budget'],
+        props: ['budgetExpense'],
         methods: {
             addAmount: function () {
                 // return promise for unit testing purposes
-                // var p = new Promise((resolve, reject) => {
-                //     var newBudgetExpenseItem = { BudgetId: this.parentBudget.budgetId, Amount: this.amount, Timestamp: new Date(Date.now()) }
-                //     api.addBudgetExpenseItem(newBudgetExpenseItem).then((addedBudgetExpenseItem) => {
-                //         this.$store.commit('addBudgetExpenseItem', addedBudgetExpenseItem)
-                //         resolve()
-                //     }).catch((error) => {
-                //         this.error = 'error'
-                //         reject(error.message) // TODO sanitize error
-                //     })
-                // })
-                // return p
+                var p = new Promise((resolve, reject) => {
+                    var newBudgetExpenseItem = { BudgetExpenseId: this.parentBudgetExpense.budgetExpenseId, Amount: this.amount, Timestamp: new Date(Date.now()) }
+                    api.addBudgetExpenseItem(newBudgetExpenseItem).then((addedBudgetExpenseItem) => {
+                        // this.$store.commit('addBudgetExpenseItem', addedBudgetExpenseItem)
+                        resolve()
+                    }).catch((error) => {
+                        this.error = 'error'
+                        reject(error.message) // TODO sanitize error
+                    })
+                })
+                return p
             }
         }
     }

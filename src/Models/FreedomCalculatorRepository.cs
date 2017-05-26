@@ -272,5 +272,26 @@ namespace FreedomCalculator2.Models
             await SaveChanges();
         }
 
+        public async Task<int> AddBudgetExpenseItem(BudgetExpenseItem budgetExpenseItem)
+        {
+            await db.BudgetExpenseItems.AddAsync(budgetExpenseItem);
+            await SaveChanges();
+            return budgetExpenseItem.BudgetExpenseItemId;
+        }
+
+        public async Task UpdateBudgetExpenseItem(int id, BudgetExpenseItem updatedBudgetExpenseItem)
+        {
+            BudgetExpenseItem budgetExpenseItemToUpdate = db.BudgetExpenseItems.Where(budgetExpenseItem => budgetExpenseItem.BudgetExpenseItemId == id).FirstOrDefault();
+            budgetExpenseItemToUpdate.Amount = updatedBudgetExpenseItem.Amount;
+            await SaveChanges();
+        }
+
+        public async Task RemoveBudgetExpenseItem(int id)
+        {
+            BudgetExpenseItem budgetExpenseItemToRemove = db.BudgetExpenseItems.Where(budgetExpenseItem => budgetExpenseItem.BudgetExpenseItemId == id).FirstOrDefault();
+            db.BudgetExpenseItems.Remove(budgetExpenseItemToRemove);
+            await SaveChanges();
+        }
+
     }
 }
