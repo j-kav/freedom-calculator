@@ -8,7 +8,7 @@
                 </tr>
             </thead>
             <tbody>
-                <!--<budgetExpenseItem v-for="item in parentBudget." v-bind:budgetExpenseItemModel="item"></budgetExpenseItem>-->
+                <budgetExpenseItem v-for="item in parentBudgetExpense.BudgetExpenseItems" v-bind:budgetExpenseItemModel="item"></budgetExpenseItem>
             </tbody>
         </table>
         <div>Add new</div>
@@ -22,12 +22,12 @@
 
 <script>
     import api from '../api'
-    // import BudgetExpenseItem from './BudgetExpenseItem.vue'
+    import BudgetExpenseItem from './BudgetExpenseItem.vue'
 
     export default {
         name: 'BudgetExpenseItems',
         components: {
-            // 'budgetExpenseItem': BudgetExpenseItem
+            'budgetExpenseItem': BudgetExpenseItem
         },
         data: function () {
             return {
