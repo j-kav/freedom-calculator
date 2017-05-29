@@ -8,7 +8,7 @@
                 </tr>
             </thead>
             <tbody>
-                <budgetExpenseItem v-for="item in parentBudgetExpense.BudgetExpenseItems" v-bind:budgetExpenseItemModel="item"></budgetExpenseItem>
+                <budgetExpenseItem v-for="item in parentBudgetExpense.budgetExpenseItems" v-bind:budgetExpenseItemModel="item"></budgetExpenseItem>
             </tbody>
         </table>
         <div>Add new</div>
@@ -43,7 +43,7 @@
                 var p = new Promise((resolve, reject) => {
                     var newBudgetExpenseItem = { BudgetExpenseId: this.parentBudgetExpense.budgetExpenseId, Amount: this.amount, Timestamp: new Date(Date.now()) }
                     api.addBudgetExpenseItem(newBudgetExpenseItem).then((addedBudgetExpenseItem) => {
-                        // this.$store.commit('addBudgetExpenseItem', addedBudgetExpenseItem)
+                        this.$store.commit('addBudgetExpenseItem', addedBudgetExpenseItem)
                         resolve()
                     }).catch((error) => {
                         this.error = 'error'

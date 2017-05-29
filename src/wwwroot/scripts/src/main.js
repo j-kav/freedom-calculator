@@ -181,6 +181,13 @@ const store = new Vuex.Store({
             var budget = state.budgets.find(budget => budget.budgetId === budgetExpense.budgetId)
             var position = budget.expenses.indexOf(budgetExpense)
             budget.expenses.splice(position, 1)
+        },
+        addBudgetExpenseItem(state, budgetExpenseItem) {
+            var budgetId = budgetExpenseItem.budgetExpense.budgetId
+            var budgetExpenseId = budgetExpenseItem.budgetExpenseId
+            var budget = state.budgets.find(budget => budget.budgetId === budgetId)
+            var budgetExpense = budget.expenses.find(budgetExpense => budgetExpense.budgetExpenseId === budgetExpenseId)
+            budgetExpense.budgetExpenseItems.push(budgetExpenseItem)
         }
     }
 })

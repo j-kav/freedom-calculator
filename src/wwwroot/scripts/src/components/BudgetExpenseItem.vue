@@ -42,7 +42,7 @@
             },
             removeExpenseItem: function () {
                 api.removeExpenseItem(this.budgetExpenseItem.budgetExpenseItemId).then(() => {
-                    this.$store.commit('removeBudgetExpenseItem', this.budgetExpenseItem)
+                    // this.$store.commit('removeBudgetExpenseItem', this.budgetExpenseItem)
                     this.error = false
                 }).catch((error) => {
                     this.error = true
