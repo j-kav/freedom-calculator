@@ -1,7 +1,8 @@
 <template>
     <tr>
         <td>{{ $store.getters.expenseById(budgetExpense.expenseId).name }}</td>
-        <td><input v-model="budgetExpense.projected"></input></td>
+        <td><input v-model="budgetExpense.projected"></input>
+        </td>
         <td>
             <span class="link" @click="showExpenseItems=true">{{ expenseItems }}</span>
             <modal v-if="showExpenseItems" @close="showExpenseItems=false">
@@ -27,7 +28,6 @@
                 error: false,
                 message: null,
                 budgetExpense: this.budgetExpenseModel,
-                expenseItems: 0,
                 showExpenseItems: false
             }
         },
@@ -36,6 +36,13 @@
             'modal': Modal
         },
         computed: {
+            expenseItems: function () {
+                let expenseItems = 0
+                for (const item of this.budgetExpense.budgetExpenseItems) {
+                    expenseItems += Number.parseFloat(item.amount)
+                }
+                return expenseItems
+            },
             messageClass: function () {
                 return {
                     'error': this.error,
