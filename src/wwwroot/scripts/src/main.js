@@ -64,8 +64,15 @@ const store = new Vuex.Store({
         budgetById: (state) => (id) => {
             return state.budgets.find(budget => budget.budgetId === id)
         },
-        expenseById: (state) => (id) => {
-            return state.expenses.find(expense => expense.expenseId === id)
+        averageInvestments: (state) => {
+            const budgets = state.budgets
+            let totalInvestments = 0
+            for (const budget of budgets) {
+                for (const investment of budget.investments) {
+                    totalInvestments += investment.amount
+                }
+            }
+            return totalInvestments / budgets.length
         }
     },
     mutations: {

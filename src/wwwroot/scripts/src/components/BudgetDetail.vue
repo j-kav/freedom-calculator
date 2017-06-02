@@ -92,11 +92,16 @@
                 return investments
             },
             expenses() {
+                // get the actual and projected expenses for the budget
                 let expenses = 0
+                let expenseItems = 0
                 for (const item of this.budget.expenses) {
-                    expenses += Number.parseFloat(item.projected) // TODO change this to actual
+                    expenses += Number.parseFloat(item.projected)
+                    for (const expenseItem of item.budgetExpenseItems) {
+                        expenseItems += Number.parseFloat(expenseItem.amount)
+                    }
                 }
-                return expenses
+                return expenseItems + ' / ' + expenses
             }
         },
         methods: {

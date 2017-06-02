@@ -1,6 +1,6 @@
 <template>
     <tr>
-        <td>{{ budgetEarnedIncomeItem.timeStamp }}</td>
+        <td>{{ budgetEarnedIncomeItem.timeStamp.substring(0, 10) }}</td>
         <td><input v-model="budgetEarnedIncomeItem.amount"></input>
         </td>
         <td><button v-on:click.prevent=updateEarnedIncomeItem()>Update</button></td>

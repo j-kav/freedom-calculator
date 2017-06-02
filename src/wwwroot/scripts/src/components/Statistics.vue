@@ -12,6 +12,12 @@
                 Loaded!
                 <table>
                     <tr>
+                        <td>Average Investments</td>
+                        <td>{{ averageInvestments }}</td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
                         <td>Total Assets</td>
                         <td>{{ totalAssets }}</td>
                     </tr>
@@ -48,6 +54,9 @@
             }
         },
         computed: {
+            averageInvestments() {
+                return utils.usdFormmater.format(this.$store.getters.averageInvestments)
+            },
             totalAssets() {
                 return utils.usdFormmater.format(this.$store.getters.totalAssets)
             },

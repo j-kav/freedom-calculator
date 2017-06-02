@@ -164,6 +164,8 @@ namespace FreedomCalculator2.Models
                                             .Include(budget => budget.Investments)
                                             .Include(budget => budget.Expenses)
                                                 .ThenInclude(expense => expense.BudgetExpenseItems)
+                                            .Include(budget => budget.Expenses)
+                                                .ThenInclude(exp => exp.Expense)
                                             .Where((budget) => budget.User.Id == userId.ToString()).ToList<Budget>();
             return retVal;
         }

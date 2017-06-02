@@ -1,12 +1,12 @@
 <template>
     <tr>
-        <td>{{ $store.getters.expenseById(budgetExpense.expenseId).name }}</td>
+        <td>{{ budgetExpense.expense.name }}</td>
         <td><input v-model="budgetExpense.projected"></input>
         </td>
         <td>
             <span class="link" @click="showExpenseItems=true">{{ expenseItems }}</span>
             <modal v-if="showExpenseItems" @close="showExpenseItems=false">
-                <h3 slot="header">Expense Items</h3>
+                <h3 slot="header">{{ budgetExpense.expense.name }} items</h3>
                 <budgetExpenseItems slot="body" v-if="showExpenseItems" v-bind:budgetExpense="budgetExpense" @close="showExpenseItems=false"></budgetExpenseItems>
             </modal>
         </td>

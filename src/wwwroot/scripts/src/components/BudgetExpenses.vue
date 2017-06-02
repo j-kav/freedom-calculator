@@ -14,8 +14,8 @@
         </table>
         <div>Add new</div>
         <div>
-            <select v-model="expenseId">
-                <option v-for="expense in $store.state.expenses" v-bind:value="expense.expenseId">
+            <select v-model="expense">
+                <option v-for="expense in $store.state.expenses" v-bind:value="expense">
                     {{ expense.name }}
                 </option>
             </select>
@@ -38,7 +38,7 @@
         data: function () {
             return {
                 projected: null,
-                expenseId: null,
+                expense: null,
                 parentBudget: this.budget,
                 error: null
             }
@@ -48,8 +48,14 @@
             addExpense: function () {
                 // return promise for unit testing purposes
                 var p = new Promise((resolve, reject) => {
-                    var newBudgetExpense = { BudgetId: this.parentBudget.budgetId, Projected: this.projected, ExpenseId: this.expenseId }
+                    var newBudgetExpense = {
+                        BudgetId: this.parentBudget.budgetId,
+                        Projected: this.projected,
+                        ExpenseId: this.expense.expenseId
+                    }
                     api.addBudgetExpense(newBudgetExpense).then((addedBudgetExpense) => {
+                        addedBudgetExpense.expense = this.expense
+                        addedBudgetExpense.budgetExpenseItems = []
                         this.$store.commit('addBudgetExpense', addedBudgetExpense)
                         resolve()
                     }).catch((error) => {
