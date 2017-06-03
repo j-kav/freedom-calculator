@@ -159,4 +159,16 @@ describe('api', function () {
             })
         })
     })
+
+    describe('updateBudget', function () {
+        it('should update the budget object with an id', function () {
+            var updatedBudget = { budgetId: 1, netWorth: 200 }
+            fetchMock.put('/api/budgets', { budgetId: 1, netWorth: 200 })
+            return api.updateBudget(updatedBudget).then(() => {
+                expect(updatedBudget.netWorth).to.equal(200)
+            }).catch((error) => {
+                assert.fail(error)
+            })
+        })
+    })
 })

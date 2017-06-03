@@ -32,3 +32,8 @@ tall:       (min-height: 780px)
 .success {
 	color: green;
 }
+
+span.link {
+	text-decoration: underline;
+	cursor: pointer;
+}

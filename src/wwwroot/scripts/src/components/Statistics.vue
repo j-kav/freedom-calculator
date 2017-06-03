@@ -116,7 +116,7 @@
                                 self.loading = false
                                 resolve()
                             })
-                            return p
+                            return p.then(() => { resolve() })
                         }
                     }).catch((error) => {
                         self.loading = false
@@ -130,10 +130,3 @@
     }
 
 </script>
-
-<style>
-    span.link {
-        text-decoration: underline;
-        cursor: pointer;
-    }
-</style>

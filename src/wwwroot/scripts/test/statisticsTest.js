@@ -1,6 +1,7 @@
 import Vue from 'vue/dist/vue.js'
 import Vuex from 'vuex'
 import Statistics from '../src/components/Statistics.vue'
+import assert from 'assert'
 import { expect } from 'chai'
 
 describe('Statistics', () => {
@@ -13,7 +14,11 @@ describe('Statistics', () => {
             expenses: null,
             budgets: null
         },
-
+        getters: {
+            budgetByDate: (state) => (month, year) => {
+                return state.budgets.filter(budget => month === budget.month && year === budget.year)
+            }
+        },
         mutations: {
             setAssets(state, assets) {
                 state.assets = assets
