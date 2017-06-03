@@ -27,7 +27,16 @@
                     </tr>
                     <tr>
                         <td>Net Worth</td>
-                        <td>{{ netWorth }}</td>
+                        <td>
+                            <span class="link" @click="showNetWorth=true">{{ netWorth }}</span>
+                            <modal v-if="showNetWorth" @close="showNetWorth=false">
+                                <h3 slot="header">Net Worth</h3>
+                                <!--TODO show graph of historical net worth. For now just show list-->
+                                <ul slot="body">
+                                    <li v-for="budget in $store.state.budgets">{{ budget.year }} - {{ budget.month }} : {{ budget.netWorth }}</li>
+                                </ul>
+                            </modal>
+                        </td>
                     </tr>
                 </table>
                 <router-link v-if="$store.state.isLoggedIn && $store.state.assets" to="/assetbreakdown">Asset Breakdown</router-link>
@@ -39,9 +48,13 @@
 <script>
     import api from '../api'
     import utils from '../utils'
+    import Modal from './Modal.vue'
 
     export default {
         name: 'Statistics',
+        components: {
+            'modal': Modal
+        },
         created() {
             if (!this.$store.state.assets) {
                 this.getData()
@@ -50,7 +63,8 @@
         data: function () {
             return {
                 loading: !this.$store.state.assets,
-                error: null
+                error: null,
+                showNetWorth: false
             }
         },
         computed: {
@@ -85,9 +99,25 @@
                     }).then(() => {
                         return api.getBudgets().then((data) => {
                             self.$store.commit('setBudgets', data)
-                            self.loading = false
-                            resolve()
                         })
+                    }).then(() => {
+                        const now = new Date(Date.now())
+                        const month = now.getMonth() + 1
+                        const year = now.getFullYear()
+                        const budgets = this.$store.getters.budgetByDate(month, year)
+                        if (budgets.length >= 1) {
+                            const id = budgets[0].budgetId
+                            return api.updateBudget(id, this.$store.getters.netWorth).then(() => {
+                                self.loading = false
+                                resolve()
+                            })
+                        } else {
+                            var p = new Promise((resolve, reject) => {
+                                self.loading = false
+                                resolve()
+                            })
+                            return p
+                        }
                     }).catch((error) => {
                         self.loading = false
                         self.error = error
@@ -100,3 +130,10 @@
     }
 
 </script>
+
+<style>
+    span.link {
+        text-decoration: underline;
+        cursor: pointer;
+    }
+</style>

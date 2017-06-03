@@ -184,6 +184,13 @@ namespace FreedomCalculator2.Models
             return budget.BudgetId;
         }
 
+        public async Task UpdateBudget(int id, Budget updatedBudget)
+        {
+            Budget budgetToUpdate = db.Budgets.Where(budget => budget.BudgetId == id).FirstOrDefault();
+            budgetToUpdate.NetWorth = updatedBudget.NetWorth;
+            await SaveChanges();
+        }
+
         public async Task RemoveBudget(int id)
         {
             Budget budgetToRemove = db.Budgets.Where(budget => budget.BudgetId == id).FirstOrDefault();
@@ -295,6 +302,5 @@ namespace FreedomCalculator2.Models
             db.BudgetExpenseItems.Remove(budgetExpenseItemToRemove);
             await SaveChanges();
         }
-
     }
 }

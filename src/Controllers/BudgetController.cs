@@ -50,5 +50,12 @@ namespace FreedomCalculator2.Controllers
         {
             await _repository.RemoveBudget(id);
         }
+
+        // PUT api/budgets
+        [HttpPut]
+        public async Task Put([FromBody]Budget budget)
+        {
+            await _repository.UpdateBudget(budget.BudgetId, budget);
+        }
     }
 }

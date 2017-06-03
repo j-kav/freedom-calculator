@@ -74,10 +74,3 @@
     }
 
 </script>
-
-<style scoped>
-    span.link {
-        text-decoration: underline;
-        cursor: pointer;
-    }
-</style>
