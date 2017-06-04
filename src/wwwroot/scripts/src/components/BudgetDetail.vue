@@ -47,6 +47,7 @@
     import BudgetInvestmentItems from './BudgetInvestmentItems.vue'
     import BudgetExpenses from './BudgetExpenses.vue'
     import Modal from './Modal.vue'
+    import utils from '../utils'
 
     export default {
         name: 'BudgetDetail',
@@ -75,21 +76,21 @@
                 for (const item of this.budget.earnedIncome) {
                     earnedInc += Number.parseFloat(item.amount)
                 }
-                return earnedInc
+                return utils.usdFormmater.format(earnedInc)
             },
             passiveIncome() {
                 let passiveInc = 0
                 for (const item of this.budget.passiveIncome) {
                     passiveInc += Number.parseFloat(item.amount)
                 }
-                return passiveInc
+                return utils.usdFormmater.format(passiveInc)
             },
             investments() {
                 let investments = 0
                 for (const item of this.budget.investments) {
                     investments += Number.parseFloat(item.amount)
                 }
-                return investments
+                return utils.usdFormmater.format(investments)
             },
             expenses() {
                 // get the actual and projected expenses for the budget
@@ -101,7 +102,7 @@
                         expenseItems += Number.parseFloat(expenseItem.amount)
                     }
                 }
-                return expenseItems + ' / ' + expenses
+                return utils.usdFormmater.format(expenseItems) + ' / ' + utils.usdFormmater.format(expenses)
             }
         },
         methods: {
