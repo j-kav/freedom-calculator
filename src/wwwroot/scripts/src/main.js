@@ -141,6 +141,34 @@ const store = new Vuex.Store({
             state.expenses = state.expenses.filter(expense => expense.expenseId !== id)
         },
         setBudgets(state, budgets) {
+            // calculate totals
+            for (const budget of budgets) {
+                let earnedInc = 0
+                for (const item of budget.earnedIncome) {
+                    earnedInc += Number.parseFloat(item.amount)
+                }
+                budget.totalEarnedIncome = earnedInc
+                let passiveInc = 0
+                for (const item of budget.passiveIncome) {
+                    passiveInc += Number.parseFloat(item.amount)
+                }
+                budget.totalPassiveIncome = passiveInc
+                let investments = 0
+                for (const item of budget.investments) {
+                    investments += Number.parseFloat(item.amount)
+                }
+                budget.totalInvestments = investments
+                let projectedExpenses = 0
+                let actualExpenses = 0
+                for (const item of budget.expenses) {
+                    projectedExpenses += Number.parseFloat(item.projected)
+                    for (const expenseItem of item.budgetExpenseItems) {
+                        actualExpenses += Number.parseFloat(expenseItem.amount)
+                    }
+                }
+                budget.totalProjectedExpenses = projectedExpenses
+                budget.totalActualExpenses = actualExpenses
+            }
             state.budgets = budgets
         },
         addBudget(state, budget) {
@@ -156,38 +184,46 @@ const store = new Vuex.Store({
         addBudgetEarnedIncomeItem(state, budgetEarnedIncomeItem) {
             var budget = state.budgets.find(budget => budget.budgetId === budgetEarnedIncomeItem.budgetId)
             budget.earnedIncome.push(budgetEarnedIncomeItem)
+            budget.totalEarnedIncome += budgetEarnedIncomeItem.amount
         },
         removeBudgetEarnedIncomeItem(state, budgetEarnedIncomeItem) {
             var budget = state.budgets.find(budget => budget.budgetId === budgetEarnedIncomeItem.budgetId)
             var position = budget.earnedIncome.indexOf(budgetEarnedIncomeItem)
             budget.earnedIncome.splice(position, 1)
+            budget.totalEarnedIncome -= budgetEarnedIncomeItem.amount
         },
         addBudgetPassiveIncomeItem(state, budgetPassiveIncomeItem) {
             var budget = state.budgets.find(budget => budget.budgetId === budgetPassiveIncomeItem.budgetId)
             budget.passiveIncome.push(budgetPassiveIncomeItem)
+            budget.totalPassiveIncome += budgetPassiveIncomeItem.amount
         },
         removeBudgetPassiveIncomeItem(state, budgetPassiveIncomeItem) {
             var budget = state.budgets.find(budget => budget.budgetId === budgetPassiveIncomeItem.budgetId)
             var position = budget.passiveIncome.indexOf(budgetPassiveIncomeItem)
             budget.passiveIncome.splice(position, 1)
+            budget.totalPasiveIncome += budgetPassiveIncomeItem.amount
         },
         addBudgetInvestmentItem(state, budgetInvestmentItem) {
             var budget = state.budgets.find(budget => budget.budgetId === budgetInvestmentItem.budgetId)
             budget.investments.push(budgetInvestmentItem)
+            budget.totalInvestments += budgetInvestmentItem.amount
         },
         removeBudgetInvestmentItem(state, budgetInvestmentItem) {
             var budget = state.budgets.find(budget => budget.budgetId === budgetInvestmentItem.budgetId)
             var position = budget.investments.indexOf(budgetInvestmentItem)
             budget.investments.splice(position, 1)
+            budget.totalInvestments -= budgetInvestmentItem.amount
         },
         addBudgetExpense(state, budgetExpense) {
             var budget = state.budgets.find(budget => budget.budgetId === budgetExpense.budgetId)
             budget.expenses.push(budgetExpense)
+            budget.totalProjectedExpenses += budgetExpense.amount
         },
         removeBudgetExpense(state, budgetExpense) {
             var budget = state.budgets.find(budget => budget.budgetId === budgetExpense.budgetId)
             var position = budget.expenses.indexOf(budgetExpense)
             budget.expenses.splice(position, 1)
+            budget.totalProjectedExpenses -= budgetExpense.amount
         },
         addBudgetExpenseItem(state, budgetExpenseItem) {
             var budgetId = budgetExpenseItem.budgetExpense.budgetId
@@ -195,6 +231,29 @@ const store = new Vuex.Store({
             var budget = state.budgets.find(budget => budget.budgetId === budgetId)
             var budgetExpense = budget.expenses.find(budgetExpense => budgetExpense.budgetExpenseId === budgetExpenseId)
             budgetExpense.budgetExpenseItems.push(budgetExpenseItem)
+            budget.totalActualExpenses += budgetExpenseItem.amount
+        },
+        updateBudgetExpenseItem(state, budgetExpenseItem) {
+            var budgetId = budgetExpenseItem.budgetExpense.budgetId
+            var budgetExpenseId = budgetExpenseItem.budgetExpenseId
+            var budget = state.budgets.find(budget => budget.budgetId === budgetId)
+            var budgetExpense = budget.expenses.find(budgetExpense => budgetExpense.budgetExpenseId === budgetExpenseId)
+            const item = budgetExpense.budgetExpenseItems.find(item => item.budgetExpenseItemId === budgetExpenseItem.budgetExpenseItemId)
+            item.amount = budgetExpenseItem.amount
+            // recalculate all actual expenses
+            budget.totalActualExpenses = 0
+            for (const item of budgetExpense.budgetExpenseItems) {
+                budget.totalActualExpenses += item.amount
+            }
+        },
+        removeBudgetExpenseItem(state, budgetExpenseItem) {
+            var budgetId = budgetExpenseItem.budgetExpense.budgetId
+            var budgetExpenseId = budgetExpenseItem.budgetExpenseId
+            var budget = state.budgets.find(budget => budget.budgetId === budgetId)
+            var budgetExpense = budget.expenses.find(budgetExpense => budgetExpense.budgetExpenseId === budgetExpenseId)
+            var position = budgetExpense.budgetExpenseItems.indexOf(budgetExpenseItem)
+            budgetExpense.budgetExpenseItems.splice(position, 1)
+            budget.totalActualExpenses -= budgetExpenseItem.amount
         }
     }
 })

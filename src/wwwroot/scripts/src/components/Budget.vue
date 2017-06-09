@@ -1,7 +1,10 @@
 <template>
     <tr>
-        <td><router-link :to="{ name: 'budget', params: { id: budget.budgetId } }">{{ budget.year }} - {{ budget.month }}</router-link></input>
-        </td>
+        <td><router-link :to="{ name: 'budget', params: { id: budget.budgetId } }">{{ budget.year }} - {{ budget.month }}</router-link></td>
+        <td>{{ utils.usdFormmater.format(budget.totalEarnedIncome) }}</td>
+        <td>{{ utils.usdFormmater.format(budget.totalPassiveIncome) }}</td>
+        <td>{{ utils.usdFormmater.format(budget.totalInvestments) }}</td>
+        <td>{{ utils.usdFormmater.format(budget.totalActualExpenses) + ' / ' + utils.usdFormmater.format(budget.totalProjectedExpenses) }}</td>
         <td><button v-on:click.prevent=removeBudget()>Delete</button></td>
         <td v-if="message" v-bind:class="messageClass">{{ message }}</td>
     </tr>
@@ -9,6 +12,7 @@
 
 <script>
     import api from '../api'
+    import utils from '../utils'
 
     export default {
         name: 'Budget',
@@ -16,7 +20,8 @@
             return {
                 error: false,
                 message: null,
-                budget: this.budgetModel
+                budget: this.budgetModel,
+                utils: utils
             }
         },
         computed: {

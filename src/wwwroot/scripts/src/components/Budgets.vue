@@ -4,6 +4,10 @@
             <thead>
                 <tr>
                     <th>Date</th>
+                    <th>Net Earned Income</th>
+                    <th>Passive Income</th>
+                    <th>Investments</th>
+                    <th>Expenses</th>
                 </tr>
             </thead>
             <tbody>

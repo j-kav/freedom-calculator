@@ -7,7 +7,7 @@
         </div>
         <div>
             <label>Net Earned Income</label>
-            <span class="link" @click="showEarnedIncomeItems=true">{{ earnedIncome }}</span>
+            <span class="link" @click="showEarnedIncomeItems=true">{{ utils.usdFormmater.format(budget.totalEarnedIncome) }}</span>
             <modal v-if="showEarnedIncomeItems" @close="showEarnedIncomeItems=false">
                 <h3 slot="header">Earned Income Items</h3>
                 <budgetEarnedIncomeItems slot="body" v-if="showEarnedIncomeItems" v-bind:budget="budget" @close="showEarnedIncomeItems=false"></budgetEarnedIncomeItems>
@@ -15,7 +15,7 @@
         </div>
         <div>
             <label>Net Passive Income</label>
-            <span class="link" @click="showPassiveIncomeItems=true">{{ passiveIncome }}</span>
+            <span class="link" @click="showPassiveIncomeItems=true">{{ utils.usdFormmater.format(budget.totalPassiveIncome) }}</span>
             <modal v-if="showPassiveIncomeItems" @close="showPassiveIncomeItems=false">
                 <h3 slot="header">Passive Income Items</h3>
                 <budgetPassiveIncomeItems slot="body" v-if="showPassiveIncomeItems" v-bind:budget="budget" @close="showPassiveIncomeItems=false"></budgetPassiveIncomeItems>
@@ -23,7 +23,7 @@
         </div>
         <div>
             <label>Investments</label>
-            <span class="link" @click="showInvestmentItems=true">{{ investments }}</span>
+            <span class="link" @click="showInvestmentItems=true">{{ utils.usdFormmater.format(budget.totalInvestments) }}</span>
             <modal v-if="showInvestmentItems" @close="showInvestmentItems=false">
                 <h3 slot="header">Investment Items</h3>
                 <budgetInvestmentItems slot="body" v-if="showInvestmentItems" v-bind:budget="budget" @close="showInvestmentItems=false"></budgetInvestmentItems>
@@ -31,7 +31,7 @@
         </div>
         <div>
             <label>Expenses</label>
-            <span class="link" @click="showExpenses=true">{{ expenses }}</span>
+            <span class="link" @click="showExpenses=true">{{ utils.usdFormmater.format(budget.totalActualExpenses) + ' / ' + utils.usdFormmater.format(budget.totalProjectedExpenses) }}</span>
             <modal v-if="showExpenses" @close="showExpenses=false">
                 <h3 slot="header">Expenses</h3>
                 <budgetExpenses slot="body" v-if="showExpenses" v-bind:budget="budget" @close="showExpenses=false"></budgetExpenses>
@@ -67,42 +67,8 @@
                 showEarnedIncomeItems: false,
                 showPassiveIncomeItems: false,
                 showInvestmentItems: false,
-                showExpenses: false
-            }
-        },
-        computed: {
-            earnedIncome() {
-                let earnedInc = 0
-                for (const item of this.budget.earnedIncome) {
-                    earnedInc += Number.parseFloat(item.amount)
-                }
-                return utils.usdFormmater.format(earnedInc)
-            },
-            passiveIncome() {
-                let passiveInc = 0
-                for (const item of this.budget.passiveIncome) {
-                    passiveInc += Number.parseFloat(item.amount)
-                }
-                return utils.usdFormmater.format(passiveInc)
-            },
-            investments() {
-                let investments = 0
-                for (const item of this.budget.investments) {
-                    investments += Number.parseFloat(item.amount)
-                }
-                return utils.usdFormmater.format(investments)
-            },
-            expenses() {
-                // get the actual and projected expenses for the budget
-                let expenses = 0
-                let expenseItems = 0
-                for (const item of this.budget.expenses) {
-                    expenses += Number.parseFloat(item.projected)
-                    for (const expenseItem of item.budgetExpenseItems) {
-                        expenseItems += Number.parseFloat(expenseItem.amount)
-                    }
-                }
-                return utils.usdFormmater.format(expenseItems) + ' / ' + utils.usdFormmater.format(expenses)
+                showExpenses: false,
+                utils: utils
             }
         },
         methods: {
