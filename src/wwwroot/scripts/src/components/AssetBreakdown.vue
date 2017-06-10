@@ -1,49 +1,54 @@
 <template>
     <div>
         <p>Asset Breakdown</p>
-        <p>All Assets</p>
         <table>
             <tr>
+                <td class="asset-breakdown-title">All Assets</td>
+            <tr>
                 <td>Total Cash</td>
-                <td>{{ totalCashFormatted }}</td>
-                <td>{{ percentCash }}</td>
+                <td class="align-right">{{ totalCashFormatted }}</td>
+                <td class="align-right">{{ percentCash }}</td>
             </tr>
             <tr>
                 <td>Total Real Estate (Equity)</td>
-                <td>{{ totalRealEstateFormatted }}</td>
-                <td>{{ percentRealEstate }}</td>
+                <td class="align-right">{{ totalRealEstateFormatted }}</td>
+                <td class="align-right">{{ percentRealEstate }}</td>
             </tr>
             <tr>
                 <td>Total Stock</td>
-                <td>{{ totalStockFormatted }}</td>
-                <td>{{ percentStock }}</td>
+                <td class="align-right">{{ totalStockFormatted }}</td>
+                <td class="align-right">{{ percentStock }}</td>
             </tr>
             <tr>
                 <td>Total Bonds</td>
-                <td>{{ totalBondsFormatted }}</td>
-                <td>{{ percentBonds }}</td>
+                <td class="align-right">{{ totalBondsFormatted }}</td>
+                <td class="align-right">{{ percentBonds }}</td>
             </tr>
-        </table>
-        <p>Stocks Breakdown</p>
-        <table>
+            <tr>
+                <td class="asset-breakdown-title">Stocks Breakdown</td>
+            </tr>
             <tr>
                 <td>Total Domestic</td>
-                <td>{{ totalDomesticStockFormatted }}</td>
+                <td class="align-right">{{ totalDomesticStockFormatted }}</td>
+                <td class="align-right">%</td>
             </tr>
             <tr>
                 <td>Total International</td>
-                <td>{{ totalInternationalStockFormatted }}</td>
+                <td class="align-right">{{ totalInternationalStockFormatted }}</td>
+                <td class="align-right">%</td>
             </tr>
-        </table>
-        <p>Bonds Breakdown</p>
-        <table>
+            <tr>
+                <td class="asset-breakdown-title">Bonds Breakdown</td>
+            </tr>
             <tr>
                 <td>Total Domestic</td>
-                <td>{{ totalDomesticBondFormatted }}</td>
+                <td class="align-right">{{ totalDomesticBondFormatted }}</td>
+                <td class="align-right">%</td>
             </tr>
             <tr>
                 <td>Total International</td>
-                <td>{{ totalInternationalBondFormatted }}</td>
+                <td class="align-right">{{ totalInternationalBondFormatted }}</td>
+                <td class="align-right">%</td>
             </tr>
         </table>
         <router-link v-if="$store.state.isLoggedIn" to="/statistics">Back to Statistics</router-link>

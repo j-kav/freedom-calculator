@@ -13,21 +13,21 @@
                 <table>
                     <tr>
                         <td>Average Investments</td>
-                        <td>{{ averageInvestments }}</td>
+                        <td class="align-right">{{ averageInvestments }}</td>
                     </tr>
                 </table>
                 <table>
                     <tr>
                         <td>Total Assets</td>
-                        <td>{{ totalAssets }}</td>
+                        <td class="align-right">{{ totalAssets }}</td>
                     </tr>
                     <tr>
                         <td>Total Liabilities</td>
-                        <td>{{ totalLiabilities }}</td>
+                        <td class="align-right">{{ totalLiabilities }}</td>
                     </tr>
                     <tr>
                         <td>Net Worth</td>
-                        <td>
+                        <td class="align-right">
                             <span class="link" @click="showNetWorth=true">{{ netWorth }}</span>
                             <modal v-if="showNetWorth" @close="showNetWorth=false">
                                 <h3 slot="header">Net Worth</h3>
