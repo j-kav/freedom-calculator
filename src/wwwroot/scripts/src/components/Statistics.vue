@@ -1,6 +1,6 @@
 <template>
     <div>
-        <p>Statistics</p>
+        <h2>Statistics</h2>
         <div v-if="loading">
             Loading...
         </div>
@@ -10,23 +10,50 @@
             </div>
             <div v-else>
                 Loaded!
+                <h3>Averages</h3>
                 <table>
                     <tr>
-                        <td>Average Investments</td>
+                        <th>Net Earned Income</th>
+                        <th>Passive Income</th>
+                        <th>Total Income</th>
+                        <th>Mandatory Expenses</th>
+                        <th>Discretionary Expenses</th>
+                        <th>Total Expenses</th>
+                        <th>Investments</th>
+                    </tr>
+                    <tr>
+                        <td class="align-right">{{ averageEarnedIncome }}</td>
+                        <td class="align-right"></td>
+                        <td class="align-right"></td>
+                        <td class="align-right"></td>
+                        <td class="align-right"></td>
+                        <td class="align-right"></td>
                         <td class="align-right">{{ averageInvestments }}</td>
                     </tr>
                 </table>
+                <h3>Emergency Fund Recommendation</h3>
                 <table>
                     <tr>
-                        <td>Total Assets</td>
+                        <th>Total cash saved</th>
+                        <th>6 months of mandatory expenses</th>
+                        <th>Surplus/Deficit</th>
+                    </tr>
+                    <tr>
+                        <td class="align-right"></td>
+                        <td class="align-right"></td>
+                        <td class="align-right"></td>
+                    </tr>
+                </table>
+                <h3>Net Worth</h3>
+                <table>
+                    <tr>
+                        <th>Total Assets</th>
+                        <th>Total Liabilities</th>
+                        <th>Net Worth</th>
+                    </tr>
+                    <tr>
                         <td class="align-right">{{ totalAssets }}</td>
-                    </tr>
-                    <tr>
-                        <td>Total Liabilities</td>
                         <td class="align-right">{{ totalLiabilities }}</td>
-                    </tr>
-                    <tr>
-                        <td>Net Worth</td>
                         <td class="align-right">
                             <span class="link" @click="showNetWorth=true">{{ netWorth }}</span>
                             <modal v-if="showNetWorth" @close="showNetWorth=false">
@@ -38,8 +65,10 @@
                             </modal>
                         </td>
                     </tr>
+                    <tr>
+                        <td colspan="2"><router-link v-if="$store.state.isLoggedIn && $store.state.assets" to="/assetbreakdown">Asset Breakdown</router-link></td>
+                    </tr>
                 </table>
-                <router-link v-if="$store.state.isLoggedIn && $store.state.assets" to="/assetbreakdown">Asset Breakdown</router-link>
             </div>
         </div>
     </div>
@@ -68,6 +97,9 @@
             }
         },
         computed: {
+            averageEarnedIncome() {
+                return utils.usdFormmater.format(this.$store.getters.averageEarnedIncome)
+            },
             averageInvestments() {
                 return utils.usdFormmater.format(this.$store.getters.averageInvestments)
             },

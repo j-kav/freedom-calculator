@@ -4,52 +4,52 @@
         <table>
             <tr>
                 <td class="asset-breakdown-title">All Assets</td>
-            <tr>
-                <td>Total Cash</td>
-                <td class="align-right">{{ totalCashFormatted }}</td>
-                <td class="align-right">{{ percentCash }}</td>
-            </tr>
-            <tr>
-                <td>Total Real Estate (Equity)</td>
-                <td class="align-right">{{ totalRealEstateFormatted }}</td>
-                <td class="align-right">{{ percentRealEstate }}</td>
-            </tr>
-            <tr>
-                <td>Total Stock</td>
-                <td class="align-right">{{ totalStockFormatted }}</td>
-                <td class="align-right">{{ percentStock }}</td>
-            </tr>
-            <tr>
-                <td>Total Bonds</td>
-                <td class="align-right">{{ totalBondsFormatted }}</td>
-                <td class="align-right">{{ percentBonds }}</td>
-            </tr>
-            <tr>
-                <td class="asset-breakdown-title">Stocks Breakdown</td>
-            </tr>
-            <tr>
-                <td>Total Domestic</td>
-                <td class="align-right">{{ totalDomesticStockFormatted }}</td>
-                <td class="align-right">%</td>
-            </tr>
-            <tr>
-                <td>Total International</td>
-                <td class="align-right">{{ totalInternationalStockFormatted }}</td>
-                <td class="align-right">%</td>
-            </tr>
-            <tr>
-                <td class="asset-breakdown-title">Bonds Breakdown</td>
-            </tr>
-            <tr>
-                <td>Total Domestic</td>
-                <td class="align-right">{{ totalDomesticBondFormatted }}</td>
-                <td class="align-right">%</td>
-            </tr>
-            <tr>
-                <td>Total International</td>
-                <td class="align-right">{{ totalInternationalBondFormatted }}</td>
-                <td class="align-right">%</td>
-            </tr>
+                <tr>
+                    <td>Total Cash</td>
+                    <td class="align-right">{{ totalCashFormatted }}</td>
+                    <td class="align-right">{{ percentCash }}</td>
+                </tr>
+                <tr>
+                    <td>Total Real Estate (Equity)</td>
+                    <td class="align-right">{{ totalRealEstateFormatted }}</td>
+                    <td class="align-right">{{ percentRealEstate }}</td>
+                </tr>
+                <tr>
+                    <td>Total Stock</td>
+                    <td class="align-right">{{ totalStockFormatted }}</td>
+                    <td class="align-right">{{ percentStock }}</td>
+                </tr>
+                <tr>
+                    <td>Total Bonds</td>
+                    <td class="align-right">{{ totalBondsFormatted }}</td>
+                    <td class="align-right">{{ percentBonds }}</td>
+                </tr>
+                <tr>
+                    <td class="asset-breakdown-title">Stocks Breakdown</td>
+                </tr>
+                <tr>
+                    <td>Total Domestic</td>
+                    <td class="align-right">{{ totalDomesticStockFormatted }}</td>
+                    <td class="align-right">%</td>
+                </tr>
+                <tr>
+                    <td>Total International</td>
+                    <td class="align-right">{{ totalInternationalStockFormatted }}</td>
+                    <td class="align-right">%</td>
+                </tr>
+                <tr>
+                    <td class="asset-breakdown-title">Bonds Breakdown</td>
+                </tr>
+                <tr>
+                    <td>Total Domestic</td>
+                    <td class="align-right">{{ totalDomesticBondFormatted }}</td>
+                    <td class="align-right">%</td>
+                </tr>
+                <tr>
+                    <td>Total International</td>
+                    <td class="align-right">{{ totalInternationalBondFormatted }}</td>
+                    <td class="align-right">%</td>
+                </tr>
         </table>
         <router-link v-if="$store.state.isLoggedIn" to="/statistics">Back to Statistics</router-link>
     </div>
@@ -172,3 +172,11 @@
     }
 
 </script>
+
+<style scoped=true>
+    td.asset-breakdown-title {
+        column-span: 3;
+        text-align: center;
+        font-weight: bold;
+    }
+</style>
