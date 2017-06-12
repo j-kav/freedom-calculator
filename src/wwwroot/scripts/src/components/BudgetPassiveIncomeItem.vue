@@ -33,6 +33,7 @@
         methods: {
             updatePassiveIncomeItem: function () {
                 api.updatePassiveIncomeItem(this.budgetPassiveIncomeItem.budgetPassiveIncomeItemId, this.budgetPassiveIncomeItem).then(() => {
+                    this.$store.commit('updateBudgetPassiveIncomeItem', this.budgetPassiveIncomeItem)
                     this.error = false
                     this.message = 'updated'
                 }).catch((error) => {

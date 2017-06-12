@@ -33,6 +33,7 @@
         methods: {
             updateInvestmentItem: function () {
                 api.updateInvestmentItem(this.budgetInvestmentItem.budgetInvestmentItemId, this.budgetInvestmentItem).then(() => {
+                    this.$store.commit('updateBudgetInvestmentItem', this.budgetInvestmentItem)
                     this.error = false
                     this.message = 'updated'
                 }).catch((error) => {

@@ -22,13 +22,13 @@
                         <th>Investments</th>
                     </tr>
                     <tr>
-                        <td class="align-right">{{ averageEarnedIncome }}</td>
+                        <td class="align-right">{{ utils.usdFormmater.format(this.$store.getters.averageEarnedIncome) }}</td>
+                        <td class="align-right">{{ utils.usdFormmater.format(this.$store.getters.averagePassiveIncome) }}</td>
+                        <td class="align-right">{{ utils.usdFormmater.format(this.$store.getters.averageEarnedIncome + this.$store.getters.averagePassiveIncome) }}</td>
                         <td class="align-right"></td>
                         <td class="align-right"></td>
                         <td class="align-right"></td>
-                        <td class="align-right"></td>
-                        <td class="align-right"></td>
-                        <td class="align-right">{{ averageInvestments }}</td>
+                        <td class="align-right">{{ utils.usdFormmater.format(this.$store.getters.averageInvestments) }}</td>
                     </tr>
                 </table>
                 <h3>Emergency Fund Recommendation</h3>
@@ -93,16 +93,11 @@
             return {
                 loading: !this.$store.state.assets,
                 error: null,
-                showNetWorth: false
+                showNetWorth: false,
+                utils: utils
             }
         },
         computed: {
-            averageEarnedIncome() {
-                return utils.usdFormmater.format(this.$store.getters.averageEarnedIncome)
-            },
-            averageInvestments() {
-                return utils.usdFormmater.format(this.$store.getters.averageInvestments)
-            },
             totalAssets() {
                 return utils.usdFormmater.format(this.$store.getters.totalAssets)
             },

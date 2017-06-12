@@ -24,7 +24,10 @@ const store = new Vuex.Store({
         assets: null,
         liabilities: null,
         expenses: null,
-        budgets: null
+        budgets: null,
+        totalEarnedIncome: null,
+        totalPassiveIncome: null,
+        totalInvestments: null
     },
     getters: {
         assetsByType: (state) => (assetTypeArray) => {
@@ -65,24 +68,13 @@ const store = new Vuex.Store({
             return state.budgets.find(budget => budget.budgetId === id)
         },
         averageEarnedIncome: (state) => {
-            const budgets = state.budgets
-            let totalEarnedIncome = 0
-            for (const budget of budgets) {
-                for (const earnedIncome of budget.earnedIncome) {
-                    totalEarnedIncome += earnedIncome.amount
-                }
-            }
-            return totalEarnedIncome === 0 ? 0 : totalEarnedIncome / budgets.length
+            return state.totalEarnedIncome === 0 ? 0 : state.totalEarnedIncome / state.budgets.length
+        },
+        averagePassiveIncome: (state) => {
+            return state.totalPassiveIncome === 0 ? 0 : state.totalPassiveIncome / state.budgets.length
         },
         averageInvestments: (state) => {
-            const budgets = state.budgets
-            let totalInvestments = 0
-            for (const budget of budgets) {
-                for (const investment of budget.investments) {
-                    totalInvestments += investment.amount
-                }
-            }
-            return totalInvestments === 0 ? 0 : totalInvestments / budgets.length
+            return state.totalInvestments === 0 ? 0 : state.totalInvestments / state.budgets.length
         }
     },
     mutations: {
@@ -152,6 +144,9 @@ const store = new Vuex.Store({
         },
         setBudgets(state, budgets) {
             // calculate totals
+            let totalEarnedIncome = 0
+            let totalPassiveIncome = 0
+            let totalInvestments = 0
             for (const budget of budgets) {
                 let earnedInc = 0
                 for (const item of budget.earnedIncome) {
@@ -178,8 +173,14 @@ const store = new Vuex.Store({
                 }
                 budget.totalProjectedExpenses = projectedExpenses
                 budget.totalActualExpenses = actualExpenses
+                totalEarnedIncome += earnedInc
+                totalPassiveIncome += passiveInc
+                totalInvestments += investments
             }
             state.budgets = budgets
+            state.totalEarnedIncome = totalEarnedIncome
+            state.totalPassiveIncome = totalPassiveIncome
+            state.totalInvestments = totalInvestments
         },
         addBudget(state, budget) {
             state.budgets.push(budget)
@@ -195,34 +196,76 @@ const store = new Vuex.Store({
             var budget = state.budgets.find(budget => budget.budgetId === budgetEarnedIncomeItem.budgetId)
             budget.earnedIncome.push(budgetEarnedIncomeItem)
             budget.totalEarnedIncome += budgetEarnedIncomeItem.amount
+            state.totalEarnedIncome += budgetEarnedIncomeItem.amount
+        },
+        updateBudgetEarnedIncomeItem(state, budgetEarnedIncomeItem) {
+            // recalculate total since we don't know if it's smaller or bigger now
+            let totalEarnedIncome = 0
+            for (const budget of state.budgets) {
+                budget.totalEarnedIncome = 0
+                for (const item of budget.earnedIncome) {
+                    budget.totalEarnedIncome += Number.parseFloat(item.amount)
+                }
+                totalEarnedIncome += budget.totalEarnedIncome
+            }
+            state.totalEarnedIncome = totalEarnedIncome
         },
         removeBudgetEarnedIncomeItem(state, budgetEarnedIncomeItem) {
             var budget = state.budgets.find(budget => budget.budgetId === budgetEarnedIncomeItem.budgetId)
             var position = budget.earnedIncome.indexOf(budgetEarnedIncomeItem)
             budget.earnedIncome.splice(position, 1)
             budget.totalEarnedIncome -= budgetEarnedIncomeItem.amount
+            state.totalEarnedIncome -= budgetEarnedIncomeItem.amount
         },
         addBudgetPassiveIncomeItem(state, budgetPassiveIncomeItem) {
             var budget = state.budgets.find(budget => budget.budgetId === budgetPassiveIncomeItem.budgetId)
             budget.passiveIncome.push(budgetPassiveIncomeItem)
             budget.totalPassiveIncome += budgetPassiveIncomeItem.amount
+            state.totalPassiveIncome += budgetPassiveIncomeItem.amount
+        },
+        updateBudgetPassiveIncomeItem(state, budgetPassiveIncomeItem) {
+            // recalculate total since we don't know if it's smaller or bigger now
+            let totalPassiveIncome = 0
+            for (const budget of state.budgets) {
+                budget.totalPassiveIncome = 0
+                for (const item of budget.passiveIncome) {
+                    budget.totalPassiveIncome += Number.parseFloat(item.amount)
+                }
+                totalPassiveIncome += budget.totalPassiveIncome
+            }
+            state.totalPassiveIncome = totalPassiveIncome
         },
         removeBudgetPassiveIncomeItem(state, budgetPassiveIncomeItem) {
             var budget = state.budgets.find(budget => budget.budgetId === budgetPassiveIncomeItem.budgetId)
             var position = budget.passiveIncome.indexOf(budgetPassiveIncomeItem)
             budget.passiveIncome.splice(position, 1)
-            budget.totalPasiveIncome += budgetPassiveIncomeItem.amount
+            budget.totalPassiveIncome -= budgetPassiveIncomeItem.amount
+            state.totalPassiveIncome -= budgetPassiveIncomeItem.amount
         },
         addBudgetInvestmentItem(state, budgetInvestmentItem) {
             var budget = state.budgets.find(budget => budget.budgetId === budgetInvestmentItem.budgetId)
             budget.investments.push(budgetInvestmentItem)
             budget.totalInvestments += budgetInvestmentItem.amount
+            state.totalInvestments += budgetInvestmentItem.amount
+        },
+        updateBudgetInvestmentItem(state, budgetInvestmentItem) {
+            // recalculate total since we don't know if it's smaller or bigger now
+            let totalInvestments = 0
+            for (const budget of state.budgets) {
+                budget.totalInvestments = 0
+                for (const item of budget.investments) {
+                    budget.totalInvestments += Number.parseFloat(item.amount)
+                }
+                totalInvestments += budget.totalInvestments
+            }
+            state.totalInvestments = totalInvestments
         },
         removeBudgetInvestmentItem(state, budgetInvestmentItem) {
             var budget = state.budgets.find(budget => budget.budgetId === budgetInvestmentItem.budgetId)
             var position = budget.investments.indexOf(budgetInvestmentItem)
             budget.investments.splice(position, 1)
             budget.totalInvestments -= budgetInvestmentItem.amount
+            state.totalInvestments -= budgetInvestmentItem.amount
         },
         addBudgetExpense(state, budgetExpense) {
             var budget = state.budgets.find(budget => budget.budgetId === budgetExpense.budgetId)

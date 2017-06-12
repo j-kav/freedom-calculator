@@ -33,6 +33,7 @@
         methods: {
             updateEarnedIncomeItem: function () {
                 api.updateEarnedIncomeItem(this.budgetEarnedIncomeItem.budgetEarnedIncomeItemId, this.budgetEarnedIncomeItem).then(() => {
+                    this.$store.commit('updateBudgetEarnedIncomeItem', this.budgetEarnedIncomeItem)
                     this.error = false
                     this.message = 'updated'
                 }).catch((error) => {
