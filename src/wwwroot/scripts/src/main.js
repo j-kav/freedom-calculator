@@ -33,6 +33,14 @@ const store = new Vuex.Store({
         assetsByType: (state) => (assetTypeArray) => {
             return state.assets.filter(asset => assetTypeArray.includes(asset.assetType))
         },
+        totalCash: (state) => {
+            let totalCash = 0
+            const cashAssets = state.assets.filter(asset => asset.assetType === assetTypes.Cash)
+            for (const cashAsset of cashAssets) {
+                totalCash += cashAsset.value
+            }
+            return totalCash
+        },
         totalAssets: (state) => {
             let total = 0
             for (const asset of state.assets) {

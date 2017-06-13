@@ -63,12 +63,7 @@
         name: 'AssetBreakdown',
         computed: {
             totalCash() {
-                let totalCash = 0
-                const cashAssets = this.$store.getters.assetsByType([assetTypes.Cash])
-                for (const cashAsset of cashAssets) {
-                    totalCash += cashAsset.value
-                }
-                return totalCash
+                return this.$store.getters.totalCash
             },
             totalCashFormatted() {
                 return utils.usdFormmater.format(this.totalCash)

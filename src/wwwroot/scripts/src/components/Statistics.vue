@@ -39,7 +39,7 @@
                         <th>Surplus/Deficit</th>
                     </tr>
                     <tr>
-                        <td class="align-right"></td>
+                        <td class="align-right">{{ utils.usdFormmater.format(this.$store.getters.totalCash) }}</td>
                         <td class="align-right"></td>
                         <td class="align-right"></td>
                     </tr>
