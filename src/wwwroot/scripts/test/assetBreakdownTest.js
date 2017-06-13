@@ -32,6 +32,14 @@ describe('AssetBreakdown', () => {
                 }
                 return total
             },
+            totalCash: (state) => {
+                let totalCash = 0
+                const cashAssets = state.assets.filter(asset => asset.assetType === assetTypes.Cash)
+                for (const cashAsset of cashAssets) {
+                    totalCash += cashAsset.value
+                }
+                return totalCash
+            },
             assetsByType: (state) => (assetTypeArray) => {
                 return state.assets.filter(asset => assetTypeArray.includes(asset.assetType))
             }
