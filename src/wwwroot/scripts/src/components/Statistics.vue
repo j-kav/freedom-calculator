@@ -25,9 +25,9 @@
                         <td class="align-right">{{ utils.usdFormmater.format(this.$store.getters.averageEarnedIncome) }}</td>
                         <td class="align-right">{{ utils.usdFormmater.format(this.$store.getters.averagePassiveIncome) }}</td>
                         <td class="align-right">{{ utils.usdFormmater.format(this.$store.getters.averageEarnedIncome + this.$store.getters.averagePassiveIncome) }}</td>
-                        <td class="align-right"></td>
-                        <td class="align-right"></td>
-                        <td class="align-right"></td>
+                        <td class="align-right">{{ utils.usdFormmater.format(this.$store.getters.averageMandatoryExpenses) }}</td>
+                        <td class="align-right">{{ utils.usdFormmater.format(this.$store.getters.averageDiscretionaryExpenses) }}</td>
+                        <td class="align-right">{{ utils.usdFormmater.format(this.$store.getters.averageMandatoryExpenses + this.$store.getters.averageDiscretionaryExpenses) }}</td>
                         <td class="align-right">{{ utils.usdFormmater.format(this.$store.getters.averageInvestments) }}</td>
                     </tr>
                 </table>
@@ -40,8 +40,8 @@
                     </tr>
                     <tr>
                         <td class="align-right">{{ utils.usdFormmater.format(this.$store.getters.totalCash) }}</td>
-                        <td class="align-right"></td>
-                        <td class="align-right"></td>
+                        <td class="align-right">{{ utils.usdFormmater.format(sixMonthsExpenses) }}</td>
+                        <td class="align-right">{{ utils.usdFormmater.format(surplusDeficit) }}</td>
                     </tr>
                 </table>
                 <h3>Net Worth</h3>
@@ -106,6 +106,12 @@
             },
             netWorth() {
                 return utils.usdFormmater.format(this.$store.getters.netWorth)
+            },
+            sixMonthsExpenses() {
+                return this.$store.getters.averageMandatoryExpenses * 6
+            },
+            surplusDeficit() {
+                return this.$store.getters.totalCash - this.sixMonthsExpenses
             }
         },
         methods: {
