@@ -25,11 +25,11 @@ const store = new Vuex.Store({
         liabilities: null,
         expenses: null,
         budgets: null,
-        totalEarnedIncome: null,
-        totalPassiveIncome: null,
-        totalInvestments: null,
-        totalActualMandatoryExpenses: null,
-        totalActualDiscretionaryExpenses: null
+        totalEarnedIncome: 0,
+        totalPassiveIncome: 0,
+        totalInvestments: 0,
+        totalActualMandatoryExpenses: 0,
+        totalActualDiscretionaryExpenses: 0
     },
     getters: {
         assetsByType: (state) => (assetTypeArray) => {

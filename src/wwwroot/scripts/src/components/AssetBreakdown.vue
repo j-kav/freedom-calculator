@@ -30,12 +30,12 @@
                 <tr>
                     <td>Total Domestic</td>
                     <td class="align-right">{{ totalDomesticStockFormatted }}</td>
-                    <td class="align-right">%</td>
+                    <td class="align-right">{{ percentDomesticStock }}</td>
                 </tr>
                 <tr>
                     <td>Total International</td>
                     <td class="align-right">{{ totalInternationalStockFormatted }}</td>
-                    <td class="align-right">%</td>
+                    <td class="align-right">{{ percentInternationalStock }}</td>
                 </tr>
                 <tr>
                     <td class="asset-breakdown-title">Bonds Breakdown</td>
@@ -43,12 +43,12 @@
                 <tr>
                     <td>Total Domestic</td>
                     <td class="align-right">{{ totalDomesticBondFormatted }}</td>
-                    <td class="align-right">%</td>
+                    <td class="align-right">{{ percentDomesticBonds }}</td>
                 </tr>
                 <tr>
                     <td>Total International</td>
                     <td class="align-right">{{ totalInternationalBondFormatted }}</td>
-                    <td class="align-right">%</td>
+                    <td class="align-right">{{ percentInternationalBonds }}</td>
                 </tr>
         </table>
         <router-link v-if="$store.state.isLoggedIn" to="/statistics">Back to Statistics</router-link>
@@ -162,6 +162,34 @@
                     percentRealEstate = this.totalRealEstate / this.$store.getters.totalAssetEquity
                 }
                 return (percentRealEstate * 100).toFixed(2) + '%'
+            },
+            percentDomesticStock() {
+                var percentStock = 0
+                if (this.totalStock !== 0) {
+                    percentStock = this.totalDomesticStock / this.totalStock
+                }
+                return (percentStock * 100).toFixed(2) + '%'
+            },
+            percentInternationalStock() {
+                var percentStock = 0
+                if (this.totalStock !== 0) {
+                    percentStock = this.totalInternationalStock / this.totalStock
+                }
+                return (percentStock * 100).toFixed(2) + '%'
+            },
+            percentDomesticBonds() {
+                var percentBonds = 0
+                if (this.totalBonds !== 0) {
+                    percentBonds = this.totalDomesticBond / this.totalBonds
+                }
+                return (percentBonds * 100).toFixed(2) + '%'
+            },
+            percentInternationalBonds() {
+                var percentBonds = 0
+                if (this.totalBonds !== 0) {
+                    percentBonds = this.totalInternationalBond / this.totalBonds
+                }
+                return (percentBonds * 100).toFixed(2) + '%'
             }
         }
     }

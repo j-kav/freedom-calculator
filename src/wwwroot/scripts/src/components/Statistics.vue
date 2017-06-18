@@ -24,10 +24,12 @@
                     <tr>
                         <td class="align-right">{{ utils.usdFormmater.format(this.$store.getters.averageEarnedIncome) }}</td>
                         <td class="align-right">{{ utils.usdFormmater.format(this.$store.getters.averagePassiveIncome) }}</td>
-                        <td class="align-right">{{ utils.usdFormmater.format(this.$store.getters.averageEarnedIncome + this.$store.getters.averagePassiveIncome) }}</td>
+                        <td class="align-right">{{ utils.usdFormmater.format(this.$store.getters.averageEarnedIncome + this.$store.getters.averagePassiveIncome)
+                            }}</td>
                         <td class="align-right">{{ utils.usdFormmater.format(this.$store.getters.averageMandatoryExpenses) }}</td>
                         <td class="align-right">{{ utils.usdFormmater.format(this.$store.getters.averageDiscretionaryExpenses) }}</td>
-                        <td class="align-right">{{ utils.usdFormmater.format(this.$store.getters.averageMandatoryExpenses + this.$store.getters.averageDiscretionaryExpenses) }}</td>
+                        <td class="align-right">{{ utils.usdFormmater.format(this.$store.getters.averageMandatoryExpenses + this.$store.getters.averageDiscretionaryExpenses)
+                            }}</td>
                         <td class="align-right">{{ utils.usdFormmater.format(this.$store.getters.averageInvestments) }}</td>
                     </tr>
                 </table>
@@ -66,7 +68,26 @@
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2"><router-link v-if="$store.state.isLoggedIn && $store.state.assets" to="/assetbreakdown">Asset Breakdown</router-link></td>
+                        <td colspan="2">
+                            <router-link v-if="$store.state.isLoggedIn && $store.state.assets" to="/assetbreakdown">Asset Breakdown</router-link>
+                        </td>
+                    </tr>
+                </table>
+                <h3>Freedom Date Estimate</h3>
+                <table>
+                    <tr>
+                        <td valign="top">
+                            <table>
+                                <tr>
+                                    <td>Amount neeed for financial independence</td>
+                                    <td class="align-right">{{ utils.usdFormmater.format(amountNeededForFinancialIndependence) }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Time Until Financial Independence</td>
+                                    <td>{{ timeUntilFinancialIndependence }}&nbsp;years</td>
+                                </tr>
+                            </table>
+                        </td>
                     </tr>
                 </table>
             </div>
@@ -112,6 +133,12 @@
             },
             surplusDeficit() {
                 return this.$store.getters.totalCash - this.sixMonthsExpenses
+            },
+            amountNeededForFinancialIndependence() {
+                return utils.calculateAmountToCoverExpenses(this.$store.getters.averageMandatoryExpenses)
+            },
+            timeUntilFinancialIndependence() {
+                return utils.compoundInterestTime(this.amountNeededForFinancialIndependence, this.$store.getters.netWorth, 12)
             }
         },
         methods: {
