@@ -11,7 +11,13 @@
             <tbody>
                 <budgetExpense v-for="item in parentBudget.expenses" v-bind:budgetExpenseModel="item"></budgetExpense>
             </tbody>
+            <tfoot>
+                <td>Total</td>
+                <td>{{ utils.usdFormmater.format(totalProjectedExpenses) }}</td>
+                <td>{{ utils.usdFormmater.format(parentBudget.totalActualExpenses) }}</td>
+            </tfoot>
         </table>
+        <br/>
         <div>Add new</div>
         <div>
             <select v-model="expense">
@@ -29,6 +35,7 @@
 <script>
     import api from '../api'
     import BudgetExpense from './BudgetExpense.vue'
+    import utils from '../utils'
 
     export default {
         name: 'BudgetExpenses',
@@ -40,7 +47,17 @@
                 projected: null,
                 expense: null,
                 parentBudget: this.budget,
-                error: null
+                error: null,
+                utils: utils
+            }
+        },
+        computed: {
+            totalProjectedExpenses() {
+                let total = 0
+                for (const item of this.budget.expenses) {
+                    total += Number.parseFloat(item.projected)
+                }
+                return total
             }
         },
         props: ['budget'],

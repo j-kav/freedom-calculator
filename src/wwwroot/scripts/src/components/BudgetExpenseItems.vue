@@ -10,7 +10,12 @@
             <tbody>
                 <budgetExpenseItem v-for="item in parentBudgetExpense.budgetExpenseItems" v-bind:budgetExpenseItemModel="item" v-bind:budgetExpense="parentBudgetExpense"></budgetExpenseItem>
             </tbody>
+            <tfoot>
+                <td>Total</td>
+                <td>{{ total }}</td>
+            </tfoot>
         </table>
+        <br/>
         <div>Add new</div>
         <div>
             <label>Amount</label>
@@ -23,6 +28,7 @@
 <script>
     import api from '../api'
     import BudgetExpenseItem from './BudgetExpenseItem.vue'
+    import utils from '../utils'
 
     export default {
         name: 'BudgetExpenseItems',
@@ -37,6 +43,15 @@
             }
         },
         props: ['budgetExpense'],
+        computed: {
+            total() {
+                let total = 0
+                for (const item of this.budgetExpense.budgetExpenseItems) {
+                    total += parseFloat(item.amount)
+                }
+                return utils.usdFormmater.format(total)
+            }
+        },
         methods: {
             addAmount: function () {
                 // return promise for unit testing purposes

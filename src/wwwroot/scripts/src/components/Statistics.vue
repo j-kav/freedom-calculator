@@ -25,11 +25,23 @@
                         <td class="align-right">{{ utils.usdFormmater.format(this.$store.getters.averageEarnedIncome) }}</td>
                         <td class="align-right">{{ utils.usdFormmater.format(this.$store.getters.averagePassiveIncome) }}</td>
                         <td class="align-right">{{ utils.usdFormmater.format(this.$store.getters.averageEarnedIncome + this.$store.getters.averagePassiveIncome)
-                            }}</td>
-                        <td class="align-right">{{ utils.usdFormmater.format(this.$store.getters.averageMandatoryExpenses) }}</td>
-                        <td class="align-right">{{ utils.usdFormmater.format(this.$store.getters.averageDiscretionaryExpenses) }}</td>
-                        <td class="align-right">{{ utils.usdFormmater.format(this.$store.getters.averageMandatoryExpenses + this.$store.getters.averageDiscretionaryExpenses)
-                            }}</td>
+                            }}
+                        </td>
+                        <td class="align-right">
+                            <span class="link" @click="showAverageMandatoryExpenses=true">{{ utils.usdFormmater.format(this.$store.getters.averageMandatoryExpenses) }}</span>
+                            <modal v-if="showAverageMandatoryExpenses" @close="showAverageMandatoryExpenses=false">
+                                <h3 slot="header">Average Mandatory Expenses</h3>
+                                <expenseAverages slot="body" v-bind:mandatory="true" v-if="showAverageMandatoryExpenses" @close="showAverageMandatoryExpenses=false"></expenseAverages>
+                            </modal>
+                        </td>
+                        <td class="align-right">
+                            <span class="link" @click="showAverageDiscretionaryExpenses=true">{{ utils.usdFormmater.format(this.$store.getters.averageDiscretionaryExpenses) }}</span>
+                            <modal v-if="showAverageDiscretionaryExpenses" @close="showAverageDiscretionaryExpenses=false">
+                                <h3 slot="header">Average Discretionary Expenses</h3>
+                                <expenseAverages slot="body" v-bind:mandatory="false" v-if="showAverageDiscretionaryExpenses" @close="showAverageDiscretionaryExpenses=false"></expenseAverages>
+                            </modal>
+                        </td>
+                        <td class="align-right">{{ utils.usdFormmater.format(this.$store.getters.averageMandatoryExpenses + this.$store.getters.averageDiscretionaryExpenses) }}</td>
                         <td class="align-right">{{ utils.usdFormmater.format(this.$store.getters.averageInvestments) }}</td>
                     </tr>
                 </table>
@@ -99,11 +111,13 @@
     import api from '../api'
     import utils from '../utils'
     import Modal from './Modal.vue'
+    import ExpenseAverages from './ExpenseAverages.vue'
 
     export default {
         name: 'Statistics',
         components: {
-            'modal': Modal
+            'modal': Modal,
+            'expenseAverages': ExpenseAverages
         },
         created() {
             if (!this.$store.state.assets) {
@@ -115,6 +129,8 @@
                 loading: !this.$store.state.assets,
                 error: null,
                 showNetWorth: false,
+                showAverageMandatoryExpenses: false,
+                showAverageDiscretionaryExpenses: false,
                 utils: utils
             }
         },

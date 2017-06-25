@@ -37,5 +37,6 @@ namespace FreedomCalculator2.Models
         Task<int> AddBudgetExpenseItem(BudgetExpenseItem budgetExpenseItem);
         Task UpdateBudgetExpenseItem(int id, BudgetExpenseItem updatedBudgetExpenseItem);
         Task RemoveBudgetExpenseItem(int id);
+        List<ExpenseAverage> GetExpenseAverages(Guid userId);
     }
 }

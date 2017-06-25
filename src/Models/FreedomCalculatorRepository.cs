@@ -302,5 +302,59 @@ namespace FreedomCalculator2.Models
             db.BudgetExpenseItems.Remove(budgetExpenseItemToRemove);
             await SaveChanges();
         }
+
+        public List<ExpenseAverage> GetExpenseAverages(Guid userId)
+        {
+            // Going for this kind of query:
+            //
+            //      SELECT Name, SUM(Amount) / (SELECT COUNT(*) FROM Budget WHERE UserId=XXXX) AS Amount
+            //      FROM Expense JOIN BudgetExpense on BudgetExpense.ExpenseId = Expense.ExpenseId
+            //      JOIN Budget ON Budget.BudgetId = BudgetExpense.BudgetId
+            //      JOIN BudgetExpenseItem on BudgetExpenseItem.BudgetExpenseId = BudgetExpense.BudgetExpenseId
+            //      WHERE Budget.UserId=XXXX
+            //      GROUP BY Name
+            //
+            // in order to get averages for items that may not necessarily be in all budgets 
+            // (a $10 expense on only  1 of 2 budgets should average $5)
+            // could not figure out how to do this with 1 linq query
+            // TODO optimize this
+
+            // get the number of budgets for the user
+            var numUserBudgetsQuery = from budget in db.Budgets
+                                      where budget.User.Id == userId.ToString()
+                                      select budget;
+
+            int numUserBudgets = numUserBudgetsQuery.Count();
+
+            // get all the expenses for the user's budgets and total them up in a group
+            var query = from expense in db.Expenses
+                        join budgetExpense in db.BudgetExpenses on expense.ExpenseId equals budgetExpense.ExpenseId
+                        join budgetExpenseItem in db.BudgetExpenseItems on budgetExpense.BudgetExpenseId equals budgetExpenseItem.BudgetExpenseId
+                        join budget in db.Budgets on budgetExpense.BudgetId equals budget.BudgetId
+                        where budget.User.Id == userId.ToString()
+                        group new { expense, budgetExpenseItem } by new { expense.Name, expense.IsMandatory } into g
+                        select new
+                        {
+                            g.Key.Name,
+                            Total = (Decimal?)g.Sum(p => p.budgetExpenseItem.Amount),
+                            IsMandatory = g.Key.IsMandatory
+                        };
+
+
+            List<ExpenseAverage> retVal = new List<ExpenseAverage>();
+
+            // now divide the totals by the number of budgets to get the averages
+            foreach (var item in query.OrderByDescending(i => i.Total))
+            {
+                retVal.Add(new ExpenseAverage
+                {
+                    Name = item.Name,
+                    Average = item.Total.GetValueOrDefault() / numUserBudgets,
+                    IsMandatory = item.IsMandatory
+                });
+            }
+
+            return retVal;
+        }
     }
 }

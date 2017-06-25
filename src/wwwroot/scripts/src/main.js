@@ -25,6 +25,7 @@ const store = new Vuex.Store({
         liabilities: null,
         expenses: null,
         budgets: null,
+        expenseAverages: null,
         totalEarnedIncome: 0,
         totalPassiveIncome: 0,
         totalInvestments: 0,
@@ -91,6 +92,10 @@ const store = new Vuex.Store({
         },
         averageDiscretionaryExpenses: (state) => {
             return state.totalActualDiscretionaryExpenses === 0 ? 0 : state.totalActualDiscretionaryExpenses / state.budgets.length
+        },
+        expenseAverages: (state) => (mandatory) => {
+            const expenseAverages = state.expenseAverages.filter(expenseAverage => expenseAverage.isMandatory === mandatory)
+            return expenseAverages
         }
     },
     mutations: {
@@ -157,6 +162,9 @@ const store = new Vuex.Store({
         },
         removeExpense(state, id) {
             state.expenses = state.expenses.filter(expense => expense.expenseId !== id)
+        },
+        setExpenseAverages(state, averages) {
+            state.expenseAverages = averages
         },
         setBudgets(state, budgets) {
             // calculate totals
@@ -293,13 +301,13 @@ const store = new Vuex.Store({
         addBudgetExpense(state, budgetExpense) {
             var budget = state.budgets.find(budget => budget.budgetId === budgetExpense.budgetId)
             budget.expenses.push(budgetExpense)
-            budget.totalProjectedExpenses += budgetExpense.amount
+            budget.totalProjectedExpenses += Number.parseFloat(budgetExpense.amount)
         },
         removeBudgetExpense(state, budgetExpense) {
             var budget = state.budgets.find(budget => budget.budgetId === budgetExpense.budgetId)
             var position = budget.expenses.indexOf(budgetExpense)
             budget.expenses.splice(position, 1)
-            budget.totalProjectedExpenses -= budgetExpense.amount
+            budget.totalProjectedExpenses -= Number.parseFloat(budgetExpense.amount)
         },
         addBudgetExpenseItem(state, budgetExpenseItem) {
             var budgetId = budgetExpenseItem.budgetExpense.budgetId
@@ -307,7 +315,7 @@ const store = new Vuex.Store({
             var budget = state.budgets.find(budget => budget.budgetId === budgetId)
             var budgetExpense = budget.expenses.find(budgetExpense => budgetExpense.budgetExpenseId === budgetExpenseId)
             budgetExpense.budgetExpenseItems.push(budgetExpenseItem)
-            budget.totalActualExpenses += budgetExpenseItem.amount
+            budget.totalActualExpenses += Number.parseFloat(budgetExpenseItem.amount)
             if (budgetExpense.expense.isMandatory) {
                 state.totalActualMandatoryExpenses += budgetExpenseItem.amount
             } else {
@@ -324,7 +332,7 @@ const store = new Vuex.Store({
             // recalculate all actual expenses
             budget.totalActualExpenses = 0
             for (const item of budgetExpense.budgetExpenseItems) {
-                budget.totalActualExpenses += item.amount
+                budget.totalActualExpenses += Number.parseFloat(item.amount)
             }
             // TODO update totals for averages
         },
@@ -335,7 +343,7 @@ const store = new Vuex.Store({
             var budgetExpense = budget.expenses.find(budgetExpense => budgetExpense.budgetExpenseId === budgetExpenseId)
             var position = budgetExpense.budgetExpenseItems.indexOf(budgetExpenseItem)
             budgetExpense.budgetExpenseItems.splice(position, 1)
-            budget.totalActualExpenses -= budgetExpenseItem.amount
+            budget.totalActualExpenses -= Number.parseFloat(budgetExpenseItem.amount)
             if (budgetExpense.expense.isMandatory) {
                 state.totalActualMandatoryExpenses -= budgetExpenseItem.amount
             } else {

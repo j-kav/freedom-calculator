@@ -401,5 +401,8 @@ export default {
             method: 'DELETE'
         }
         return getNonDataFetchRequestPromise('/api/budgetexpenseitems/' + id, fetchProps)
+    },
+    getExpenseAverages: function () {
+        return getFetchRequestPromise('/api/expenseaverages');
     }
 }
