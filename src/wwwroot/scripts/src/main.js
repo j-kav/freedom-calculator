@@ -105,6 +105,15 @@ const store = new Vuex.Store({
         logout(state) {
             state.isLoggedIn = false
             state.assets = null
+            state.liabilities = null
+            state.expenses = null
+            state.budgets = null
+            state.expenseAverages = null
+            state.totalEarnedIncome = 0
+            state.totalPassiveIncome = 0
+            state.totalInvestments = 0
+            state.totalActualMandatoryExpenses = 0
+            state.totalActualDiscretionaryExpenses = 0
         },
         setAssets(state, assets) {
             for (var i = 0; i < assets.length; i++) {
