@@ -8,12 +8,19 @@ p {
 }
 
 h1 {
-	font-size: 250%;
+	font-size: 200%;
+}
+
+h2 {
+	font-size: 150%;
 }
 
 @media (max-width: 479px) {
 	h1 {
 		font-size: 150%;
+	}
+	h2 {
+		font-size: 125%;
 	}
 }
 
@@ -44,6 +51,12 @@ th, td {
 	padding-right: 10px;
 }
 
-td.align-right {
+.align-right {
 	text-align: right;
+}
+
+div.field,
+label {
+	display: inline-block;
+	width: 150px;
 }

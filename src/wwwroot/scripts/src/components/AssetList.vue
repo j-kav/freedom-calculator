@@ -150,11 +150,6 @@
 </script>
 
 <style scoped>
-    label {
-        display: inline-block;
-        width: 150px;
-    }
-    
     input {
         width: 200px;
     }

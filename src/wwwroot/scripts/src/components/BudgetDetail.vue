@@ -1,13 +1,11 @@
 <template>
     <div>
-        <p>Budget details</p>
-        <div>
-            <label>Date</label>
-            <span>{{ budget.month }}/{{ budget.year }}</span>
-        </div>
+        <h2>Budget details - {{ budget.month }}/{{ budget.year }}</h2>
         <div>
             <label>Net Earned Income</label>
-            <span class="link" @click="showEarnedIncomeItems=true">{{ utils.usdFormmater.format(budget.totalEarnedIncome) }}</span>
+            <div class="field align-right">
+                <span class="link" @click="showEarnedIncomeItems=true">{{ utils.usdFormmater.format(budget.totalEarnedIncome) }}</span>
+            </div>
             <modal v-if="showEarnedIncomeItems" @close="showEarnedIncomeItems=false">
                 <h3 slot="header">Earned Income Items</h3>
                 <budgetEarnedIncomeItems slot="body" v-if="showEarnedIncomeItems" v-bind:budget="budget" @close="showEarnedIncomeItems=false"></budgetEarnedIncomeItems>
@@ -15,7 +13,9 @@
         </div>
         <div>
             <label>Net Passive Income</label>
-            <span class="link" @click="showPassiveIncomeItems=true">{{ utils.usdFormmater.format(budget.totalPassiveIncome) }}</span>
+            <div class="field align-right">
+                <span class="link" @click="showPassiveIncomeItems=true">{{ utils.usdFormmater.format(budget.totalPassiveIncome) }}</span>
+            </div>
             <modal v-if="showPassiveIncomeItems" @close="showPassiveIncomeItems=false">
                 <h3 slot="header">Passive Income Items</h3>
                 <budgetPassiveIncomeItems slot="body" v-if="showPassiveIncomeItems" v-bind:budget="budget" @close="showPassiveIncomeItems=false"></budgetPassiveIncomeItems>
@@ -23,7 +23,9 @@
         </div>
         <div>
             <label>Investments</label>
-            <span class="link" @click="showInvestmentItems=true">{{ utils.usdFormmater.format(budget.totalInvestments) }}</span>
+            <div class="field align-right">
+                <span class="link" @click="showInvestmentItems=true">{{ utils.usdFormmater.format(budget.totalInvestments) }}</span>
+            </div>
             <modal v-if="showInvestmentItems" @close="showInvestmentItems=false">
                 <h3 slot="header">Investment Items</h3>
                 <budgetInvestmentItems slot="body" v-if="showInvestmentItems" v-bind:budget="budget" @close="showInvestmentItems=false"></budgetInvestmentItems>
@@ -31,7 +33,9 @@
         </div>
         <div>
             <label>Expenses</label>
-            <span class="link" @click="showExpenses=true">{{ utils.usdFormmater.format(budget.totalActualExpenses) + ' / ' + utils.usdFormmater.format(budget.totalProjectedExpenses) }}</span>
+            <div class="field align-right">
+                <span class="link" @click="showExpenses=true">{{ utils.usdFormmater.format(budget.totalActualExpenses) + ' / ' + utils.usdFormmater.format(budget.totalProjectedExpenses) }}</span>
+            </div>
             <modal v-if="showExpenses" @close="showExpenses=false">
                 <h3 slot="header">Expenses</h3>
                 <budgetExpenses slot="body" v-if="showExpenses" v-bind:budget="budget" @close="showExpenses=false"></budgetExpenses>

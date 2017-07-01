@@ -2,14 +2,17 @@
     <div>
         <h2>Statistics</h2>
         <div v-if="loading">
-            Loading...
+            <modal>
+                <h3 slot="header">Loading</h3>
+                <loading slot="body"></loading>
+                <div slot="footer"><span>Please Wait..</span></div>
+            </modal>
         </div>
         <div v-else>
             <div v-if="error">
                 {{ error }}
             </div>
             <div v-else>
-                Loaded!
                 <h3>Averages</h3>
                 <table>
                     <tr>
@@ -41,7 +44,8 @@
                                 <expenseAverages slot="body" v-bind:mandatory="false" v-if="showAverageDiscretionaryExpenses" @close="showAverageDiscretionaryExpenses=false"></expenseAverages>
                             </modal>
                         </td>
-                        <td class="align-right">{{ utils.usdFormmater.format(this.$store.getters.averageMandatoryExpenses + this.$store.getters.averageDiscretionaryExpenses) }}</td>
+                        <td class="align-right">{{ utils.usdFormmater.format(this.$store.getters.averageMandatoryExpenses + this.$store.getters.averageDiscretionaryExpenses)
+                            }}</td>
                         <td class="align-right">{{ utils.usdFormmater.format(this.$store.getters.averageInvestments) }}</td>
                     </tr>
                 </table>
@@ -112,11 +116,13 @@
     import utils from '../utils'
     import Modal from './Modal.vue'
     import ExpenseAverages from './ExpenseAverages.vue'
+    import Loading from './Loading.vue'
 
     export default {
         name: 'Statistics',
         components: {
             'modal': Modal,
+            'loading': Loading,
             'expenseAverages': ExpenseAverages
         },
         created() {

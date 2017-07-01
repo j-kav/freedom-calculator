@@ -3,13 +3,14 @@
         <td>{{ budgetExpense.expense.name }}</td>
         <td><input v-model="budgetExpense.projected"></input>
         </td>
-        <td>
-            <span class="link" @click="showExpenseItems=true">{{ expenseItems }}</span>
+        <td class="align-right">
+            <span class="link" @click="showExpenseItems=true">{{ utils.usdFormmater.format(expenseItems) }}</span>
             <modal v-if="showExpenseItems" @close="showExpenseItems=false">
                 <h3 slot="header">{{ budgetExpense.expense.name }} items</h3>
                 <budgetExpenseItems slot="body" v-if="showExpenseItems" v-bind:budgetExpense="budgetExpense" @close="showExpenseItems=false"></budgetExpenseItems>
             </modal>
         </td>
+        <td class="align-right" v-bind:class="remainingClass">{{ utils.usdFormmater.format(remaining) }}</td>
         <td><button v-on:click.prevent=updateExpense()>Update</button></td>
         <td><button v-on:click.prevent=removeExpense()>Delete</button></td>
         <td v-if="message" v-bind:class="messageClass">{{ message }}</td>
@@ -20,6 +21,7 @@
     import api from '../api'
     import BudgetExpenseItems from './BudgetExpenseItems.vue'
     import Modal from './Modal.vue'
+    import utils from '../utils'
 
     export default {
         name: 'BudgetExpense',
@@ -28,7 +30,8 @@
                 error: false,
                 message: null,
                 budgetExpense: this.budgetExpenseModel,
-                showExpenseItems: false
+                showExpenseItems: false,
+                utils: utils
             }
         },
         components: {
@@ -42,6 +45,16 @@
                     expenseItems += Number.parseFloat(item.amount)
                 }
                 return expenseItems
+            },
+            remaining: function () {
+                return this.budgetExpense.projected - this.expenseItems
+            },
+            remainingClass: function () {
+                return {
+                    'error': this.remaining < 0,
+                    'success': this.remaining > 0,
+                    '': this.remaining === 0
+                }
             },
             messageClass: function () {
                 return {
@@ -72,5 +85,10 @@
             }
         }
     }
-
 </script>
+
+<style scoped>
+    input {
+        width: 100px;
+    }
+</style>

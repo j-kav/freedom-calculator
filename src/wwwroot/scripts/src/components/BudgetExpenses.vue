@@ -6,6 +6,7 @@
                     <th>Expense</th>
                     <th>Projected</th>
                     <th>Actual</th>
+                    <th>Remaining</th>
                 </tr>
             </thead>
             <tbody>
@@ -13,12 +14,15 @@
             </tbody>
             <tfoot>
                 <td>Total</td>
-                <td>{{ utils.usdFormmater.format(totalProjectedExpenses) }}</td>
-                <td>{{ utils.usdFormmater.format(parentBudget.totalActualExpenses) }}</td>
+                <td class="align-right">{{ utils.usdFormmater.format(totalProjectedExpenses) }}</td>
+                <td class="align-right">{{ utils.usdFormmater.format(parentBudget.totalActualExpenses) }}</td>
+                <td class="align-right" v-bind:class="remainingTotalClass">{{ utils.usdFormmater.format(remainingTotal) }}</td>
             </tfoot>
         </table>
         <br/>
-        <div>Add new</div>
+        <div>
+            <h3>Add New</h3>
+        </div>
         <div>
             <select v-model="expense">
                 <option v-for="expense in $store.state.expenses" v-bind:value="expense">
@@ -58,6 +62,16 @@
                     total += Number.parseFloat(item.projected)
                 }
                 return total
+            },
+            remainingTotal() {
+                return this.totalProjectedExpenses - this.parentBudget.totalActualExpenses
+            },
+            remainingTotalClass() {
+                return {
+                    'error': this.remainingTotal < 0,
+                    'success': this.remainingTotal > 0,
+                    '': this.remainingTotal === 0
+                }
             }
         },
         props: ['budget'],
@@ -86,3 +100,15 @@
     }
 
 </script>
+
+<style scoped>
+    table {
+        border-collapse: collapse;
+    }
+    td {
+        padding: 2px;
+    }
+    tfoot {
+        border-top: 1px solid black;
+    }
+</style>
