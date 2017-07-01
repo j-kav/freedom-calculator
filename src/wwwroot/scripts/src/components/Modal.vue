@@ -42,6 +42,12 @@
         transition: opacity .3s ease;
     }
 
+    @media (max-width: 731px) {
+        .modal-mask {
+            position: absolute;
+        }
+    }
+
     .modal-wrapper {
         display: table-cell;
         vertical-align: middle;
