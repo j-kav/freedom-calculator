@@ -1,6 +1,6 @@
 <template>
     <div>
-        <p>Assets</p>
+        <h2>Assets</h2>
         <div>
             <a v-on:click="selectCash">Cash</a>
             <a v-on:click="selectRealEstate">Real Estate</a>

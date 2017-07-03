@@ -59,4 +59,6 @@ div.field,
 label {
 	display: inline-block;
 	width: 150px;
+	white-space: nowrap;
+	margin: 0.25em;
 }

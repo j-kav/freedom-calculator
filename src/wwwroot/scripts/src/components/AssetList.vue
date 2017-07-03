@@ -23,7 +23,7 @@
                 <asset v-for="asset in assets" v-bind:assetModel="asset"></asset>
             </tbody>
         </table>
-        <div>Add new</div>
+        <h3>Add new</h3>
         <div>
             <label>Name</label><input v-model="name"></input>
         </div>

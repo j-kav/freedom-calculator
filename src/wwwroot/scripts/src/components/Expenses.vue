@@ -1,5 +1,6 @@
 <template>
     <div>
+        <h2>Expenses</h2>
         <table>
             <thead>
                 <tr>
@@ -14,13 +15,14 @@
                 <expense v-for="expense in $store.state.expenses" v-bind:expenseModel="expense"></expense>
             </tbody>
         </table>
-        <div>Add new</div>
+        <h3>Add new</h3>
         <div>
             <label>Name</label><input v-model="name"></input>
         </div>
         <div>
             <label>Mandatory?</label><input type="checkbox" v-model="isMandatory"></input>
         </div>
+        <br/>
         <button v-on:click.prevent=addExpense>Submit</button>
         <div v-if="error" class="error">{{ error }}</div>
     </div>

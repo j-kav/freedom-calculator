@@ -1,5 +1,6 @@
 <template>
     <div>
+        <h2>Budgets</h2>
         <table>
             <thead>
                 <tr>
@@ -14,8 +15,8 @@
                 <budget v-for="budget in $store.state.budgets" v-bind:budgetModel="budget"></budget>
             </tbody>
         </table>
-        <div>Add new</div>
-        <button v-on:click.prevent=addBudget>Submit</button>
+        <br/>
+        <button v-on:click.prevent=addBudget>Add New</button>
         <div v-if="error" class="error">{{ error }}</div>
     </div>
 </template>
