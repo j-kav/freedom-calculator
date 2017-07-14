@@ -310,13 +310,13 @@ const store = new Vuex.Store({
         addBudgetExpense(state, budgetExpense) {
             var budget = state.budgets.find(budget => budget.budgetId === budgetExpense.budgetId)
             budget.expenses.push(budgetExpense)
-            budget.totalProjectedExpenses += Number.parseFloat(budgetExpense.amount)
+            budget.totalProjectedExpenses += Number.parseFloat(budgetExpense.projected)
         },
         removeBudgetExpense(state, budgetExpense) {
             var budget = state.budgets.find(budget => budget.budgetId === budgetExpense.budgetId)
             var position = budget.expenses.indexOf(budgetExpense)
             budget.expenses.splice(position, 1)
-            budget.totalProjectedExpenses -= Number.parseFloat(budgetExpense.amount)
+            budget.totalProjectedExpenses -= Number.parseFloat(budgetExpense.projected)
         },
         addBudgetExpenseItem(state, budgetExpenseItem) {
             var budgetId = budgetExpenseItem.budgetExpense.budgetId

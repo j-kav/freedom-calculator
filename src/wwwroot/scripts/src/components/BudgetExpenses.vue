@@ -3,6 +3,7 @@
         <table>
             <thead>
                 <tr>
+                    <!-- <th><span>Expense<i class="fa fa-sort-asc" aria-hidden="true"></i></span></th> -->
                     <th>Expense</th>
                     <th>Projected</th>
                     <th>Actual</th>
@@ -10,7 +11,7 @@
                 </tr>
             </thead>
             <tbody>
-                <budgetExpense v-for="item in parentBudget.expenses" v-bind:budgetExpenseModel="item"></budgetExpense>
+                <budgetExpense v-for="item in budgetExpenses" v-bind:budgetExpenseModel="item"></budgetExpense>
             </tbody>
             <tfoot>
                 <td>Total</td>
@@ -25,7 +26,7 @@
         </div>
         <div>
             <select v-model="expense">
-                <option v-for="expense in $store.state.expenses" v-bind:value="expense">
+                <option v-for="expense in unprojectedExpenses" v-bind:value="expense">
                     {{ expense.name }}
                 </option>
             </select>
@@ -40,6 +41,26 @@
     import api from '../api'
     import BudgetExpense from './BudgetExpense.vue'
     import utils from '../utils'
+
+    function compareBudgetExpenseByName(a, b) {
+        if (a.expense.name < b.expense.name) {
+            return -1
+        }
+        if (a.expense.name > b.expense.name) {
+            return 1
+        }
+        return 0
+    }
+
+    function compareExpenseByName(a, b) {
+        if (a.name < b.name) {
+            return -1
+        }
+        if (a.name > b.name) {
+            return 1
+        }
+        return 0
+    }
 
     export default {
         name: 'BudgetExpenses',
@@ -56,6 +77,16 @@
             }
         },
         computed: {
+            budgetExpenses() {
+                return this.parentBudget.expenses.sort(compareBudgetExpenseByName)
+            },
+            unprojectedExpenses() {
+                var notIn = function (expense) {
+                    return this.find(budgetExpense => budgetExpense.expense.name === expense.name) === undefined
+                }
+                var unprojected = this.$store.state.expenses.filter(notIn, this.parentBudget.expenses)
+                return unprojected.sort(compareExpenseByName)
+            },
             totalProjectedExpenses() {
                 let total = 0
                 for (const item of this.budget.expenses) {
@@ -105,9 +136,11 @@
     table {
         border-collapse: collapse;
     }
+
     td {
         padding: 2px;
     }
+
     tfoot {
         border-top: 1px solid black;
     }
