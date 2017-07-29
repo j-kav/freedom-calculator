@@ -25,6 +25,19 @@
                     <td class="align-right">{{ percentBonds }}</td>
                 </tr>
                 <tr>
+                    <td class="asset-breakdown-title">Stocks vs Bonds Breakdown</td>
+                </tr>
+                <tr>
+                    <td>Stocks</td>
+                    <td class="align-right">{{ totalStockFormatted }}</td>
+                    <td class="align-right">{{ percentStockVsBonds }}</td>
+                </tr>
+                <tr>
+                    <td>Bonds</td>
+                    <td class="align-right">{{ totalBondsFormatted }}</td>
+                    <td class="align-right">{{ percentBondsVsStock }}</td>
+                </tr>
+                <tr>
                     <td class="asset-breakdown-title">Stocks Breakdown</td>
                 </tr>
                 <tr>
@@ -135,6 +148,9 @@
             totalBondsFormatted() {
                 return utils.usdFormmater.format(this.totalBonds)
             },
+            totalStockAndBonds() {
+                return this.totalStock + this.totalBonds
+            },
             percentCash() {
                 var percentCash = 0
                 if (this.$store.getters.totalAssetEquity !== 0) {
@@ -149,11 +165,19 @@
                 }
                 return (percentBonds * 100).toFixed(2) + '%'
             },
+            percentBondsVsStock() {
+                var percentBonds = this.totalBonds / this.totalStockAndBonds
+                return (percentBonds * 100).toFixed(2) + '%'
+            },
             percentStock() {
                 var percentStock = 0
                 if (this.$store.getters.totalAssetEquity !== 0) {
                     percentStock = this.totalStock / this.$store.getters.totalAssetEquity
                 }
+                return (percentStock * 100).toFixed(2) + '%'
+            },
+            percentStockVsBonds() {
+                var percentStock = this.totalStock / this.totalStockAndBonds
                 return (percentStock * 100).toFixed(2) + '%'
             },
             percentRealEstate() {
