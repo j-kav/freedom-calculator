@@ -3,13 +3,13 @@
         <td><input v-model="asset.name"></input></td>
         <td v-if="isStockOrBond">{{ asset.symbol }}</td>
         <td v-if="isStockOrBond"><input v-model="asset.numShares"></input></td>
-        <td v-if="isStockOrBond">{{ asset.sharePrice }}</td>
+        <td v-if="isStockOrBond" class="align-right">{{ utils.usdFormmater.format(asset.sharePrice) }}</td>
         <td v-if="isRealEstate">{{ asset.address }}</td>
         <td v-if="isRealEstate">{{ asset.city }}</td>
         <td v-if="isRealEstate">{{ asset.state }}</td>
         <td v-if="isRealEstate">{{ asset.zip }}</td>
         <td v-if="isCash"><input v-model="asset.value"></input></td>
-        <td v-else>{{ asset.value }}</td>
+        <td v-else class="align-right">{{ utils.usdFormmater.format(asset.value) }}</td>
         <td v-if="isRealEstate">
             <select v-model="asset.liabilityId" v-on:change.prevent=updateEquity()>
                 <option v-for="liability in $store.state.liabilities" v-bind:value="liability.liabilityId">
@@ -17,7 +17,7 @@
                  </option>
             </select>
         </td>
-        <td v-if="isRealEstate">{{ asset.equity }}</td>
+        <td v-if="isRealEstate" class="align-right">{{ utils.usdFormmater.format(asset.equity) }}</td>
         <td><button v-on:click.prevent=updateAsset()>Update</button></td>
         <td><button v-on:click.prevent=removeAsset()>Delete</button></td>
         <td v-if="message" v-bind:class="messageClass">{{ message }}</td>
@@ -27,6 +27,7 @@
 <script>
     import api from '../api'
     import assetTypes from '../assetTypes'
+    import utils from '../utils'
 
     export default {
         name: 'Asset',
@@ -38,7 +39,8 @@
                 isStockOrBond: this.assetModel.assetType === assetTypes.DomesticBond || this.assetModel.assetType === assetTypes.InternationalBond ||
                 this.assetModel.assetType === assetTypes.DomesticStock || this.assetModel.assetType === assetTypes.InternationalStock,
                 isRealEstate: this.assetModel.assetType === assetTypes.RealEstate,
-                isCash: this.assetModel.assetType === assetTypes.Cash
+                isCash: this.assetModel.assetType === assetTypes.Cash,
+                utils: utils
             }
         },
         computed: {
