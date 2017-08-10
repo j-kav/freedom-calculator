@@ -12,7 +12,7 @@
                 </tr>
             </thead>
             <tbody>
-                <budget v-for="budget in $store.state.budgets" v-bind:budgetModel="budget"></budget>
+                <budget v-for="budget in $store.state.budgets" :key="budget.budgetId" v-bind:budgetModel="budget"></budget>
             </tbody>
         </table>
         <br/>

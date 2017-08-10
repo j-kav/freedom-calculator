@@ -12,7 +12,7 @@
         <td v-else class="align-right">{{ utils.usdFormmater.format(asset.value) }}</td>
         <td v-if="isRealEstate">
             <select v-model="asset.liabilityId" v-on:change.prevent=updateEquity()>
-                <option v-for="liability in $store.state.liabilities" v-bind:value="liability.liabilityId">
+                <option v-for="liability in $store.state.liabilities" :key="liability.liabilityId" v-bind:value="liability.liabilityId">
                      {{ liability.name }}
                  </option>
             </select>

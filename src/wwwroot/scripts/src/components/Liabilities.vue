@@ -12,7 +12,7 @@
                 </tr>
             </thead>
             <tbody>
-                <liability v-for="liability in $store.state.liabilities" v-bind:liabilityModel="liability"></liability>
+                <liability v-for="liability in $store.state.liabilities" :key="liability.liabilityId" v-bind:liabilityModel="liability"></liability>
             </tbody>
         </table>
         <h3>Add new</h3>

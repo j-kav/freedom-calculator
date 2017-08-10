@@ -8,7 +8,10 @@
                 </tr>
             </thead>
             <tbody>
-                <budgetInvestmentItem v-for="item in parentBudget.investments" v-bind:budgetInvestmentItemModel="item"></budgetInvestmentItem>
+                <budgetInvestmentItem v-for="item in parentBudget.investments"
+                                      :key="item.budgetInvestmentItemId"
+                                      v-bind:budgetInvestmentItemModel="item">
+                </budgetInvestmentItem>
             </tbody>
         </table>
         <div>Add new</div>

@@ -78,7 +78,9 @@
                                 <h3 slot="header">Net Worth</h3>
                                 <!--TODO show graph of historical net worth. For now just show list-->
                                 <ul slot="body">
-                                    <li v-for="budget in $store.state.budgets">{{ budget.year }} - {{ budget.month }} : {{ budget.netWorth }}</li>
+                                    <li v-for="budget in $store.state.budgets" :key="budget.budgetId">
+                                        {{ budget.year }} - {{ budget.month }} : {{ utils.usdFormmater.format(budget.netWorth) }}
+                                    </li>
                                 </ul>
                             </modal>
                         </td>

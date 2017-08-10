@@ -8,7 +8,11 @@
                 </tr>
             </thead>
             <tbody>
-                <budgetExpenseItem v-for="item in parentBudgetExpense.budgetExpenseItems" v-bind:budgetExpenseItemModel="item" v-bind:budgetExpense="parentBudgetExpense"></budgetExpenseItem>
+                <budgetExpenseItem v-for="item in parentBudgetExpense.budgetExpenseItems"
+                                   :key="item.budgetExpenseItemId"
+                                   v-bind:budgetExpenseItemModel="item"
+                                   v-bind:budgetExpense="parentBudgetExpense">
+                </budgetExpenseItem>
             </tbody>
             <tfoot>
                 <td>Total</td>

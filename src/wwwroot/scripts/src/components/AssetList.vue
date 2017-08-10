@@ -20,7 +20,7 @@
                 </tr>
             </thead>
             <tbody>
-                <asset v-for="asset in assets" v-bind:assetModel="asset"></asset>
+                <asset v-for="asset in assets" :key="asset.assetId" v-bind:assetModel="asset"></asset>
             </tbody>
         </table>
         <h3>Add new</h3>
@@ -73,7 +73,7 @@
             <div>
                 <label>Linked-Liability</label>
                 <select v-model="liabilityId">
-                    <option v-for="liability in $store.state.liabilities" v-bind:value="liability.liabilityId">
+                    <option v-for="liability in $store.state.liabilities" :key="liability.liabilityId" v-bind:value="liability.liabilityId">
                         {{ liability.name }}
                     </option>
                 </select>

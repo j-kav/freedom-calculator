@@ -11,7 +11,7 @@
                 </tr>
             </thead>
             <tbody>
-                <budgetExpense v-for="item in budgetExpenses" v-bind:budgetExpenseModel="item"></budgetExpense>
+                <budgetExpense v-for="item in budgetExpenses" :key="item.budgetExpenseId" v-bind:budgetExpenseModel="item"></budgetExpense>
             </tbody>
             <tfoot>
                 <td>Total</td>
@@ -26,7 +26,7 @@
         </div>
         <div>
             <select v-model="expense">
-                <option v-for="expense in unprojectedExpenses" v-bind:value="expense">
+                <option v-for="expense in unprojectedExpenses" :key="expense.expenseId" v-bind:value="expense">
                     {{ expense.name }}
                 </option>
             </select>

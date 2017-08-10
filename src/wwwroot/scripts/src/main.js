@@ -223,6 +223,11 @@ const store = new Vuex.Store({
             state.totalInvestments = totalInvestments
         },
         addBudget(state, budget) {
+            budget.totalEarnedIncome = 0
+            budget.totalPassiveIncome = 0
+            budget.totalInvestments = 0
+            budget.totalActualExpenses = 0
+            budget.totalProjectedExpenses = 0
             state.budgets.push(budget)
         },
         updateBudget(state, updatedBudget) {

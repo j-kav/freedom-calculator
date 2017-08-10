@@ -12,7 +12,7 @@
                 </tr>
             </thead>
             <tbody>
-                <expense v-for="expense in $store.state.expenses" v-bind:expenseModel="expense"></expense>
+                <expense v-for="expense in $store.state.expenses" :key="expense.expenseId" v-bind:expenseModel="expense"></expense>
             </tbody>
         </table>
         <h3>Add new</h3>

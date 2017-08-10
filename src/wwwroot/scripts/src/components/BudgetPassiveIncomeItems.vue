@@ -8,7 +8,10 @@
                 </tr>
             </thead>
             <tbody>
-                <budgetPassiveIncomeItem v-for="item in parentBudget.passiveIncome" v-bind:budgetPassiveIncomeItemModel="item"></budgetPassiveIncomeItem>
+                <budgetPassiveIncomeItem v-for="item in parentBudget.passiveIncome"
+                                         :key="item.budgetPassiveIncomeItemId"
+                                         v-bind:budgetPassiveIncomeItemModel="item">
+                </budgetPassiveIncomeItem>
             </tbody>
         </table>
         <div>Add new</div>
