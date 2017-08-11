@@ -1,11 +1,10 @@
 <template>
     <tr>
         <td>{{ budgetPassiveIncomeItem.timeStamp.substring(0, 10) }}
-        <td><input v-model="budgetPassiveIncomeItem.amount"></input>
-        </td>
-        <td><button v-on:click.prevent=updatePassiveIncomeItem()>Update</button></td>
-        <td><button v-on:click.prevent=removePassiveIncomeItem()>Delete</button></td>
-        <td v-if="message" v-bind:class="messageClass">{{ message }}</td>
+            <td><input v-model="budgetPassiveIncomeItem.amount" v-on:change.prevent=updatePassiveIncomeItem()></input>
+            </td>
+            <td><input type="image" class="deleteButton" v-on:click.prevent=removePassiveIncomeItem() src="images/delete.png"/></td>
+            <td v-if="message" v-bind:class="messageClass">{{ message }}</td>
     </tr>
 </template>
 
@@ -42,13 +41,15 @@
                 })
             },
             removePassiveIncomeItem: function () {
-                api.removePassiveIncomeItem(this.budgetPassiveIncomeItem.budgetPassiveIncomeItemId).then(() => {
-                    this.$store.commit('removeBudgetPassiveIncomeItem', this.budgetPassiveIncomeItem)
-                    this.error = false
-                }).catch((error) => {
-                    this.error = true
-                    this.message = error
-                })
+                if (window.confirm('Are you sure?')) {
+                    api.removePassiveIncomeItem(this.budgetPassiveIncomeItem.budgetPassiveIncomeItemId).then(() => {
+                        this.$store.commit('removeBudgetPassiveIncomeItem', this.budgetPassiveIncomeItem)
+                        this.error = false
+                    }).catch((error) => {
+                        this.error = true
+                        this.message = error
+                    })
+                }
             }
         }
     }

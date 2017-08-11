@@ -62,3 +62,8 @@ label {
 	white-space: nowrap;
 	margin: 0.25em;
 }
+
+input[type=image].deleteButton {
+	width: 24px;
+	height: 24px;
+}

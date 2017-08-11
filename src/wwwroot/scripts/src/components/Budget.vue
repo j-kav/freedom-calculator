@@ -5,7 +5,7 @@
         <td class="align-right">{{ utils.usdFormmater.format(budget.totalPassiveIncome) }}</td>
         <td class="align-right">{{ utils.usdFormmater.format(budget.totalInvestments) }}</td>
         <td class="align-right">{{ utils.usdFormmater.format(budget.totalActualExpenses) + ' / ' + utils.usdFormmater.format(budget.totalProjectedExpenses) }}</td>
-        <td><button v-on:click.prevent=removeBudget()>Delete</button></td>
+        <td><input type="image" class="deleteButton" v-on:click.prevent=removeBudget() src="images/delete.png"/></td>
         <td v-if="message" v-bind:class="messageClass">{{ message }}</td>
     </tr>
 </template>

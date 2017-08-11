@@ -1,7 +1,7 @@
 <template>
     <tr>
         <td>{{ budgetExpense.expense.name }}</td>
-        <td><input v-model="budgetExpense.projected"></input>
+        <td><input v-model="budgetExpense.projected" v-on:change.prevent=updateExpense()></input>
         </td>
         <td class="align-right">
             <span class="link" @click="showExpenseItems=true">{{ utils.usdFormmater.format(expenseItems) }}</span>
@@ -11,8 +11,7 @@
             </modal>
         </td>
         <td class="align-right" v-bind:class="remainingClass">{{ utils.usdFormmater.format(remaining) }}</td>
-        <td><button v-on:click.prevent=updateExpense()>Update</button></td>
-        <td><button v-on:click.prevent=removeExpense()>Delete</button></td>
+        <td><input type="image" class="deleteButton" v-on:click.prevent=removeExpense() src="images/delete.png" /></td>
         <td v-if="message" v-bind:class="messageClass">{{ message }}</td>
     </tr>
 </template>
@@ -75,16 +74,19 @@
                 })
             },
             removeExpense: function () {
-                api.removeBudgetExpense(this.budgetExpense.budgetExpenseId).then(() => {
-                    this.$store.commit('removeBudgetExpense', this.budgetExpense)
-                    this.error = false
-                }).catch((error) => {
-                    this.error = true
-                    this.message = error
-                })
+                if (window.confirm('Are you sure?')) {
+                    api.removeBudgetExpense(this.budgetExpense.budgetExpenseId).then(() => {
+                        this.$store.commit('removeBudgetExpense', this.budgetExpense)
+                        this.error = false
+                    }).catch((error) => {
+                        this.error = true
+                        this.message = error
+                    })
+                }
             }
         }
     }
+
 </script>
 
 <style scoped>

@@ -1,9 +1,10 @@
 <template>
     <tr>
-        <td><input v-model="liability.name"></input></td>
-        <td><input v-model="liability.principal"></input></td>
-        <td><button v-on:click.prevent=updateLiability()>Update</button></td>
-        <td><button v-on:click.prevent=removeLiability()>Delete</button></td>
+        <td><input v-model="liability.name" v-on:change.prevent=updateLiability()></input>
+        </td>
+        <td><input v-model="liability.principal" v-on:change.prevent=updateLiability()></input>
+        </td>
+        <td><input type="image" class="deleteButton" v-on:click.prevent=removeLiability() src="images/delete.png" /></td>
         <td v-if="message" v-bind:class="messageClass">{{ message }}</td>
     </tr>
 </template>
@@ -41,13 +42,15 @@
                 })
             },
             removeLiability: function () {
-                api.removeLiability(this.liability.liabilityId).then(() => {
-                    this.$store.commit('removeLiability', this.liability.liabilityId)
-                    this.error = false
-                }).catch((error) => {
-                    this.error = true
-                    this.message = error
-                })
+                if (window.confirm('Are you sure?')) {
+                    api.removeLiability(this.liability.liabilityId).then(() => {
+                        this.$store.commit('removeLiability', this.liability.liabilityId)
+                        this.error = false
+                    }).catch((error) => {
+                        this.error = true
+                        this.message = error
+                    })
+                }
             }
         }
     }

@@ -1,10 +1,8 @@
 <template>
     <tr>
         <td>{{ budgetInvestmentItem.timeStamp.substring(0, 10) }}</td>
-        <td><input v-model="budgetInvestmentItem.amount"></input>
-        </td>
-        <td><button v-on:click.prevent=updateInvestmentItem()>Update</button></td>
-        <td><button v-on:click.prevent=removeInvestmentItem()>Delete</button></td>
+        <td><input v-model="budgetInvestmentItem.amount" v-on:change.prevent=updateInvestmentItem()></input></td>
+        <td><input type="image" class="deleteButton" v-on:click.prevent=removeInvestmentItem() src="images/delete.png" /></td>
         <td v-if="message" v-bind:class="messageClass">{{ message }}</td>
     </tr>
 </template>
@@ -42,13 +40,15 @@
                 })
             },
             removeInvestmentItem: function () {
-                api.removeInvestmentItem(this.budgetInvestmentItem.budgetInvestmentItemId).then(() => {
-                    this.$store.commit('removeBudgetInvestmentItem', this.budgetInvestmentItem)
-                    this.error = false
-                }).catch((error) => {
-                    this.error = true
-                    this.message = error
-                })
+                if (window.confirm('Are you sure?')) {
+                    api.removeInvestmentItem(this.budgetInvestmentItem.budgetInvestmentItemId).then(() => {
+                        this.$store.commit('removeBudgetInvestmentItem', this.budgetInvestmentItem)
+                        this.error = false
+                    }).catch((error) => {
+                        this.error = true
+                        this.message = error
+                    })
+                }
             }
         }
     }
