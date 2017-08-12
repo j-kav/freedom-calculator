@@ -35,12 +35,12 @@ export default {
         if (amount === 0) {
             return 0
         }
-        if (principal === 0) {
+        if (principal <= 0) {
             return Number.POSITIVE_INFINITY
         }
         const quotient = amount / principal
         const numerator = Math.log(quotient)
         const denominator = numberCompoundsPerYear * (Math.log(1 + (compoundingInterestRate / numberCompoundsPerYear)))
-        return Math.round(numerator / denominator, 2);
+        return Math.max(0, Math.round(numerator / denominator, 2));
     }
 }

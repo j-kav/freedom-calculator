@@ -1,14 +1,14 @@
 <template>
     <tr>
-        <td><input v-model="asset.name"></input></td>
+        <td><input v-model="asset.name" v-on:change.prevent=updateAsset()></input></td>
         <td v-if="isStockOrBond">{{ asset.symbol }}</td>
-        <td v-if="isStockOrBond"><input v-model="asset.numShares"></input></td>
+        <td v-if="isStockOrBond"><input v-model="asset.numShares" v-on:change.prevent=updateAsset()></input></td>
         <td v-if="isStockOrBond" class="align-right">{{ utils.usdFormmater.format(asset.sharePrice) }}</td>
         <td v-if="isRealEstate">{{ asset.address }}</td>
         <td v-if="isRealEstate">{{ asset.city }}</td>
         <td v-if="isRealEstate">{{ asset.state }}</td>
         <td v-if="isRealEstate">{{ asset.zip }}</td>
-        <td v-if="isCash"><input v-model="asset.value"></input></td>
+        <td v-if="isCash"><input v-model="asset.value" v-on:change.prevent=updateAsset()></input></td>
         <td v-else class="align-right">{{ utils.usdFormmater.format(asset.value) }}</td>
         <td v-if="isRealEstate">
             <select v-model="asset.liabilityId" v-on:change.prevent=updateEquity()>
@@ -18,8 +18,7 @@
             </select>
         </td>
         <td v-if="isRealEstate" class="align-right">{{ utils.usdFormmater.format(asset.equity) }}</td>
-        <td><button v-on:click.prevent=updateAsset()>Update</button></td>
-        <td><button v-on:click.prevent=removeAsset()>Delete</button></td>
+        <td><input type="image" class="deleteButton" v-on:click.prevent=removeAsset() src="images/delete.png" /></td>
         <td v-if="message" v-bind:class="messageClass">{{ message }}</td>
     </tr>
 </template>
@@ -68,13 +67,15 @@
                 })
             },
             removeAsset: function () {
-                api.removeAsset(this.asset.assetId).then(() => {
-                    this.$store.commit('removeAsset', this.asset.assetId)
-                    this.error = false
-                }).catch((error) => {
-                    this.error = true
-                    this.message = error
-                })
+                if (window.confirm('Are you sure?')) {
+                    api.removeAsset(this.asset.assetId).then(() => {
+                        this.$store.commit('removeAsset', this.asset.assetId)
+                        this.error = false
+                    }).catch((error) => {
+                        this.error = true
+                        this.message = error
+                    })
+                }
             }
         }
     }
