@@ -12,7 +12,7 @@ pipeline {
         stage("Test Frontend") {
             steps {
                 dir("src") {
-                  bat "rmdir /S /Q node_modules"
+                  bat "if exist node_modules rmdir /S /Q node_modules"
                   bat "npm install"
                   bat "npm test"
                 }
