@@ -3,7 +3,7 @@ const compoundingInterestRate = 0.08
 
 export default {
     // Convert number into US dollar format
-    usdFormmater: new Intl.NumberFormat('en-US', {
+    usdFormatter: new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD',
         minimumFractionDigits: 2

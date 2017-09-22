@@ -53,7 +53,7 @@
                 for (const item of this.budgetExpense.budgetExpenseItems) {
                     total += parseFloat(item.amount)
                 }
-                return utils.usdFormmater.format(total)
+                return utils.usdFormatter.format(total)
             }
         },
         methods: {

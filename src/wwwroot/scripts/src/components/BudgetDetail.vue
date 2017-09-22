@@ -2,9 +2,16 @@
     <div>
         <h2>Budget details - {{ budget.month }}/{{ budget.year }}</h2>
         <div>
+            <label>Projected Net Earned Income</label>
+            <div class="field align-right">
+                <input type="number" v-model="budget.projectedEarnedIncome" v-on:change.prevent=updateBudget()></input>
+            </div>
+            <span v-if="message" v-bind:class="messageClass">{{ message }}</span>
+        </div>
+        <div>
             <label>Net Earned Income</label>
             <div class="field align-right">
-                <span class="link" @click="showEarnedIncomeItems=true">{{ utils.usdFormmater.format(budget.totalEarnedIncome) }}</span>
+                <span class="link" @click="showEarnedIncomeItems=true">{{ utils.usdFormatter.format(budget.totalEarnedIncome) }}</span>
             </div>
             <modal v-if="showEarnedIncomeItems" @close="showEarnedIncomeItems=false">
                 <h3 slot="header">Earned Income Items</h3>
@@ -14,7 +21,7 @@
         <div>
             <label>Net Passive Income</label>
             <div class="field align-right">
-                <span class="link" @click="showPassiveIncomeItems=true">{{ utils.usdFormmater.format(budget.totalPassiveIncome) }}</span>
+                <span class="link" @click="showPassiveIncomeItems=true">{{ utils.usdFormatter.format(budget.totalPassiveIncome) }}</span>
             </div>
             <modal v-if="showPassiveIncomeItems" @close="showPassiveIncomeItems=false">
                 <h3 slot="header">Passive Income Items</h3>
@@ -22,23 +29,35 @@
             </modal>
         </div>
         <div>
-            <label>Investments</label>
+            <label>Total Income</label>
             <div class="field align-right">
-                <span class="link" @click="showInvestmentItems=true">{{ utils.usdFormmater.format(budget.totalInvestments) }}</span>
+                <span>{{ utils.usdFormatter.format(totalIncome) }}</span>
             </div>
-            <modal v-if="showInvestmentItems" @close="showInvestmentItems=false">
-                <h3 slot="header">Investment Items</h3>
-                <budgetInvestmentItems slot="body" v-if="showInvestmentItems" v-bind:budget="budget" @close="showInvestmentItems=false"></budgetInvestmentItems>
-            </modal>
         </div>
         <div>
             <label>Expenses</label>
             <div class="field align-right">
-                <span class="link" @click="showExpenses=true">{{ utils.usdFormmater.format(budget.totalActualExpenses) + ' / ' + utils.usdFormmater.format(budget.totalProjectedExpenses) }}</span>
+                <span class="link" @click="showExpenses=true">{{ utils.usdFormatter.format(budget.totalActualExpenses) + ' / ' + utils.usdFormatter.format(budget.totalProjectedExpenses) }}</span>
             </div>
             <modal v-if="showExpenses" @close="showExpenses=false">
                 <h3 slot="header">Expenses</h3>
                 <budgetExpenses slot="body" v-if="showExpenses" v-bind:budget="budget" @close="showExpenses=false"></budgetExpenses>
+            </modal>
+        </div>
+        <div>
+            <label>Income Surplus/Deficit</label>
+            <div class="field align-right">
+                <span v-bind:class="surplusDeficitClass">{{ utils.usdFormatter.format(surplusDeficit) }}</span>
+            </div>
+        </div>
+        <div>
+            <label>Investments</label>
+            <div class="field align-right">
+                <span class="link" @click="showInvestmentItems=true">{{ utils.usdFormatter.format(budget.totalInvestments) }}</span>
+            </div>
+            <modal v-if="showInvestmentItems" @close="showInvestmentItems=false">
+                <h3 slot="header">Investment Items</h3>
+                <budgetInvestmentItems slot="body" v-if="showInvestmentItems" v-bind:budget="budget" @close="showInvestmentItems=false"></budgetInvestmentItems>
             </modal>
         </div>
     </div>
@@ -72,12 +91,35 @@
                 showPassiveIncomeItems: false,
                 showInvestmentItems: false,
                 showExpenses: false,
-                utils: utils
+                utils: utils,
+                error: false,
+                message: null
+            }
+        },
+        computed: {
+            messageClass: function () {
+                return {
+                    'error': this.error,
+                    'success': !this.error
+                }
+            },
+            totalIncome: function () {
+                return this.budget.totalEarnedIncome + this.budget.totalPassiveIncome
+            },
+            surplusDeficit: function () {
+                return this.totalIncome - this.budget.totalActualExpenses
+            },
+            surplusDeficitClass: function () {
+                return {
+                    'error': this.surplusDeficit < 0,
+                    'success': this.surplusDeficit >= 0
+                }
             }
         },
         methods: {
             updateBudget: function () {
-                api.updateBudget(this.budget.budgetId, this.budget).then(() => {
+                this.budget.netWorth = this.$store.getters.netWorth
+                api.updateBudget(this.budget).then(() => {
                     this.$store.commit('updateBudget', this.budget)
                     this.error = false
                     this.message = 'updated'
@@ -90,3 +132,9 @@
     }
 
 </script>
+
+<style scoped>
+    input[type="number"] {
+        width: 100px;
+    }
+</style>

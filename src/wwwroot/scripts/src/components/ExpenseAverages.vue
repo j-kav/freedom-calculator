@@ -13,7 +13,7 @@
             <tbody>
                 <tr v-for="expenseAverage in $store.getters.expenseAverages(isMandatory)" :key="expenseAverage.budgetExpenseAverageId">
                     <td>{{ expenseAverage.name }}</td>
-                    <td>{{ utils.usdFormmater.format(expenseAverage.average) }}</td>
+                    <td>{{ utils.usdFormatter.format(expenseAverage.average) }}</td>
                 </tr>
             </tbody>
         </table>

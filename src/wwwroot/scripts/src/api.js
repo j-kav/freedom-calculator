@@ -229,15 +229,16 @@ export default {
         }
         return getNonDataFetchRequestPromise('/api/budgets/' + id, fetchProps)
     },
-    updateBudget: function (id, netWorth) {
+    updateBudget: function (budget) {
         var fetchProps = {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                BudgetId: id,
-                NetWorth: netWorth
+                BudgetId: budget.budgetId,
+                ProjectedEarnedIncome: budget.projectedEarnedIncome,
+                NetWorth: budget.netWorth
             })
         }
         return getNonDataFetchRequestPromise('/api/budgets', fetchProps);

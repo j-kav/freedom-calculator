@@ -4,13 +4,13 @@
         <td><input v-model="budgetExpense.projected" v-on:change.prevent=updateExpense()></input>
         </td>
         <td class="align-right">
-            <span class="link" @click="showExpenseItems=true">{{ utils.usdFormmater.format(expenseItems) }}</span>
+            <span class="link" @click="showExpenseItems=true">{{ utils.usdFormatter.format(expenseItems) }}</span>
             <modal v-if="showExpenseItems" @close="showExpenseItems=false">
                 <h3 slot="header">{{ budgetExpense.expense.name }} items</h3>
                 <budgetExpenseItems slot="body" v-if="showExpenseItems" v-bind:budgetExpense="budgetExpense" @close="showExpenseItems=false"></budgetExpenseItems>
             </modal>
         </td>
-        <td class="align-right" v-bind:class="remainingClass">{{ utils.usdFormmater.format(remaining) }}</td>
+        <td class="align-right" v-bind:class="remainingClass">{{ utils.usdFormatter.format(remaining) }}</td>
         <td><input type="image" class="deleteButton" v-on:click.prevent=removeExpense() src="images/delete.png" /></td>
         <td v-if="message" v-bind:class="messageClass">{{ message }}</td>
     </tr>

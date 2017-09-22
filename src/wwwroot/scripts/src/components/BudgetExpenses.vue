@@ -15,9 +15,9 @@
             </tbody>
             <tfoot>
                 <td>Total</td>
-                <td class="align-right">{{ utils.usdFormmater.format(totalProjectedExpenses) }}</td>
-                <td class="align-right">{{ utils.usdFormmater.format(parentBudget.totalActualExpenses) }}</td>
-                <td class="align-right" v-bind:class="remainingTotalClass">{{ utils.usdFormmater.format(remainingTotal) }}</td>
+                <td class="align-right">{{ utils.usdFormatter.format(totalProjectedExpenses) }}</td>
+                <td class="align-right">{{ utils.usdFormatter.format(parentBudget.totalActualExpenses) }}</td>
+                <td class="align-right" v-bind:class="remainingTotalClass">{{ utils.usdFormatter.format(remainingTotal) }}</td>
             </tfoot>
         </table>
         <br/>

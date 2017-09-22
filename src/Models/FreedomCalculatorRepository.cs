@@ -166,7 +166,10 @@ namespace FreedomCalculator2.Models
                                                 .ThenInclude(expense => expense.BudgetExpenseItems)
                                             .Include(budget => budget.Expenses)
                                                 .ThenInclude(exp => exp.Expense)
-                                            .Where((budget) => budget.User.Id == userId.ToString()).ToList<Budget>();
+                                            .Where((budget) => budget.User.Id == userId.ToString())
+                                            .OrderByDescending(budget => budget.Year)
+                                            .ThenByDescending(budget => budget.Month)
+                                            .ToList<Budget>();
             return retVal;
         }
 
@@ -187,6 +190,7 @@ namespace FreedomCalculator2.Models
         public async Task UpdateBudget(int id, Budget updatedBudget)
         {
             Budget budgetToUpdate = db.Budgets.Where(budget => budget.BudgetId == id).FirstOrDefault();
+            budgetToUpdate.ProjectedEarnedIncome = updatedBudget.ProjectedEarnedIncome;
             budgetToUpdate.NetWorth = updatedBudget.NetWorth;
             await SaveChanges();
         }

@@ -5,10 +5,13 @@
             <thead>
                 <tr>
                     <th>Date</th>
+                    <th>Projected Net Earned Income</th>
                     <th>Net Earned Income</th>
                     <th>Passive Income</th>
-                    <th>Investments</th>
+                    <th>Total Income</th>
                     <th>Expenses</th>
+                    <th>Income Surplus/Deficit</th>
+                    <th>Investments</th>
                 </tr>
             </thead>
             <tbody>

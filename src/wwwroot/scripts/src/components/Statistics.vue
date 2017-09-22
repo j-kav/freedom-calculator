@@ -25,28 +25,28 @@
                         <th>Investments</th>
                     </tr>
                     <tr>
-                        <td class="align-right">{{ utils.usdFormmater.format(this.$store.getters.averageEarnedIncome) }}</td>
-                        <td class="align-right">{{ utils.usdFormmater.format(this.$store.getters.averagePassiveIncome) }}</td>
-                        <td class="align-right">{{ utils.usdFormmater.format(this.$store.getters.averageEarnedIncome + this.$store.getters.averagePassiveIncome)
+                        <td class="align-right">{{ utils.usdFormatter.format(this.$store.getters.averageEarnedIncome) }}</td>
+                        <td class="align-right">{{ utils.usdFormatter.format(this.$store.getters.averagePassiveIncome) }}</td>
+                        <td class="align-right">{{ utils.usdFormatter.format(this.$store.getters.averageEarnedIncome + this.$store.getters.averagePassiveIncome)
                             }}
                         </td>
                         <td class="align-right">
-                            <span class="link" @click="showAverageMandatoryExpenses=true">{{ utils.usdFormmater.format(this.$store.getters.averageMandatoryExpenses) }}</span>
+                            <span class="link" @click="showAverageMandatoryExpenses=true">{{ utils.usdFormatter.format(this.$store.getters.averageMandatoryExpenses) }}</span>
                             <modal v-if="showAverageMandatoryExpenses" @close="showAverageMandatoryExpenses=false">
                                 <h3 slot="header">Average Mandatory Expenses</h3>
                                 <expenseAverages slot="body" v-bind:mandatory="true" v-if="showAverageMandatoryExpenses" @close="showAverageMandatoryExpenses=false"></expenseAverages>
                             </modal>
                         </td>
                         <td class="align-right">
-                            <span class="link" @click="showAverageDiscretionaryExpenses=true">{{ utils.usdFormmater.format(this.$store.getters.averageDiscretionaryExpenses) }}</span>
+                            <span class="link" @click="showAverageDiscretionaryExpenses=true">{{ utils.usdFormatter.format(this.$store.getters.averageDiscretionaryExpenses) }}</span>
                             <modal v-if="showAverageDiscretionaryExpenses" @close="showAverageDiscretionaryExpenses=false">
                                 <h3 slot="header">Average Discretionary Expenses</h3>
                                 <expenseAverages slot="body" v-bind:mandatory="false" v-if="showAverageDiscretionaryExpenses" @close="showAverageDiscretionaryExpenses=false"></expenseAverages>
                             </modal>
                         </td>
-                        <td class="align-right">{{ utils.usdFormmater.format(this.$store.getters.averageMandatoryExpenses + this.$store.getters.averageDiscretionaryExpenses)
+                        <td class="align-right">{{ utils.usdFormatter.format(this.$store.getters.averageMandatoryExpenses + this.$store.getters.averageDiscretionaryExpenses)
                             }}</td>
-                        <td class="align-right">{{ utils.usdFormmater.format(this.$store.getters.averageInvestments) }}</td>
+                        <td class="align-right">{{ utils.usdFormatter.format(this.$store.getters.averageInvestments) }}</td>
                     </tr>
                 </table>
                 <h3>Emergency Fund Recommendation</h3>
@@ -57,9 +57,9 @@
                         <th>Surplus/Deficit</th>
                     </tr>
                     <tr>
-                        <td class="align-right">{{ utils.usdFormmater.format(this.$store.getters.totalCash) }}</td>
-                        <td class="align-right">{{ utils.usdFormmater.format(sixMonthsExpenses) }}</td>
-                        <td class="align-right">{{ utils.usdFormmater.format(surplusDeficit) }}</td>
+                        <td class="align-right">{{ utils.usdFormatter.format(this.$store.getters.totalCash) }}</td>
+                        <td class="align-right">{{ utils.usdFormatter.format(sixMonthsExpenses) }}</td>
+                        <td class="align-right">{{ utils.usdFormatter.format(surplusDeficit) }}</td>
                     </tr>
                 </table>
                 <h3>Net Worth</h3>
@@ -79,7 +79,7 @@
                                 <!--TODO show graph of historical net worth. For now just show list-->
                                 <ul slot="body">
                                     <li v-for="budget in $store.state.budgets" :key="budget.budgetId">
-                                        {{ budget.year }} - {{ budget.month }} : {{ utils.usdFormmater.format(budget.netWorth) }}
+                                        {{ budget.year }} - {{ budget.month }} : {{ utils.usdFormatter.format(budget.netWorth) }}
                                     </li>
                                 </ul>
                             </modal>
@@ -98,7 +98,7 @@
                             <table>
                                 <tr>
                                     <td>Amount neeed for financial independence</td>
-                                    <td class="align-right">{{ utils.usdFormmater.format(amountNeededForFinancialIndependence) }}</td>
+                                    <td class="align-right">{{ utils.usdFormatter.format(amountNeededForFinancialIndependence) }}</td>
                                 </tr>
                                 <tr>
                                     <td>Time Until Financial Independence</td>
@@ -144,13 +144,13 @@
         },
         computed: {
             totalAssets() {
-                return utils.usdFormmater.format(this.$store.getters.totalAssets)
+                return utils.usdFormatter.format(this.$store.getters.totalAssets)
             },
             totalLiabilities() {
-                return utils.usdFormmater.format(this.$store.getters.totalLiabilities)
+                return utils.usdFormatter.format(this.$store.getters.totalLiabilities)
             },
             netWorth() {
-                return utils.usdFormmater.format(this.$store.getters.netWorth)
+                return utils.usdFormatter.format(this.$store.getters.netWorth)
             },
             sixMonthsExpenses() {
                 return this.$store.getters.averageMandatoryExpenses * 6
@@ -190,8 +190,9 @@
                         const year = now.getFullYear()
                         const budgets = this.$store.getters.budgetByDate(month, year)
                         if (budgets.length >= 1) {
-                            const id = budgets[0].budgetId
-                            return api.updateBudget(id, this.$store.getters.netWorth).then(() => {
+                            var budget = budgets[0]
+                            budget.netWorth = this.$store.getters.netWorth
+                            return api.updateBudget(budget).then(() => {
                                 self.loading = false
                                 resolve()
                             })

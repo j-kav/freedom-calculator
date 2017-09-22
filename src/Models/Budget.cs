@@ -10,6 +10,7 @@ namespace FreedomCalculator2.Models
         public virtual ApplicationUser User { get; set; }
         public int Month { get; set; }
         public int Year { get; set; }
+        public decimal ProjectedEarnedIncome { get; set; }
         public List<BudgetEarnedIncomeItem> EarnedIncome { get; set; }
         public List<BudgetPassiveIncomeItem> PassiveIncome { get; set; }
         public List<BudgetInvestmentItem> Investments { get; set; }

@@ -79,7 +79,7 @@
                 return this.$store.getters.totalCash
             },
             totalCashFormatted() {
-                return utils.usdFormmater.format(this.totalCash)
+                return utils.usdFormatter.format(this.totalCash)
             },
             totalRealEstate() {
                 let totalRealEstate = 0
@@ -90,7 +90,7 @@
                 return totalRealEstate
             },
             totalRealEstateFormatted() {
-                return utils.usdFormmater.format(this.totalRealEstate)
+                return utils.usdFormatter.format(this.totalRealEstate)
             },
             totalDomesticStock() {
                 let totalStock = 0
@@ -101,7 +101,7 @@
                 return totalStock
             },
             totalDomesticStockFormatted() {
-                return utils.usdFormmater.format(this.totalDomesticStock)
+                return utils.usdFormatter.format(this.totalDomesticStock)
             },
             totalInternationalStock() {
                 let totalStock = 0
@@ -112,13 +112,13 @@
                 return totalStock
             },
             totalInternationalStockFormatted() {
-                return utils.usdFormmater.format(this.totalInternationalStock)
+                return utils.usdFormatter.format(this.totalInternationalStock)
             },
             totalStock() {
                 return this.totalDomesticStock + this.totalInternationalStock
             },
             totalStockFormatted() {
-                return utils.usdFormmater.format(this.totalStock)
+                return utils.usdFormatter.format(this.totalStock)
             },
             totalDomesticBond() {
                 let totalBond = 0
@@ -129,7 +129,7 @@
                 return totalBond
             },
             totalDomesticBondFormatted() {
-                return utils.usdFormmater.format(this.totalDomesticBond)
+                return utils.usdFormatter.format(this.totalDomesticBond)
             },
             totalInternationalBond() {
                 let totalBond = 0
@@ -140,13 +140,13 @@
                 return totalBond
             },
             totalInternationalBondFormatted() {
-                return utils.usdFormmater.format(this.totalInternationalBond)
+                return utils.usdFormatter.format(this.totalInternationalBond)
             },
             totalBonds() {
                 return this.totalDomesticBond + this.totalInternationalBond
             },
             totalBondsFormatted() {
-                return utils.usdFormmater.format(this.totalBonds)
+                return utils.usdFormatter.format(this.totalBonds)
             },
             totalStockAndBonds() {
                 return this.totalStock + this.totalBonds
