@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace FreedomCalculator2.Controllers
 {
     [Route("api/assets")]
-    [Authorize(ActiveAuthenticationSchemes = OAuthValidationDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = OAuthValidationDefaults.AuthenticationScheme)]
     public class AssetsController : Controller
     {
         UserManager<ApplicationUser> _userManager;

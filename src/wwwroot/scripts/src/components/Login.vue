@@ -56,7 +56,7 @@
                     self.$store.commit('login')
                     self.$router.push('/statistics')
                 }).catch(function (error) {
-                    this.loggingIn = false
+                    self.loggingIn = false
                     self.error = error
                 })
             }

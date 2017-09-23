@@ -9,7 +9,7 @@
             </modal>
         </div>
         <div v-else>
-            <div v-if="error">
+            <div v-if="error" class="error">
                 {{ error }}
             </div>
             <div v-else>

@@ -2,7 +2,7 @@
 using FreedomCalculator2.Migrations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -75,29 +75,9 @@ namespace FreedomCalculator2
 
                 // During development, you can disable the HTTPS requirement.
                 options.DisableHttpsRequirement();
-
-                // Note: to use JWT access tokens instead of the default
-                // encrypted format, the following lines are required:
-                //
-                // options.UseJsonWebTokens();
-                // options.AddEphemeralSigningKey();
-
-                // On production, using a X.509 certificate stored in the machine store is recommended.
-                // You can generate a self-signed certificate using Pluralsight's self-cert utility:
-                // https://s3.amazonaws.com/pluralsight-free/keith-brown/samples/SelfCert.zip
-                // 
-                // services.AddOpenIddict<ApplicationDbContext>()
-                //     .AddSigningCertificate("7D2A741FE34CC2C7369237A5F2078988E17A6A75");
-                // 
-                // Alternatively, you can also store the certificate as an embedded .pfx resource
-                // directly in this assembly or in a file published alongside this project:
-                // 
-                // services.AddOpenIddict<ApplicationDbContext>()
-                //     .AddSigningCertificate(
-                //          assembly: typeof(Startup).GetTypeInfo().Assembly,
-                //          resource: "AuthorizationServer.Certificate.pfx",
-                //          password: "OpenIddict");
             });
+
+            services.AddAuthentication().AddOAuthValidation();
 
             // for creating and seeding the database if necessary
             services.AddTransient<IDatabaseInitializer, DatabaseInitializer>();
@@ -107,49 +87,17 @@ namespace FreedomCalculator2
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IDatabaseInitializer databaseInitializer)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
-            // Add a middleware used to validate access
-            // tokens and protect the API endpoints.
-            app.UseOAuthValidation();
-
-            // If you prefer using JWT, don't forget to disable the automatic
-            // JWT -> WS-Federation claims mapping used by the JWT middleware:
-            //
-            // JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-            // JwtSecurityTokenHandler.DefaultOutboundClaimTypeMap.Clear();
-            //
-            // app.UseJwtBearerAuthentication(new JwtBearerOptions
-            // {
-            //     Authority = "http://localhost:58795/",
-            //     Audience = "resource_server",
-            //     RequireHttpsMetadata = false,
-            //     TokenValidationParameters = new TokenValidationParameters
-            //     {
-            //         NameClaimType = OpenIdConnectConstants.Claims.Subject,
-            //         RoleClaimType = OpenIdConnectConstants.Claims.Role
-            //     }
-            // });
-            app.UseOpenIddict();
-
             app.UseDefaultFiles();
             app.UseStaticFiles();
-
-            // setup API
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
-
-            // seed the database
-            databaseInitializer.Seed();
+            app.UseAuthentication();
+            app.UseMvcWithDefaultRoute(); // setup API
         }
     }
 }

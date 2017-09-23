@@ -1,20 +1,28 @@
-﻿using System.IO;
+﻿using FreedomCalculator2.Migrations;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace FreedomCalculator2
 {
-	public class Program
-	{
-		public static void Main(string[] args)
-		{
-			var host = new WebHostBuilder()
-				.UseKestrel()
-				.UseContentRoot(Directory.GetCurrentDirectory())
-				.UseIISIntegration()
-				.UseStartup<Startup>()
-				.Build();
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            var host = BuildWebHost(args);
 
-			host.Run();
-		}
-	}
+            using (var scope = host.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                var databaseInitializer = services.GetRequiredService<IDatabaseInitializer>();
+                // seed the database
+                databaseInitializer.Seed();
+            }
+
+            host.Run();
+        }
+
+        public static IWebHost BuildWebHost(string[] args) => WebHost.CreateDefaultBuilder(args).UseStartup<Startup>().Build();
+    }
 }

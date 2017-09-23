@@ -10,7 +10,7 @@ using FreedomCalculator2.Models;
 namespace FreedomCalculator2.Controllers
 {
     [Route("api/budgetexpenses")]
-    [Authorize(ActiveAuthenticationSchemes = OAuthValidationDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = OAuthValidationDefaults.AuthenticationScheme)]
     public class BudgetExpenseController : Controller
     {
         UserManager<ApplicationUser> _userManager;

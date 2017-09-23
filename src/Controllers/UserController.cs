@@ -7,7 +7,7 @@ using AspNet.Security.OAuth.Validation;
 
 namespace FreedomCalculator2.Controllers
 {
-    [Authorize(ActiveAuthenticationSchemes = OAuthValidationDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = OAuthValidationDefaults.AuthenticationScheme)]
     public class UserController : Controller
 	{
 		UserManager<ApplicationUser> _userManager;

@@ -6,13 +6,5 @@ src/wwwroot/scripts/dist/
 project.lock.json
 src/appsettings.production.json
 test/project.lock.json
-
-# files created by VS for publishing to azure.
-# TODO remove when CI/CD is setup 
-*.suo
-restore.dg
-*PublishProfiles*
-*.PublishSettings
-
 src/.tmp/*
 npm-debug.log
