@@ -8,3 +8,4 @@ src/appsettings.production.json
 test/project.lock.json
 src/.tmp/*
 npm-debug.log
+*.PublishSettings
