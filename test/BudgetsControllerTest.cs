@@ -71,9 +71,10 @@ namespace FreedomCalculator2.Tests
             IEnumerable<Budget> results = await controller.Get();
 
             // Assert
-            Assert.Equal(fakeBudgets.Count, 1);
+            int fakeBudgetsCount = fakeBudgets.Count;
+            Assert.Equal(1, fakeBudgetsCount);
             Budget fakeBudget = fakeBudgets[0];
-            Assert.Equal(fakeBudget.BudgetId, 1);
+            Assert.Equal(1, fakeBudget.BudgetId);
             Assert.Equal(fakeBudget.Month, fakeBudgetMonth);
             Assert.Equal(fakeBudget.Year, FakeBudgetYear);
         }

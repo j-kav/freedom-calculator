@@ -4,6 +4,7 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <RootNamespace>FreedomCalculator2</RootNamespace>
+    <PackageId>FreedomCalculator2</PackageId>
   </PropertyGroup>
 
   <ItemGroup>

@@ -94,7 +94,7 @@ namespace FreedomCalculator2.Tests
             zillowClient.Setup<Task<XDocument>>(z => z.GetSearchResults(fakeAddress, fakeCityStateZip)).ReturnsAsync(fakeFoundZillowSearchResult);
             AssetQuoter assetQuoter = new AssetQuoter(zillowClient.Object, yahooFinanceClient.Object);
             string propertyId = await assetQuoter.GetPropertyId(fakeAddress, fakeCity, fakeState, fakeZip);
-            Assert.Equal<string>(fakeZpId, propertyId);
+            Assert.Equal(fakeZpId, propertyId);
         }
 
         [Fact]
@@ -103,7 +103,7 @@ namespace FreedomCalculator2.Tests
             zillowClient.Setup<Task<XDocument>>(z => z.GetZestimate(fakeZpId)).ReturnsAsync(fakeZestimateSearchResult);
             AssetQuoter assetQuoter = new AssetQuoter(zillowClient.Object, yahooFinanceClient.Object);
             AssetQuoter.PropertyValue propVal = await assetQuoter.GetPropertyValue(fakeZpId);
-            Assert.Equal<string>(fakeZestimateAmount, propVal.amount);
+            Assert.Equal(fakeZestimateAmount, propVal.amount);
         }
 
         [Fact]
