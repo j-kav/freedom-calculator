@@ -3,7 +3,6 @@
         <table>
             <thead>
                 <tr>
-                    <!-- <th><span>Expense<i class="fa fa-sort-asc" aria-hidden="true"></i></span></th> -->
                     <th>Expense</th>
                     <th>Projected</th>
                     <th>Actual</th>

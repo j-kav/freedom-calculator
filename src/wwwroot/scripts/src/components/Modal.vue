@@ -31,7 +31,7 @@
 </script>
 <style scoped>
     .modal-mask {
-        position: fixed;
+        position: absolute;
         z-index: 9998;
         top: 0;
         left: 0;
@@ -40,12 +40,6 @@
         background-color: rgba(0, 0, 0, .5);
         display: table;
         transition: opacity .3s ease;
-    }
-
-    @media (max-width: 731px) {
-        .modal-mask {
-            position: absolute;
-        }
     }
 
     .modal-wrapper {

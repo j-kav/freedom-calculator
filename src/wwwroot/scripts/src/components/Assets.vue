@@ -1,26 +1,23 @@
 <template>
     <div>
         <h2>Assets</h2>
+        <nav>
+            <a v-on:click="selectCash" v-bind:class="{activeLink: cashActive, inactiveLink: !cashActive }">Cash</a>
+            <a v-on:click="selectRealEstate" v-bind:class="{activeLink: realEstateActive, inactiveLink: !realEstateActive }">Real Estate</a>
+            <a v-on:click="selectBonds" v-bind:class="{activeLink: bondsActive, inactiveLink: !bondsActive }">Bonds</a>
+            <a v-on:click="selectStocks" v-bind:class="{activeLink: stocksActive, inactiveLink: !stocksActive }">Stocks</a>
+        </nav>
         <div>
-            <a v-on:click="selectCash">Cash</a>
-            <a v-on:click="selectRealEstate">Real Estate</a>
-            <a v-on:click="selectBonds">Bonds</a>
-            <a v-on:click="selectStocks">Stocks</a>
-
             <div v-bind:class="{ activeAssetList: cashActive, inactiveAssetList: !cashActive }">
-                <b>cash</b>
                 <assetList v-bind:assetTypeArray="[assetTypes.Cash]"></assetList>
             </div>
             <div v-bind:class="{ activeAssetList: realEstateActive, inactiveAssetList: !realEstateActive }">
-                <b>real estate</b>
                 <assetList v-bind:assetTypeArray="[assetTypes.RealEstate]"></assetList>
             </div>
             <div v-bind:class="{ activeAssetList: bondsActive, inactiveAssetList: !bondsActive }">
-                <b>bonds</b>
                 <assetList v-bind:assetTypeArray="[assetTypes.DomesticBond, assetTypes.InternationalBond]"></assetList>
             </div>
             <div v-bind:class="{ activeAssetList: stocksActive, inactiveAssetList: !stocksActive }">
-                <b>stocks</b>
                 <assetList v-bind:assetTypeArray="[assetTypes.DomesticStock, assetTypes.InternationalStock]"></assetList>
             </div>
         </div>
@@ -79,8 +76,25 @@
     .activeAssetList {
         display: block
     }
-    
+
     .inactiveAssetList {
         display: none
+    }
+
+    .activeLink {
+        font-weight: bold;
+        text-decoration: underline;
+    }
+
+    .inactiveLink {
+        font-weight: normal;
+        text-decoration: unset;
+    }
+
+    nav {
+        margin-bottom: 10px;
+    }
+    nav a {
+        margin: 0 5px
     }
 </style>
