@@ -12,6 +12,7 @@
                     <th>Expenses</th>
                     <th>Income Surplus/Deficit</th>
                     <th>Investments</th>
+                    <th>Savings Rate</th>
                 </tr>
             </thead>
             <tbody>

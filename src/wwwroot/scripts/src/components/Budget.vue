@@ -12,6 +12,7 @@
         <td class="align-right">{{ utils.usdFormatter.format(budget.totalActualExpenses) + ' / ' + utils.usdFormatter.format(budget.totalProjectedExpenses) }}</td>
         <td class="align-right" v-bind:class="surplusDeficitClass">{{ utils.usdFormatter.format(surplusDeficit) }}</td>
         <td class="align-right">{{ utils.usdFormatter.format(budget.totalInvestments) }}</td>
+        <td class="align-right">{{ budget.savingsRatePercent }}</td>
         <td><input type="image" class="deleteButton" v-on:click.prevent=removeBudget() src="images/delete.png"/></td>
         <td v-if="message" v-bind:class="messageClass">{{ message }}</td>
     </tr>

@@ -51,7 +51,7 @@
             </div>
         </div>
         <div>
-            <label>Investments</label>
+            <label>Investments/Savings</label>
             <div class="field align-right">
                 <span class="link" @click="showInvestmentItems=true">{{ utils.usdFormatter.format(budget.totalInvestments) }}</span>
             </div>
@@ -59,6 +59,12 @@
                 <h3 slot="header">Investment Items</h3>
                 <budgetInvestmentItems slot="body" v-if="showInvestmentItems" v-bind:budget="budget" @close="showInvestmentItems=false"></budgetInvestmentItems>
             </modal>
+        </div>
+        <div>
+            <label>Savings Rate</label>
+            <div class="field align-right">
+                <span>{{ budget.savingsRatePercent }}</span>
+            </div>
         </div>
     </div>
 </template>

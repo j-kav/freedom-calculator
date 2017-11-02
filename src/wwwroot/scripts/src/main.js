@@ -30,7 +30,8 @@ const store = new Vuex.Store({
         totalPassiveIncome: 0,
         totalInvestments: 0,
         totalActualMandatoryExpenses: 0,
-        totalActualDiscretionaryExpenses: 0
+        totalActualDiscretionaryExpenses: 0,
+        averageSavingsRate: 0
     },
     getters: {
         assetsByType: (state) => (assetTypeArray) => {
@@ -213,6 +214,8 @@ const store = new Vuex.Store({
                 }
                 budget.totalProjectedExpenses = projectedExpenses
                 budget.totalActualExpenses = actualExpenses
+                budget.savingsRate = budget.totalEarnedIncome === 0 ? 0 : budget.totalInvestments / budget.totalEarnedIncome
+                budget.savingsRatePercent = (budget.savingsRate * 100) + '%'
                 totalEarnedIncome += earnedInc
                 totalPassiveIncome += passiveInc
                 totalInvestments += investments
@@ -221,6 +224,7 @@ const store = new Vuex.Store({
             state.totalEarnedIncome = totalEarnedIncome
             state.totalPassiveIncome = totalPassiveIncome
             state.totalInvestments = totalInvestments
+            state.averageSavingsRate = (totalEarnedIncome === 0 ? 0 : totalInvestments / totalEarnedIncome) * 100 + '%'
         },
         addBudget(state, budget) {
             budget.totalEarnedIncome = 0

@@ -19,7 +19,7 @@
 
 -- insert into Asset (AssetType, Name, NumShares, Symbol, UserId, Value) values (4, 'Microsoft', 10, 'msft', '3daf0738-c3ed-4030-b940-32ae0eac231d', 1000);
 -- delete Liability where LiabilityId = 4;
--- update budget set networth = 500
+-- update budget set networth = 500 where budgetid=1
 -- insert into budget (UserId, Month, Year, NetWorth) values ('f8f3dfc2-482f-464c-a1a7-8abd63c68b78', 10, 2016, 0)
 
 -- delete Asset;

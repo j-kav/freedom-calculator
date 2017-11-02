@@ -23,6 +23,7 @@
                         <th>Discretionary Expenses</th>
                         <th>Total Expenses</th>
                         <th>Investments</th>
+                        <th>Savings Rate</th>
                     </tr>
                     <tr>
                         <td class="align-right">{{ utils.usdFormatter.format(this.$store.getters.averageEarnedIncome) }}</td>
@@ -47,6 +48,7 @@
                         <td class="align-right">{{ utils.usdFormatter.format(this.$store.getters.averageMandatoryExpenses + this.$store.getters.averageDiscretionaryExpenses)
                             }}</td>
                         <td class="align-right">{{ utils.usdFormatter.format(this.$store.getters.averageInvestments) }}</td>
+                        <td class="align-right">{{ this.$store.state.averageSavingsRate }}</td>
                     </tr>
                 </table>
                 <h3>Emergency Fund Recommendation</h3>
