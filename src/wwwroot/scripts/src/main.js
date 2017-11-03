@@ -215,7 +215,7 @@ const store = new Vuex.Store({
                 budget.totalProjectedExpenses = projectedExpenses
                 budget.totalActualExpenses = actualExpenses
                 budget.savingsRate = budget.totalEarnedIncome === 0 ? 0 : budget.totalInvestments / budget.totalEarnedIncome
-                budget.savingsRatePercent = (budget.savingsRate * 100) + '%'
+                budget.savingsRatePercent = (budget.savingsRate * 100).toFixed(2) + '%'
                 totalEarnedIncome += earnedInc
                 totalPassiveIncome += passiveInc
                 totalInvestments += investments
@@ -295,7 +295,10 @@ const store = new Vuex.Store({
             var budget = state.budgets.find(budget => budget.budgetId === budgetInvestmentItem.budgetId)
             budget.investments.push(budgetInvestmentItem)
             budget.totalInvestments += budgetInvestmentItem.amount
+            budget.savingsRate = budget.totalEarnedIncome === 0 ? 0 : budget.totalInvestments / budget.totalEarnedIncome
+            budget.savingsRatePercent = (budget.savingsRate * 100).toFixed(2) + '%'
             state.totalInvestments += budgetInvestmentItem.amount
+            state.averageSavingsRate = ((state.totalEarnedIncome === 0 ? 0 : state.totalInvestments / state.totalEarnedIncome) * 100).toFixed(2) + '%'
         },
         updateBudgetInvestmentItem(state, budgetInvestmentItem) {
             // recalculate total since we don't know if it's smaller or bigger now
