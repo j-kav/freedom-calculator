@@ -224,7 +224,7 @@ const store = new Vuex.Store({
             state.totalEarnedIncome = totalEarnedIncome
             state.totalPassiveIncome = totalPassiveIncome
             state.totalInvestments = totalInvestments
-            state.averageSavingsRate = (totalEarnedIncome === 0 ? 0 : totalInvestments / totalEarnedIncome) * 100 + '%'
+            state.averageSavingsRate = ((totalEarnedIncome === 0 ? 0 : totalInvestments / totalEarnedIncome) * 100).toFixed(2) + '%'
         },
         addBudget(state, budget) {
             budget.totalEarnedIncome = 0
