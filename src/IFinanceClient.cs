@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace FreedomCalculator2
 {
-    public interface IYahooFinanceClient
+    public interface IFinanceClient
     {
         Task<AssetQuote> GetQuote(string symbol);
         Task<List<AssetQuote>> GetQuotes(List<string> symbols);

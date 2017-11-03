@@ -16,14 +16,14 @@ namespace FreedomCalculator2.Controllers
         UserManager<ApplicationUser> _userManager;
         IFreedomCalculatorRepository _repository;
         IZillowClient _zillowClient;
-        IYahooFinanceClient _yahooFinanceClient;
+        IFinanceClient _financeClient;
 
-        public AssetsController(UserManager<ApplicationUser> userManager, IFreedomCalculatorRepository repository, IZillowClient zillowClient, IYahooFinanceClient yahooFinanceClient)
+        public AssetsController(UserManager<ApplicationUser> userManager, IFreedomCalculatorRepository repository, IZillowClient zillowClient, IFinanceClient financeClient)
         {
             _userManager = userManager;
             _repository = repository;
             _zillowClient = zillowClient;
-            _yahooFinanceClient = yahooFinanceClient;
+            _financeClient = financeClient;
         }
 
         // GET: api/assets
@@ -41,7 +41,7 @@ namespace FreedomCalculator2.Controllers
         {
             ApplicationUser user = await _userManager.GetUserAsync(User);
             asset.User = user;
-            AssetQuoter assetQuoter = new AssetQuoter(_zillowClient, _yahooFinanceClient);
+            AssetQuoter assetQuoter = new AssetQuoter(_zillowClient, _financeClient);
             if (asset.AssetType == AssetType.RealEstate)
             {
                 // get the zillow id and set the symbol
@@ -76,7 +76,7 @@ namespace FreedomCalculator2.Controllers
         {
             await _repository.UpdateAsset(id, asset);
             asset.AssetId = id;
-            AssetQuoter assetQuoter = new AssetQuoter(_zillowClient, _yahooFinanceClient);
+            AssetQuoter assetQuoter = new AssetQuoter(_zillowClient, _financeClient);
             if (asset.AssetType == AssetType.DomesticBond || asset.AssetType == AssetType.DomesticStock ||
                 asset.AssetType == AssetType.InternationalBond || asset.AssetType == AssetType.InternationalStock)
             {

@@ -12,13 +12,13 @@ namespace FreedomCalculator2.Models
     {
         ApplicationDbContext db;
         IZillowClient _zillowClient;
-        IYahooFinanceClient _yahooFinanceClient;
+        IFinanceClient _financeClient;
 
-        public FreedomCalculatorRepository(ApplicationDbContext dbContext, IZillowClient zillowClient, IYahooFinanceClient yahooFinanceClient)
+        public FreedomCalculatorRepository(ApplicationDbContext dbContext, IZillowClient zillowClient, IFinanceClient financeClient)
         {
             db = dbContext;
             _zillowClient = zillowClient;
-            _yahooFinanceClient = yahooFinanceClient;
+            _financeClient = financeClient;
         }
         async Task SaveChanges()
         {
@@ -35,7 +35,7 @@ namespace FreedomCalculator2.Models
 
         public async Task<List<Asset>> GetAssets(Guid userId)
         {
-            AssetQuoter quoter = new AssetQuoter(_zillowClient, _yahooFinanceClient);
+            AssetQuoter quoter = new AssetQuoter(_zillowClient, _financeClient);
 
             List<Asset> retVal = db.Assets.Where((asset) => asset.User.Id == userId.ToString()).ToList<Asset>();
             List<string> symbols = new List<string>(retVal.Count);

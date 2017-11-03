@@ -17,12 +17,12 @@ namespace FreedomCalculator2
         }
 
         IZillowClient _zillowClient;
-        IYahooFinanceClient yahooFinanceClient;
+        IFinanceClient financeClient;
 
-        public AssetQuoter(IZillowClient zillowClient, IYahooFinanceClient yahooFinanceClient)
+        public AssetQuoter(IZillowClient zillowClient, IFinanceClient financeClient)
         {
             _zillowClient = zillowClient;
-            this.yahooFinanceClient = yahooFinanceClient;
+            this.financeClient = financeClient;
         }
 
         public async Task<string> GetPropertyId(string address, string city, string state, string zip)
@@ -59,7 +59,7 @@ namespace FreedomCalculator2
             if (string.IsNullOrWhiteSpace(symbol))
                 throw new ArgumentException("symbol cannot be null or whitespace", "symbol");
 
-            return await yahooFinanceClient.GetQuote(symbol);
+            return await financeClient.GetQuote(symbol);
         }
 
         public async Task<List<AssetQuote>> GetQuotes(List<string> symbols)
@@ -67,7 +67,7 @@ namespace FreedomCalculator2
             if (symbols == null || symbols.Count == 0)
                 throw new ArgumentException("symbols cannot be null or empty", "symbols");
 
-            return await yahooFinanceClient.GetQuotes(symbols);
+            return await financeClient.GetQuotes(symbols);
         }
     }
 }
