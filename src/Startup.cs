@@ -70,8 +70,9 @@ namespace FreedomCalculator2
                 // Enable the token endpoint.
                 options.EnableTokenEndpoint("/connect/token");
 
-                // Enable the password flow.
-                options.AllowPasswordFlow();
+                // Enable the password and the refresh token flows.
+                options.AllowPasswordFlow()
+                       .AllowRefreshTokenFlow();
 
                 // During development, you can disable the HTTPS requirement.
                 options.DisableHttpsRequirement();

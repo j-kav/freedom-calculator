@@ -1,11 +1,14 @@
-var token
+var accessToken
+var accessTokenExpirationDate
 
 // create a fetch request with url and props passed and return a promise with the data returned
 // also add the auth header
 function getFetchRequestPromise(url, fetchProps) {
+    var nowTime = new Date().getTime()
+    window.alert('now: ' + nowTime + ' expiration date: ' + accessTokenExpirationDate + 'diff: ' + (accessTokenExpirationDate - nowTime))
     fetchProps = fetchProps || {}
     fetchProps.headers = fetchProps.headers || {}
-    fetchProps.headers.Authorization = 'Bearer ' + token
+    fetchProps.headers.Authorization = 'Bearer ' + accessToken
     var p = new Promise((resolve, reject) => {
         window.fetch(url, fetchProps).then((response) => {
             return response.json()
@@ -23,7 +26,7 @@ function getFetchRequestPromise(url, fetchProps) {
 function getNonDataFetchRequestPromise(url, fetchProps) {
     fetchProps = fetchProps || {}
     fetchProps.headers = fetchProps.headers || {}
-    fetchProps.headers.Authorization = 'Bearer ' + token
+    fetchProps.headers.Authorization = 'Bearer ' + accessToken
     var p = new Promise((resolve, reject) => {
         window.fetch(url, fetchProps).then((response) => {
             if (response.ok) {
@@ -52,7 +55,8 @@ export default {
                 if (data.error) {
                     reject(data.error_description)
                 } else {
-                    token = data.access_token
+                    accessToken = data.access_token
+                    accessTokenExpirationDate = new Date().getTime() + data.expires_in
                     resolve()
                 }
             }).catch((error) => {
