@@ -40,8 +40,10 @@ namespace FreedomCalculator2
             // add entity framework using the config connection string
             services.AddEntityFrameworkSqlServer()
                 .AddDbContext<ApplicationDbContext>(options =>
-                    options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
-
+                {
+                    options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]);
+                    options.UseOpenIddict();
+                });
             // add identity
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()

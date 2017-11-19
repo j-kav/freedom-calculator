@@ -46,7 +46,7 @@ export default {
         var fetchProps = {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: 'grant_type=password&username=' + email + '&password=' + password
+            body: 'grant_type=password&username=' + email + '&password=' + password + '&scope=openid offline_access'
         }
         var p = new Promise((resolve, reject) => {
             window.fetch('/connect/token', fetchProps).then((response) => {
