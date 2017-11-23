@@ -32,6 +32,7 @@
             <label>Projected Amount</label>
             <input type="text" v-model="projected"></input>
             <button v-on:click.prevent=addExpense>Submit</button>
+            <span v-if="message" v-bind:class="messageClass">{{ message }}</span>
         </div>
     </div>
 </template>
@@ -72,6 +73,7 @@
                 expense: null,
                 parentBudget: this.budget,
                 error: null,
+                message: null,
                 utils: utils
             }
         },
@@ -102,6 +104,12 @@
                     'success': this.remainingTotal > 0,
                     '': this.remainingTotal === 0
                 }
+            },
+            messageClass: function () {
+                return {
+                    'error': this.error,
+                    'success': !this.error
+                }
             }
         },
         props: ['budget'],
@@ -121,7 +129,8 @@
                         resolve()
                     }).catch((error) => {
                         this.error = 'error'
-                        reject(error.message) // TODO sanitize error
+                        this.message = error
+                        reject(error.message)
                     })
                 })
                 return p

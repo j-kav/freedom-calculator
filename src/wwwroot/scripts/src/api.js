@@ -8,7 +8,11 @@ function getFetchRequestPromise(url, fetchProps) {
     fetchProps.headers.Authorization = 'Bearer ' + authData.access_token
     var p = new Promise((resolve, reject) => {
         window.fetch(url, fetchProps).then((response) => {
-            return response.json()
+            if (response.ok) {
+                return response.json()
+            } else {
+                reject(response.statusText) // TODO sanitize error
+            }
         }).then((data) => {
             resolve(data)
         }).catch((error) => {

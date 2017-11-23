@@ -1,8 +1,7 @@
 <template>
     <tr>
         <td>{{ budgetExpense.expense.name }}</td>
-        <td><input v-model="budgetExpense.projected" v-on:change.prevent=updateExpense()></input>
-        </td>
+        <td><input v-model="budgetExpense.projected" v-on:change.prevent=updateExpense()></input></td>
         <td class="align-right">
             <span class="link" @click="showExpenseItems=true">{{ utils.usdFormatter.format(expenseItems) }}</span>
             <modal v-if="showExpenseItems" @close="showExpenseItems=false">
