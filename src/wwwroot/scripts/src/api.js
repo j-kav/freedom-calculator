@@ -1,14 +1,11 @@
-var accessToken
-var accessTokenExpirationDate
+var authData = {}
 
 // create a fetch request with url and props passed and return a promise with the data returned
 // also add the auth header
 function getFetchRequestPromise(url, fetchProps) {
-    var nowTime = new Date().getTime()
-    window.alert('now: ' + nowTime + ' expiration date: ' + accessTokenExpirationDate + 'diff: ' + (accessTokenExpirationDate - nowTime))
     fetchProps = fetchProps || {}
     fetchProps.headers = fetchProps.headers || {}
-    fetchProps.headers.Authorization = 'Bearer ' + accessToken
+    fetchProps.headers.Authorization = 'Bearer ' + authData.access_token
     var p = new Promise((resolve, reject) => {
         window.fetch(url, fetchProps).then((response) => {
             return response.json()
@@ -26,7 +23,7 @@ function getFetchRequestPromise(url, fetchProps) {
 function getNonDataFetchRequestPromise(url, fetchProps) {
     fetchProps = fetchProps || {}
     fetchProps.headers = fetchProps.headers || {}
-    fetchProps.headers.Authorization = 'Bearer ' + accessToken
+    fetchProps.headers.Authorization = 'Bearer ' + authData.access_token
     var p = new Promise((resolve, reject) => {
         window.fetch(url, fetchProps).then((response) => {
             if (response.ok) {
@@ -41,29 +38,41 @@ function getNonDataFetchRequestPromise(url, fetchProps) {
     return p
 }
 
+function fetchTokens(fetchBody) {
+    var fetchProps = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: fetchBody
+    }
+    var p = new Promise((resolve, reject) => {
+        window.fetch('/connect/token', fetchProps).then((response) => {
+            return response.json()
+        }).then((data) => {
+            if (data.error) {
+                reject(data.error_description)
+            } else {
+                if (authData.refresh_token && !data.refresh_token) {
+                    data.refresh_token = authData.refresh_token
+                }
+                authData = data
+                var expiresInMilliseconds = data.expires_in * 1000
+                var now = new Date()
+                var expirationDate = new Date(now.getTime() + expiresInMilliseconds).getTime()
+                resolve(expirationDate)
+            }
+        }).catch((error) => {
+            reject(error)
+        })
+    });
+    return p;
+}
+
 export default {
     getToken: function (email, password) {
-        var fetchProps = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: 'grant_type=password&username=' + email + '&password=' + password + '&scope=openid offline_access'
-        }
-        var p = new Promise((resolve, reject) => {
-            window.fetch('/connect/token', fetchProps).then((response) => {
-                return response.json()
-            }).then((data) => {
-                if (data.error) {
-                    reject(data.error_description)
-                } else {
-                    accessToken = data.access_token
-                    accessTokenExpirationDate = new Date().getTime() + data.expires_in
-                    resolve()
-                }
-            }).catch((error) => {
-                reject(error)
-            })
-        });
-        return p;
+        return fetchTokens('grant_type=password&username=' + email + '&password=' + password + '&scope=openid offline_access')
+    },
+    refreshToken: function () {
+        return fetchTokens('grant_type=refresh_token&refresh_token=' + authData.refresh_token + '&scope=openid offline_access')
     },
     getUser: function () {
         return getFetchRequestPromise('/api/user');
