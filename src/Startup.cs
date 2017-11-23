@@ -1,4 +1,5 @@
-﻿using FreedomCalculator2.Models;
+﻿using AspNet.Security.OpenIdConnect.Primitives;
+using FreedomCalculator2.Models;
 using FreedomCalculator2.Migrations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -6,13 +7,14 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using AspNet.Security.OpenIdConnect.Primitives;
+using System;
 
 namespace FreedomCalculator2
 {
     public class Startup
     {
         public IConfigurationRoot Configuration { get; set; }
+        public IHostingEnvironment HostingEnvironment { get; set; }
 
         public Startup(IHostingEnvironment env)
         {
@@ -23,6 +25,7 @@ namespace FreedomCalculator2
                 .AddEnvironmentVariables();
 
             Configuration = builder.Build();
+            HostingEnvironment = env;
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -40,8 +43,10 @@ namespace FreedomCalculator2
             // add entity framework using the config connection string
             services.AddEntityFrameworkSqlServer()
                 .AddDbContext<ApplicationDbContext>(options =>
-                    options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
-
+                {
+                    options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]);
+                    options.UseOpenIddict();
+                });
             // add identity
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -62,19 +67,25 @@ namespace FreedomCalculator2
                 // Register the Entity Framework stores.
                 options.AddEntityFrameworkCoreStores<ApplicationDbContext>();
 
-                // Register the ASP.NET Core MVC binder used by OpenIddict.
-                // Note: if you don't call this method, you won't be able to
-                // bind OpenIdConnectRequest or OpenIdConnectResponse parameters.
+                // Register the ASP.NET Core MVC binder used by OpenIddict in order to
+                // bind OpenIdConnectRequest and OpenIdConnectResponse parameters.
                 options.AddMvcBinders();
 
                 // Enable the token endpoint.
                 options.EnableTokenEndpoint("/connect/token");
 
-                // Enable the password flow.
-                options.AllowPasswordFlow();
+                // Enable the password and the refresh token flows.
+                options.AllowPasswordFlow()
+                       .AllowRefreshTokenFlow();
 
-                // During development, you can disable the HTTPS requirement.
-                options.DisableHttpsRequirement();
+                // Override the default token timeout to 20 min
+                options.SetAccessTokenLifetime(new TimeSpan(0, 20, 0));
+
+                // Disable the HTTPS requirement for dev env.
+                if (HostingEnvironment.IsDevelopment())
+                {
+                    options.DisableHttpsRequirement();
+                }
             });
 
             services.AddAuthentication().AddOAuthValidation();

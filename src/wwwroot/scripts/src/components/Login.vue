@@ -52,8 +52,8 @@
             login: function () {
                 this.loggingIn = true
                 var self = this
-                api.getToken(this.email, this.password).then(function () {
-                    self.$store.commit('login')
+                api.getToken(this.email, this.password).then(function (expirationDate) {
+                    self.$store.commit('login', expirationDate)
                     self.$router.push('/statistics')
                 }).catch(function (error) {
                     self.loggingIn = false

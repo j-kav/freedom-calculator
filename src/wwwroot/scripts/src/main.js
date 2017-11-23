@@ -18,6 +18,25 @@ import assetTypes from './assetTypes'
 Vue.use(Vuex)
 Vue.use(VueRouter)
 
+function logout(state) {
+    if (window.fcSessionTimeoutIntervalId) {
+        clearInterval(window.fcSessionTimeoutIntervalId)
+    }
+    state.isLoggedIn = false
+    state.assets = null
+    state.liabilities = null
+    state.expenses = null
+    state.budgets = null
+    state.expenseAverages = null
+    state.totalEarnedIncome = 0
+    state.totalPassiveIncome = 0
+    state.totalInvestments = 0
+    state.totalActualMandatoryExpenses = 0
+    state.totalActualDiscretionaryExpenses = 0
+    state.sessionExpiring = false
+    window.location = '/'
+}
+
 const store = new Vuex.Store({
     state: {
         isLoggedIn: false,
@@ -31,7 +50,8 @@ const store = new Vuex.Store({
         totalInvestments: 0,
         totalActualMandatoryExpenses: 0,
         totalActualDiscretionaryExpenses: 0,
-        averageSavingsRate: 0
+        averageSavingsRate: 0,
+        sessionExpiring: false
     },
     getters: {
         assetsByType: (state) => (assetTypeArray) => {
@@ -100,21 +120,23 @@ const store = new Vuex.Store({
         }
     },
     mutations: {
-        login(state) {
+        login(state, expirationDate) {
             state.isLoggedIn = true
+            state.sessionExpiring = false
+            if (window.fcSessionTimeoutIntervalId) {
+                clearInterval(window.fcSessionTimeoutIntervalId)
+            }
+            window.fcSessionTimeoutIntervalId = setInterval(() => {
+                var now = new Date().getTime()
+                if (now > expirationDate) {
+                    logout(state)
+                } else if (now > (expirationDate - (5 * 60 * 1000))) { // 5 min before token timeout
+                    state.sessionExpiring = true
+                }
+            }, 1000)
         },
         logout(state) {
-            state.isLoggedIn = false
-            state.assets = null
-            state.liabilities = null
-            state.expenses = null
-            state.budgets = null
-            state.expenseAverages = null
-            state.totalEarnedIncome = 0
-            state.totalPassiveIncome = 0
-            state.totalInvestments = 0
-            state.totalActualMandatoryExpenses = 0
-            state.totalActualDiscretionaryExpenses = 0
+            logout(state)
         },
         setAssets(state, assets) {
             for (var i = 0; i < assets.length; i++) {

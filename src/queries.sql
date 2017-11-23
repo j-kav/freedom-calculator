@@ -22,7 +22,8 @@
 -- update budget set networth = 500 where budgetid=1
 -- insert into budget (UserId, Month, Year, NetWorth) values ('f8f3dfc2-482f-464c-a1a7-8abd63c68b78', 10, 2016, 0)
 
--- delete Asset;
+-- delete Asset where AssetType = 1; -- real estate assets causing issues when debugging sometimes
+-- delete Asset where AssetType = 4; -- stock assets causing issues when debugging sometimes
 -- delete Liability;
 -- delete Expense;
 -- delete Budget;
