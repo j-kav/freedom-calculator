@@ -107,7 +107,9 @@ namespace FreedomCalculator2
             }
             else
             {
+                // force https on production
                 var options = new RewriteOptions().AddRedirectToHttps();
+                app.UseRewriter(options);
             }
 
             app.UseDefaultFiles();
