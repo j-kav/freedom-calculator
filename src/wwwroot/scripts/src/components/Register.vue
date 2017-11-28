@@ -40,8 +40,8 @@
             createAccount: function () {
                 var self = this
                 api.createAccount(this.name, this.email, this.password, this.confirmPassword).then(() => {
-                    api.getToken(this.email, this.password).then((expirationDate) => {
-                        self.$store.commit('login', expirationDate)
+                    api.getToken(this.email, this.password).then(() => {
+                        self.$store.commit('login')
                         self.$router.push('/statistics')
                     }).catch((error) => {
                         self.error = error

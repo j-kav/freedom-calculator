@@ -3,7 +3,8 @@
         "**/.tmp": true,
         "**/bin": true,
         "**/obj": true,
-        "**/node_modules": true
+        "**/node_modules": true,
+        "src/wwwroot/scripts/dist": true
     },
     "editor.minimap.enabled": false
 }
