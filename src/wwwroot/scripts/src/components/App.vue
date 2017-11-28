@@ -12,35 +12,21 @@
             <router-link v-if="$store.state.isLoggedIn" to="/user">Profile</router-link>
         </nav>
         <router-view></router-view>
-        <modal v-if="showSessionTimingout" @close="extendSession()">
-            <h3 slot="header">Session Timing Out</h3>
-            <div slot="body">Your session is going to timeout. Click OK to extend.</div>
-        </modal>
+        <session-monitor></session-monitor>
     </div>
 </template>
 
 <script>
-    import api from '../api'
-    import Modal from './Modal.vue'
+    import SessionMonitor from './SessionMonitor.vue'
 
     export default {
         name: 'App',
         components: {
-            'modal': Modal
+            'session-monitor': SessionMonitor
         },
         methods: {
             logout: function () {
                 this.$store.commit('logout')
-            },
-            extendSession: function () {
-                api.refreshToken().then((expirationDate) => {
-                    this.$store.commit('login', expirationDate)
-                })
-            }
-        },
-        computed: {
-            showSessionTimingout: function () {
-                return this.$store.state.sessionExpiring
             }
         }
     }

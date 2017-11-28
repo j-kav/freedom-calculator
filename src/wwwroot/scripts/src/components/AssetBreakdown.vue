@@ -166,7 +166,10 @@
                 return (percentBonds * 100).toFixed(2) + '%'
             },
             percentBondsVsStock() {
-                var percentBonds = this.totalBonds / this.totalStockAndBonds
+                var percentBonds = 0
+                if (this.totalStockAndBonds !== 0) {
+                    percentBonds = this.totalBonds / this.totalStockAndBonds
+                }
                 return (percentBonds * 100).toFixed(2) + '%'
             },
             percentStock() {
@@ -177,7 +180,10 @@
                 return (percentStock * 100).toFixed(2) + '%'
             },
             percentStockVsBonds() {
-                var percentStock = this.totalStock / this.totalStockAndBonds
+                var percentStock = 0
+                if (this.totalStockAndBonds !== 0) {
+                    percentStock = this.totalStock / this.totalStockAndBonds
+                }
                 return (percentStock * 100).toFixed(2) + '%'
             },
             percentRealEstate() {

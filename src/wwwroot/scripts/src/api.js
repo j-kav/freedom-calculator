@@ -1,45 +1,60 @@
-var authData = {}
+import { store } from './store'
+
+// check if token is expired and refresh it if necessary
+function refreshTokenIfNecessary() {
+    if (store.state.authData.expirationDate < new Date().getTime()) {
+        return fetchTokens('grant_type=refresh_token&refresh_token=' + store.state.authData.refresh_token + '&scope=openid offline_access')
+    } else {
+        return Promise.resolve()
+    }
+}
 
 // create a fetch request with url and props passed and return a promise with the data returned
 // also add the auth header
 function getFetchRequestPromise(url, fetchProps) {
-    fetchProps = fetchProps || {}
-    fetchProps.headers = fetchProps.headers || {}
-    fetchProps.headers.Authorization = 'Bearer ' + authData.access_token
-    var p = new Promise((resolve, reject) => {
-        window.fetch(url, fetchProps).then((response) => {
-            if (response.ok) {
-                return response.json()
-            } else {
-                reject(response.statusText) // TODO sanitize error
-            }
-        }).then((data) => {
-            resolve(data)
-        }).catch((error) => {
-            reject(error.message) // TODO sanitize error
+    return refreshTokenIfNecessary().then(() => {
+        fetchProps = fetchProps || {}
+        fetchProps.headers = fetchProps.headers || {}
+        fetchProps.headers.Authorization = 'Bearer ' + store.state.authData.access_token
+        var p = new Promise((resolve, reject) => {
+            window.fetch(url, fetchProps).then((response) => {
+                if (response.ok) {
+                    return response.json()
+                } else {
+                    reject(response.statusText) // TODO sanitize error
+                }
+            }).then((data) => {
+                resolve(data)
+            }).catch((error) => {
+                reject(error.message) // TODO sanitize error
+            })
         })
+        store.state.authData.lastActivityDate = new Date().getTime()
+        return p
     })
-    return p
 }
 
 // create a fetch request with url and props passed and return a promise with the response returned
 // also add the auth header
 function getNonDataFetchRequestPromise(url, fetchProps) {
-    fetchProps = fetchProps || {}
-    fetchProps.headers = fetchProps.headers || {}
-    fetchProps.headers.Authorization = 'Bearer ' + authData.access_token
-    var p = new Promise((resolve, reject) => {
-        window.fetch(url, fetchProps).then((response) => {
-            if (response.ok) {
-                resolve(response)
-            } else {
-                reject(response.statusText) // TODO sanitize error
-            }
-        }).catch((error) => {
-            reject(error)
+    return refreshTokenIfNecessary().then(() => {
+        fetchProps = fetchProps || {}
+        fetchProps.headers = fetchProps.headers || {}
+        fetchProps.headers.Authorization = 'Bearer ' + store.state.authData.access_token
+        var p = new Promise((resolve, reject) => {
+            window.fetch(url, fetchProps).then((response) => {
+                if (response.ok) {
+                    resolve(response)
+                } else {
+                    reject(response.statusText) // TODO sanitize error
+                }
+            }).catch((error) => {
+                reject(error)
+            })
         })
+        store.state.authData.lastActivityDate = new Date().getTime()
+        return p
     })
-    return p
 }
 
 function fetchTokens(fetchBody) {
@@ -55,14 +70,16 @@ function fetchTokens(fetchBody) {
             if (data.error) {
                 reject(data.error_description)
             } else {
-                if (authData.refresh_token && !data.refresh_token) {
-                    data.refresh_token = authData.refresh_token
+                // reuse previous refresh token if a new one isn't issued
+                if (store.state.authData.refresh_token && !data.refresh_token) {
+                    data.refresh_token = store.state.authData.refresh_token
                 }
-                authData = data
+                var now = new Date().getTime()
+                data.lastActivityDate = now
                 var expiresInMilliseconds = data.expires_in * 1000
-                var now = new Date()
-                var expirationDate = new Date(now.getTime() + expiresInMilliseconds).getTime()
-                resolve(expirationDate)
+                data.expirationDate = new Date(now + expiresInMilliseconds).getTime()
+                store.state.authData = data
+                resolve()
             }
         }).catch((error) => {
             reject(error)
@@ -74,9 +91,6 @@ function fetchTokens(fetchBody) {
 export default {
     getToken: function (email, password) {
         return fetchTokens('grant_type=password&username=' + email + '&password=' + password + '&scope=openid offline_access')
-    },
-    refreshToken: function () {
-        return fetchTokens('grant_type=refresh_token&refresh_token=' + authData.refresh_token + '&scope=openid offline_access')
     },
     getUser: function () {
         return getFetchRequestPromise('/api/user');
