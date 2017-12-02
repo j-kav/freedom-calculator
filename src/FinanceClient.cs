@@ -24,20 +24,40 @@ namespace FreedomCalculator2
         public async Task<AssetQuote> GetQuote(string symbol)
         {
             string requestUrl = string.Format(_financeUrlFormat, symbol, _alphaVantageApiKey);
-            HttpWebRequest request = WebRequest.CreateHttp(requestUrl);
             string responseString = string.Empty;
 
-            using (WebResponse response = await request.GetResponseAsync())
+            int attempts = 1;
+            while (true)
             {
-                using (StreamReader stream = new StreamReader(response.GetResponseStream(), Encoding.ASCII))
+                HttpWebRequest request = WebRequest.CreateHttp(requestUrl);
+                using (WebResponse response = await request.GetResponseAsync())
                 {
-                    // read first line to get past column headers
-                    await stream.ReadLineAsync();
-                    // second line is the latest daily quote (not getting realtime quote since it isn't supported for mutual funds)
-                    responseString = await stream.ReadLineAsync();
+                    using (StreamReader stream = new StreamReader(response.GetResponseStream(), Encoding.ASCII))
+                    {
+                        // read first line to get past column headers
+                        await stream.ReadLineAsync();
+                        // second line is the latest daily quote (not getting realtime quote since it isn't supported for mutual funds)
+                        responseString = await stream.ReadLineAsync();
+                    }
+                }
+                // make sure the response isn't an error (too many frequent requests cause throttling)
+                if (responseString.Contains("Please consider optimizing your API call frequency"))
+                {
+                    // exponential backoff and retry until it works up to 10 times
+                    if (attempts > 10)
+                    {
+                        throw new Exception("Finance service unavailable");
+                    }
+                    int delay = (int)Math.Pow(2, attempts) * 100;
+                    await Task.Delay(delay);
+                    attempts++;
+                }
+                else
+                {
+                    // got the data, don't retry anymore
+                    break;
                 }
             }
-
             string[] contents = responseString.Split(',');
             AssetQuote quote = BuildQuoteFromResponse(symbol, contents);
             return quote;
