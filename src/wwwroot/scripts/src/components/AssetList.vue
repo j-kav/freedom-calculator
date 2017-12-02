@@ -23,6 +23,13 @@
                 <asset v-for="asset in assets" :key="asset.assetId" v-bind:assetModel="asset"></asset>
             </tbody>
         </table>
+        <div v-if="loading">
+            <modal>
+                <h3 slot="header">Loading</h3>
+                <loading slot="body"></loading>
+                <div slot="footer"><span>Please Wait..</span></div>
+            </modal>
+        </div>
         <h3>Add new</h3>
         <div>
             <label>Name</label><input v-model="name"></input>
@@ -90,11 +97,15 @@
     import api from '../api'
     import assetTypes from '../assetTypes'
     import Asset from './Asset.vue'
+    import Modal from './Modal.vue'
+    import Loading from './Loading.vue'
 
     export default {
         name: 'AssetList',
         components: {
-            'asset': Asset
+            'asset': Asset,
+            'modal': Modal,
+            'loading': Loading
         },
         data: function () {
             return {
@@ -114,7 +125,8 @@
                 isRealEstate: this.assetTypeArray.includes(assetTypes.RealEstate),
                 isStockOrBond: !this.assetTypeArray.includes(assetTypes.Cash) && !this.assetTypeArray.includes(assetTypes.RealEstate),
                 isStock: this.assetTypeArray.includes(assetTypes.DomesticStock),
-                liabilityId: null
+                liabilityId: null,
+                loading: false
             }
         },
         props: ['assetTypeArray'],
@@ -138,10 +150,13 @@
                     value: this.value,
                     liabilityId: this.liabilityId
                 }
+                this.loading = true
                 api.addAsset(newAsset).then((addedAsset) => {
                     this.$store.commit('addAsset', addedAsset)
+                    this.loading = false
                 }).catch((error) => {
                     this.error = error
+                    this.loading = false
                 })
             }
         }

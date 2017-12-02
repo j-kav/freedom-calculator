@@ -47,9 +47,17 @@ namespace FreedomCalculator2
         {
             List<AssetQuote> retVal = new List<AssetQuote>();
 
+            // alphavantage is slow and only supports one quote at a time, so get each in parallel on a separate thread
+            List<Task<AssetQuote>> tasks = new List<Task<AssetQuote>>();
             foreach (string symbol in symbols)
             {
-                AssetQuote quote = await GetQuote(symbol);
+                tasks.Add(GetQuote(symbol));
+            }
+
+            AssetQuote[] quotes = await Task.WhenAll(tasks.ToArray());
+
+            foreach (AssetQuote quote in quotes)
+            {
                 retVal.Add(quote);
             }
 
