@@ -43,10 +43,11 @@ namespace FreedomCalculator2
                 // make sure the response isn't an error (too many frequent requests cause throttling)
                 if (responseString.Contains("Please consider optimizing your API call frequency"))
                 {
-                    // exponentially backoff with jitter and retry until it works up to 10 times
-                    if (attempts > 10)
+                    // exponentially backoff with jitter and retry until it works up to 8 times
+                    if (attempts > 8)
                     {
-                        throw new Exception("Finance service unavailable");
+                        // TODO finance service is down - allow user to manually fill in the values
+                        return new AssetQuote { Symbol = symbol };
                     }
                     int delay = (int)Math.Pow(2, attempts) * 100;
                     Random rand = new Random();
@@ -69,22 +70,19 @@ namespace FreedomCalculator2
         {
             List<AssetQuote> retVal = new List<AssetQuote>();
 
-            // TODO restore parallelism if alphavantage stops throttling
             // alphavantage is slow and only supports one quote at a time, so get each in parallel on a separate thread
-            // List<Task<AssetQuote>> tasks = new List<Task<AssetQuote>>();
+            List<Task<AssetQuote>> tasks = new List<Task<AssetQuote>>();
             foreach (string symbol in symbols)
             {
-                // tasks.Add(GetQuote(symbol));
-                AssetQuote quote = await GetQuote(symbol);
-                retVal.Add(quote);
+                tasks.Add(GetQuote(symbol));
             }
 
-            // AssetQuote[] quotes = await Task.WhenAll(tasks.ToArray());
+            AssetQuote[] quotes = await Task.WhenAll(tasks.ToArray());
 
-            // foreach (AssetQuote quote in quotes)
-            // {
-            //     retVal.Add(quote);
-            // }
+            foreach (AssetQuote quote in quotes)
+            {
+                retVal.Add(quote);
+            }
 
             return retVal;
         }
