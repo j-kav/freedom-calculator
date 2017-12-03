@@ -69,19 +69,22 @@ namespace FreedomCalculator2
         {
             List<AssetQuote> retVal = new List<AssetQuote>();
 
+            // TODO restore parallelism if alphavantage stops throttling
             // alphavantage is slow and only supports one quote at a time, so get each in parallel on a separate thread
-            List<Task<AssetQuote>> tasks = new List<Task<AssetQuote>>();
+            // List<Task<AssetQuote>> tasks = new List<Task<AssetQuote>>();
             foreach (string symbol in symbols)
             {
-                tasks.Add(GetQuote(symbol));
-            }
-
-            AssetQuote[] quotes = await Task.WhenAll(tasks.ToArray());
-
-            foreach (AssetQuote quote in quotes)
-            {
+                // tasks.Add(GetQuote(symbol));
+                AssetQuote quote = await GetQuote(symbol);
                 retVal.Add(quote);
             }
+
+            // AssetQuote[] quotes = await Task.WhenAll(tasks.ToArray());
+
+            // foreach (AssetQuote quote in quotes)
+            // {
+            //     retVal.Add(quote);
+            // }
 
             return retVal;
         }
