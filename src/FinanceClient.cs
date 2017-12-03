@@ -43,12 +43,14 @@ namespace FreedomCalculator2
                 // make sure the response isn't an error (too many frequent requests cause throttling)
                 if (responseString.Contains("Please consider optimizing your API call frequency"))
                 {
-                    // exponential backoff and retry until it works up to 15 times
-                    if (attempts > 15)
+                    // exponentially backoff with jitter and retry until it works up to 10 times
+                    if (attempts > 10)
                     {
                         throw new Exception("Finance service unavailable");
                     }
                     int delay = (int)Math.Pow(2, attempts) * 100;
+                    Random rand = new Random();
+                    delay = rand.Next(0, delay);
                     await Task.Delay(delay);
                     attempts++;
                 }
