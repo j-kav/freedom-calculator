@@ -3,7 +3,13 @@ var PROD = process.env.NODE_ENV === 'PROD';
 
 
 module.exports = {
-    entry: './wwwroot/scripts/src/main.js',
+    entry: {
+        app: [
+            'babel-polyfill',
+            'whatwg-fetch',
+            './wwwroot/scripts/src/main.js'
+        ]
+    },
     output: {
         path: __dirname + '/wwwroot/scripts/dist',
         filename: 'bundle.js'
