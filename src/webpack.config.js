@@ -7,6 +7,8 @@ module.exports = {
         app: [
             'babel-polyfill',
             'whatwg-fetch',
+            'intl',
+            'intl/locale-data/jsonp/en.js',
             './wwwroot/scripts/src/main.js'
         ]
     },
