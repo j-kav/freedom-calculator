@@ -5,7 +5,9 @@
             <modal>
                 <h3 slot="header">Loading</h3>
                 <loading slot="body"></loading>
-                <div slot="footer"><span>Please Wait..</span></div>
+                <div slot="footer">
+                    <span>Please Wait..</span>
+                </div>
             </modal>
         </div>
         <div v-else>
@@ -28,9 +30,7 @@
                     <tr>
                         <td class="align-right">{{ utils.usdFormatter.format(this.$store.getters.averageEarnedIncome) }}</td>
                         <td class="align-right">{{ utils.usdFormatter.format(this.$store.getters.averagePassiveIncome) }}</td>
-                        <td class="align-right">{{ utils.usdFormatter.format(this.$store.getters.averageEarnedIncome + this.$store.getters.averagePassiveIncome)
-                            }}
-                        </td>
+                        <td class="align-right">{{ utils.usdFormatter.format(this.$store.getters.averageEarnedIncome + this.$store.getters.averagePassiveIncome)}}</td>
                         <td class="align-right">
                             <span class="link" @click="showAverageMandatoryExpenses=true">{{ utils.usdFormatter.format(this.$store.getters.averageMandatoryExpenses) }}</span>
                             <modal v-if="showAverageMandatoryExpenses" @close="showAverageMandatoryExpenses=false">
@@ -45,8 +45,9 @@
                                 <expenseAverages slot="body" v-bind:mandatory="false" v-if="showAverageDiscretionaryExpenses" @close="showAverageDiscretionaryExpenses=false"></expenseAverages>
                             </modal>
                         </td>
-                        <td class="align-right">{{ utils.usdFormatter.format(this.$store.getters.averageMandatoryExpenses + this.$store.getters.averageDiscretionaryExpenses)
-                            }}</td>
+                        <td class="align-right">
+                            {{ utils.usdFormatter.format(this.$store.getters.averageMandatoryExpenses + this.$store.getters.averageDiscretionaryExpenses)}}
+                        </td>
                         <td class="align-right">{{ utils.usdFormatter.format(this.$store.getters.averageInvestments) }}</td>
                         <td class="align-right">{{ this.$store.state.averageSavingsRate }}</td>
                     </tr>
@@ -78,12 +79,7 @@
                             <span class="link" @click="showNetWorth=true">{{ netWorth }}</span>
                             <modal v-if="showNetWorth" @close="showNetWorth=false">
                                 <h3 slot="header">Net Worth</h3>
-                                <!--TODO show graph of historical net worth. For now just show list-->
-                                <ul slot="body">
-                                    <li v-for="budget in $store.state.budgets" :key="budget.budgetId">
-                                        {{ budget.year }} - {{ budget.month }} : {{ utils.usdFormatter.format(budget.netWorth) }}
-                                    </li>
-                                </ul>
+                                <netWorthChart slot="body"></netWorthChart>
                             </modal>
                         </td>
                     </tr>
@@ -121,13 +117,15 @@
     import Modal from './Modal.vue'
     import ExpenseAverages from './ExpenseAverages.vue'
     import Loading from './Loading.vue'
+    import NetWorthChart from './NetWorthChart.vue'
 
     export default {
         name: 'Statistics',
         components: {
             'modal': Modal,
             'loading': Loading,
-            'expenseAverages': ExpenseAverages
+            'expenseAverages': ExpenseAverages,
+            'netWorthChart': NetWorthChart
         },
         created() {
             if (!this.$store.state.assets) {
