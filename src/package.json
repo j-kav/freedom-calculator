@@ -13,6 +13,7 @@
     "babel-loader": "^6.2.10",
     "babel-preset-env": "^1.1.8",
     "chai": "^3.5.0",
+    "chart.js": "^2.7.1",
     "css-loader": "^0.26.1",
     "eslint": "^3.13.1",
     "eslint-config-vue": "^2.0.1",
