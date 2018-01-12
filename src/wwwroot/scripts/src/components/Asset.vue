@@ -56,14 +56,17 @@
                 this.$store.commit('updateAsset', this.asset)
             },
             updateAsset: function () {
+                this.$emit('loading', true)
                 api.updateAsset(this.asset.assetId, this.asset).then((updatedAsset) => {
                     this.asset = updatedAsset
                     this.$store.commit('updateAsset', this.asset)
                     this.error = false
                     this.message = 'updated'
+                    this.$emit('loading', false)
                 }).catch((error) => {
                     this.error = true
                     this.message = error
+                    this.$emit('loading', false)
                 })
             },
             removeAsset: function () {

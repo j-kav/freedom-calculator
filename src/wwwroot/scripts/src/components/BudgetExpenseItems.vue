@@ -64,6 +64,7 @@
                     api.addBudgetExpenseItem(newBudgetExpenseItem).then((addedBudgetExpenseItem) => {
                         addedBudgetExpenseItem.budgetExpense = this.parentBudgetExpense
                         this.$store.commit('addBudgetExpenseItem', addedBudgetExpenseItem)
+                        this.amount = null
                         resolve()
                     }).catch((error) => {
                         this.error = 'error'

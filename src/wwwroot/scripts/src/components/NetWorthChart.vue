@@ -25,13 +25,32 @@
                 data: {
                     labels: labelValues,
                     datasets: [{
-                        label: 'Net Worth Over Time',
                         backgroundColor: 'rgb(133, 187, 101)',
                         borderColor: 'rgb(133, 187, 101)',
                         data: dataValues
                     }]
                 },
-                options: {}
+                options: {
+                    legend: {
+                        display: false
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                callback: function (label, index, labels) {
+                                    return utils.usdFormatter.format(label)
+                                }
+                            }
+                        }]
+                    },
+                    tooltips: {
+                        callbacks: {
+                            label: function (tooltipItem, data) {
+                                return utils.usdFormatter.format(tooltipItem.yLabel)
+                            }
+                        }
+                    }
+                }
             })
         }
     }

@@ -20,7 +20,7 @@
                 </tr>
             </thead>
             <tbody>
-                <asset v-for="asset in assets" :key="asset.assetId" v-bind:assetModel="asset"></asset>
+                <asset v-for="asset in assets" :key="asset.assetId" v-bind:assetModel="asset" v-on:loading="childLoading"></asset>
             </tbody>
         </table>
         <div v-if="loading">
@@ -158,6 +158,9 @@
                     this.error = error
                     this.loading = false
                 })
+            },
+            childLoading: function (isChildLoading) {
+                this.loading = isChildLoading
             }
         }
     }
