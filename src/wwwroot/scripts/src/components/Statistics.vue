@@ -281,17 +281,18 @@
             },
             createIndependenceEstimatePieChart: function () {
                 const independenceEstimatePieChartContext = document.getElementById('independenceEstimatePieChart')
+                const amountRemaining = Math.max(this.amountNeededForFinancialIndependence - this.$store.getters.netWorth, 0)
                 new Chart(independenceEstimatePieChartContext, {
                     type: 'pie',
                     data: {
                         datasets: [{
-                            data: [this.amountNeededForFinancialIndependence, this.$store.getters.netWorth],
+                            data: [this.$store.getters.netWorth, amountRemaining],
                             backgroundColor: [
                                 'rgba(0, 0, 255, 0.2)',
                                 'rgba(0, 255, 0, 0.2)'
                             ]
                         }],
-                        labels: ['Amount needed', 'Current Net Worth']
+                        labels: ['Amount Saved', 'Amount Remaining']
                     },
                     options: {
                         tooltips: {
