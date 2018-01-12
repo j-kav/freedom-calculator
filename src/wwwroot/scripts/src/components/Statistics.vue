@@ -68,41 +68,59 @@
                 <h3>Net Worth</h3>
                 <table>
                     <tr>
-                        <th>Total Assets</th>
-                        <th>Total Liabilities</th>
-                        <th>Net Worth</th>
-                    </tr>
-                    <tr>
-                        <td class="align-right">{{ totalAssets }}</td>
-                        <td class="align-right">{{ totalLiabilities }}</td>
-                        <td class="align-right">
-                            <span class="link" @click="showNetWorth=true">{{ netWorth }}</span>
-                            <modal v-if="showNetWorth" @close="showNetWorth=false">
-                                <h3 slot="header">Net Worth</h3>
-                                <netWorthChart slot="body"></netWorthChart>
-                            </modal>
+                        <td>
+                            <table>
+                                <tr>
+                                    <th>Total Assets</th>
+                                    <th>Total Liabilities</th>
+                                    <th>Net Worth</th>
+                                </tr>
+                                <tr>
+                                    <td class="align-right">{{ totalAssets }}</td>
+                                    <td class="align-right">{{ totalLiabilities }}</td>
+                                    <td class="align-right">
+                                        <span class="link" @click="showNetWorth=true">{{ netWorth }}</span>
+                                        <modal v-if="showNetWorth" @close="showNetWorth=false">
+                                            <h3 slot="header">Net Worth</h3>
+                                            <netWorthChart slot="body"></netWorthChart>
+                                        </modal>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <router-link v-if="$store.state.isLoggedIn && $store.state.assets" to="/assetbreakdown">Asset Breakdown</router-link>
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">
-                            <router-link v-if="$store.state.isLoggedIn && $store.state.assets" to="/assetbreakdown">Asset Breakdown</router-link>
+                        <td>
+                            <canvas id="netWorthBarChart"></canvas>
                         </td>
                     </tr>
                 </table>
                 <h3>Freedom Date Estimate</h3>
                 <table>
                     <tr>
-                        <td valign="top">
+                        <td>
                             <table>
                                 <tr>
-                                    <td>Amount neeed for financial independence</td>
-                                    <td class="align-right">{{ utils.usdFormatter.format(amountNeededForFinancialIndependence) }}</td>
-                                </tr>
-                                <tr>
-                                    <td>Time Until Financial Independence</td>
-                                    <td>{{ timeUntilFinancialIndependence }}&nbsp;years</td>
+                                    <td valign="top">
+                                        <table>
+                                            <tr>
+                                                <td>Amount needed for financial independence</td>
+                                                <td class="align-right">{{ utils.usdFormatter.format(amountNeededForFinancialIndependence) }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Time Until Financial Independence</td>
+                                                <td>{{ timeUntilFinancialIndependence }}&nbsp;years</td>
+                                            </tr>
+                                        </table>
+                                    </td>
                                 </tr>
                             </table>
+                        </td>
+                        <td>
+                            <canvas id="independenceEstimatePieChart"></canvas>
                         </td>
                     </tr>
                 </table>
@@ -117,6 +135,7 @@
     import Modal from './Modal.vue'
     import ExpenseAverages from './ExpenseAverages.vue'
     import Loading from './Loading.vue'
+    import Chart from 'chart.js'
     import NetWorthChart from './NetWorthChart.vue'
 
     export default {
@@ -128,8 +147,19 @@
             'netWorthChart': NetWorthChart
         },
         created() {
+            // if there are no assets in the store, get all the data and then create charts
             if (!this.$store.state.assets) {
-                this.getData()
+                this.getData().then(() => {
+                    this.createNetWorthBarChart()
+                    this.createIndependenceEstimatePieChart()
+                })
+            }
+        },
+        mounted() {
+            // if there is already data in the store, just create charts from it
+            if (this.$store.state.assets) {
+                this.createNetWorthBarChart()
+                this.createIndependenceEstimatePieChart()
             }
         },
         data: function () {
@@ -209,7 +239,71 @@
                         reject()
                     })
                 })
-                return p // return promise for unit testing purposes
+                return p
+            },
+            createNetWorthBarChart: function () {
+                const netWorthBarChartContext = document.getElementById('netWorthBarChart')
+                new Chart(netWorthBarChartContext, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Assets', 'Liabilities', 'Net Worth'],
+                        datasets: [{
+                            data: [this.$store.getters.totalAssets, this.$store.getters.totalLiabilities, this.$store.getters.netWorth],
+                            backgroundColor: [
+                                'rgba(0, 255, 0, 0.2)',
+                                'rgba(255, 0, 0, 0.2)',
+                                'rgba(0, 0, 255, 0.2)'
+                            ]
+                        }]
+                    },
+                    options: {
+                        legend: {
+                            display: false
+                        },
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    callback: function (label, index, labels) {
+                                        return utils.usdFormatter.format(label)
+                                    }
+                                }
+                            }]
+                        },
+                        tooltips: {
+                            callbacks: {
+                                label: function (tooltipItem, data) {
+                                    return utils.usdFormatter.format(tooltipItem.yLabel)
+                                }
+                            }
+                        }
+                    }
+                })
+            },
+            createIndependenceEstimatePieChart: function () {
+                const independenceEstimatePieChartContext = document.getElementById('independenceEstimatePieChart')
+                new Chart(independenceEstimatePieChartContext, {
+                    type: 'pie',
+                    data: {
+                        datasets: [{
+                            data: [this.amountNeededForFinancialIndependence, this.$store.getters.netWorth],
+                            backgroundColor: [
+                                'rgba(0, 0, 255, 0.2)',
+                                'rgba(0, 255, 0, 0.2)'
+                            ]
+                        }],
+                        labels: ['Amount needed', 'Current Net Worth']
+                    },
+                    options: {
+                        tooltips: {
+                            callbacks: {
+                                label: function (tooltipItem, data) {
+                                    const amount = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]
+                                    return utils.usdFormatter.format(amount)
+                                }
+                            }
+                        }
+                    }
+                })
             }
         }
     }

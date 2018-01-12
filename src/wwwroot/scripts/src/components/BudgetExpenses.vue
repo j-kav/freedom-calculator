@@ -126,6 +126,7 @@
                         addedBudgetExpense.expense = this.expense
                         addedBudgetExpense.budgetExpenseItems = []
                         this.$store.commit('addBudgetExpense', addedBudgetExpense)
+                        this.projected = null
                         resolve()
                     }).catch((error) => {
                         this.error = 'error'
