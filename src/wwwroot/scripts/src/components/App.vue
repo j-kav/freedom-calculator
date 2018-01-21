@@ -11,7 +11,7 @@
             <router-link v-if="$store.state.isLoggedIn" to="/user">Profile</router-link>
             <a href="#" v-if="$store.state.isLoggedIn" v-on:click="logout">Logout</a>
             </router-link>
-            <a href="javascript:void(0);" class="icon" v-on:click="showResponsiveMenu">&#9776;</a>
+            <a href="javascript:void(0);" class="icon" v-on:click="toggleResponsiveMenu">&#9776;</a>
         </nav>
         <router-view></router-view>
         <session-monitor></session-monitor>
@@ -31,12 +31,12 @@
                 this.$store.commit('logout')
                 this.$router.push('/')
             },
-            showResponsiveMenu: () => {
+            toggleResponsiveMenu: () => {
                 const menu = document.getElementById('top-nav')
-                if (menu.className === '') {
-                    menu.className = 'responsive'
+                if (menu.classList.contains('responsive')) {
+                    menu.classList.remove('responsive')
                 } else {
-                    menu.className = ''
+                    menu.classList.add('responsive')
                 }
             }
         }
