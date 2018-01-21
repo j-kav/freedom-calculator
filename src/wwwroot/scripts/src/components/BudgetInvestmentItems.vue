@@ -47,6 +47,7 @@
                     var newBudgetInvestmentItem = { BudgetId: this.parentBudget.budgetId, Amount: this.amount, Timestamp: new Date(Date.now()) }
                     api.addBudgetInvestmentItem(newBudgetInvestmentItem).then((addedBudgetInvestmentItem) => {
                         this.$store.commit('addBudgetInvestmentItem', addedBudgetInvestmentItem)
+                        this.amount = null
                         resolve()
                     }).catch((error) => {
                         this.error = 'error'

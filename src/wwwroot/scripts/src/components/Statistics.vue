@@ -20,22 +20,26 @@
                         <td>
                             <h3 class="table-header">Net Worth</h3>
                             <table>
-                                <tr>
-                                    <th>Total Assets</th>
-                                    <th>Total Liabilities</th>
-                                    <th>Net Worth</th>
-                                </tr>
-                                <tr>
-                                    <td class="align-right">{{ totalAssets }}</td>
-                                    <td class="align-right">{{ totalLiabilities }}</td>
-                                    <td class="align-right">
-                                        <span class="link" @click="showNetWorth=true">{{ netWorth }}</span>
-                                        <modal v-if="showNetWorth" @close="showNetWorth=false">
-                                            <h3 slot="header">Net Worth</h3>
-                                            <netWorthChart slot="body"></netWorthChart>
-                                        </modal>
-                                    </td>
-                                </tr>
+                                <thead>
+                                    <tr>
+                                        <th>Total Assets</th>
+                                        <th>Total Liabilities</th>
+                                        <th>Net Worth</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="align-right">{{ totalAssets }}</td>
+                                        <td class="align-right">{{ totalLiabilities }}</td>
+                                        <td class="align-right">
+                                            <span class="link" @click="showNetWorth=true">{{ netWorth }}</span>
+                                            <modal v-if="showNetWorth" @close="showNetWorth=false">
+                                                <h3 slot="header">Net Worth</h3>
+                                                <netWorthChart slot="body"></netWorthChart>
+                                            </modal>
+                                        </td>
+                                    </tr>
+                                </tbody>
                             </table>
                             <br/>
                             <router-link v-if="$store.state.isLoggedIn && $store.state.assets" to="/assetbreakdown">Asset Breakdown</router-link>
@@ -47,7 +51,7 @@
                 </table>
                 <br />
                 <h3>Averages</h3>
-                <table>
+                <table id="stats-table">
                     <tr>
                         <th>Net Earned Income</th>
                         <th>Passive Income</th>

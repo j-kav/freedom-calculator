@@ -47,6 +47,7 @@
                     var newBudgetEarnedIncomeItem = { BudgetId: this.parentBudget.budgetId, Amount: this.amount, Timestamp: new Date(Date.now()) }
                     api.addBudgetEarnedIncomeItem(newBudgetEarnedIncomeItem).then((addedBudgetEarnedIncomeItem) => {
                         this.$store.commit('addBudgetEarnedIncomeItem', addedBudgetEarnedIncomeItem)
+                        this.amount = null
                         resolve()
                     }).catch((error) => {
                         this.error = 'error'
