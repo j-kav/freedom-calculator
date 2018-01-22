@@ -7,7 +7,6 @@ import Register from './components/Register.vue'
 import Home from './components/Home.vue'
 import Statistics from './components/Statistics.vue'
 import Assets from './components/Assets.vue'
-import AssetBreakdown from './components/AssetBreakdown.vue'
 import Liabilities from './components/Liabilities.vue'
 import Expenses from './components/Expenses.vue'
 import Budgets from './components/Budgets.vue'
@@ -22,11 +21,10 @@ const routes = [
     { path: '/register', component: Register },
     { path: '/statistics', component: Statistics },
     { path: '/assets', component: Assets },
-    { path: '/assetbreakdown', component: AssetBreakdown },
     { path: '/liabilities', component: Liabilities },
     { path: '/expenses', component: Expenses },
     { path: '/budgets', component: Budgets },
-    { name: 'budget', path: '/budget/:id', component: BudgetDetail },
+    { name: 'budget', path: '/budgets/:id', component: BudgetDetail },
     { path: '/user', component: User }
 ]
 

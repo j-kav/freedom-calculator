@@ -42,7 +42,11 @@
                                 </tbody>
                             </table>
                             <br/>
-                            <router-link v-if="$store.state.isLoggedIn && $store.state.assets" to="/assetbreakdown">Asset Breakdown</router-link>
+                            <span class="link" @click="showAssetBreakdown=true">Asset Breakdown</span>
+                            <modal v-if="showAssetBreakdown" @close="showAssetBreakdown=false">
+                                <h3 slot="header">Asset Breakdown</h3>
+                                <assetBreakdown slot="body"></assetBreakdown>
+                            </modal>
                         </td>
                         <td>
                             <canvas id="netWorthBarChart"></canvas>
@@ -147,6 +151,7 @@
     import Loading from './Loading.vue'
     import Chart from 'chart.js'
     import NetWorthChart from './NetWorthChart.vue'
+    import AssetBreakdown from './AssetBreakdown.vue'
 
     export default {
         name: 'Statistics',
@@ -154,7 +159,8 @@
             'modal': Modal,
             'loading': Loading,
             'expenseAverages': ExpenseAverages,
-            'netWorthChart': NetWorthChart
+            'netWorthChart': NetWorthChart,
+            'assetBreakdown': AssetBreakdown
         },
         created() {
             // if there are no assets in the store, get all the data and then create charts
@@ -176,6 +182,7 @@
             return {
                 loading: !this.$store.state.assets,
                 error: null,
+                showAssetBreakdown: false,
                 showNetWorth: false,
                 showAverageMandatoryExpenses: false,
                 showAverageDiscretionaryExpenses: false,

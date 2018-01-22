@@ -1,6 +1,5 @@
 <template>
     <div>
-        <p>Asset Breakdown</p>
         <table>
             <tr>
                 <td class="asset-breakdown-title">All Assets</td>
@@ -64,7 +63,6 @@
                     <td class="align-right">{{ percentInternationalBonds }}</td>
                 </tr>
         </table>
-        <router-link v-if="$store.state.isLoggedIn" to="/statistics">Back to Statistics</router-link>
     </div>
 </template>
 
