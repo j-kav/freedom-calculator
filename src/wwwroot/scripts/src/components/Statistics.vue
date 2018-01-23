@@ -99,18 +99,22 @@
                 </table>
                 <br/>
                 <h3>Emergency Fund Recommendation</h3>
-                <table>
-                    <tr>
-                        <th>Total cash saved</th>
-                        <th>6 months of mandatory expenses</th>
-                        <th>Surplus/Deficit</th>
-                    </tr>
-                    <tr>
-                        <td class="align-right">{{ utils.usdFormatter.format(this.$store.getters.totalCash) }}</td>
-                        <td class="align-right">{{ utils.usdFormatter.format(sixMonthsExpenses) }}</td>
-                        <td class="align-right">{{ utils.usdFormatter.format(surplusDeficit) }}</td>
-                    </tr>
-                </table>
+                <div class="divTable">
+                    <div class="divTableHeading">
+                        <div class="divTableRow">
+                            <div class="divTableHead">Total cash saved</div>
+                            <div class="divTableHead">6 months of mandatory expenses</div>
+                            <div class="divTableHead">Surplus/Deficit</div>
+                        </div>
+                    </div>
+                    <div class="divTableBody">
+                        <div class="divTableRow">
+                            <div class="divTableCell">{{ utils.usdFormatter.format(this.$store.getters.totalCash) }}</div>
+                            <div class="divTableCell">{{ utils.usdFormatter.format(sixMonthsExpenses) }}</div>
+                            <div class="divTableCell">{{ utils.usdFormatter.format(surplusDeficit) }}</div>
+                        </div>
+                    </div>
+                </div>
                 <br/>
                 <table>
                     <tr>
@@ -328,7 +332,7 @@
 
 </script>
 
-<style>
+<style scoped=true>
     .fi-estimate {
         font-weight: bold;
     }
