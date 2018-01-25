@@ -1,6 +1,5 @@
 <template>
     <div>
-        <h2>Expenses</h2>
         <table>
             <thead>
                 <tr>

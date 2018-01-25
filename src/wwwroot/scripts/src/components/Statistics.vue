@@ -1,6 +1,5 @@
 <template>
     <div>
-        <h2>Statistics</h2>
         <div v-if="loading">
             <modal>
                 <h3 slot="header">Loading</h3>

@@ -2,6 +2,7 @@
     <div id="#app">
         <h1>Freedom Calculator</h1>
         <nav id="top-nav">
+            <router-link v-if="!$store.state.isLoggedIn" to="/" exact v-on:click.native="toggleResponsiveMenu">Home</router-link>
             <router-link v-if="!$store.state.isLoggedIn" to="/login" v-on:click.native="toggleResponsiveMenu">Login</router-link>
             <router-link v-if="$store.state.isLoggedIn" to="/statistics" v-on:click.native="toggleResponsiveMenu">Statistics</router-link>
             <router-link v-if="$store.state.isLoggedIn && $store.state.assets" to="/assets" v-on:click.native="toggleResponsiveMenu">Assets</router-link>
@@ -10,8 +11,7 @@
             <router-link v-if="$store.state.isLoggedIn && $store.state.budgets" to="/budgets" v-on:click.native="toggleResponsiveMenu">Budgets</router-link>
             <router-link v-if="$store.state.isLoggedIn" to="/user" v-on:click.native="toggleResponsiveMenu">Profile</router-link>
             <a href="#" v-if="$store.state.isLoggedIn" v-on:click="logout">Logout</a>
-            </router-link>
-            <a href="javascript:void(0);" class="icon" v-on:click="toggleResponsiveMenu">&#9776;</a>
+            <a href="javascript:void(0);" class="hamburger-icon" v-on:click="toggleResponsiveMenu">&#9776;</a>
         </nav>
         <router-view></router-view>
         <session-monitor></session-monitor>
@@ -47,6 +47,7 @@
     #top-nav {
         background-color: #333;
         overflow: hidden;
+        margin-bottom: 20px;
     }
 
     #top-nav a {
@@ -59,6 +60,10 @@
         font-size: 17px;
     }
 
+    #top-nav a.hamburger-icon {
+        font-size: 15px;
+    }
+
     .router-link-active {
         background-color: #4CAF50;
         color: white;
@@ -69,7 +74,7 @@
         color: black;
     }
 
-    #top-nav .icon {
+    #top-nav .hamburger-icon {
         display: none;
     }
 
@@ -77,14 +82,17 @@
         #top-nav a {
             display: none;
         }
-        #top-nav a.icon {
+        #top-nav a.router-link-active {
+            display: block;
+        }
+        #top-nav a.hamburger-icon {
             float: right;
             display: block;
         }
         #top-nav.responsive {
             position: relative;
         }
-        #top-nav.responsive a.icon {
+        #top-nav.responsive a.hamburger-icon {
             position: absolute;
             right: 0;
             top: 0;

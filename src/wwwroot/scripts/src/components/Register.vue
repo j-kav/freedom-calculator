@@ -1,7 +1,6 @@
 <template>
     <div>
         <form id="registerForm" name="registerForm">
-            <h2>Register</h2>
             <fieldset>
                 <div>
                     <div>

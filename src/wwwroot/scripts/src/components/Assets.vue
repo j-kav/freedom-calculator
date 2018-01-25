@@ -1,6 +1,5 @@
 <template>
     <div>
-        <h2>Assets</h2>
         <nav>
             <a v-on:click="selectCash" v-bind:class="{activeLink: cashActive, inactiveLink: !cashActive }">Cash</a>
             <a v-on:click="selectRealEstate" v-bind:class="{activeLink: realEstateActive, inactiveLink: !realEstateActive }">Real Estate</a>

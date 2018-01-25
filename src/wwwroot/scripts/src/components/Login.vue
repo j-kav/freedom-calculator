@@ -1,7 +1,6 @@
 <template>
     <div>
         <form id="loginForm" name="loginForm">
-            <h2>Login</h2>
             <fieldset>
                 <div>
                     <div>
