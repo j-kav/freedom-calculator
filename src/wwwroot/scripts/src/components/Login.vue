@@ -1,6 +1,6 @@
 <template>
     <div>
-        <form id="loginForm" name="loginForm">
+        <form id="loginForm" name="loginForm" v-if="showLoginForm">
             <fieldset>
                 <div>
                     <div>
@@ -19,9 +19,28 @@
                         <div slot="footer"><span>Please Wait..</span></div>
                     </modal>
                 </p>
-                <button v-on:click.prevent="register">Register New User</button>
+                <button v-on:click.prevent="showRegister">Register New User</button>
             </fieldset>
         </form>
+        <form id="registerForm" name="registerForm" v-if="showRegisterForm">
+                <fieldset>
+                    <div>
+                        <div>
+                            <input v-model="name" type="text" max="100" placeholder="Name" autofocus="" />
+                            <input v-model="email" type="text" max="100" placeholder="Email address" autofocus="" />
+                            <input v-model="password" type="password" max="100" placeholder="Password" />
+                            <input v-model="confirmPassword" type="password" max="100" placeholder="Confirm Password" />
+                        </div>
+                    </div>
+                    <div v-if="error" class="error">
+                        {{ error }}
+                    </div>
+                    <p>
+                        <button v-on:click.prevent="createAccount">Register</button>
+                    </p>
+                    <button v-on:click.prevent="showLogin">Back to Login</button>
+                </fieldset>
+            </form>
     </div>
 </template>
 
@@ -38,15 +57,24 @@
         },
         data: function () {
             return {
+                showLoginForm: true,
+                showRegisterForm: false,
                 email: '',
                 password: '',
                 loggingIn: false,
+                name: '',
+                confirmPassword: '',
                 error: null
             }
         },
         methods: {
-            register: function () {
-                this.$router.push('/register')
+            showRegister: function () {
+                this.showRegisterForm = true
+                this.showLoginForm = false
+            },
+            showLogin: function () {
+                this.showRegisterForm = false
+                this.showLoginForm = true
             },
             login: function () {
                 this.loggingIn = true
@@ -56,6 +84,19 @@
                     self.$router.push('/statistics')
                 }).catch(function (error) {
                     self.loggingIn = false
+                    self.error = error
+                })
+            },
+            createAccount: function () {
+                var self = this
+                api.createAccount(this.name, this.email, this.password, this.confirmPassword).then(() => {
+                    api.getToken(this.email, this.password).then(() => {
+                        self.$store.commit('login')
+                        self.$router.push('/statistics')
+                    }).catch((error) => {
+                        self.error = error
+                    })
+                }).catch((error) => {
                     self.error = error
                 })
             }

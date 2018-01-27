@@ -68,12 +68,7 @@
         background-color: #4CAF50;
         color: white;
     }
-
-    #top-nav a:hover {
-        background-color: #ddd;
-        color: black;
-    }
-
+    
     #top-nav .hamburger-icon {
         display: none;
     }
