@@ -36,6 +36,7 @@
         display: grid;
         grid-gap: 1em;
         justify-items: center;
+        margin: 1em;
     }
 
     img {
@@ -46,6 +47,7 @@
         #container {
             align-items: center;
             grid-template-columns: 1fr 1fr;
+            margin: 0;
         }
 
         div.feature-text {
