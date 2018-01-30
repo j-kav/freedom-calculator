@@ -14,44 +14,42 @@
                 {{ error }}
             </div>
             <div v-else>
-                <table>
-                    <tr>
-                        <td>
-                            <h3 class="table-header">Net Worth</h3>
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Total Assets</th>
-                                        <th>Total Liabilities</th>
-                                        <th>Net Worth</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="align-right">{{ totalAssets }}</td>
-                                        <td class="align-right">{{ totalLiabilities }}</td>
-                                        <td class="align-right">
-                                            <span class="link" @click="showNetWorth=true">{{ netWorth }}</span>
-                                            <modal v-if="showNetWorth" @close="showNetWorth=false">
-                                                <h3 slot="header">Net Worth</h3>
-                                                <netWorthChart slot="body"></netWorthChart>
-                                            </modal>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <br/>
-                            <span class="link" @click="showAssetBreakdown=true">Asset Breakdown</span>
-                            <modal v-if="showAssetBreakdown" @close="showAssetBreakdown=false">
-                                <h3 slot="header">Asset Breakdown</h3>
-                                <assetBreakdown slot="body"></assetBreakdown>
-                            </modal>
-                        </td>
-                        <td>
-                            <canvas id="netWorthBarChart"></canvas>
-                        </td>
-                    </tr>
-                </table>
+                <div class="grid-2-container">
+                    <div>
+                        <h3 class="table-header">Net Worth</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Total Assets</th>
+                                    <th>Total Liabilities</th>
+                                    <th>Net Worth</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="align-right">{{ totalAssets }}</td>
+                                    <td class="align-right">{{ totalLiabilities }}</td>
+                                    <td class="align-right">
+                                        <span class="link" @click="showNetWorth=true">{{ netWorth }}</span>
+                                        <modal v-if="showNetWorth" @close="showNetWorth=false">
+                                            <h3 slot="header">Net Worth</h3>
+                                            <netWorthChart slot="body"></netWorthChart>
+                                        </modal>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        <span class="link" @click="showAssetBreakdown=true">Asset Breakdown</span>
+                        <modal v-if="showAssetBreakdown" @close="showAssetBreakdown=false">
+                            <h3 slot="header">Asset Breakdown</h3>
+                            <assetBreakdown slot="body"></assetBreakdown>
+                        </modal>
+                    </div>
+                    <div>
+                        <canvas id="netWorthBarChart"></canvas>
+                    </div>
+                </div>
                 <br />
                 <h3>Averages</h3>
                 <table id="stats-table">
@@ -115,32 +113,30 @@
                     </div>
                 </div>
                 <br/>
-                <table>
-                    <tr>
-                        <td>
-                            <h3 class="table-header">Freedom Date Estimate</h3>
-                            <table>
-                                <tr>
-                                    <td valign="top">
-                                        <table>
-                                            <tr>
-                                                <td>Amount needed for financial independence</td>
-                                                <td class="align-right">{{ utils.usdFormatter.format(amountNeededForFinancialIndependence) }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Time Until Financial Independence</td>
-                                                <td class="fi-estimate">{{ timeUntilFinancialIndependence }}&nbsp;years</td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td>
-                            <canvas id="independenceEstimatePieChart"></canvas>
-                        </td>
-                    </tr>
-                </table>
+                <div class="grid-2-container">
+                    <div>
+                        <h3 class="table-header">Freedom Date Estimate</h3>
+                        <table>
+                            <tr>
+                                <td valign="top">
+                                    <table>
+                                        <tr>
+                                            <td>Amount needed for financial independence</td>
+                                            <td class="align-right">{{ utils.usdFormatter.format(amountNeededForFinancialIndependence) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Time Until Financial Independence</td>
+                                            <td class="fi-estimate">{{ timeUntilFinancialIndependence }}&nbsp;years</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div>
+                        <canvas id="independenceEstimatePieChart"></canvas>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -332,11 +328,34 @@
 </script>
 
 <style scoped=true>
+    table {
+        width: 100%;
+    }
+
     .fi-estimate {
         font-weight: bold;
     }
 
     h3.table-header {
         margin-top: 0;
+    }
+
+    .grid-2-container {
+        display: grid;
+        grid-gap: 1em;
+        justify-items: center;
+        margin: 1em;
+    }
+
+    canvas {
+        align-self: center;
+    }
+
+    @media screen and (min-width: 680px) {
+        .grid-2-container {
+            align-items: center;
+            grid-template-columns: 1fr 1fr;
+            margin: 0;
+        }
     }
 </style>
