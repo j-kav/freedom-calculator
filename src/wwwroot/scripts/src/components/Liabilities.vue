@@ -7,7 +7,6 @@
                     <th>Principal</th>
                     <th></th>
                     <th></th>
-                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -63,9 +62,5 @@
     label {
         display: inline-block;
         width: 100px;
-    }
-    
-    input {
-        width: 200px;
     }
 </style>

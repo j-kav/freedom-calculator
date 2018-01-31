@@ -1,23 +1,25 @@
 <template>
     <div>
-        <table>
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Projected Net Earned Income</th>
-                    <th>Net Earned Income</th>
-                    <th>Passive Income</th>
-                    <th>Total Income</th>
-                    <th>Expenses</th>
-                    <th>Income Surplus/Deficit</th>
-                    <th>Investments</th>
-                    <th>Savings Rate</th>
-                </tr>
-            </thead>
-            <tbody>
-                <budget v-for="budget in $store.state.budgets" :key="budget.budgetId" v-bind:budgetModel="budget"></budget>
-            </tbody>
-        </table>
+        <div class="horizontal-scroll">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Projected Net Earned Income</th>
+                        <th>Net Earned Income</th>
+                        <th>Passive Income</th>
+                        <th>Total Income</th>
+                        <th>Expenses</th>
+                        <th>Income Surplus/Deficit</th>
+                        <th>Investments</th>
+                        <th>Savings Rate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <budget v-for="budget in $store.state.budgets" :key="budget.budgetId" v-bind:budgetModel="budget"></budget>
+                </tbody>
+            </table>
+        </div>
         <br/>
         <button v-on:click.prevent=addBudget>Add New</button>
         <div v-if="error" class="error">{{ error }}</div>

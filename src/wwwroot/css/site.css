@@ -3,7 +3,7 @@
 }
 
 html, body, #app {
-	max-width: 800px;
+	max-width: 1024px;
 	margin: 0 auto;
 }
 
@@ -28,8 +28,22 @@ th, td {
 	padding-right: 20px;
 }
 
+.horizontal-scroll {
+	overflow-x:auto;
+	padding-bottom: 1em;
+}
+
 .align-right {
 	text-align: right;
+}
+
+div.content-width-container {
+	display: inline-block;
+	margin: 0.5em;
+}
+
+div.content-width-container-header {
+	font-weight: bold;
 }
 
 div.field,
@@ -40,33 +54,21 @@ label {
 	margin: 0.25em;
 }
 
-input[type=image].deleteButton {
+input[type=image].deleteButton, .success-icon {
 	width: 24px;
 	height: 24px;
 }
 
-.divTable{
-	display: table;
-	width: 100%;
+.success-icon-container {
+	padding-right: 0;
 }
-.divTableRow {
-	display: table-row;
+
+input {
+	width: 125px;
 }
-.divTableCell, .divTableHead {
-	border: 1px solid #999999;
-	display: table-cell;
-	padding: 3px 10px;
-}
-.divTableHeading {
-	background-color: #EEE;
-	display: table-header-group;
-	font-weight: bold;
-}
-.divTableFoot {
-	background-color: #EEE;
-	display: table-footer-group;
-	font-weight: bold;
-}
-.divTableBody {
-	display: table-row-group;
+
+@media screen and (min-width: 680px) {
+	input {
+		width: 200px;
+	}
 }

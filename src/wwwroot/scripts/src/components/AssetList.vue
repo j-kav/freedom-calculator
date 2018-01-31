@@ -1,45 +1,52 @@
 <template>
     <div>
-        <table>
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th v-if="isStockOrBond">Symbol</th>
-                    <th v-if="isStockOrBond">Number of Shares</th>
-                    <th v-if="isStockOrBond">Share Price</th>
-                    <th v-if="isRealEstate">Address</th>
-                    <th v-if="isRealEstate">City</th>
-                    <th v-if="isRealEstate">State</th>
-                    <th v-if="isRealEstate">Zip</th>
-                    <th>Value</th>
-                    <th v-if="isRealEstate">Linked-Liability</th>
-                    <th v-if="isRealEstate">Equity</th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <asset v-for="asset in assets" :key="asset.assetId" v-bind:assetModel="asset" v-on:loading="childLoading"></asset>
-            </tbody>
-        </table>
+        <div class="horizontal-scroll">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th v-if="isStockOrBond">Symbol</th>
+                        <th v-if="isStockOrBond">Number of Shares</th>
+                        <th v-if="isStockOrBond">Share Price</th>
+                        <th v-if="isRealEstate">Address</th>
+                        <th v-if="isRealEstate">City</th>
+                        <th v-if="isRealEstate">State</th>
+                        <th v-if="isRealEstate">Zip</th>
+                        <th>Value</th>
+                        <th v-if="isRealEstate">Linked-Liability</th>
+                        <th v-if="isRealEstate">Equity</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <asset v-for="asset in assets" :key="asset.assetId" v-bind:assetModel="asset" v-on:loading="childLoading"></asset>
+                </tbody>
+            </table>
+        </div>
         <div v-if="loading">
             <modal>
                 <h3 slot="header">Loading</h3>
                 <loading slot="body"></loading>
-                <div slot="footer"><span>Please Wait..</span></div>
+                <div slot="footer">
+                    <span>Please Wait..</span>
+                </div>
             </modal>
         </div>
         <h3>Add new</h3>
         <div>
-            <label>Name</label><input v-model="name"></input>
+            <label>Name</label>
+            <input v-model="name"></input>
         </div>
         <div v-if="isStockOrBond">
             <div>
-                <label>Symbol</label><input v-model="symbol"></input>
+                <label>Symbol</label>
+                <input v-model="symbol"></input>
             </div>
             <div>
-                <label>NumShares</label><input v-model="numShares"></input>
+                <label>NumShares</label>
+                <input v-model="numShares"></input>
             </div>
             <div v-if="isStock">
                 <label>Type</label>
@@ -66,16 +73,20 @@
         </div>
         <div v-if="isRealEstate">
             <div>
-                <label>Address</label><input v-model="address"></input>
+                <label>Address</label>
+                <input v-model="address"></input>
             </div>
             <div>
-                <label>City</label><input v-model="city"></input>
+                <label>City</label>
+                <input v-model="city"></input>
             </div>
             <div>
-                <label>State</label><input v-model="state"></input>
+                <label>State</label>
+                <input v-model="state"></input>
             </div>
             <div>
-                <label>Zip</label><input v-model="zip"></input>
+                <label>Zip</label>
+                <input v-model="zip"></input>
             </div>
             <div>
                 <label>Linked-Liability</label>
@@ -87,7 +98,8 @@
             </div>
         </div>
         <div v-if="isCash">
-            <label>Value</label><input v-model="value"></input>
+            <label>Value</label>
+            <input v-model="value"></input>
         </div>
         <button v-on:click.prevent=addAsset>Submit</button>
         <div v-if="error" class="error">{{ error }}</div>

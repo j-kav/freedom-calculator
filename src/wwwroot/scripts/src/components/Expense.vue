@@ -3,7 +3,8 @@
         <td><input v-model="expense.name" v-on:change.prevent=updateExpense()></input></td>
         <td><input type="checkbox" v-model="expense.isMandatory" v-on:change.prevent=updateExpense()></input></td>
         <td><input type="image" class="deleteButton" v-on:click.prevent=removeExpense() src="images/delete.png" /></td>
-        <td v-if="message" v-bind:class="messageClass">{{ message }}</td>
+        <td v-if="error && message" class="error">{{ message }}</td>
+        <td v-else-if="message" class="success-icon-container"><img src="images/success.png" class="success-icon" /></td>
     </tr>
 </template>
 
@@ -17,14 +18,6 @@
                 error: false,
                 message: null,
                 expense: this.expenseModel
-            }
-        },
-        computed: {
-            messageClass: function () {
-                return {
-                    'error': this.error,
-                    'success': !this.error
-                }
             }
         },
         props: ['expenseModel'],

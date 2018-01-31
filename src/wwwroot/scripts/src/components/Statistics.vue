@@ -52,64 +52,68 @@
                 </div>
                 <br />
                 <h3>Averages</h3>
-                <table id="stats-table">
-                    <tr>
-                        <th>Net Earned Income</th>
-                        <th>Passive Income</th>
-                        <th>Total Income</th>
-                        <th>Investments</th>
-                        <th>Savings Rate</th>
-                    </tr>
-                    <tr>
-                        <td class="align-right">{{ utils.usdFormatter.format(this.$store.getters.averageEarnedIncome) }}</td>
-                        <td class="align-right">{{ utils.usdFormatter.format(this.$store.getters.averagePassiveIncome) }}</td>
-                        <td class="align-right">{{ utils.usdFormatter.format(this.$store.getters.averageEarnedIncome + this.$store.getters.averagePassiveIncome)}}</td>
-                        <td class="align-right">{{ utils.usdFormatter.format(this.$store.getters.averageInvestments) }}</td>
-                        <td class="align-right">{{ this.$store.state.averageSavingsRate }}</td>
-                    </tr>
-                </table>
-                <table>
-                    <tr>
-                        <th>Mandatory Expenses</th>
-                        <th>Discretionary Expenses</th>
-                        <th>Total Expenses</th>
-                    </tr>
-                    <tr>
-                        <td class="align-right">
+                <div>
+                    <div class="content-width-container">
+                        <div class="content-width-container-header">Net Earned Income</div>
+                        <div class="align-right">{{ utils.usdFormatter.format(this.$store.getters.averageEarnedIncome) }}</div>
+                    </div>
+                    <div class="content-width-container">
+                        <div class="content-width-container-header">Passive Income</div>
+                        <div class="align-right">{{ utils.usdFormatter.format(this.$store.getters.averagePassiveIncome) }}</div>
+                    </div>
+                    <div class="content-width-container">
+                        <div class="content-width-container-header">Total Income</div>
+                        <div class="align-right">{{ utils.usdFormatter.format(this.$store.getters.averageEarnedIncome + this.$store.getters.averagePassiveIncome)
+                            }}
+                        </div>
+                    </div>
+                    <div class="content-width-container">
+                        <div class="content-width-container-header">Investments</div>
+                        <div class="align-right">{{ utils.usdFormatter.format(this.$store.getters.averageInvestments) }}</div>
+                    </div>
+                    <div class="content-width-container">
+                        <div class="content-width-container-header">Savings Rate</div>
+                        <div class="align-right">{{ this.$store.state.averageSavingsRate }}</div>
+                    </div>
+                    <div class="content-width-container">
+                        <div class="content-width-container-header">Mandatory Expenses</div>
+                        <div class="align-right">
                             <span class="link" @click="showAverageMandatoryExpenses=true">{{ utils.usdFormatter.format(this.$store.getters.averageMandatoryExpenses) }}</span>
                             <modal v-if="showAverageMandatoryExpenses" @close="showAverageMandatoryExpenses=false">
                                 <h3 slot="header">Average Mandatory Expenses</h3>
                                 <expenseAverages slot="body" v-bind:mandatory="true" v-if="showAverageMandatoryExpenses" @close="showAverageMandatoryExpenses=false"></expenseAverages>
                             </modal>
-                        </td>
-                        <td class="align-right">
+                        </div>
+                    </div>
+                    <div class="content-width-container">
+                        <div class="content-width-container-header">Discretionary Expenses</div>
+                        <div class="align-right">
                             <span class="link" @click="showAverageDiscretionaryExpenses=true">{{ utils.usdFormatter.format(this.$store.getters.averageDiscretionaryExpenses) }}</span>
                             <modal v-if="showAverageDiscretionaryExpenses" @close="showAverageDiscretionaryExpenses=false">
                                 <h3 slot="header">Average Discretionary Expenses</h3>
                                 <expenseAverages slot="body" v-bind:mandatory="false" v-if="showAverageDiscretionaryExpenses" @close="showAverageDiscretionaryExpenses=false"></expenseAverages>
                             </modal>
-                        </td>
-                        <td class="align-right">
-                            {{ utils.usdFormatter.format(this.$store.getters.averageMandatoryExpenses + this.$store.getters.averageDiscretionaryExpenses)}}
-                        </td>
-                    </tr>
-                </table>
-                <br/>
-                <h3>Emergency Fund Recommendation</h3>
-                <div class="divTable">
-                    <div class="divTableHeading">
-                        <div class="divTableRow">
-                            <div class="divTableHead">Total cash saved</div>
-                            <div class="divTableHead">6 months of mandatory expenses</div>
-                            <div class="divTableHead">Surplus/Deficit</div>
                         </div>
                     </div>
-                    <div class="divTableBody">
-                        <div class="divTableRow">
-                            <div class="divTableCell">{{ utils.usdFormatter.format(this.$store.getters.totalCash) }}</div>
-                            <div class="divTableCell">{{ utils.usdFormatter.format(sixMonthsExpenses) }}</div>
-                            <div class="divTableCell">{{ utils.usdFormatter.format(surplusDeficit) }}</div>
-                        </div>
+                    <div class="content-width-container">
+                        <div class="content-width-container-header">Total Expenses</div>
+                        <div class="align-right">{{ utils.usdFormatter.format(this.$store.getters.averageMandatoryExpenses + this.$store.getters.averageDiscretionaryExpenses)}}</div>
+                    </div>
+                </div>
+                <br/>
+                <h3>Emergency Fund Recommendation</h3>
+                <div>
+                    <div class="content-width-container">
+                        <div class="content-width-container-header">Total cash saved</div>
+                        <div class="align-right">{{ utils.usdFormatter.format(this.$store.getters.totalCash) }}</div>
+                    </div>
+                    <div class="content-width-container">
+                        <div class="content-width-container-header">6 months of expenses</div>
+                        <div class="align-right">{{ utils.usdFormatter.format(sixMonthsExpenses) }}</div>
+                    </div>
+                    <div class="content-width-container">
+                        <div class="content-width-container-header">Surplus/Deficit</div>
+                        <div class="align-right">{{ utils.usdFormatter.format(surplusDeficit) }}</div>
                     </div>
                 </div>
                 <br/>
@@ -343,7 +347,6 @@
     .grid-2-container {
         display: grid;
         grid-gap: 1em;
-        justify-items: center;
         margin: 1em;
     }
 
