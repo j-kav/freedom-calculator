@@ -59,8 +59,8 @@
         methods: {
             addAmount: function () {
                 // return promise for unit testing purposes
-                var p = new Promise((resolve, reject) => {
-                    var newBudgetExpenseItem = { BudgetExpenseId: this.parentBudgetExpense.budgetExpenseId, Amount: this.amount, Timestamp: new Date(Date.now()) }
+                const p = new Promise((resolve, reject) => {
+                    const newBudgetExpenseItem = { BudgetExpenseId: this.parentBudgetExpense.budgetExpenseId, Amount: this.amount, Timestamp: new Date(Date.now()) }
                     api.addBudgetExpenseItem(newBudgetExpenseItem).then((addedBudgetExpenseItem) => {
                         addedBudgetExpenseItem.budgetExpense = this.parentBudgetExpense
                         this.$store.commit('addBudgetExpenseItem', addedBudgetExpenseItem)

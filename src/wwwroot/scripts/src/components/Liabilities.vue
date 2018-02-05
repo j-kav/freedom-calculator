@@ -43,7 +43,7 @@
         },
         methods: {
             addLiability: function () {
-                var newLiability = {
+                const newLiability = {
                     name: this.name,
                     principal: this.principal
                 }

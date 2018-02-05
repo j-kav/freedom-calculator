@@ -16,7 +16,7 @@
             }
         },
         mounted() {
-            var ctx = document.getElementById('netWorthChart')
+            const ctx = document.getElementById('netWorthChart')
             const budgets = this.$store.state.budgets.slice(0).reverse() // sorted decending
             const labelValues = budgets.map(b => b.year + '-' + b.month)
             const dataValues = budgets.map(b => b.netWorth)

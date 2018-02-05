@@ -43,8 +43,8 @@
         methods: {
             addAmount: function () {
                 // return promise for unit testing purposes
-                var p = new Promise((resolve, reject) => {
-                    var newBudgetPassiveIncomeItem = { BudgetId: this.parentBudget.budgetId, Amount: this.amount, Timestamp: new Date(Date.now()) }
+                const p = new Promise((resolve, reject) => {
+                    const newBudgetPassiveIncomeItem = { BudgetId: this.parentBudget.budgetId, Amount: this.amount, Timestamp: new Date(Date.now()) }
                     api.addBudgetPassiveIncomeItem(newBudgetPassiveIncomeItem).then((addedBudgetPassiveIncomeItem) => {
                         this.$store.commit('addBudgetPassiveIncomeItem', addedBudgetPassiveIncomeItem)
                         this.amount = null

@@ -105,11 +105,11 @@ export const store = new Vuex.Store({
             state.authData = {}
         },
         setAssets(state, assets) {
-            for (var i = 0; i < assets.length; i++) {
-                var asset = assets[i];
+            for (let i = 0; i < assets.length; i++) {
+                const asset = assets[i];
                 asset.equity = asset.value
                 if (asset.liabilityId) {
-                    var liabilityIndex = state.liabilities.findIndex(liability => liability.liabilityId === asset.liabilityId)
+                    const liabilityIndex = state.liabilities.findIndex(liability => liability.liabilityId === asset.liabilityId)
                     asset.equity -= state.liabilities[liabilityIndex].principal
                 }
             }

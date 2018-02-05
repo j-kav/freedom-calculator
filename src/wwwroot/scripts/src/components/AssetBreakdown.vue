@@ -150,70 +150,70 @@
                 return this.totalStock + this.totalBonds
             },
             percentCash() {
-                var percentCash = 0
+                let percentCash = 0
                 if (this.$store.getters.totalAssetEquity !== 0) {
                     percentCash = this.totalCash / this.$store.getters.totalAssetEquity
                 }
                 return (percentCash * 100).toFixed(2) + '%'
             },
             percentBonds() {
-                var percentBonds = 0
+                let percentBonds = 0
                 if (this.$store.getters.totalAssetEquity !== 0) {
                     percentBonds = this.totalBonds / this.$store.getters.totalAssetEquity
                 }
                 return (percentBonds * 100).toFixed(2) + '%'
             },
             percentBondsVsStock() {
-                var percentBonds = 0
+                let percentBonds = 0
                 if (this.totalStockAndBonds !== 0) {
                     percentBonds = this.totalBonds / this.totalStockAndBonds
                 }
                 return (percentBonds * 100).toFixed(2) + '%'
             },
             percentStock() {
-                var percentStock = 0
+                let percentStock = 0
                 if (this.$store.getters.totalAssetEquity !== 0) {
                     percentStock = this.totalStock / this.$store.getters.totalAssetEquity
                 }
                 return (percentStock * 100).toFixed(2) + '%'
             },
             percentStockVsBonds() {
-                var percentStock = 0
+                let percentStock = 0
                 if (this.totalStockAndBonds !== 0) {
                     percentStock = this.totalStock / this.totalStockAndBonds
                 }
                 return (percentStock * 100).toFixed(2) + '%'
             },
             percentRealEstate() {
-                var percentRealEstate = 0
+                let percentRealEstate = 0
                 if (this.$store.getters.totalAssetEquity !== 0) {
                     percentRealEstate = this.totalRealEstate / this.$store.getters.totalAssetEquity
                 }
                 return (percentRealEstate * 100).toFixed(2) + '%'
             },
             percentDomesticStock() {
-                var percentStock = 0
+                let percentStock = 0
                 if (this.totalStock !== 0) {
                     percentStock = this.totalDomesticStock / this.totalStock
                 }
                 return (percentStock * 100).toFixed(2) + '%'
             },
             percentInternationalStock() {
-                var percentStock = 0
+                let percentStock = 0
                 if (this.totalStock !== 0) {
                     percentStock = this.totalInternationalStock / this.totalStock
                 }
                 return (percentStock * 100).toFixed(2) + '%'
             },
             percentDomesticBonds() {
-                var percentBonds = 0
+                let percentBonds = 0
                 if (this.totalBonds !== 0) {
                     percentBonds = this.totalDomesticBond / this.totalBonds
                 }
                 return (percentBonds * 100).toFixed(2) + '%'
             },
             percentInternationalBonds() {
-                var percentBonds = 0
+                let percentBonds = 0
                 if (this.totalBonds !== 0) {
                     percentBonds = this.totalInternationalBond / this.totalBonds
                 }

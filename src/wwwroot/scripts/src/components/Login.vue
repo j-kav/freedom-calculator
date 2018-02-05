@@ -78,26 +78,24 @@
             },
             login: function () {
                 this.loggingIn = true
-                var self = this
                 api.getToken(this.email, this.password).then(() => {
-                    self.$store.commit('login')
-                    self.$router.push('/statistics')
+                    this.$store.commit('login')
+                    this.$router.push('/statistics')
                 }).catch(function (error) {
-                    self.loggingIn = false
-                    self.error = error
+                    this.loggingIn = false
+                    this.error = error
                 })
             },
             createAccount: function () {
-                var self = this
                 api.createAccount(this.name, this.email, this.password, this.confirmPassword).then(() => {
                     api.getToken(this.email, this.password).then(() => {
-                        self.$store.commit('login')
-                        self.$router.push('/statistics')
+                        this.$store.commit('login')
+                        this.$router.push('/statistics')
                     }).catch((error) => {
-                        self.error = error
+                        this.error = error
                     })
                 }).catch((error) => {
-                    self.error = error
+                    this.error = error
                 })
             }
         }

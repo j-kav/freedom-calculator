@@ -18,7 +18,7 @@ describe('BudgetEarnedIncomeItems', () => {
         },
         mutations: {
             addBudgetEarnedIncomeItem(state, budgetEarnedIncomeItem) {
-                var budget = state.budgets.find(budget => budget.budgetId === budgetEarnedIncomeItem.budgetId)
+                let budget = state.budgets.find(budget => budget.budgetId === budgetEarnedIncomeItem.budgetId)
                 budget.earnedIncome.push(budgetEarnedIncomeItem)
             }
         }

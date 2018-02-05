@@ -42,15 +42,15 @@
         },
         methods: {
             addBudget: function () {
-                var now = new Date(Date.now())
-                var month = now.getMonth() + 1
-                var year = now.getFullYear()
-                var newBudget = {
+                const now = new Date(Date.now())
+                const month = now.getMonth() + 1
+                const year = now.getFullYear()
+                const newBudget = {
                     Month: month,
                     Year: year
                 }
                 // return promise for unit testing purposes
-                var p = new Promise((resolve, reject) => {
+                const p = new Promise((resolve, reject) => {
                     if (this.$store.getters.budgetByDate(month, year).length !== 0) {
                         this.error = 'Budget already exists for the current month and year'
                         resolve(this.error)

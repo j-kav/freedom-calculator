@@ -1,6 +1,5 @@
-﻿var webpack = require('webpack');
-var PROD = process.env.NODE_ENV === 'PROD';
-
+﻿const webpack = require('webpack');
+const PROD = process.env.NODE_ENV === 'PROD';
 
 module.exports = {
     entry: {

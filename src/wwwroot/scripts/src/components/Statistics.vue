@@ -218,21 +218,20 @@
         methods: {
             getData: function () {
                 // get all data needed sequentially, and set "show it" when done.
-                var self = this
-                var p = new Promise((resolve, reject) => {
+                const p = new Promise((resolve, reject) => {
                     api.getLiabilities().then((data) => {
-                        self.$store.commit('setLiabilities', data)
+                        this.$store.commit('setLiabilities', data)
                     }).then(() => {
                         return api.getAssets().then((data) => {
-                            self.$store.commit('setAssets', data)
+                            this.$store.commit('setAssets', data)
                         })
                     }).then(() => {
                         return api.getExpenses().then((data) => {
-                            self.$store.commit('setExpenses', data)
+                            this.$store.commit('setExpenses', data)
                         })
                     }).then(() => {
                         return api.getBudgets().then((data) => {
-                            self.$store.commit('setBudgets', data)
+                            this.$store.commit('setBudgets', data)
                         })
                     }).then(() => {
                         const now = new Date(Date.now())
@@ -240,22 +239,22 @@
                         const year = now.getFullYear()
                         const budgets = this.$store.getters.budgetByDate(month, year)
                         if (budgets.length >= 1) {
-                            var budget = budgets[0]
+                            const budget = budgets[0]
                             budget.netWorth = this.$store.getters.netWorth
                             return api.updateBudget(budget).then(() => {
-                                self.loading = false
+                                this.loading = false
                                 resolve()
                             })
                         } else {
-                            var p = new Promise((resolve, reject) => {
-                                self.loading = false
+                            const p = new Promise((resolve, reject) => {
+                                this.loading = false
                                 resolve()
                             })
                             return p.then(() => { resolve() })
                         }
                     }).catch((error) => {
-                        self.loading = false
-                        self.error = error
+                        this.loading = false
+                        this.error = error
                         reject()
                     })
                 })

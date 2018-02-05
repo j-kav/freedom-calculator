@@ -32,13 +32,12 @@
         },
         methods: {
             getUser: function () {
-                var self = this
                 api.getUser().then((data) => {
                     this.loading = false
-                    self.user = data
+                    this.user = data
                 }).catch((error) => {
                     this.loading = false
-                    self.error = error
+                    this.error = error
                 })
             }
         }

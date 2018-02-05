@@ -82,10 +82,10 @@
                 return this.parentBudget.expenses.sort(compareBudgetExpenseByName)
             },
             unprojectedExpenses() {
-                var notIn = function (expense) {
+                const notIn = function (expense) {
                     return this.find(budgetExpense => budgetExpense.expense.name === expense.name) === undefined
                 }
-                var unprojected = this.$store.state.expenses.filter(notIn, this.parentBudget.expenses)
+                const unprojected = this.$store.state.expenses.filter(notIn, this.parentBudget.expenses)
                 return unprojected.sort(compareExpenseByName)
             },
             totalProjectedExpenses() {
@@ -116,8 +116,8 @@
         methods: {
             addExpense: function () {
                 // return promise for unit testing purposes
-                var p = new Promise((resolve, reject) => {
-                    var newBudgetExpense = {
+                const p = new Promise((resolve, reject) => {
+                    const newBudgetExpense = {
                         BudgetId: this.parentBudget.budgetId,
                         Projected: this.projected,
                         ExpenseId: this.expense.expenseId

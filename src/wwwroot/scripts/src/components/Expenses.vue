@@ -43,7 +43,7 @@
         },
         methods: {
             addExpense: function () {
-                var newExpense = {
+                const newExpense = {
                     name: this.name,
                     isMandatory: this.isMandatory
                 }

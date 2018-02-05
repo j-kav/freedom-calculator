@@ -149,7 +149,7 @@
         },
         methods: {
             addAsset: function () {
-                var newAsset = {
+                const newAsset = {
                     assetType: this.assetType,
                     name: this.name,
                     symbol: this.symbol,
