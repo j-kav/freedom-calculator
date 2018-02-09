@@ -13,7 +13,7 @@
 
     export default {
         name: 'BudgetExpenseItem',
-        data: function () {
+        data() {
             return {
                 error: false,
                 message: null,
@@ -22,7 +22,7 @@
             }
         },
         computed: {
-            messageClass: function () {
+            messageClass() {
                 return {
                     'error': this.error,
                     'success': !this.error
@@ -31,7 +31,7 @@
         },
         props: ['budgetExpense', 'budgetExpenseItemModel'],
         methods: {
-            updateExpenseItem: function () {
+            updateExpenseItem() {
                 api.updateBudgetExpenseItem(this.budgetExpenseItem.budgetExpenseItemId, this.budgetExpenseItem).then(() => {
                     this.budgetExpenseItem.budgetExpense = this.parentBudgetExpense
                     this.$store.commit('updateBudgetExpenseItem', this.budgetExpenseItem)
@@ -42,7 +42,7 @@
                     this.message = error.message
                 })
             },
-            removeExpenseItem: function () {
+            removeExpenseItem() {
                 if (window.confirm('Are you sure?')) {
                     api.removeBudgetExpenseItem(this.budgetExpenseItem.budgetExpenseItemId).then(() => {
                         this.budgetExpenseItem.budgetExpense = this.parentBudgetExpense

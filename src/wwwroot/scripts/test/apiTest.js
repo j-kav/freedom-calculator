@@ -6,18 +6,18 @@ import fetchMock from 'fetch-mock'
 // node doesn't have window so just set a global window object to global
 global.window = global
 
-describe('api', function () {
-    it('should have a getToken() Function', function () {
+describe('api', () => {
+    it('should have a getToken() Function', () => {
         expect(typeof api.getToken).to.equal('function')
     })
 
-    it('should have an addBudget() function', function () {
+    it('should have an addBudget() function', () => {
         expect(typeof api.addBudget).to.equal('function')
     })
 
-    describe('getUser', function () {
-        it('should get user from the backend', function () {
-            var newBudget = {}
+    describe('getUser', () => {
+        it('should get user from the backend', () => {
+            const newBudget = {}
             fetchMock.get('/api/user', { givenName: 'test', userName: 'testUser' })
             return api.getUser().then((user) => {
                 expect(user.givenName).to.equal('test')
@@ -28,9 +28,9 @@ describe('api', function () {
         })
     })
 
-    describe('getAssets', function () {
-        it('should get assets from the backend', function () {
-            var newBudget = {}
+    describe('getAssets', () => {
+        it('should get assets from the backend', () => {
+            const newBudget = {}
             fetchMock.get('/api/assets', [{ AssetId: 1 }, { AssetId: 2 }])
             return api.getAssets().then((assets) => {
                 expect(assets.length).to.equal(2)
@@ -41,9 +41,9 @@ describe('api', function () {
         })
     })
 
-    describe('addAsset', function () {
-        it('should get the added asset object with an id', function () {
-            var newAsset = { assetId: 1, value: 200 }
+    describe('addAsset', () => {
+        it('should get the added asset object with an id', () => {
+            const newAsset = { assetId: 1, value: 200 }
             fetchMock.post('/api/assets', { AssetId: 1, Name: 'test', Value: 300 })
             return api.addAsset(newAsset).then((addedAsset) => {
                 expect(addedAsset.AssetId).to.equal(1)
@@ -53,9 +53,9 @@ describe('api', function () {
         })
     })
 
-    describe('updateAsset', function () {
-        it('should get the updated asset object', function () {
-            var asset = { AssetId: 1, Name: 'test', Value: 300 }
+    describe('updateAsset', () => {
+        it('should get the updated asset object', () => {
+            const asset = { AssetId: 1, Name: 'test', Value: 300 }
             fetchMock.put('/api/assets/1', { AssetId: 1, Name: 'test', Value: 300 })
             return api.updateAsset(1, asset).then((updatedAsset) => {
                 expect(updatedAsset.AssetId).to.equal(1)
@@ -66,9 +66,9 @@ describe('api', function () {
         })
     })
 
-    describe('getExpenses', function () {
-        it('should get expenses from the backend', function () {
-            var newBudget = {}
+    describe('getExpenses', () => {
+        it('should get expenses from the backend', () => {
+            const newBudget = {}
             fetchMock.get('/api/expenses', [{ ExpenseId: 1 }, { ExpenseId: 2 }])
             return api.getExpenses().then((expenses) => {
                 expect(expenses.length).to.equal(2)
@@ -79,9 +79,9 @@ describe('api', function () {
         })
     })
 
-    describe('addExpense', function () {
-        it('should get the added expense object with an id', function () {
-            var newExpense = { expenseId: 1, name: 'test' }
+    describe('addExpense', () => {
+        it('should get the added expense object with an id', () => {
+            const newExpense = { expenseId: 1, name: 'test' }
             fetchMock.post('/api/expenses', { ExpenseId: 1, Name: 'test' })
             return api.addExpense(newExpense).then((addedExpense) => {
                 expect(addedExpense.ExpenseId).to.equal(1)
@@ -91,9 +91,9 @@ describe('api', function () {
         })
     })
 
-    describe('getLiabilities', function () {
-        it('should get liabilities from the backend', function () {
-            var newBudget = {}
+    describe('getLiabilities', () => {
+        it('should get liabilities from the backend', () => {
+            const newBudget = {}
             fetchMock.get('/api/liabilities', [{ LiabilityId: 1 }, { LiabilityId: 2 }])
             return api.getLiabilities().then((liabilities) => {
                 expect(liabilities.length).to.equal(2)
@@ -104,9 +104,9 @@ describe('api', function () {
         })
     })
 
-    describe('addLiability', function () {
-        it('should get the added liability object with an id', function () {
-            var newLiability = { LiabilityId: 1, name: 'test', principal: 200 }
+    describe('addLiability', () => {
+        it('should get the added liability object with an id', () => {
+            const newLiability = { LiabilityId: 1, name: 'test', principal: 200 }
             fetchMock.post('/api/liabilities', { LiabilityId: 1, Name: 'test', Principal: 300 })
             return api.addLiability(newLiability).then((addedLiability) => {
                 expect(addedLiability.LiabilityId).to.equal(1)
@@ -116,12 +116,12 @@ describe('api', function () {
         })
     })
 
-    describe('addBudget', function () {
-        it('should get the added budget object with an id', function () {
-            var now = new Date(Date.now())
-            var month = now.getMonth() + 1
-            var year = now.getFullYear()
-            var newBudget = {
+    describe('addBudget', () => {
+        it('should get the added budget object with an id', () => {
+            const now = new Date(Date.now())
+            const month = now.getMonth() + 1
+            const year = now.getFullYear()
+            const newBudget = {
                 BudgetId: 1,
                 Month: month,
                 Year: year
@@ -135,9 +135,9 @@ describe('api', function () {
         })
     })
 
-    describe('getBudgets', function () {
-        it('should get budgets from the backend', function () {
-            var newBudget = {}
+    describe('getBudgets', () => {
+        it('should get budgets from the backend', () => {
+            const newBudget = {}
             fetchMock.get('/api/budgets', [{ BudgetId: 1 }, { BudgetId: 2 }])
             return api.getBudgets().then((budgets) => {
                 expect(budgets.length).to.equal(2)
@@ -148,9 +148,9 @@ describe('api', function () {
         })
     })
 
-    describe('addBudgetEarnedIncomeItem', function () {
-        it('should get the added budgetEarnedIncome object with an id', function () {
-            var newBudgetEarnedIncomeItem = { budgetId: 1, amount: 200 }
+    describe('addBudgetEarnedIncomeItem', () => {
+        it('should get the added budgetEarnedIncome object with an id', () => {
+            const newBudgetEarnedIncomeItem = { budgetId: 1, amount: 200 }
             fetchMock.post('/api/budgetearnedincomeitems', { budgetEarnedIncomeId: 1, budgetId: 1, amount: 200 })
             return api.addBudgetEarnedIncomeItem(newBudgetEarnedIncomeItem).then((addedBudgetEarnedIncomeItem) => {
                 expect(addedBudgetEarnedIncomeItem.budgetEarnedIncomeId).to.equal(1)
@@ -160,9 +160,9 @@ describe('api', function () {
         })
     })
 
-    describe('updateBudget', function () {
-        it('should update the budget object with an id', function () {
-            var updatedBudget = { budgetId: 1, netWorth: 200 }
+    describe('updateBudget', () => {
+        it('should update the budget object with an id', () => {
+            const updatedBudget = { budgetId: 1, netWorth: 200 }
             fetchMock.put('/api/budgets', { budgetId: 1, netWorth: 200 })
             return api.updateBudget(updatedBudget).then(() => {
                 expect(updatedBudget.netWorth).to.equal(200)

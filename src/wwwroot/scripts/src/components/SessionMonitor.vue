@@ -16,7 +16,7 @@
 
     export default {
         name: 'App',
-        data: function () {
+        data() {
             return {
                 showSessionTimingout: false,
                 showSessionExpired: false
@@ -26,23 +26,23 @@
             'modal': Modal
         },
         methods: {
-            extendSession: function () {
+            extendSession() {
                 this.showSessionTimingout = false
                 this.$store.state.authData.lastActivityDate = new Date().getTime()
             },
-            endSession: function () {
+            endSession() {
                 this.showSessionExpired = false
                 this.$store.commit('logout')
                 this.$router.push('/login')
             }
         },
         computed: {
-            lastActivityDateChanged: function () {
+            lastActivityDateChanged() {
                 return this.$store.state.authData.lastActivityDate
             }
         },
         watch: {
-            lastActivityDateChanged: function (newDate, oldDate) {
+            lastActivityDateChanged(newDate, oldDate) {
                 if (window.fcSessionTimingOutId) {
                     clearTimeout(window.fcSessionTimingOutId)
                 }

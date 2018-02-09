@@ -35,13 +35,13 @@
         components: {
             'budget': Budget
         },
-        data: function () {
+        data() {
             return {
                 error: null
             }
         },
         methods: {
-            addBudget: function () {
+            addBudget() {
                 const now = new Date(Date.now())
                 const month = now.getMonth() + 1
                 const year = now.getFullYear()

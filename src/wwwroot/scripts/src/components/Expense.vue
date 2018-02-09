@@ -13,7 +13,7 @@
 
     export default {
         name: 'Expense',
-        data: function () {
+        data() {
             return {
                 error: false,
                 message: null,
@@ -22,7 +22,7 @@
         },
         props: ['expenseModel'],
         methods: {
-            updateExpense: function () {
+            updateExpense() {
                 api.updateExpense(this.expense.expenseId, this.expense).then(() => {
                     this.$store.commit('updateExpense', this.expense)
                     this.error = false
@@ -32,7 +32,7 @@
                     this.message = error
                 })
             },
-            removeExpense: function () {
+            removeExpense() {
                 if (window.confirm('Are you sure?')) {
                     api.removeExpense(this.expense.expenseId).then(() => {
                         this.$store.commit('removeExpense', this.expense.expenseId)

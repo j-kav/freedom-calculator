@@ -12,7 +12,7 @@ export default {
     // (making financial independence possible)
     // @param {Number} monthlyExpenses - average amount of mandatory monthly expenses
     // <returns></returns>
-    calculateAmountToCoverExpenses: function (monthlyExpenses) {
+    calculateAmountToCoverExpenses(monthlyExpenses) {
         return (12 * monthlyExpenses) / safeWithdrawlRate;
     },
     // From the compound interest formula:
@@ -31,7 +31,7 @@ export default {
     // @param {Number} principal - amount saved so far
     // @param {Number} numberCompoundsPerYear - should normally be 12
     // @return {Number} the time predicted it will take to achieve financial independence
-    compoundInterestTime: function (amount, principal, numberCompoundsPerYear) {
+    compoundInterestTime(amount, principal, numberCompoundsPerYear) {
         if (amount === 0) {
             return 0
         }

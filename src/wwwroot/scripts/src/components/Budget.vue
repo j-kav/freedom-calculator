@@ -24,7 +24,7 @@
 
     export default {
         name: 'Budget',
-        data: function () {
+        data() {
             return {
                 error: false,
                 message: null,
@@ -33,19 +33,19 @@
             }
         },
         computed: {
-            messageClass: function () {
+            messageClass() {
                 return {
                     'error': this.error,
                     'success': !this.error
                 }
             },
-            totalIncome: function () {
+            totalIncome() {
                 return this.budget.totalEarnedIncome + this.budget.totalPassiveIncome
             },
-            surplusDeficit: function () {
+            surplusDeficit() {
                 return this.totalIncome - this.budget.totalActualExpenses
             },
-            surplusDeficitClass: function () {
+            surplusDeficitClass() {
                 return {
                     'error': this.surplusDeficit < 0,
                     'success': this.surplusDeficit >= 0
@@ -54,7 +54,7 @@
         },
         props: ['budgetModel'],
         methods: {
-            removeBudget: function () {
+            removeBudget() {
                 if (window.confirm('Are you sure?')) {
                     api.removeBudget(this.budget.budgetId).then(() => {
                         this.$store.commit('removeBudget', this.budget.budgetId)

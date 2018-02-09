@@ -10,7 +10,7 @@
 
     export default {
         name: 'NetWorth',
-        data: function () {
+        data() {
             return {
                 utils: utils
             }
@@ -37,7 +37,7 @@
                     scales: {
                         yAxes: [{
                             ticks: {
-                                callback: function (label, index, labels) {
+                                callback(label, index, labels) {
                                     return utils.usdFormatter.format(label)
                                 }
                             }
@@ -45,7 +45,7 @@
                     },
                     tooltips: {
                         callbacks: {
-                            label: function (tooltipItem, data) {
+                            label(tooltipItem, data) {
                                 return utils.usdFormatter.format(tooltipItem.yLabel)
                             }
                         }

@@ -55,7 +55,7 @@
             'loading': Loading,
             'modal': Modal
         },
-        data: function () {
+        data() {
             return {
                 showLoginForm: true,
                 showRegisterForm: false,
@@ -68,25 +68,25 @@
             }
         },
         methods: {
-            showRegister: function () {
+            showRegister() {
                 this.showRegisterForm = true
                 this.showLoginForm = false
             },
-            showLogin: function () {
+            showLogin() {
                 this.showRegisterForm = false
                 this.showLoginForm = true
             },
-            login: function () {
+            login() {
                 this.loggingIn = true
                 api.getToken(this.email, this.password).then(() => {
                     this.$store.commit('login')
                     this.$router.push('/statistics')
-                }).catch(function (error) {
+                }).catch((error) => {
                     this.loggingIn = false
                     this.error = error
                 })
             },
-            createAccount: function () {
+            createAccount() {
                 api.createAccount(this.name, this.email, this.password, this.confirmPassword).then(() => {
                     api.getToken(this.email, this.password).then(() => {
                         this.$store.commit('login')

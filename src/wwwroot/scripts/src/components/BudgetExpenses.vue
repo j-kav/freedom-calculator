@@ -67,7 +67,7 @@
         components: {
             'budgetExpense': BudgetExpense
         },
-        data: function () {
+        data() {
             return {
                 projected: null,
                 expense: null,
@@ -82,10 +82,10 @@
                 return this.parentBudget.expenses.sort(compareBudgetExpenseByName)
             },
             unprojectedExpenses() {
-                const notIn = function (expense) {
-                    return this.find(budgetExpense => budgetExpense.expense.name === expense.name) === undefined
+                const notIn = (expense) => {
+                    return this.parentBudget.expenses.find(budgetExpense => budgetExpense.expense.name === expense.name) === undefined
                 }
-                const unprojected = this.$store.state.expenses.filter(notIn, this.parentBudget.expenses)
+                const unprojected = this.$store.state.expenses.filter(notIn)
                 return unprojected.sort(compareExpenseByName)
             },
             totalProjectedExpenses() {
@@ -105,7 +105,7 @@
                     '': this.remainingTotal === 0
                 }
             },
-            messageClass: function () {
+            messageClass() {
                 return {
                     'error': this.error,
                     'success': !this.error
@@ -114,7 +114,7 @@
         },
         props: ['budget'],
         methods: {
-            addExpense: function () {
+            addExpense() {
                 // return promise for unit testing purposes
                 const p = new Promise((resolve, reject) => {
                     const newBudgetExpense = {

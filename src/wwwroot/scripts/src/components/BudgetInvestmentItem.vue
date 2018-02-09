@@ -12,7 +12,7 @@
 
     export default {
         name: 'BudgetInvestmentItem',
-        data: function () {
+        data() {
             return {
                 error: false,
                 message: null,
@@ -20,7 +20,7 @@
             }
         },
         computed: {
-            messageClass: function () {
+            messageClass() {
                 return {
                     'error': this.error,
                     'success': !this.error
@@ -29,7 +29,7 @@
         },
         props: ['budgetInvestmentItemModel'],
         methods: {
-            updateInvestmentItem: function () {
+            updateInvestmentItem() {
                 api.updateInvestmentItem(this.budgetInvestmentItem.budgetInvestmentItemId, this.budgetInvestmentItem).then(() => {
                     this.$store.commit('updateBudgetInvestmentItem', this.budgetInvestmentItem)
                     this.error = false
@@ -39,7 +39,7 @@
                     this.message = error
                 })
             },
-            removeInvestmentItem: function () {
+            removeInvestmentItem() {
                 if (window.confirm('Are you sure?')) {
                     api.removeInvestmentItem(this.budgetInvestmentItem.budgetInvestmentItemId).then(() => {
                         this.$store.commit('removeBudgetInvestmentItem', this.budgetInvestmentItem)

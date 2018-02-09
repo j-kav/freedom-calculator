@@ -27,11 +27,11 @@
             'session-monitor': SessionMonitor
         },
         methods: {
-            logout: function () {
+            logout() {
                 this.$store.commit('logout')
                 this.$router.push('/')
             },
-            toggleResponsiveMenu: () => {
+            toggleResponsiveMenu() {
                 const menu = document.getElementById('top-nav')
                 if (menu.classList.contains('responsive')) {
                     menu.classList.remove('responsive')

@@ -181,7 +181,7 @@
                 this.createIndependenceEstimatePieChart()
             }
         },
-        data: function () {
+        data() {
             return {
                 loading: !this.$store.state.assets,
                 error: null,
@@ -216,7 +216,7 @@
             }
         },
         methods: {
-            getData: function () {
+            getData() {
                 // get all data needed sequentially, and set "show it" when done.
                 const p = new Promise((resolve, reject) => {
                     api.getLiabilities().then((data) => {
@@ -260,7 +260,7 @@
                 })
                 return p
             },
-            createNetWorthBarChart: function () {
+            createNetWorthBarChart() {
                 const netWorthBarChartContext = document.getElementById('netWorthBarChart')
                 new Chart(netWorthBarChartContext, {
                     type: 'bar',
@@ -282,7 +282,7 @@
                         scales: {
                             yAxes: [{
                                 ticks: {
-                                    callback: function (label, index, labels) {
+                                    callback(label, index, labels) {
                                         return utils.usdFormatter.format(label)
                                     }
                                 }
@@ -290,7 +290,7 @@
                         },
                         tooltips: {
                             callbacks: {
-                                label: function (tooltipItem, data) {
+                                label(tooltipItem, data) {
                                     return utils.usdFormatter.format(tooltipItem.yLabel)
                                 }
                             }
@@ -298,7 +298,7 @@
                     }
                 })
             },
-            createIndependenceEstimatePieChart: function () {
+            createIndependenceEstimatePieChart() {
                 const independenceEstimatePieChartContext = document.getElementById('independenceEstimatePieChart')
                 const amountRemaining = Math.max(this.amountNeededForFinancialIndependence - this.$store.getters.netWorth, 0)
                 new Chart(independenceEstimatePieChartContext, {
@@ -316,7 +316,7 @@
                     options: {
                         tooltips: {
                             callbacks: {
-                                label: function (tooltipItem, data) {
+                                label(tooltipItem, data) {
                                     const amount = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]
                                     return utils.usdFormatter.format(amount)
                                 }

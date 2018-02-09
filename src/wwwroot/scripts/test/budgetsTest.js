@@ -23,15 +23,15 @@ describe('Budgets', () => {
         }
     }
 
-    it('should be named Budgets', function () {
+    it('should be named Budgets', () => {
         assert.equal(Budgets.name, 'Budgets')
     })
 
-    it('should have an addBudgets method', function () {
+    it('should have an addBudgets method', () => {
         assert.ok(Budgets.methods.addBudget, 'function')
     })
 
-    it('should add a budget to the store when addBudget is called', function () {
+    it('should add a budget to the store when addBudget is called', () => {
         const vm = new Vue({
             template: '<div><test ref="test"></test></div>',
             store: new Vuex.Store(mockedStore),
@@ -47,7 +47,7 @@ describe('Budgets', () => {
         })
     })
 
-    it('should fail to duplicate budgets gracefully', function () {
+    it('should fail to duplicate budgets gracefully', () => {
         const vm = new Vue({
             template: '<div><test ref="test"></test></div>',
             store: new Vuex.Store(mockedStore),

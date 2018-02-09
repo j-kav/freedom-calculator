@@ -24,14 +24,14 @@ describe('BudgetEarnedIncomeItems', () => {
         }
     }
 
-    it('should add a budgetEarnedIncomeItem to the store when addBudgetEarnedIncomeItem is called', function () {
+    it('should add a budgetEarnedIncomeItem to the store when addBudgetEarnedIncomeItem is called', () => {
         const vm = new Vue({
             template: '<div><test ref="test" v-bind:budget="budget"></test></div>',
             store: new Vuex.Store(mockedStore),
             components: {
                 'test': BudgetEarnedIncomeItems
             },
-            data: function () {
+            data() {
                return {
                     budget: { budgetId: 1, earnedIncome: [] }
                 }

@@ -46,7 +46,7 @@ describe('AssetBreakdown', () => {
         }
     }
 
-    it('should compute total cash on load', function () {
+    it('should compute total cash on load', () => {
         const vm = new Vue({
             template: '<div><test ref="test"></test></div>',
             store: new Vuex.Store(mockedStore),
@@ -57,7 +57,7 @@ describe('AssetBreakdown', () => {
         expect(vm.$refs.test.totalCashFormatted).to.equal('$14,000.00')
     })
 
-    it('should compute total real estate on load', function () {
+    it('should compute total real estate on load', () => {
         const vm = new Vue({
             template: '<div><test ref="test"></test></div>',
             store: new Vuex.Store(mockedStore),
@@ -68,7 +68,7 @@ describe('AssetBreakdown', () => {
         expect(vm.$refs.test.totalRealEstateFormatted).to.equal('$125,000.00')
     })
 
-    it('should compute total stock on load', function () {
+    it('should compute total stock on load', () => {
         const vm = new Vue({
             template: '<div><test ref="test"></test></div>',
             store: new Vuex.Store(mockedStore),
@@ -79,7 +79,7 @@ describe('AssetBreakdown', () => {
         expect(vm.$refs.test.totalStockFormatted).to.equal('$120,000.00')
     })
 
-    it('should calculate percentages on load', function () {
+    it('should calculate percentages on load', () => {
         const vm = new Vue({
             template: '<div><test ref="test"></test></div>',
             store: new Vuex.Store(mockedStore),

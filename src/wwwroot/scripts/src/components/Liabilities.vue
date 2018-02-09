@@ -34,7 +34,7 @@
         components: {
             'liability': Liability
         },
-        data: function () {
+        data() {
             return {
                 name: '',
                 principal: 0,
@@ -42,7 +42,7 @@
             }
         },
         methods: {
-            addLiability: function () {
+            addLiability() {
                 const newLiability = {
                     name: this.name,
                     principal: this.principal

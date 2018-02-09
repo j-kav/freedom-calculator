@@ -119,7 +119,7 @@
             'modal': Modal,
             'loading': Loading
         },
-        data: function () {
+        data() {
             return {
                 name: '',
                 symbol: '',
@@ -148,7 +148,7 @@
             }
         },
         methods: {
-            addAsset: function () {
+            addAsset() {
                 const newAsset = {
                     assetType: this.assetType,
                     name: this.name,
@@ -171,7 +171,7 @@
                     this.loading = false
                 })
             },
-            childLoading: function (isChildLoading) {
+            childLoading(isChildLoading) {
                 this.loading = isChildLoading
             }
         }

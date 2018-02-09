@@ -20,7 +20,7 @@
 
     export default {
         name: 'User',
-        data: function () {
+        data() {
             return {
                 loading: true,
                 error: null,
@@ -31,7 +31,7 @@
             this.getUser()
         },
         methods: {
-            getUser: function () {
+            getUser() {
                 api.getUser().then((data) => {
                     this.loading = false
                     this.user = data

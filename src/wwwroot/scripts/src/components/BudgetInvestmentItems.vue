@@ -32,7 +32,7 @@
         components: {
             'budgetInvestmentItem': BudgetInvestmentItem
         },
-        data: function () {
+        data() {
             return {
                 amount: null,
                 parentBudget: this.budget,
@@ -41,7 +41,7 @@
         },
         props: ['budget'],
         methods: {
-            addAmount: function () {
+            addAmount() {
                 // return promise for unit testing purposes
                 const p = new Promise((resolve, reject) => {
                     const newBudgetInvestmentItem = { BudgetId: this.parentBudget.budgetId, Amount: this.amount, Timestamp: new Date(Date.now()) }

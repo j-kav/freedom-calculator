@@ -39,7 +39,7 @@ describe('Statistics', () => {
         expect(typeof Statistics.created).to.equal('function')
     })
 
-    it('should populate budgets in the store when created', function () {
+    it('should populate budgets in the store when created', () => {
         const vm = new Vue({
             template: '<div><test ref="test"></test></div>',
             store: new Vuex.Store(mockedStore),
