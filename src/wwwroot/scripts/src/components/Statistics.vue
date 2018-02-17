@@ -181,7 +181,7 @@
                 this.createIndependenceEstimatePieChart()
             }
         },
-        data: function () {
+        data() {
             return {
                 loading: !this.$store.state.assets,
                 error: null,
@@ -216,23 +216,22 @@
             }
         },
         methods: {
-            getData: function () {
+            getData() {
                 // get all data needed sequentially, and set "show it" when done.
-                var self = this
-                var p = new Promise((resolve, reject) => {
+                const p = new Promise((resolve, reject) => {
                     api.getLiabilities().then((data) => {
-                        self.$store.commit('setLiabilities', data)
+                        this.$store.commit('setLiabilities', data)
                     }).then(() => {
                         return api.getAssets().then((data) => {
-                            self.$store.commit('setAssets', data)
+                            this.$store.commit('setAssets', data)
                         })
                     }).then(() => {
                         return api.getExpenses().then((data) => {
-                            self.$store.commit('setExpenses', data)
+                            this.$store.commit('setExpenses', data)
                         })
                     }).then(() => {
                         return api.getBudgets().then((data) => {
-                            self.$store.commit('setBudgets', data)
+                            this.$store.commit('setBudgets', data)
                         })
                     }).then(() => {
                         const now = new Date(Date.now())
@@ -240,28 +239,28 @@
                         const year = now.getFullYear()
                         const budgets = this.$store.getters.budgetByDate(month, year)
                         if (budgets.length >= 1) {
-                            var budget = budgets[0]
+                            const budget = budgets[0]
                             budget.netWorth = this.$store.getters.netWorth
                             return api.updateBudget(budget).then(() => {
-                                self.loading = false
+                                this.loading = false
                                 resolve()
                             })
                         } else {
-                            var p = new Promise((resolve, reject) => {
-                                self.loading = false
+                            const p = new Promise((resolve, reject) => {
+                                this.loading = false
                                 resolve()
                             })
                             return p.then(() => { resolve() })
                         }
                     }).catch((error) => {
-                        self.loading = false
-                        self.error = error
+                        this.loading = false
+                        this.error = error
                         reject()
                     })
                 })
                 return p
             },
-            createNetWorthBarChart: function () {
+            createNetWorthBarChart() {
                 const netWorthBarChartContext = document.getElementById('netWorthBarChart')
                 new Chart(netWorthBarChartContext, {
                     type: 'bar',
@@ -283,7 +282,7 @@
                         scales: {
                             yAxes: [{
                                 ticks: {
-                                    callback: function (label, index, labels) {
+                                    callback(label, index, labels) {
                                         return utils.usdFormatter.format(label)
                                     }
                                 }
@@ -291,7 +290,7 @@
                         },
                         tooltips: {
                             callbacks: {
-                                label: function (tooltipItem, data) {
+                                label(tooltipItem, data) {
                                     return utils.usdFormatter.format(tooltipItem.yLabel)
                                 }
                             }
@@ -299,7 +298,7 @@
                     }
                 })
             },
-            createIndependenceEstimatePieChart: function () {
+            createIndependenceEstimatePieChart() {
                 const independenceEstimatePieChartContext = document.getElementById('independenceEstimatePieChart')
                 const amountRemaining = Math.max(this.amountNeededForFinancialIndependence - this.$store.getters.netWorth, 0)
                 new Chart(independenceEstimatePieChartContext, {
@@ -317,7 +316,7 @@
                     options: {
                         tooltips: {
                             callbacks: {
-                                label: function (tooltipItem, data) {
+                                label(tooltipItem, data) {
                                     const amount = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]
                                     return utils.usdFormatter.format(amount)
                                 }

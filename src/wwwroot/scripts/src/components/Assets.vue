@@ -32,7 +32,7 @@
         components: {
             'assetList': AssetList
         },
-        data: function () {
+        data() {
             return {
                 assetTypes: assetTypes,
                 cashActive: true,
@@ -42,25 +42,25 @@
             }
         },
         methods: {
-            selectCash: function () {
+            selectCash() {
                 this.cashActive = true
                 this.realEstateActive = false
                 this.bondsActive = false
                 this.stocksActive = false
             },
-            selectRealEstate: function () {
+            selectRealEstate() {
                 this.cashActive = false
                 this.realEstateActive = true
                 this.bondsActive = false
                 this.stocksActive = false
             },
-            selectBonds: function () {
+            selectBonds() {
                 this.cashActive = false
                 this.realEstateActive = false
                 this.bondsActive = true
                 this.stocksActive = false
             },
-            selectStocks: function () {
+            selectStocks() {
                 this.cashActive = false
                 this.realEstateActive = false
                 this.bondsActive = false

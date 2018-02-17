@@ -37,7 +37,7 @@
         <div>
             <label>Expenses</label>
             <div class="field align-right">
-                <span class="link" @click="showExpenses=true">{{ utils.usdFormatter.format(budget.totalActualExpenses) + ' / ' + utils.usdFormatter.format(budget.totalProjectedExpenses) }}</span>
+                <span class="link" @click="showExpenses=true">{{ `${utils.usdFormatter.format(budget.totalActualExpenses)} / ${utils.usdFormatter.format(budget.totalProjectedExpenses)}` }}</span>
             </div>
             <modal v-if="showExpenses" @close="showExpenses=false">
                 <h3 slot="header">Expenses</h3>
@@ -90,7 +90,7 @@
         created() {
             this.budget = this.$store.getters.budgetById(this.$route.params.id)
         },
-        data: function () {
+        data() {
             return {
                 budget: null,
                 showEarnedIncomeItems: false,
@@ -103,19 +103,19 @@
             }
         },
         computed: {
-            messageClass: function () {
+            messageClass() {
                 return {
                     'error': this.error,
                     'success': !this.error
                 }
             },
-            totalIncome: function () {
+            totalIncome() {
                 return this.budget.totalEarnedIncome + this.budget.totalPassiveIncome
             },
-            surplusDeficit: function () {
+            surplusDeficit() {
                 return this.totalIncome - this.budget.totalActualExpenses
             },
-            surplusDeficitClass: function () {
+            surplusDeficitClass() {
                 return {
                     'error': this.surplusDeficit < 0,
                     'success': this.surplusDeficit >= 0
@@ -123,7 +123,7 @@
             }
         },
         methods: {
-            updateBudget: function () {
+            updateBudget() {
                 this.budget.netWorth = this.$store.getters.netWorth
                 api.updateBudget(this.budget).then(() => {
                     this.$store.commit('updateBudget', this.budget)

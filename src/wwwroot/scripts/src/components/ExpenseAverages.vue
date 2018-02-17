@@ -36,7 +36,7 @@
             }
         },
         props: ['mandatory'],
-        data: function () {
+        data() {
             return {
                 loading: !this.$store.state.expenseAverages,
                 utils: utils,

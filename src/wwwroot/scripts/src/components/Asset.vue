@@ -30,7 +30,7 @@
 
     export default {
         name: 'Asset',
-        data: function () {
+        data() {
             return {
                 error: false,
                 message: null,
@@ -43,7 +43,7 @@
             }
         },
         computed: {
-            messageClass: function () {
+            messageClass() {
                 return {
                     'error': this.error,
                     'success': !this.error
@@ -52,10 +52,10 @@
         },
         props: ['assetModel'],
         methods: {
-            updateEquity: function () {
+            updateEquity() {
                 this.$store.commit('updateAsset', this.asset)
             },
-            updateAsset: function () {
+            updateAsset() {
                 this.$emit('loading', true)
                 api.updateAsset(this.asset.assetId, this.asset).then((updatedAsset) => {
                     this.asset = updatedAsset
@@ -69,7 +69,7 @@
                     this.$emit('loading', false)
                 })
             },
-            removeAsset: function () {
+            removeAsset() {
                 if (window.confirm('Are you sure?')) {
                     api.removeAsset(this.asset.assetId).then(() => {
                         this.$store.commit('removeAsset', this.asset.assetId)

@@ -4,7 +4,7 @@ node_modules/
 wwwroot/lib/
 src/wwwroot/scripts/dist/
 project.lock.json
-src/appsettings.production.json
+src/appsettings.*.json
 test/project.lock.json
 src/.tmp/*
 npm-debug.log

@@ -10,13 +10,13 @@
 
     export default {
         name: 'NetWorth',
-        data: function () {
+        data() {
             return {
                 utils: utils
             }
         },
         mounted() {
-            var ctx = document.getElementById('netWorthChart')
+            const ctx = document.getElementById('netWorthChart')
             const budgets = this.$store.state.budgets.slice(0).reverse() // sorted decending
             const labelValues = budgets.map(b => b.year + '-' + b.month)
             const dataValues = budgets.map(b => b.netWorth)
@@ -37,7 +37,7 @@
                     scales: {
                         yAxes: [{
                             ticks: {
-                                callback: function (label, index, labels) {
+                                callback(label, index, labels) {
                                     return utils.usdFormatter.format(label)
                                 }
                             }
@@ -45,7 +45,7 @@
                     },
                     tooltips: {
                         callbacks: {
-                            label: function (tooltipItem, data) {
+                            label(tooltipItem, data) {
                                 return utils.usdFormatter.format(tooltipItem.yLabel)
                             }
                         }

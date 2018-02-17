@@ -23,7 +23,7 @@
 
     export default {
         name: 'BudgetExpense',
-        data: function () {
+        data() {
             return {
                 error: false,
                 message: null,
@@ -37,24 +37,24 @@
             'modal': Modal
         },
         computed: {
-            expenseItems: function () {
+            expenseItems() {
                 let expenseItems = 0
                 for (const item of this.budgetExpense.budgetExpenseItems) {
                     expenseItems += Number.parseFloat(item.amount)
                 }
                 return expenseItems
             },
-            remaining: function () {
+            remaining() {
                 return this.budgetExpense.projected - this.expenseItems
             },
-            remainingClass: function () {
+            remainingClass() {
                 return {
                     'error': this.remaining < 0,
                     'success': this.remaining > 0,
                     '': this.remaining === 0
                 }
             },
-            messageClass: function () {
+            messageClass() {
                 return {
                     'error': this.error,
                     'success': !this.error
@@ -63,7 +63,7 @@
         },
         props: ['budgetExpenseModel'],
         methods: {
-            updateExpense: function () {
+            updateExpense() {
                 api.updateBudgetExpense(this.budgetExpense.budgetExpenseId, this.budgetExpense).then(() => {
                     this.error = false
                     this.message = 'updated'
@@ -72,7 +72,7 @@
                     this.message = error
                 })
             },
-            removeExpense: function () {
+            removeExpense() {
                 if (window.confirm('Are you sure?')) {
                     api.removeBudgetExpense(this.budgetExpense.budgetExpenseId).then(() => {
                         this.$store.commit('removeBudgetExpense', this.budgetExpense)

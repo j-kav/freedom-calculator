@@ -34,7 +34,7 @@
         components: {
             'expense': Expense
         },
-        data: function () {
+        data() {
             return {
                 name: '',
                 isMandatory: false,
@@ -42,8 +42,8 @@
             }
         },
         methods: {
-            addExpense: function () {
-                var newExpense = {
+            addExpense() {
+                const newExpense = {
                     name: this.name,
                     isMandatory: this.isMandatory
                 }

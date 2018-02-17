@@ -32,7 +32,7 @@
         components: {
             'budgetInvestmentItem': BudgetInvestmentItem
         },
-        data: function () {
+        data() {
             return {
                 amount: null,
                 parentBudget: this.budget,
@@ -41,10 +41,10 @@
         },
         props: ['budget'],
         methods: {
-            addAmount: function () {
+            addAmount() {
                 // return promise for unit testing purposes
-                var p = new Promise((resolve, reject) => {
-                    var newBudgetInvestmentItem = { BudgetId: this.parentBudget.budgetId, Amount: this.amount, Timestamp: new Date(Date.now()) }
+                const p = new Promise((resolve, reject) => {
+                    const newBudgetInvestmentItem = { BudgetId: this.parentBudget.budgetId, Amount: this.amount, Timestamp: new Date(Date.now()) }
                     api.addBudgetInvestmentItem(newBudgetInvestmentItem).then((addedBudgetInvestmentItem) => {
                         this.$store.commit('addBudgetInvestmentItem', addedBudgetInvestmentItem)
                         this.amount = null

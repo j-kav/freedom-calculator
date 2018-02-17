@@ -55,7 +55,7 @@
             'loading': Loading,
             'modal': Modal
         },
-        data: function () {
+        data() {
             return {
                 showLoginForm: true,
                 showRegisterForm: false,
@@ -68,36 +68,34 @@
             }
         },
         methods: {
-            showRegister: function () {
+            showRegister() {
                 this.showRegisterForm = true
                 this.showLoginForm = false
             },
-            showLogin: function () {
+            showLogin() {
                 this.showRegisterForm = false
                 this.showLoginForm = true
             },
-            login: function () {
+            login() {
                 this.loggingIn = true
-                var self = this
                 api.getToken(this.email, this.password).then(() => {
-                    self.$store.commit('login')
-                    self.$router.push('/statistics')
-                }).catch(function (error) {
-                    self.loggingIn = false
-                    self.error = error
+                    this.$store.commit('login')
+                    this.$router.push('/statistics')
+                }).catch((error) => {
+                    this.loggingIn = false
+                    this.error = error
                 })
             },
-            createAccount: function () {
-                var self = this
+            createAccount() {
                 api.createAccount(this.name, this.email, this.password, this.confirmPassword).then(() => {
                     api.getToken(this.email, this.password).then(() => {
-                        self.$store.commit('login')
-                        self.$router.push('/statistics')
+                        this.$store.commit('login')
+                        this.$router.push('/statistics')
                     }).catch((error) => {
-                        self.error = error
+                        this.error = error
                     })
                 }).catch((error) => {
-                    self.error = error
+                    this.error = error
                 })
             }
         }

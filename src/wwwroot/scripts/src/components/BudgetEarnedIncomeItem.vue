@@ -13,7 +13,7 @@
 
     export default {
         name: 'BudgetEarnedIncomeItem',
-        data: function () {
+        data() {
             return {
                 error: false,
                 message: null,
@@ -21,7 +21,7 @@
             }
         },
         computed: {
-            messageClass: function () {
+            messageClass() {
                 return {
                     'error': this.error,
                     'success': !this.error
@@ -30,7 +30,7 @@
         },
         props: ['budgetEarnedIncomeItemModel'],
         methods: {
-            updateEarnedIncomeItem: function () {
+            updateEarnedIncomeItem() {
                 api.updateEarnedIncomeItem(this.budgetEarnedIncomeItem.budgetEarnedIncomeItemId, this.budgetEarnedIncomeItem).then(() => {
                     this.$store.commit('updateBudgetEarnedIncomeItem', this.budgetEarnedIncomeItem)
                     this.error = false
@@ -40,7 +40,7 @@
                     this.message = error
                 })
             },
-            removeEarnedIncomeItem: function () {
+            removeEarnedIncomeItem() {
                 if (window.confirm('Are you sure?')) {
                     api.removeEarnedIncomeItem(this.budgetEarnedIncomeItem.budgetEarnedIncomeItemId).then(() => {
                         this.$store.commit('removeBudgetEarnedIncomeItem', this.budgetEarnedIncomeItem)

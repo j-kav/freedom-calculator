@@ -22,7 +22,7 @@ namespace FreedomCalculator2
             // add the config file which stores the connection string
             IConfigurationBuilder builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json").AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddJsonFile("appsettings.json").AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true).AddJsonFile("appsettings.user.json", optional: true)
                 .AddEnvironmentVariables();
 
             Configuration = builder.Build();

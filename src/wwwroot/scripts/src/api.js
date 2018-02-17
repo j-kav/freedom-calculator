@@ -3,7 +3,7 @@ import { store } from './store'
 // check if token is expired and refresh it if necessary
 function refreshTokenIfNecessary() {
     if (store.state.authData.expirationDate < new Date().getTime()) {
-        return fetchTokens('grant_type=refresh_token&refresh_token=' + store.state.authData.refresh_token + '&scope=openid offline_access')
+        return fetchTokens(`grant_type=refresh_token&refresh_token=${store.state.authData.refresh_token}&scope=openid offline_access`)
     } else {
         return Promise.resolve()
     }
@@ -15,8 +15,8 @@ function getFetchRequestPromise(url, fetchProps) {
     return refreshTokenIfNecessary().then(() => {
         fetchProps = fetchProps || {}
         fetchProps.headers = fetchProps.headers || {}
-        fetchProps.headers.Authorization = 'Bearer ' + store.state.authData.access_token
-        var p = new Promise((resolve, reject) => {
+        fetchProps.headers.Authorization = `Bearer ${store.state.authData.access_token}`
+        const p = new Promise((resolve, reject) => {
             window.fetch(url, fetchProps).then((response) => {
                 if (response.ok) {
                     return response.json()
@@ -40,8 +40,8 @@ function getNonDataFetchRequestPromise(url, fetchProps) {
     return refreshTokenIfNecessary().then(() => {
         fetchProps = fetchProps || {}
         fetchProps.headers = fetchProps.headers || {}
-        fetchProps.headers.Authorization = 'Bearer ' + store.state.authData.access_token
-        var p = new Promise((resolve, reject) => {
+        fetchProps.headers.Authorization = `Bearer ${store.state.authData.access_token}`
+        const p = new Promise((resolve, reject) => {
             window.fetch(url, fetchProps).then((response) => {
                 if (response.ok) {
                     resolve(response)
@@ -58,12 +58,12 @@ function getNonDataFetchRequestPromise(url, fetchProps) {
 }
 
 function fetchTokens(fetchBody) {
-    var fetchProps = {
+    const fetchProps = {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: fetchBody
     }
-    var p = new Promise((resolve, reject) => {
+    const p = new Promise((resolve, reject) => {
         window.fetch('/connect/token', fetchProps).then((response) => {
             return response.json()
         }).then((data) => {
@@ -74,9 +74,9 @@ function fetchTokens(fetchBody) {
                 if (store.state.authData.refresh_token && !data.refresh_token) {
                     data.refresh_token = store.state.authData.refresh_token
                 }
-                var now = new Date().getTime()
+                const now = new Date().getTime()
                 data.lastActivityDate = now
-                var expiresInMilliseconds = data.expires_in * 1000
+                const expiresInMilliseconds = data.expires_in * 1000
                 data.expirationDate = new Date(now + expiresInMilliseconds).getTime()
                 store.state.authData = data
                 resolve()
@@ -89,14 +89,14 @@ function fetchTokens(fetchBody) {
 }
 
 export default {
-    getToken: function (email, password) {
-        return fetchTokens('grant_type=password&username=' + email + '&password=' + password + '&scope=openid offline_access')
+    getToken(email, password) {
+        return fetchTokens(`grant_type=password&username=${email}&password=${password}&scope=openid offline_access`)
     },
-    getUser: function () {
+    getUser() {
         return getFetchRequestPromise('/api/user');
     },
-    createAccount: function (name, email, password, confirmPassword) {
-        var fetchProps = {
+    createAccount(name, email, password, confirmPassword) {
+        const fetchProps = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -106,7 +106,7 @@ export default {
                 ConfirmPassword: confirmPassword
             })
         }
-        var p = new Promise((resolve, reject) => {
+        const p = new Promise((resolve, reject) => {
             window.fetch('/api/account', fetchProps).then((response) => {
                 if (response.ok) {
                     resolve(response)
@@ -119,11 +119,11 @@ export default {
         })
         return p
     },
-    getAssets: function () {
+    getAssets() {
         return getFetchRequestPromise('/api/assets');
     },
-    addAsset: function (newAsset) {
-        var fetchProps = {
+    addAsset(newAsset) {
+        const fetchProps = {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -144,14 +144,14 @@ export default {
         }
         return getFetchRequestPromise('/api/assets', fetchProps);
     },
-    removeAsset: function (id) {
-        var fetchProps = {
+    removeAsset(id) {
+        const fetchProps = {
             method: 'DELETE'
         }
-        return getNonDataFetchRequestPromise('/api/assets/' + id, fetchProps);
+        return getNonDataFetchRequestPromise(`/api/assets/${id}`, fetchProps);
     },
-    updateAsset: function (id, updatedAsset) {
-        var fetchProps = {
+    updateAsset(id, updatedAsset) {
+        const fetchProps = {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -166,13 +166,13 @@ export default {
                 LiabilityId: updatedAsset.liabilityId
             })
         }
-        return getFetchRequestPromise('/api/assets/' + id, fetchProps);
+        return getFetchRequestPromise(`/api/assets/${id}`, fetchProps);
     },
-    getLiabilities: function () {
+    getLiabilities() {
         return getFetchRequestPromise('/api/liabilities');
     },
-    addLiability: function (newLiability) {
-        var fetchProps = {
+    addLiability(newLiability) {
+        const fetchProps = {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -184,14 +184,14 @@ export default {
         }
         return getFetchRequestPromise('/api/liabilities', fetchProps);
     },
-    removeLiability: function (id) {
-        var fetchProps = {
+    removeLiability(id) {
+        const fetchProps = {
             method: 'DELETE'
         }
-        return getNonDataFetchRequestPromise('/api/liabilities/' + id, fetchProps)
+        return getNonDataFetchRequestPromise(`/api/liabilities/${id}`, fetchProps)
     },
-    updateLiability: function (id, updatedLiability) {
-        var fetchProps = {
+    updateLiability(id, updatedLiability) {
+        const fetchProps = {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -201,13 +201,13 @@ export default {
                 Principal: updatedLiability.principal
             })
         }
-        return getNonDataFetchRequestPromise('/api/liabilities/' + id, fetchProps)
+        return getNonDataFetchRequestPromise(`/api/liabilities/${id}`, fetchProps)
     },
-    getExpenses: function () {
+    getExpenses() {
         return getFetchRequestPromise('/api/expenses');
     },
-    addExpense: function (newExpense) {
-        var fetchProps = {
+    addExpense(newExpense) {
+        const fetchProps = {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -219,14 +219,14 @@ export default {
         }
         return getFetchRequestPromise('/api/expenses', fetchProps);
     },
-    removeExpense: function (id) {
-        var fetchProps = {
+    removeExpense(id) {
+        const fetchProps = {
             method: 'DELETE'
         }
-        return getNonDataFetchRequestPromise('/api/expenses/' + id, fetchProps)
+        return getNonDataFetchRequestPromise(`/api/expenses/${id}`, fetchProps)
     },
-    updateExpense: function (id, updatedExpense) {
-        var fetchProps = {
+    updateExpense(id, updatedExpense) {
+        const fetchProps = {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -236,10 +236,10 @@ export default {
                 IsMandatory: updatedExpense.isMandatory
             })
         }
-        return getNonDataFetchRequestPromise('/api/expenses/' + id, fetchProps)
+        return getNonDataFetchRequestPromise(`/api/expenses/${id}`, fetchProps)
     },
-    addBudget: function (newBudget) {
-        var fetchProps = {
+    addBudget(newBudget) {
+        const fetchProps = {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -251,17 +251,17 @@ export default {
         }
         return getFetchRequestPromise('/api/budgets', fetchProps);
     },
-    getBudgets: function () {
+    getBudgets() {
         return getFetchRequestPromise('/api/budgets');
     },
-    removeBudget: function (id) {
-        var fetchProps = {
+    removeBudget(id) {
+        const fetchProps = {
             method: 'DELETE'
         }
-        return getNonDataFetchRequestPromise('/api/budgets/' + id, fetchProps)
+        return getNonDataFetchRequestPromise(`/api/budgets/${id}`, fetchProps)
     },
-    updateBudget: function (budget) {
-        var fetchProps = {
+    updateBudget(budget) {
+        const fetchProps = {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -274,8 +274,8 @@ export default {
         }
         return getNonDataFetchRequestPromise('/api/budgets', fetchProps);
     },
-    addBudgetEarnedIncomeItem: function (newBudgetEarnedIncomeItem) {
-        var fetchProps = {
+    addBudgetEarnedIncomeItem(newBudgetEarnedIncomeItem) {
+        const fetchProps = {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -288,8 +288,8 @@ export default {
         }
         return getFetchRequestPromise('/api/budgetearnedincomeitems', fetchProps);
     },
-    updateEarnedIncomeItem: function (id, updatedBudgetIncomeItem) {
-        var fetchProps = {
+    updateEarnedIncomeItem(id, updatedBudgetIncomeItem) {
+        const fetchProps = {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -298,16 +298,16 @@ export default {
                 Amount: updatedBudgetIncomeItem.amount
             })
         }
-        return getNonDataFetchRequestPromise('/api/budgetearnedincomeitems/' + id, fetchProps)
+        return getNonDataFetchRequestPromise(`/api/budgetearnedincomeitems/${id}`, fetchProps)
     },
-    removeEarnedIncomeItem: function (id) {
-        var fetchProps = {
+    removeEarnedIncomeItem(id) {
+        const fetchProps = {
             method: 'DELETE'
         }
-        return getNonDataFetchRequestPromise('/api/budgetearnedincomeitems/' + id, fetchProps)
+        return getNonDataFetchRequestPromise(`/api/budgetearnedincomeitems/${id}`, fetchProps)
     },
-    addBudgetPassiveIncomeItem: function (newBudgetPassiveIncomeItem) {
-        var fetchProps = {
+    addBudgetPassiveIncomeItem(newBudgetPassiveIncomeItem) {
+        const fetchProps = {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -320,8 +320,8 @@ export default {
         }
         return getFetchRequestPromise('/api/budgetpassiveincomeitems', fetchProps);
     },
-    updatePassiveIncomeItem: function (id, updatedBudgetIncomeItem) {
-        var fetchProps = {
+    updatePassiveIncomeItem(id, updatedBudgetIncomeItem) {
+        const fetchProps = {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -330,16 +330,16 @@ export default {
                 Amount: updatedBudgetIncomeItem.amount
             })
         }
-        return getNonDataFetchRequestPromise('/api/budgetpassiveincomeitems/' + id, fetchProps)
+        return getNonDataFetchRequestPromise(`/api/budgetpassiveincomeitems/${id}`, fetchProps)
     },
-    removePassiveIncomeItem: function (id) {
-        var fetchProps = {
+    removePassiveIncomeItem(id) {
+        const fetchProps = {
             method: 'DELETE'
         }
-        return getNonDataFetchRequestPromise('/api/budgetpassiveincomeitems/' + id, fetchProps)
+        return getNonDataFetchRequestPromise(`/api/budgetpassiveincomeitems/${id}`, fetchProps)
     },
-    addBudgetInvestmentItem: function (newBudgetInvestmentItem) {
-        var fetchProps = {
+    addBudgetInvestmentItem(newBudgetInvestmentItem) {
+        const fetchProps = {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -352,8 +352,8 @@ export default {
         }
         return getFetchRequestPromise('/api/budgetinvestmentitems', fetchProps);
     },
-    updateInvestmentItem: function (id, updatedBudgetInvestmentItem) {
-        var fetchProps = {
+    updateInvestmentItem(id, updatedBudgetInvestmentItem) {
+        const fetchProps = {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -362,16 +362,16 @@ export default {
                 Amount: updatedBudgetInvestmentItem.amount
             })
         }
-        return getNonDataFetchRequestPromise('/api/budgetinvestmentitems/' + id, fetchProps)
+        return getNonDataFetchRequestPromise(`/api/budgetinvestmentitems/${id}`, fetchProps)
     },
-    removeInvestmentItem: function (id) {
-        var fetchProps = {
+    removeInvestmentItem(id) {
+        const fetchProps = {
             method: 'DELETE'
         }
-        return getNonDataFetchRequestPromise('/api/budgetinvestmentitems/' + id, fetchProps)
+        return getNonDataFetchRequestPromise(`/api/budgetinvestmentitems/${id}`, fetchProps)
     },
-    addBudgetExpense: function (newBudgetExpense) {
-        var fetchProps = {
+    addBudgetExpense(newBudgetExpense) {
+        const fetchProps = {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -384,8 +384,8 @@ export default {
         }
         return getFetchRequestPromise('/api/budgetexpenses', fetchProps);
     },
-    updateBudgetExpense: function (id, updatedBudgetExpense) {
-        var fetchProps = {
+    updateBudgetExpense(id, updatedBudgetExpense) {
+        const fetchProps = {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -394,16 +394,16 @@ export default {
                 Projected: updatedBudgetExpense.projected
             })
         }
-        return getNonDataFetchRequestPromise('/api/budgetexpenses/' + id, fetchProps)
+        return getNonDataFetchRequestPromise(`/api/budgetexpenses/${id}`, fetchProps)
     },
-    removeBudgetExpense: function (id) {
-        var fetchProps = {
+    removeBudgetExpense(id) {
+        const fetchProps = {
             method: 'DELETE'
         }
-        return getNonDataFetchRequestPromise('/api/budgetexpenses/' + id, fetchProps)
+        return getNonDataFetchRequestPromise(`/api/budgetexpenses/${id}`, fetchProps)
     },
-    addBudgetExpenseItem: function (newBudgetExpenseItem) {
-        var fetchProps = {
+    addBudgetExpenseItem(newBudgetExpenseItem) {
+        const fetchProps = {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -416,8 +416,8 @@ export default {
         }
         return getFetchRequestPromise('/api/budgetexpenseitems', fetchProps);
     },
-    updateBudgetExpenseItem: function (id, updatedBudgetExpenseItem) {
-        var fetchProps = {
+    updateBudgetExpenseItem(id, updatedBudgetExpenseItem) {
+        const fetchProps = {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -426,15 +426,15 @@ export default {
                 Amount: updatedBudgetExpenseItem.amount
             })
         }
-        return getNonDataFetchRequestPromise('/api/budgetexpenseitems/' + id, fetchProps)
+        return getNonDataFetchRequestPromise(`/api/budgetexpenseitems/${id}`, fetchProps)
     },
-    removeBudgetExpenseItem: function (id) {
-        var fetchProps = {
+    removeBudgetExpenseItem(id) {
+        const fetchProps = {
             method: 'DELETE'
         }
-        return getNonDataFetchRequestPromise('/api/budgetexpenseitems/' + id, fetchProps)
+        return getNonDataFetchRequestPromise(`/api/budgetexpenseitems/${id}`, fetchProps)
     },
-    getExpenseAverages: function () {
+    getExpenseAverages() {
         return getFetchRequestPromise('/api/expenseaverages');
     }
 }

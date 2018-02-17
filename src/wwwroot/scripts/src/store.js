@@ -105,11 +105,11 @@ export const store = new Vuex.Store({
             state.authData = {}
         },
         setAssets(state, assets) {
-            for (var i = 0; i < assets.length; i++) {
-                var asset = assets[i];
+            for (let i = 0; i < assets.length; i++) {
+                const asset = assets[i];
                 asset.equity = asset.value
                 if (asset.liabilityId) {
-                    var liabilityIndex = state.liabilities.findIndex(liability => liability.liabilityId === asset.liabilityId)
+                    const liabilityIndex = state.liabilities.findIndex(liability => liability.liabilityId === asset.liabilityId)
                     asset.equity -= state.liabilities[liabilityIndex].principal
                 }
             }
@@ -118,7 +118,7 @@ export const store = new Vuex.Store({
         addAsset(state, asset) {
             asset.equity = asset.value
             if (asset.liabilityId) {
-                var liabilityIndex = state.liabilities.findIndex(liability => liability.liabilityId === asset.liabilityId)
+                const liabilityIndex = state.liabilities.findIndex(liability => liability.liabilityId === asset.liabilityId)
                 asset.equity -= state.liabilities[liabilityIndex].principal
             }
             state.assets.push(asset)
@@ -126,10 +126,10 @@ export const store = new Vuex.Store({
         updateAsset(state, updatedAsset) {
             updatedAsset.equity = updatedAsset.value
             if (updatedAsset.liabilityId) {
-                var liabilityIndex = state.liabilities.findIndex(liability => liability.liabilityId === updatedAsset.liabilityId)
+                const liabilityIndex = state.liabilities.findIndex(liability => liability.liabilityId === updatedAsset.liabilityId)
                 updatedAsset.equity -= state.liabilities[liabilityIndex].principal
             }
-            var assetIndex = state.assets.findIndex(asset => asset.assetId === updatedAsset.assetId);
+            const assetIndex = state.assets.findIndex(asset => asset.assetId === updatedAsset.assetId);
             state.assets[assetIndex] = updatedAsset;
         },
         removeAsset(state, id) {
@@ -142,7 +142,7 @@ export const store = new Vuex.Store({
             state.liabilities.push(liability)
         },
         updateLiability(state, updatedLiability) {
-            var liabilityIndex = state.liabilities.findIndex(liability => liability.liabilityId === updatedLiability.liabilityId)
+            const liabilityIndex = state.liabilities.findIndex(liability => liability.liabilityId === updatedLiability.liabilityId)
             state.liabilities[liabilityIndex] = updatedLiability;
         },
         removeLiability(state, id) {
@@ -155,7 +155,7 @@ export const store = new Vuex.Store({
             state.expenses.push(expense)
         },
         updateExpense(state, updatedExpense) {
-            var expenseIndex = state.expenses.findIndex(expense => expense.expenseId === updatedExpense.expenseId)
+            const expenseIndex = state.expenses.findIndex(expense => expense.expenseId === updatedExpense.expenseId)
             state.expenses[expenseIndex] = updatedExpense;
         },
         removeExpense(state, id) {
@@ -223,14 +223,14 @@ export const store = new Vuex.Store({
             state.budgets.push(budget)
         },
         updateBudget(state, updatedBudget) {
-            var budgetIndex = state.budgets.findIndex(budget => budget.budgetId === updatedBudget.budgetId)
+            const budgetIndex = state.budgets.findIndex(budget => budget.budgetId === updatedBudget.budgetId)
             state.budgets[budgetIndex] = updatedBudget
         },
         removeBudget(state, id) {
             state.budgets = state.budgets.filter(budget => budget.budgetId !== id)
         },
         addBudgetEarnedIncomeItem(state, budgetEarnedIncomeItem) {
-            var budget = state.budgets.find(budget => budget.budgetId === budgetEarnedIncomeItem.budgetId)
+            const budget = state.budgets.find(budget => budget.budgetId === budgetEarnedIncomeItem.budgetId)
             budget.earnedIncome.push(budgetEarnedIncomeItem)
             budget.totalEarnedIncome += budgetEarnedIncomeItem.amount
             state.totalEarnedIncome += budgetEarnedIncomeItem.amount
@@ -248,14 +248,14 @@ export const store = new Vuex.Store({
             state.totalEarnedIncome = totalEarnedIncome
         },
         removeBudgetEarnedIncomeItem(state, budgetEarnedIncomeItem) {
-            var budget = state.budgets.find(budget => budget.budgetId === budgetEarnedIncomeItem.budgetId)
-            var position = budget.earnedIncome.indexOf(budgetEarnedIncomeItem)
+            const budget = state.budgets.find(budget => budget.budgetId === budgetEarnedIncomeItem.budgetId)
+            const position = budget.earnedIncome.indexOf(budgetEarnedIncomeItem)
             budget.earnedIncome.splice(position, 1)
             budget.totalEarnedIncome -= budgetEarnedIncomeItem.amount
             state.totalEarnedIncome -= budgetEarnedIncomeItem.amount
         },
         addBudgetPassiveIncomeItem(state, budgetPassiveIncomeItem) {
-            var budget = state.budgets.find(budget => budget.budgetId === budgetPassiveIncomeItem.budgetId)
+            const budget = state.budgets.find(budget => budget.budgetId === budgetPassiveIncomeItem.budgetId)
             budget.passiveIncome.push(budgetPassiveIncomeItem)
             budget.totalPassiveIncome += budgetPassiveIncomeItem.amount
             state.totalPassiveIncome += budgetPassiveIncomeItem.amount
@@ -273,14 +273,14 @@ export const store = new Vuex.Store({
             state.totalPassiveIncome = totalPassiveIncome
         },
         removeBudgetPassiveIncomeItem(state, budgetPassiveIncomeItem) {
-            var budget = state.budgets.find(budget => budget.budgetId === budgetPassiveIncomeItem.budgetId)
-            var position = budget.passiveIncome.indexOf(budgetPassiveIncomeItem)
+            const budget = state.budgets.find(budget => budget.budgetId === budgetPassiveIncomeItem.budgetId)
+            const position = budget.passiveIncome.indexOf(budgetPassiveIncomeItem)
             budget.passiveIncome.splice(position, 1)
             budget.totalPassiveIncome -= budgetPassiveIncomeItem.amount
             state.totalPassiveIncome -= budgetPassiveIncomeItem.amount
         },
         addBudgetInvestmentItem(state, budgetInvestmentItem) {
-            var budget = state.budgets.find(budget => budget.budgetId === budgetInvestmentItem.budgetId)
+            const budget = state.budgets.find(budget => budget.budgetId === budgetInvestmentItem.budgetId)
             budget.investments.push(budgetInvestmentItem)
             budget.totalInvestments += budgetInvestmentItem.amount
             budget.savingsRate = budget.totalEarnedIncome === 0 ? 0 : budget.totalInvestments / budget.totalEarnedIncome
@@ -301,28 +301,28 @@ export const store = new Vuex.Store({
             state.totalInvestments = totalInvestments
         },
         removeBudgetInvestmentItem(state, budgetInvestmentItem) {
-            var budget = state.budgets.find(budget => budget.budgetId === budgetInvestmentItem.budgetId)
-            var position = budget.investments.indexOf(budgetInvestmentItem)
+            const budget = state.budgets.find(budget => budget.budgetId === budgetInvestmentItem.budgetId)
+            const position = budget.investments.indexOf(budgetInvestmentItem)
             budget.investments.splice(position, 1)
             budget.totalInvestments -= budgetInvestmentItem.amount
             state.totalInvestments -= budgetInvestmentItem.amount
         },
         addBudgetExpense(state, budgetExpense) {
-            var budget = state.budgets.find(budget => budget.budgetId === budgetExpense.budgetId)
+            const budget = state.budgets.find(budget => budget.budgetId === budgetExpense.budgetId)
             budget.expenses.push(budgetExpense)
             budget.totalProjectedExpenses += Number.parseFloat(budgetExpense.projected)
         },
         removeBudgetExpense(state, budgetExpense) {
-            var budget = state.budgets.find(budget => budget.budgetId === budgetExpense.budgetId)
-            var position = budget.expenses.indexOf(budgetExpense)
+            const budget = state.budgets.find(budget => budget.budgetId === budgetExpense.budgetId)
+            const position = budget.expenses.indexOf(budgetExpense)
             budget.expenses.splice(position, 1)
             budget.totalProjectedExpenses -= Number.parseFloat(budgetExpense.projected)
         },
         addBudgetExpenseItem(state, budgetExpenseItem) {
-            var budgetId = budgetExpenseItem.budgetExpense.budgetId
-            var budgetExpenseId = budgetExpenseItem.budgetExpenseId
-            var budget = state.budgets.find(budget => budget.budgetId === budgetId)
-            var budgetExpense = budget.expenses.find(budgetExpense => budgetExpense.budgetExpenseId === budgetExpenseId)
+            const budgetId = budgetExpenseItem.budgetExpense.budgetId
+            const budgetExpenseId = budgetExpenseItem.budgetExpenseId
+            const budget = state.budgets.find(budget => budget.budgetId === budgetId)
+            const budgetExpense = budget.expenses.find(budgetExpense => budgetExpense.budgetExpenseId === budgetExpenseId)
             budgetExpense.budgetExpenseItems.push(budgetExpenseItem)
             budget.totalActualExpenses += Number.parseFloat(budgetExpenseItem.amount)
             if (budgetExpense.expense.isMandatory) {
@@ -332,10 +332,10 @@ export const store = new Vuex.Store({
             }
         },
         updateBudgetExpenseItem(state, budgetExpenseItem) {
-            var budgetId = budgetExpenseItem.budgetExpense.budgetId
-            var budgetExpenseId = budgetExpenseItem.budgetExpenseId
-            var budget = state.budgets.find(budget => budget.budgetId === budgetId)
-            var budgetExpense = budget.expenses.find(budgetExpense => budgetExpense.budgetExpenseId === budgetExpenseId)
+            const budgetId = budgetExpenseItem.budgetExpense.budgetId
+            const budgetExpenseId = budgetExpenseItem.budgetExpenseId
+            const budget = state.budgets.find(budget => budget.budgetId === budgetId)
+            const budgetExpense = budget.expenses.find(budgetExpense => budgetExpense.budgetExpenseId === budgetExpenseId)
             const item = budgetExpense.budgetExpenseItems.find(item => item.budgetExpenseItemId === budgetExpenseItem.budgetExpenseItemId)
             item.amount = budgetExpenseItem.amount
             // recalculate all actual expenses
@@ -346,11 +346,11 @@ export const store = new Vuex.Store({
             // TODO update totals for averages
         },
         removeBudgetExpenseItem(state, budgetExpenseItem) {
-            var budgetId = budgetExpenseItem.budgetExpense.budgetId
-            var budgetExpenseId = budgetExpenseItem.budgetExpenseId
-            var budget = state.budgets.find(budget => budget.budgetId === budgetId)
-            var budgetExpense = budget.expenses.find(budgetExpense => budgetExpense.budgetExpenseId === budgetExpenseId)
-            var position = budgetExpense.budgetExpenseItems.indexOf(budgetExpenseItem)
+            const budgetId = budgetExpenseItem.budgetExpense.budgetId
+            const budgetExpenseId = budgetExpenseItem.budgetExpenseId
+            const budget = state.budgets.find(budget => budget.budgetId === budgetId)
+            const budgetExpense = budget.expenses.find(budgetExpense => budgetExpense.budgetExpenseId === budgetExpenseId)
+            const position = budgetExpense.budgetExpenseItems.indexOf(budgetExpenseItem)
             budgetExpense.budgetExpenseItems.splice(position, 1)
             budget.totalActualExpenses -= Number.parseFloat(budgetExpenseItem.amount)
             if (budgetExpense.expense.isMandatory) {

@@ -13,7 +13,7 @@
 
     export default {
         name: 'BudgetPassiveIncomeItem',
-        data: function () {
+        data() {
             return {
                 error: false,
                 message: null,
@@ -21,7 +21,7 @@
             }
         },
         computed: {
-            messageClass: function () {
+            messageClass() {
                 return {
                     'error': this.error,
                     'success': !this.error
@@ -30,7 +30,7 @@
         },
         props: ['budgetPassiveIncomeItemModel'],
         methods: {
-            updatePassiveIncomeItem: function () {
+            updatePassiveIncomeItem() {
                 api.updatePassiveIncomeItem(this.budgetPassiveIncomeItem.budgetPassiveIncomeItemId, this.budgetPassiveIncomeItem).then(() => {
                     this.$store.commit('updateBudgetPassiveIncomeItem', this.budgetPassiveIncomeItem)
                     this.error = false
@@ -40,7 +40,7 @@
                     this.message = error
                 })
             },
-            removePassiveIncomeItem: function () {
+            removePassiveIncomeItem() {
                 if (window.confirm('Are you sure?')) {
                     api.removePassiveIncomeItem(this.budgetPassiveIncomeItem.budgetPassiveIncomeItemId).then(() => {
                         this.$store.commit('removeBudgetPassiveIncomeItem', this.budgetPassiveIncomeItem)

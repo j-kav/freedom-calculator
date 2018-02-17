@@ -20,7 +20,7 @@
 
     export default {
         name: 'User',
-        data: function () {
+        data() {
             return {
                 loading: true,
                 error: null,
@@ -31,14 +31,13 @@
             this.getUser()
         },
         methods: {
-            getUser: function () {
-                var self = this
+            getUser() {
                 api.getUser().then((data) => {
                     this.loading = false
-                    self.user = data
+                    this.user = data
                 }).catch((error) => {
                     this.loading = false
-                    self.error = error
+                    this.error = error
                 })
             }
         }
