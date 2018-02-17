@@ -236,7 +236,7 @@ export default {
                 IsMandatory: updatedExpense.isMandatory
             })
         }
-        return getNonDataFetchRequestPromise('/api/expenses/'  id, fetchProps)
+        return getNonDataFetchRequestPromise(`/api/expenses/${id}`, fetchProps)
     },
     addBudget(newBudget) {
         const fetchProps = {

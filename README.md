@@ -15,14 +15,9 @@
     * Install SQL Server Express with LocalDB enabled (it's unchecked by default in the installation options)
     * Install .NET Core SDK 2.0 from https://www.microsoft.com/net/core#windowscmd
     * Install Visual Studio Code with extensions:
-      * C#
-      * mssql
-      * In preferences->settings, associate .vue files with html:
-      ```javascript
-      "files.associations": {
-        "*.vue": "html"
-      }
-      ```
+      * C# (ms-vscode.csharp)
+      * mssql (ms-mssql.mssql)
+      * Vue 2 Snippets (hollowtree.vue-snippets) or a similar one that provides .vue file formatting/intellisense
     * Open root directory with Visual Studio Code
     * Create a src/appsettings.user.json file with content:
       ```javascript

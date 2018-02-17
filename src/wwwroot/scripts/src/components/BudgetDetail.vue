@@ -37,7 +37,7 @@
         <div>
             <label>Expenses</label>
             <div class="field align-right">
-                <span class="link" @click="showExpenses=true">{{ utils.usdFormatter.format(budget.totalActualExpenses) + ' / ' + utils.usdFormatter.format(budget.totalProjectedExpenses) }}</span>
+                <span class="link" @click="showExpenses=true">{{ `${utils.usdFormatter.format(budget.totalActualExpenses)} / ${utils.usdFormatter.format(budget.totalProjectedExpenses)}` }}</span>
             </div>
             <modal v-if="showExpenses" @close="showExpenses=false">
                 <h3 slot="header">Expenses</h3>
