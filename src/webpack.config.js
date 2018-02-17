@@ -12,7 +12,7 @@ module.exports = {
         ]
     },
     output: {
-        path: __dirname + '/wwwroot/scripts/dist',
+        path: `${__dirname}/wwwroot/scripts/dist`,
         filename: 'bundle.js'
     },
     plugins: PROD ? [

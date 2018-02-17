@@ -3,7 +3,7 @@ import { store } from './store'
 // check if token is expired and refresh it if necessary
 function refreshTokenIfNecessary() {
     if (store.state.authData.expirationDate < new Date().getTime()) {
-        return fetchTokens('grant_type=refresh_token&refresh_token=' + store.state.authData.refresh_token + '&scope=openid offline_access')
+        return fetchTokens(`grant_type=refresh_token&refresh_token=${store.state.authData.refresh_token}&scope=openid offline_access`)
     } else {
         return Promise.resolve()
     }
@@ -15,7 +15,7 @@ function getFetchRequestPromise(url, fetchProps) {
     return refreshTokenIfNecessary().then(() => {
         fetchProps = fetchProps || {}
         fetchProps.headers = fetchProps.headers || {}
-        fetchProps.headers.Authorization = 'Bearer ' + store.state.authData.access_token
+        fetchProps.headers.Authorization = `Bearer ${store.state.authData.access_token}`
         const p = new Promise((resolve, reject) => {
             window.fetch(url, fetchProps).then((response) => {
                 if (response.ok) {
@@ -40,7 +40,7 @@ function getNonDataFetchRequestPromise(url, fetchProps) {
     return refreshTokenIfNecessary().then(() => {
         fetchProps = fetchProps || {}
         fetchProps.headers = fetchProps.headers || {}
-        fetchProps.headers.Authorization = 'Bearer ' + store.state.authData.access_token
+        fetchProps.headers.Authorization = `Bearer ${store.state.authData.access_token}`
         const p = new Promise((resolve, reject) => {
             window.fetch(url, fetchProps).then((response) => {
                 if (response.ok) {
@@ -90,7 +90,7 @@ function fetchTokens(fetchBody) {
 
 export default {
     getToken(email, password) {
-        return fetchTokens('grant_type=password&username=' + email + '&password=' + password + '&scope=openid offline_access')
+        return fetchTokens(`grant_type=password&username=${email}&password=${password}&scope=openid offline_access`)
     },
     getUser() {
         return getFetchRequestPromise('/api/user');
@@ -148,7 +148,7 @@ export default {
         const fetchProps = {
             method: 'DELETE'
         }
-        return getNonDataFetchRequestPromise('/api/assets/' + id, fetchProps);
+        return getNonDataFetchRequestPromise(`/api/assets/${id}`, fetchProps);
     },
     updateAsset(id, updatedAsset) {
         const fetchProps = {
@@ -166,7 +166,7 @@ export default {
                 LiabilityId: updatedAsset.liabilityId
             })
         }
-        return getFetchRequestPromise('/api/assets/' + id, fetchProps);
+        return getFetchRequestPromise(`/api/assets/${id}`, fetchProps);
     },
     getLiabilities() {
         return getFetchRequestPromise('/api/liabilities');
@@ -188,7 +188,7 @@ export default {
         const fetchProps = {
             method: 'DELETE'
         }
-        return getNonDataFetchRequestPromise('/api/liabilities/' + id, fetchProps)
+        return getNonDataFetchRequestPromise(`/api/liabilities/${id}`, fetchProps)
     },
     updateLiability(id, updatedLiability) {
         const fetchProps = {
@@ -201,7 +201,7 @@ export default {
                 Principal: updatedLiability.principal
             })
         }
-        return getNonDataFetchRequestPromise('/api/liabilities/' + id, fetchProps)
+        return getNonDataFetchRequestPromise(`/api/liabilities/${id}`, fetchProps)
     },
     getExpenses() {
         return getFetchRequestPromise('/api/expenses');
@@ -223,7 +223,7 @@ export default {
         const fetchProps = {
             method: 'DELETE'
         }
-        return getNonDataFetchRequestPromise('/api/expenses/' + id, fetchProps)
+        return getNonDataFetchRequestPromise(`/api/expenses/${id}`, fetchProps)
     },
     updateExpense(id, updatedExpense) {
         const fetchProps = {
@@ -236,7 +236,7 @@ export default {
                 IsMandatory: updatedExpense.isMandatory
             })
         }
-        return getNonDataFetchRequestPromise('/api/expenses/' + id, fetchProps)
+        return getNonDataFetchRequestPromise('/api/expenses/'  id, fetchProps)
     },
     addBudget(newBudget) {
         const fetchProps = {
@@ -258,7 +258,7 @@ export default {
         const fetchProps = {
             method: 'DELETE'
         }
-        return getNonDataFetchRequestPromise('/api/budgets/' + id, fetchProps)
+        return getNonDataFetchRequestPromise(`/api/budgets/${id}`, fetchProps)
     },
     updateBudget(budget) {
         const fetchProps = {
@@ -298,13 +298,13 @@ export default {
                 Amount: updatedBudgetIncomeItem.amount
             })
         }
-        return getNonDataFetchRequestPromise('/api/budgetearnedincomeitems/' + id, fetchProps)
+        return getNonDataFetchRequestPromise(`/api/budgetearnedincomeitems/${id}`, fetchProps)
     },
     removeEarnedIncomeItem(id) {
         const fetchProps = {
             method: 'DELETE'
         }
-        return getNonDataFetchRequestPromise('/api/budgetearnedincomeitems/' + id, fetchProps)
+        return getNonDataFetchRequestPromise(`/api/budgetearnedincomeitems/${id}`, fetchProps)
     },
     addBudgetPassiveIncomeItem(newBudgetPassiveIncomeItem) {
         const fetchProps = {
@@ -330,13 +330,13 @@ export default {
                 Amount: updatedBudgetIncomeItem.amount
             })
         }
-        return getNonDataFetchRequestPromise('/api/budgetpassiveincomeitems/' + id, fetchProps)
+        return getNonDataFetchRequestPromise(`/api/budgetpassiveincomeitems/${id}`, fetchProps)
     },
     removePassiveIncomeItem(id) {
         const fetchProps = {
             method: 'DELETE'
         }
-        return getNonDataFetchRequestPromise('/api/budgetpassiveincomeitems/' + id, fetchProps)
+        return getNonDataFetchRequestPromise(`/api/budgetpassiveincomeitems/${id}`, fetchProps)
     },
     addBudgetInvestmentItem(newBudgetInvestmentItem) {
         const fetchProps = {
@@ -362,13 +362,13 @@ export default {
                 Amount: updatedBudgetInvestmentItem.amount
             })
         }
-        return getNonDataFetchRequestPromise('/api/budgetinvestmentitems/' + id, fetchProps)
+        return getNonDataFetchRequestPromise(`/api/budgetinvestmentitems/${id}`, fetchProps)
     },
     removeInvestmentItem(id) {
         const fetchProps = {
             method: 'DELETE'
         }
-        return getNonDataFetchRequestPromise('/api/budgetinvestmentitems/' + id, fetchProps)
+        return getNonDataFetchRequestPromise(`/api/budgetinvestmentitems/${id}`, fetchProps)
     },
     addBudgetExpense(newBudgetExpense) {
         const fetchProps = {
@@ -394,13 +394,13 @@ export default {
                 Projected: updatedBudgetExpense.projected
             })
         }
-        return getNonDataFetchRequestPromise('/api/budgetexpenses/' + id, fetchProps)
+        return getNonDataFetchRequestPromise(`/api/budgetexpenses/${id}`, fetchProps)
     },
     removeBudgetExpense(id) {
         const fetchProps = {
             method: 'DELETE'
         }
-        return getNonDataFetchRequestPromise('/api/budgetexpenses/' + id, fetchProps)
+        return getNonDataFetchRequestPromise(`/api/budgetexpenses/${id}`, fetchProps)
     },
     addBudgetExpenseItem(newBudgetExpenseItem) {
         const fetchProps = {
@@ -426,13 +426,13 @@ export default {
                 Amount: updatedBudgetExpenseItem.amount
             })
         }
-        return getNonDataFetchRequestPromise('/api/budgetexpenseitems/' + id, fetchProps)
+        return getNonDataFetchRequestPromise(`/api/budgetexpenseitems/${id}`, fetchProps)
     },
     removeBudgetExpenseItem(id) {
         const fetchProps = {
             method: 'DELETE'
         }
-        return getNonDataFetchRequestPromise('/api/budgetexpenseitems/' + id, fetchProps)
+        return getNonDataFetchRequestPromise(`/api/budgetexpenseitems/${id}`, fetchProps)
     },
     getExpenseAverages() {
         return getFetchRequestPromise('/api/expenseaverages');
