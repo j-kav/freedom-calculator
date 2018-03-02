@@ -43,9 +43,10 @@
             <div>
                 <label>Symbol</label>
                 <input v-model="symbol"></input>
+                <span class="symbol-message">Enter a stock or ETF. Mutual funds are not supported.</span>
             </div>
             <div>
-                <label>NumShares</label>
+                <label>Number of Shares</label>
                 <input v-model="numShares"></input>
             </div>
             <div v-if="isStock">
@@ -182,5 +183,8 @@
 <style scoped>
     input {
         width: 200px;
+    }
+    .symbol-message {
+        font-style: italic;
     }
 </style>

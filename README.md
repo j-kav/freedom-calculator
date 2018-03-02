@@ -21,9 +21,11 @@
     * Open root directory with Visual Studio Code
     * Create a src/appsettings.user.json file with content:
       ```javascript
-      "FreedomCalculatorConfig": {
-        "AlphaVantageApiKey": "",
-        "ZillowClientId": ""
+      {
+        "FreedomCalculatorConfig": {
+          "AlphaVantageApiKey": "",
+          "ZillowClientId": ""
+        }
       }
       ```
       * Set the "AlphaVantageApiKey" field to the Alpha Vantage API key obtained from https://www.alphavantage.co/
