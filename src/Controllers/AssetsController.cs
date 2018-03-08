@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AspNet.Security.OAuth.Validation;
 using FreedomCalculator2.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using AspNet.Security.OAuth.Validation;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Logging;
 
 namespace FreedomCalculator2.Controllers
 {
@@ -17,13 +18,15 @@ namespace FreedomCalculator2.Controllers
         IFreedomCalculatorRepository _repository;
         IZillowClient _zillowClient;
         IFinanceClient _financeClient;
+        ILogger _logger;
 
-        public AssetsController(UserManager<ApplicationUser> userManager, IFreedomCalculatorRepository repository, IZillowClient zillowClient, IFinanceClient financeClient)
+        public AssetsController(UserManager<ApplicationUser> userManager, IFreedomCalculatorRepository repository, IZillowClient zillowClient, IFinanceClient financeClient, ILogger<AssetsController> logger)
         {
             _userManager = userManager;
             _repository = repository;
             _zillowClient = zillowClient;
             _financeClient = financeClient;
+            _logger = logger;
         }
 
         // GET: api/assets
@@ -31,7 +34,15 @@ namespace FreedomCalculator2.Controllers
         public async Task<IEnumerable<Asset>> Get()
         {
             ApplicationUser user = await _userManager.GetUserAsync(User);
-            List<Asset> assets = await _repository.GetAssets(Guid.Parse(user.Id));
+            List<Asset> assets = new List<Asset>();
+            try
+            {
+                assets = await _repository.GetAssets(Guid.Parse(user.Id));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception getting assets");
+            }
             return assets;
         }
 
