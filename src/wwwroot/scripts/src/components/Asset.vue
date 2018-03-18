@@ -55,19 +55,20 @@
             updateEquity() {
                 this.$store.commit('updateAsset', this.asset)
             },
-            updateAsset() {
-                this.$emit('loading', true)
-                api.updateAsset(this.asset.assetId, this.asset).then((updatedAsset) => {
+            async updateAsset() {
+                try {
+                    this.$emit('loading', true)
+                    const updatedAsset = await api.updateAsset(this.asset.assetId, this.asset)
                     this.asset = updatedAsset
                     this.$store.commit('updateAsset', this.asset)
                     this.error = false
                     this.message = 'updated'
                     this.$emit('loading', false)
-                }).catch((error) => {
+                } catch (error) {
                     this.error = true
                     this.message = error
                     this.$emit('loading', false)
-                })
+                }
             },
             removeAsset() {
                 if (window.confirm('Are you sure?')) {

@@ -19,5 +19,8 @@
         "properties": "never"
       }
     ]
+  },
+  "parserOptions": {
+    "ecmaVersion": 2017
   }
 }

@@ -106,7 +106,7 @@ export const store = new Vuex.Store({
         },
         setAssets(state, assets) {
             for (let i = 0; i < assets.length; i++) {
-                const asset = assets[i];
+                const asset = assets[i]
                 asset.equity = asset.value
                 if (asset.liabilityId) {
                     const liabilityIndex = state.liabilities.findIndex(liability => liability.liabilityId === asset.liabilityId)
@@ -129,8 +129,8 @@ export const store = new Vuex.Store({
                 const liabilityIndex = state.liabilities.findIndex(liability => liability.liabilityId === updatedAsset.liabilityId)
                 updatedAsset.equity -= state.liabilities[liabilityIndex].principal
             }
-            const assetIndex = state.assets.findIndex(asset => asset.assetId === updatedAsset.assetId);
-            state.assets[assetIndex] = updatedAsset;
+            const assetIndex = state.assets.findIndex(asset => asset.assetId === updatedAsset.assetId)
+            state.assets[assetIndex] = updatedAsset
         },
         removeAsset(state, id) {
             state.assets = state.assets.filter(asset => asset.assetId !== id)
@@ -143,7 +143,7 @@ export const store = new Vuex.Store({
         },
         updateLiability(state, updatedLiability) {
             const liabilityIndex = state.liabilities.findIndex(liability => liability.liabilityId === updatedLiability.liabilityId)
-            state.liabilities[liabilityIndex] = updatedLiability;
+            state.liabilities[liabilityIndex] = updatedLiability
         },
         removeLiability(state, id) {
             state.liabilities = state.liabilities.filter(liability => liability.liabilityId !== id)
@@ -156,7 +156,7 @@ export const store = new Vuex.Store({
         },
         updateExpense(state, updatedExpense) {
             const expenseIndex = state.expenses.findIndex(expense => expense.expenseId === updatedExpense.expenseId)
-            state.expenses[expenseIndex] = updatedExpense;
+            state.expenses[expenseIndex] = updatedExpense
         },
         removeExpense(state, id) {
             state.expenses = state.expenses.filter(expense => expense.expenseId !== id)
