@@ -14,7 +14,6 @@
     "babel-preset-env": "^1.1.8",
     "babel-preset-es2017": "^6.24.1",
     "chai": "^3.5.0",
-    "chart.js": "^2.7.1",
     "css-loader": "^0.26.1",
     "eslint": "^3.13.1",
     "eslint-config-vue": "^2.0.1",
@@ -32,6 +31,7 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
+    "chart.js": "^2.7.2",
     "intl": "^1.2.5",
     "vue": "^2.1.10",
     "vue-router": "^2.1.1",
