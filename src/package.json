@@ -3,7 +3,7 @@
   "name": "freedomcalculator",
   "private": true,
   "scripts": {
-    "dev-build": "webpack --hide-modules --progress",
+    "dev-build": "webpack --watch --hide-modules --progress",
     "rel-build": "set NODE_ENV=PROD&& webpack --hide-modules --progress",
     "test": "mocha-webpack --webpack-config webpack.config-test.babel.js -r jsdom-global/register wwwroot/scripts/test"
   },
@@ -11,8 +11,7 @@
   "devDependencies": {
     "babel-core": "^6.21.0",
     "babel-loader": "^6.2.10",
-    "babel-preset-env": "^1.1.8",
-    "babel-preset-es2017": "^6.24.1",
+    "babel-preset-env": "^1.6.1",
     "chai": "^3.5.0",
     "css-loader": "^0.26.1",
     "eslint": "^3.13.1",

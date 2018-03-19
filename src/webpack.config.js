@@ -1,5 +1,5 @@
-﻿const webpack = require('webpack');
-const PROD = process.env.NODE_ENV === 'PROD';
+﻿const webpack = require('webpack')
+const PROD = process.env.NODE_ENV === 'PROD'
 
 module.exports = {
     entry: {
@@ -36,7 +36,7 @@ module.exports = {
                 test: /\.js$/,
                 exclude: /node_modules/,
                 enforce: 'pre',
-                use: [{ loader: 'eslint-loader', options: { rules: { semi: 0 } } }],
+                use: [{ loader: 'eslint-loader', options: { rules: { semi: 0 }}}]
             },
             {
                 test: /\.js$/,

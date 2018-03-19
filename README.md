@@ -7,7 +7,7 @@
     ```javascript
     npm install
     ```
-    * Run webpack to create the bundle.js file from vue files, etc. In the same directory, run 
+    * Run webpack (leave running in a separate terminal for automatic updates) to create the bundle.js file from vue files, etc. In the same directory, run
     ```javascript
     npm run dev-build
     ```
