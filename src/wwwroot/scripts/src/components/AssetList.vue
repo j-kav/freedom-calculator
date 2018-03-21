@@ -37,17 +37,17 @@
         <h3>Add new</h3>
         <div>
             <label>Name</label>
-            <input v-model="name"></input>
+            <input v-model="name">
         </div>
         <div v-if="isStockOrBond">
             <div>
                 <label>Symbol</label>
-                <input v-model="symbol"></input>
+                <input v-model="symbol">
                 <span class="symbol-message">Enter a stock or ETF. Mutual funds are not supported.</span>
             </div>
             <div>
                 <label>Number of Shares</label>
-                <input v-model="numShares"></input>
+                <input v-model="numShares">
             </div>
             <div v-if="isStock">
                 <label>Type</label>
@@ -75,19 +75,19 @@
         <div v-if="isRealEstate">
             <div>
                 <label>Address</label>
-                <input v-model="address"></input>
+                <input v-model="address">
             </div>
             <div>
                 <label>City</label>
-                <input v-model="city"></input>
+                <input v-model="city">
             </div>
             <div>
                 <label>State</label>
-                <input v-model="state"></input>
+                <input v-model="state">
             </div>
             <div>
                 <label>Zip</label>
-                <input v-model="zip"></input>
+                <input v-model="zip">
             </div>
             <div>
                 <label>Linked-Liability</label>
@@ -100,91 +100,93 @@
         </div>
         <div v-if="isCash">
             <label>Value</label>
-            <input v-model="value"></input>
+            <input v-model="value">
         </div>
         <button v-on:click.prevent=addAsset>Submit</button>
         <div v-if="error" class="error">{{ error }}</div>
     </div>
 </template>
 <script>
-    import api from '../api'
-    import assetTypes from '../assetTypes'
-    import Asset from './Asset.vue'
-    import Modal from './Modal.vue'
-    import Loading from './Loading.vue'
+import api from '../api'
+import assetTypes from '../assetTypes'
+import Asset from './Asset.vue'
+import Modal from './Modal.vue'
+import Loading from './Loading.vue'
 
-    export default {
-        name: 'AssetList',
-        components: {
-            'asset': Asset,
-            'modal': Modal,
-            'loading': Loading
-        },
-        data() {
-            return {
-                name: '',
-                symbol: '',
-                numShares: 0,
-                sharePrice: 0,
-                assetType: this.assetTypeArray[0],
-                assetTypes: assetTypes,
-                address: '',
-                city: '',
-                state: '',
-                zip: '',
-                value: 0,
-                error: null,
-                isCash: this.assetTypeArray.includes(assetTypes.Cash),
-                isRealEstate: this.assetTypeArray.includes(assetTypes.RealEstate),
-                isStockOrBond: !this.assetTypeArray.includes(assetTypes.Cash) && !this.assetTypeArray.includes(assetTypes.RealEstate),
-                isStock: this.assetTypeArray.includes(assetTypes.DomesticStock),
-                liabilityId: null,
-                loading: false
+export default {
+    name: 'AssetList',
+    components: {
+        asset: Asset,
+        modal: Modal,
+        loading: Loading
+    },
+    data() {
+        return {
+            name: '',
+            symbol: '',
+            numShares: 0,
+            sharePrice: 0,
+            assetType: this.assetTypeArray[0],
+            assetTypes: assetTypes,
+            address: '',
+            city: '',
+            state: '',
+            zip: '',
+            value: 0,
+            error: null,
+            isCash: this.assetTypeArray.includes(assetTypes.Cash),
+            isRealEstate: this.assetTypeArray.includes(assetTypes.RealEstate),
+            isStockOrBond:
+                !this.assetTypeArray.includes(assetTypes.Cash) &&
+                !this.assetTypeArray.includes(assetTypes.RealEstate),
+            isStock: this.assetTypeArray.includes(assetTypes.DomesticStock),
+            liabilityId: null,
+            loading: false
+        }
+    },
+    props: ['assetTypeArray'],
+    computed: {
+        assets() {
+            return this.$store.getters.assetsByType(this.assetTypeArray)
+        }
+    },
+    methods: {
+        async addAsset() {
+            const newAsset = {
+                assetType: this.assetType,
+                name: this.name,
+                symbol: this.symbol,
+                numShares: this.numShares,
+                sharePrice: this.sharePrice,
+                address: this.address,
+                city: this.city,
+                state: this.state,
+                zip: this.zip,
+                value: this.value,
+                liabilityId: this.liabilityId
+            }
+            this.loading = true
+            try {
+                const addedAsset = await api.addAsset(newAsset)
+                this.$store.commit('addAsset', addedAsset)
+                this.loading = false
+            } catch (error) {
+                this.error = error
+                this.loading = false
             }
         },
-        props: ['assetTypeArray'],
-        computed: {
-            assets() {
-                return this.$store.getters.assetsByType(this.assetTypeArray)
-            }
-        },
-        methods: {
-            addAsset() {
-                const newAsset = {
-                    assetType: this.assetType,
-                    name: this.name,
-                    symbol: this.symbol,
-                    numShares: this.numShares,
-                    sharePrice: this.sharePrice,
-                    address: this.address,
-                    city: this.city,
-                    state: this.state,
-                    zip: this.zip,
-                    value: this.value,
-                    liabilityId: this.liabilityId
-                }
-                this.loading = true
-                api.addAsset(newAsset).then((addedAsset) => {
-                    this.$store.commit('addAsset', addedAsset)
-                    this.loading = false
-                }).catch((error) => {
-                    this.error = error
-                    this.loading = false
-                })
-            },
-            childLoading(isChildLoading) {
-                this.loading = isChildLoading
-            }
+        childLoading(isChildLoading) {
+            this.loading = isChildLoading
         }
     }
-
+}
 </script>
 
 <style scoped>
-    input {
-        width: 200px;
-    }
-    .symbol-message {
-        font-style: italic;
-    }
+input {
+    width: 200px;
+}
+.symbol-message {
+    font-style: italic;
+}
 </style>

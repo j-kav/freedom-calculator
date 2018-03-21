@@ -17,7 +17,7 @@
     * Install Visual Studio Code with extensions:
       * C# (ms-vscode.csharp)
       * mssql (ms-mssql.mssql)
-      * Vue 2 Snippets (hollowtree.vue-snippets) or a similar one that provides .vue file formatting/intellisense
+      * Vetur (octref.vetur) or a similar one that provides .vue file formatting/intellisense
     * Open root directory with Visual Studio Code
     * Create a src/appsettings.user.json file with content:
       ```javascript
