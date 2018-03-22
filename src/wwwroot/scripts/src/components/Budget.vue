@@ -13,65 +13,67 @@
         <td class="align-right" v-bind:class="surplusDeficitClass">{{ utils.usdFormatter.format(surplusDeficit) }}</td>
         <td class="align-right">{{ utils.usdFormatter.format(budget.totalInvestments) }}</td>
         <td class="align-right">{{ budget.savingsRatePercent }}</td>
-        <td><input type="image" class="deleteButton" v-on:click.prevent=removeBudget() src="images/delete.png"/></td>
+        <td><input type="image" class="deleteButton" v-on:click.prevent=removeBudget() src="images/delete.png" /></td>
         <td v-if="message" v-bind:class="messageClass">{{ message }}</td>
     </tr>
 </template>
 
 <script>
-    import api from '../api'
-    import utils from '../utils'
+import api from '../api'
+import utils from '../utils'
 
-    export default {
-        name: 'Budget',
-        data() {
+export default {
+    name: 'Budget',
+    data() {
+        return {
+            error: false,
+            message: null,
+            budget: this.budgetModel,
+            utils: utils
+        }
+    },
+    computed: {
+        messageClass() {
             return {
-                error: false,
-                message: null,
-                budget: this.budgetModel,
-                utils: utils
+                error: this.error,
+                success: !this.error
             }
         },
-        computed: {
-            messageClass() {
-                return {
-                    'error': this.error,
-                    'success': !this.error
-                }
-            },
-            totalIncome() {
-                return this.budget.totalEarnedIncome + this.budget.totalPassiveIncome
-            },
-            surplusDeficit() {
-                return this.totalIncome - this.budget.totalActualExpenses
-            },
-            surplusDeficitClass() {
-                return {
-                    'error': this.surplusDeficit < 0,
-                    'success': this.surplusDeficit >= 0
-                }
-            }
+        totalIncome() {
+            return (
+                this.budget.totalEarnedIncome + this.budget.totalPassiveIncome
+            )
         },
-        props: ['budgetModel'],
-        methods: {
-            removeBudget() {
-                if (window.confirm('Are you sure?')) {
-                    api.removeBudget(this.budget.budgetId).then(() => {
-                        this.$store.commit('removeBudget', this.budget.budgetId)
-                        this.error = false
-                    }).catch((error) => {
-                        this.error = true
-                        this.message = error
-                    })
+        surplusDeficit() {
+            return this.totalIncome - this.budget.totalActualExpenses
+        },
+        surplusDeficitClass() {
+            return {
+                error: this.surplusDeficit < 0,
+                success: this.surplusDeficit >= 0
+            }
+        }
+    },
+    props: ['budgetModel'],
+    methods: {
+        async removeBudget() {
+            if (window.confirm('Are you sure?')) {
+                try {
+                    await api.removeBudget(this.budget.budgetId)
+                    this.$store.commit('removeBudget', this.budget.budgetId)
+                    this.error = false
+                } catch (error) {
+                    this.error = true
+                    this.message = error
                 }
             }
         }
     }
-
+}
 </script>
 
 <style scoped=true>
-    .budgetDateColumn {
-        min-width: 6em;
-    }
+.budgetDateColumn {
+    min-width: 6em;
+}
 </style>

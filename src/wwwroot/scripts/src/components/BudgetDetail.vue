@@ -4,7 +4,7 @@
         <div>
             <label>Projected Net Earned Income</label>
             <div class="field align-right">
-                <input type="number" v-model="budget.projectedEarnedIncome" v-on:change.prevent=updateBudget()></input>
+                <input type="number" v-model="budget.projectedEarnedIncome" v-on:change.prevent=updateBudget()>
             </div>
             <span v-if="message" v-bind:class="messageClass">{{ message }}</span>
         </div>
@@ -70,77 +70,79 @@
 </template>
 
 <script>
-    import api from '../api'
-    import BudgetEarnedIncomeItems from './BudgetEarnedIncomeItems.vue'
-    import BudgetPassiveIncomeItems from './BudgetPassiveIncomeItems.vue'
-    import BudgetInvestmentItems from './BudgetInvestmentItems.vue'
-    import BudgetExpenses from './BudgetExpenses.vue'
-    import Modal from './Modal.vue'
-    import utils from '../utils'
+import api from '../api'
+import BudgetEarnedIncomeItems from './BudgetEarnedIncomeItems.vue'
+import BudgetPassiveIncomeItems from './BudgetPassiveIncomeItems.vue'
+import BudgetInvestmentItems from './BudgetInvestmentItems.vue'
+import BudgetExpenses from './BudgetExpenses.vue'
+import Modal from './Modal.vue'
+import utils from '../utils'
 
-    export default {
-        name: 'BudgetDetail',
-        components: {
-            'budgetEarnedIncomeItems': BudgetEarnedIncomeItems,
-            'budgetPassiveIncomeItems': BudgetPassiveIncomeItems,
-            'budgetInvestmentItems': BudgetInvestmentItems,
-            'budgetExpenses': BudgetExpenses,
-            'modal': Modal
-        },
-        created() {
-            this.budget = this.$store.getters.budgetById(this.$route.params.id)
-        },
-        data() {
+export default {
+    name: 'BudgetDetail',
+    components: {
+        budgetEarnedIncomeItems: BudgetEarnedIncomeItems,
+        budgetPassiveIncomeItems: BudgetPassiveIncomeItems,
+        budgetInvestmentItems: BudgetInvestmentItems,
+        budgetExpenses: BudgetExpenses,
+        modal: Modal
+    },
+    created() {
+        this.budget = this.$store.getters.budgetById(this.$route.params.id)
+    },
+    data() {
+        return {
+            budget: null,
+            showEarnedIncomeItems: false,
+            showPassiveIncomeItems: false,
+            showInvestmentItems: false,
+            showExpenses: false,
+            utils: utils,
+            error: false,
+            message: null
+        }
+    },
+    computed: {
+        messageClass() {
             return {
-                budget: null,
-                showEarnedIncomeItems: false,
-                showPassiveIncomeItems: false,
-                showInvestmentItems: false,
-                showExpenses: false,
-                utils: utils,
-                error: false,
-                message: null
+                error: this.error,
+                success: !this.error
             }
         },
-        computed: {
-            messageClass() {
-                return {
-                    'error': this.error,
-                    'success': !this.error
-                }
-            },
-            totalIncome() {
-                return this.budget.totalEarnedIncome + this.budget.totalPassiveIncome
-            },
-            surplusDeficit() {
-                return this.totalIncome - this.budget.totalActualExpenses
-            },
-            surplusDeficitClass() {
-                return {
-                    'error': this.surplusDeficit < 0,
-                    'success': this.surplusDeficit >= 0
-                }
-            }
+        totalIncome() {
+            return (
+                this.budget.totalEarnedIncome + this.budget.totalPassiveIncome
+            )
         },
-        methods: {
-            updateBudget() {
+        surplusDeficit() {
+            return this.totalIncome - this.budget.totalActualExpenses
+        },
+        surplusDeficitClass() {
+            return {
+                error: this.surplusDeficit < 0,
+                success: this.surplusDeficit >= 0
+            }
+        }
+    },
+    methods: {
+        async updateBudget() {
+            try {
                 this.budget.netWorth = this.$store.getters.netWorth
-                api.updateBudget(this.budget).then(() => {
-                    this.$store.commit('updateBudget', this.budget)
-                    this.error = false
-                    this.message = 'updated'
-                }).catch((error) => {
-                    this.error = true
-                    this.message = error
-                })
+                await api.updateBudget(this.budget)
+                this.$store.commit('updateBudget', this.budget)
+                this.error = false
+                this.message = 'updated'
+            } catch (error) {
+                this.error = true
+                this.message = error
             }
         }
     }
-
+}
 </script>
 
 <style scoped>
-    input[type="number"] {
-        width: 100px;
-    }
+input[type='number'] {
+    width: 100px;
+}
 </style>
