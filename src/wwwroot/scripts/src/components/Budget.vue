@@ -40,9 +40,7 @@ export default {
             }
         },
         totalIncome() {
-            return (
-                this.budget.totalEarnedIncome + this.budget.totalPassiveIncome
-            )
+            return this.budget.totalEarnedIncome + this.budget.totalPassiveIncome
         },
         surplusDeficit() {
             return this.totalIncome - this.budget.totalActualExpenses

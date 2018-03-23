@@ -1,4 +1,5 @@
-import nodeExternals from 'webpack-node-externals';
+import nodeExternals from 'webpack-node-externals'
+import 'babel-polyfill'
 
 export default {
     target: 'node',
@@ -7,7 +8,7 @@ export default {
         loaders: [
             {
                 test: /\.js$/,
-                loader: "babel-loader"
+                loader: 'babel-loader'
             },
             {
                 test: /\.vue$/,
@@ -15,4 +16,4 @@ export default {
             }
         ]
     }
-};
+}

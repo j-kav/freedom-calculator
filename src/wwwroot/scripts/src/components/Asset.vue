@@ -61,10 +61,7 @@ export default {
         async updateAsset() {
             try {
                 this.$emit('loading', true)
-                const updatedAsset = await api.updateAsset(
-                    this.asset.assetId,
-                    this.asset
-                )
+                const updatedAsset = await api.updateAsset(this.asset.assetId, this.asset)
                 this.asset = updatedAsset
                 this.$store.commit('updateAsset', this.asset)
                 this.error = false
