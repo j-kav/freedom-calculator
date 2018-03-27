@@ -17,7 +17,7 @@
         <div>Add new</div>
         <div>
             <label>Amount</label>
-            <input type="text" v-model="amount"></input>
+            <input type="text" v-model="amount">
             <button v-on:click.prevent=addAmount>Submit</button>
         </div>
     </div>

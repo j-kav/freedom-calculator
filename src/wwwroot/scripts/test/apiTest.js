@@ -17,7 +17,6 @@ describe('api', () => {
 
     describe('getUser', () => {
         it('should get user from the backend', () => {
-            const newBudget = {}
             fetchMock.get('/api/user', { givenName: 'test', userName: 'testUser' })
             return api.getUser().then((user) => {
                 expect(user.givenName).to.equal('test')
@@ -30,7 +29,6 @@ describe('api', () => {
 
     describe('getAssets', () => {
         it('should get assets from the backend', () => {
-            const newBudget = {}
             fetchMock.get('/api/assets', [{ AssetId: 1 }, { AssetId: 2 }])
             return api.getAssets().then((assets) => {
                 expect(assets.length).to.equal(2)
@@ -68,7 +66,6 @@ describe('api', () => {
 
     describe('getExpenses', () => {
         it('should get expenses from the backend', () => {
-            const newBudget = {}
             fetchMock.get('/api/expenses', [{ ExpenseId: 1 }, { ExpenseId: 2 }])
             return api.getExpenses().then((expenses) => {
                 expect(expenses.length).to.equal(2)
@@ -93,7 +90,6 @@ describe('api', () => {
 
     describe('getLiabilities', () => {
         it('should get liabilities from the backend', () => {
-            const newBudget = {}
             fetchMock.get('/api/liabilities', [{ LiabilityId: 1 }, { LiabilityId: 2 }])
             return api.getLiabilities().then((liabilities) => {
                 expect(liabilities.length).to.equal(2)
@@ -122,13 +118,13 @@ describe('api', () => {
             const month = now.getMonth() + 1
             const year = now.getFullYear()
             const newBudget = {
-                BudgetId: 1,
-                Month: month,
-                Year: year
+                budgetId: 1,
+                month: month,
+                year: year
             }
             fetchMock.post('/api/budgets', newBudget)
             return api.addBudget(newBudget).then((addedBudget) => {
-                expect(addedBudget.BudgetId).to.equal(1)
+                expect(addedBudget.budgetId).to.equal(1)
             }).catch((error) => {
                 assert.fail(error)
             })
@@ -137,11 +133,10 @@ describe('api', () => {
 
     describe('getBudgets', () => {
         it('should get budgets from the backend', () => {
-            const newBudget = {}
-            fetchMock.get('/api/budgets', [{ BudgetId: 1 }, { BudgetId: 2 }])
+            fetchMock.get('/api/budgets', [{ budgetId: 1 }, { budgetId: 2 }])
             return api.getBudgets().then((budgets) => {
                 expect(budgets.length).to.equal(2)
-                expect(budgets[0].BudgetId).to.equal(1)
+                expect(budgets[0].budgetId).to.equal(1)
             }).catch((error) => {
                 assert.fail(error)
             })

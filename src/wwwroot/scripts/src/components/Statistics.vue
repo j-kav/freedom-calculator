@@ -171,6 +171,8 @@
                 this.getData().then(() => {
                     this.createNetWorthBarChart()
                     this.createIndependenceEstimatePieChart()
+                }).catch((error) => {
+                    console.log('Error getting statistics: ' + error)
                 })
             }
         },
@@ -238,7 +240,7 @@
                         const month = now.getMonth() + 1
                         const year = now.getFullYear()
                         const budgets = this.$store.getters.budgetByDate(month, year)
-                        if (budgets.length >= 1) {
+                        if (budgets && budgets.length >= 1) {
                             const budget = budgets[0]
                             budget.netWorth = this.$store.getters.netWorth
                             return api.updateBudget(budget).then(() => {
@@ -262,6 +264,9 @@
             },
             createNetWorthBarChart() {
                 const netWorthBarChartContext = document.getElementById('netWorthBarChart')
+                if (!netWorthBarChartContext) {
+                    return
+                }
                 new Chart(netWorthBarChartContext, {
                     type: 'bar',
                     data: {
@@ -300,6 +305,9 @@
             },
             createIndependenceEstimatePieChart() {
                 const independenceEstimatePieChartContext = document.getElementById('independenceEstimatePieChart')
+                if (!independenceEstimatePieChartContext) {
+                    return
+                }
                 const amountRemaining = Math.max(this.amountNeededForFinancialIndependence - this.$store.getters.netWorth, 0)
                 new Chart(independenceEstimatePieChartContext, {
                     type: 'pie',

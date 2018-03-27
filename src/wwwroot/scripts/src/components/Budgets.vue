@@ -46,8 +46,8 @@
                 const month = now.getMonth() + 1
                 const year = now.getFullYear()
                 const newBudget = {
-                    Month: month,
-                    Year: year
+                    month: month,
+                    year: year
                 }
                 // return promise for unit testing purposes
                 const p = new Promise((resolve, reject) => {
