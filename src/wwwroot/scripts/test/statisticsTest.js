@@ -39,7 +39,7 @@ describe('Statistics', () => {
         expect(typeof Statistics.created).to.equal('function')
     })
 
-    it('should populate budgets in the store when created', () => {
+    it('should populate budgets in the store when created', async () => {
         const vm = new Vue({
             template: '<div><test ref="test"></test></div>',
             store: new Vuex.Store(mockedStore),
@@ -47,10 +47,11 @@ describe('Statistics', () => {
                 'test': Statistics
             }
         }).$mount()
-        return vm.$refs.test.getData().then(() => {
+        try {
+            await vm.$refs.test.getData()
             expect(vm.$store.state.budgets.length).to.equal(2)
-        }).catch((error) => {
+        } catch (error) {
             assert.fail(error)
-        })
+        }
     })
 })

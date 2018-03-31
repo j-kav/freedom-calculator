@@ -36,7 +36,7 @@ describe('Budgets', () => {
         assert.ok(Budgets.methods.addBudget, 'function')
     })
 
-    it('should add a budget to the store when addBudget is called', () => {
+    it('should add a budget to the store when addBudget is called', async () => {
         const vm = new Vue({
             template: '<div><test ref="test"></test></div>',
             store: new Vuex.Store(mockedStore),
@@ -46,14 +46,15 @@ describe('Budgets', () => {
             }
         }).$mount()
         expect(vm.$store.state.budgets.length).to.equal(0)
-        return vm.$refs.test.addBudget().then(() => {
+        try {
+            await vm.$refs.test.addBudget()
             expect(vm.$store.state.budgets.length).to.equal(1)
-        }).catch((error) => {
+        } catch (error) {
             assert.fail(error)
-        })
+        }
     })
 
-    it('should fail to duplicate budgets gracefully', () => {
+    it('should fail to duplicate budgets gracefully', async () => {
         const vm = new Vue({
             template: '<div><test ref="test"></test></div>',
             store: new Vuex.Store(mockedStore),
@@ -63,11 +64,12 @@ describe('Budgets', () => {
             }
         }).$mount()
         expect(vm.$store.state.budgets.length).to.equal(1)
-        return vm.$refs.test.addBudget().then(() => {
+        try {
+            await vm.$refs.test.addBudget()
             expect(vm.$store.state.budgets.length).to.equal(1)
             expect(vm.$refs.test.error).to.equal('Budget already exists for the current month and year')
-        }).catch((error) => {
+        } catch (error) {
             assert.fail(error)
-        })
+        }
     })
 })

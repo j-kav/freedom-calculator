@@ -8,9 +8,7 @@
                 </tr>
             </thead>
             <tbody>
-                <budgetEarnedIncomeItem v-for="item in parentBudget.earnedIncome"
-                                        :key="item.budgetEarnedIncomeItemId"
-                                        v-bind:budgetEarnedIncomeItemModel="item">
+                <budgetEarnedIncomeItem v-for="item in parentBudget.earnedIncome" :key="item.budgetEarnedIncomeItemId" v-bind:budgetEarnedIncomeItemModel="item">
                 </budgetEarnedIncomeItem>
             </tbody>
         </table>
@@ -24,39 +22,39 @@
 </template>
 
 <script>
-    import api from '../api'
-    import BudgetEarnedIncomeItem from './BudgetEarnedIncomeItem.vue'
+import api from '../api'
+import BudgetEarnedIncomeItem from './BudgetEarnedIncomeItem.vue'
 
-    export default {
-        name: 'BudgetEarnedIncomeItems',
-        components: {
-            'budgetEarnedIncomeItem': BudgetEarnedIncomeItem
-        },
-        data() {
-            return {
-                amount: null,
-                parentBudget: this.budget,
-                error: null
-            }
-        },
-        props: ['budget'],
-        methods: {
-            addAmount() {
-                // return promise for unit testing purposes
-                const p = new Promise((resolve, reject) => {
-                    const newBudgetEarnedIncomeItem = { BudgetId: this.parentBudget.budgetId, Amount: this.amount, Timestamp: new Date(Date.now()) }
-                    api.addBudgetEarnedIncomeItem(newBudgetEarnedIncomeItem).then((addedBudgetEarnedIncomeItem) => {
-                        this.$store.commit('addBudgetEarnedIncomeItem', addedBudgetEarnedIncomeItem)
-                        this.amount = null
-                        resolve()
-                    }).catch((error) => {
-                        this.error = 'error'
-                        reject(error.message) // TODO sanitize error
-                    })
-                })
-                return p
+export default {
+    name: 'BudgetEarnedIncomeItems',
+    components: {
+        budgetEarnedIncomeItem: BudgetEarnedIncomeItem
+    },
+    data() {
+        return {
+            amount: null,
+            parentBudget: this.budget,
+            error: null
+        }
+    },
+    props: ['budget'],
+    methods: {
+        async addAmount() {
+            try {
+                const newBudgetEarnedIncomeItem = {
+                    BudgetId: this.parentBudget.budgetId,
+                    Amount: this.amount,
+                    Timestamp: new Date(Date.now())
+                }
+                const addedBudgetEarnedIncomeItem = await api.addBudgetEarnedIncomeItem(
+                    newBudgetEarnedIncomeItem
+                )
+                this.$store.commit('addBudgetEarnedIncomeItem', addedBudgetEarnedIncomeItem)
+                this.amount = null
+            } catch (error) {
+                this.error = 'error'
             }
         }
     }
-
+}
 </script>
