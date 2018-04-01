@@ -13,7 +13,7 @@ export default {
     // @param {Number} monthlyExpenses - average amount of mandatory monthly expenses
     // <returns></returns>
     calculateAmountToCoverExpenses(monthlyExpenses) {
-        return (12 * monthlyExpenses) / safeWithdrawlRate;
+        return (12 * monthlyExpenses) / safeWithdrawlRate
     },
     // From the compound interest formula:
     //     A = P(1 + (r/n)^nt
@@ -41,6 +41,6 @@ export default {
         const quotient = amount / principal
         const numerator = Math.log(quotient)
         const denominator = numberCompoundsPerYear * (Math.log(1 + (compoundingInterestRate / numberCompoundsPerYear)))
-        return Math.max(0, Math.round(numerator / denominator, 2));
+        return Math.max(0, Math.round(numerator / denominator, 2))
     }
 }

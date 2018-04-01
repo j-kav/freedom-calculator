@@ -15,10 +15,10 @@
         </table>
         <h3>Add new</h3>
         <div>
-            <label>Name</label><input v-model="name"></input>
+            <label>Name</label><input v-model="name">
         </div>
         <div>
-            <label>Mandatory?</label><input type="checkbox" v-model="isMandatory"></input>
+            <label>Mandatory?</label><input type="checkbox" v-model="isMandatory">
         </div>
         <br/>
         <button v-on:click.prevent=addExpense>Submit</button>

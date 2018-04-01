@@ -8,10 +8,7 @@
                 </tr>
             </thead>
             <tbody>
-                <budgetExpenseItem v-for="item in parentBudgetExpense.budgetExpenseItems"
-                                   :key="item.budgetExpenseItemId"
-                                   v-bind:budgetExpenseItemModel="item"
-                                   v-bind:budgetExpense="parentBudgetExpense">
+                <budgetExpenseItem v-for="item in parentBudgetExpense.budgetExpenseItems" :key="item.budgetExpenseItemId" v-bind:budgetExpenseItemModel="item" v-bind:budgetExpense="parentBudgetExpense">
                 </budgetExpenseItem>
             </tbody>
             <tfoot>
@@ -23,57 +20,55 @@
         <div>Add new</div>
         <div>
             <label>Amount</label>
-            <input type="text" v-model="amount"></input>
+            <input type="text" v-model="amount">
             <button v-on:click.prevent=addAmount>Submit</button>
         </div>
     </div>
 </template>
 
 <script>
-    import api from '../api'
-    import BudgetExpenseItem from './BudgetExpenseItem.vue'
-    import utils from '../utils'
+import api from '../api'
+import BudgetExpenseItem from './BudgetExpenseItem.vue'
+import utils from '../utils'
 
-    export default {
-        name: 'BudgetExpenseItems',
-        components: {
-            'budgetExpenseItem': BudgetExpenseItem
-        },
-        data() {
-            return {
-                amount: null,
-                parentBudgetExpense: this.budgetExpense,
-                error: null
+export default {
+    name: 'BudgetExpenseItems',
+    components: {
+        budgetExpenseItem: BudgetExpenseItem
+    },
+    data() {
+        return {
+            amount: null,
+            parentBudgetExpense: this.budgetExpense,
+            error: null
+        }
+    },
+    props: ['budgetExpense'],
+    computed: {
+        total() {
+            let total = 0
+            for (const item of this.budgetExpense.budgetExpenseItems) {
+                total += parseFloat(item.amount)
             }
-        },
-        props: ['budgetExpense'],
-        computed: {
-            total() {
-                let total = 0
-                for (const item of this.budgetExpense.budgetExpenseItems) {
-                    total += parseFloat(item.amount)
+            return utils.usdFormatter.format(total)
+        }
+    },
+    methods: {
+        async addAmount() {
+            try {
+                const newBudgetExpenseItem = {
+                    BudgetExpenseId: this.parentBudgetExpense.budgetExpenseId,
+                    Amount: this.amount,
+                    Timestamp: new Date(Date.now())
                 }
-                return utils.usdFormatter.format(total)
-            }
-        },
-        methods: {
-            addAmount() {
-                // return promise for unit testing purposes
-                const p = new Promise((resolve, reject) => {
-                    const newBudgetExpenseItem = { BudgetExpenseId: this.parentBudgetExpense.budgetExpenseId, Amount: this.amount, Timestamp: new Date(Date.now()) }
-                    api.addBudgetExpenseItem(newBudgetExpenseItem).then((addedBudgetExpenseItem) => {
-                        addedBudgetExpenseItem.budgetExpense = this.parentBudgetExpense
-                        this.$store.commit('addBudgetExpenseItem', addedBudgetExpenseItem)
-                        this.amount = null
-                        resolve()
-                    }).catch((error) => {
-                        this.error = 'error'
-                        reject(error.message) // TODO sanitize error
-                    })
-                })
-                return p
+                const addedBudgetExpenseItem = await api.addBudgetExpenseItem(newBudgetExpenseItem)
+                addedBudgetExpenseItem.budgetExpense = this.parentBudgetExpense
+                this.$store.commit('addBudgetExpenseItem', addedBudgetExpenseItem)
+                this.amount = null
+            } catch (error) {
+                this.error = error.message
             }
         }
     }
-
+}
 </script>

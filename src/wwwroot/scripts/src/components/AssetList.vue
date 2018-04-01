@@ -137,8 +137,7 @@ export default {
             isCash: this.assetTypeArray.includes(assetTypes.Cash),
             isRealEstate: this.assetTypeArray.includes(assetTypes.RealEstate),
             isStockOrBond:
-                !this.assetTypeArray.includes(assetTypes.Cash) &&
-                !this.assetTypeArray.includes(assetTypes.RealEstate),
+                !this.assetTypeArray.includes(assetTypes.Cash) && !this.assetTypeArray.includes(assetTypes.RealEstate),
             isStock: this.assetTypeArray.includes(assetTypes.DomesticStock),
             liabilityId: null,
             loading: false

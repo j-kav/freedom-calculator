@@ -1,7 +1,7 @@
 <template>
     <tr>
-        <td><input v-model="liability.name" v-on:change.prevent=updateLiability()></input></td>
-        <td><input v-model="liability.principal" v-on:change.prevent=updateLiability()></input></td>
+        <td><input v-model="liability.name" v-on:change.prevent=updateLiability()></td>
+        <td><input v-model="liability.principal" v-on:change.prevent=updateLiability()></td>
         <td><input type="image" class="deleteButton" v-on:click.prevent=removeLiability() src="images/delete.png" /></td>
         <td v-if="error && message" class="error">{{ message }}</td>
         <td v-else-if="message" class="success-icon-container"><img src="images/success.png" class="success-icon" /></td>

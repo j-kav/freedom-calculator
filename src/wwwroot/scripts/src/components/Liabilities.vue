@@ -15,10 +15,10 @@
         </table>
         <h3>Add new</h3>
         <div>
-            <label>Name</label><input v-model="name"></input>
+            <label>Name</label><input v-model="name">
         </div>
         <div>
-            <label>Principal</label><input v-model="principal"></input>
+            <label>Principal</label><input v-model="principal">
         </div>
         <br/>
         <button v-on:click.prevent=addLiability>Submit</button>

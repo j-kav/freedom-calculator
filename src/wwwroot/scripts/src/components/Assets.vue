@@ -24,76 +24,75 @@
 </template>
 
 <script>
-    import assetTypes from '../assetTypes'
-    import AssetList from './AssetList.vue'
+import assetTypes from '../assetTypes'
+import AssetList from './AssetList.vue'
 
-    export default {
-        name: 'Assets',
-        components: {
-            'assetList': AssetList
+export default {
+    name: 'Assets',
+    components: {
+        assetList: AssetList
+    },
+    data() {
+        return {
+            assetTypes: assetTypes,
+            cashActive: true,
+            realEstateActive: false,
+            bondsActive: false,
+            stocksActive: false
+        }
+    },
+    methods: {
+        selectCash() {
+            this.cashActive = true
+            this.realEstateActive = false
+            this.bondsActive = false
+            this.stocksActive = false
         },
-        data() {
-            return {
-                assetTypes: assetTypes,
-                cashActive: true,
-                realEstateActive: false,
-                bondsActive: false,
-                stocksActive: false
-            }
+        selectRealEstate() {
+            this.cashActive = false
+            this.realEstateActive = true
+            this.bondsActive = false
+            this.stocksActive = false
         },
-        methods: {
-            selectCash() {
-                this.cashActive = true
-                this.realEstateActive = false
-                this.bondsActive = false
-                this.stocksActive = false
-            },
-            selectRealEstate() {
-                this.cashActive = false
-                this.realEstateActive = true
-                this.bondsActive = false
-                this.stocksActive = false
-            },
-            selectBonds() {
-                this.cashActive = false
-                this.realEstateActive = false
-                this.bondsActive = true
-                this.stocksActive = false
-            },
-            selectStocks() {
-                this.cashActive = false
-                this.realEstateActive = false
-                this.bondsActive = false
-                this.stocksActive = true
-            }
+        selectBonds() {
+            this.cashActive = false
+            this.realEstateActive = false
+            this.bondsActive = true
+            this.stocksActive = false
+        },
+        selectStocks() {
+            this.cashActive = false
+            this.realEstateActive = false
+            this.bondsActive = false
+            this.stocksActive = true
         }
     }
-
+}
 </script>
 
 <style scoped>
-    .activeAssetList {
-        display: block
-    }
+.activeAssetList {
+    display: block;
+}
 
-    .inactiveAssetList {
-        display: none
-    }
+.inactiveAssetList {
+    display: none;
+}
 
-    .activeLink {
-        font-weight: bold;
-        text-decoration: underline;
-    }
+.activeLink {
+    font-weight: bold;
+    text-decoration: underline;
+}
 
-    .inactiveLink {
-        font-weight: normal;
-        text-decoration: unset;
-    }
+.inactiveLink {
+    font-weight: normal;
+    text-decoration: unset;
+}
 
-    nav {
-        margin-bottom: 10px;
-    }
-    nav a {
-        margin: 0 5px
-    }
+nav {
+    margin-bottom: 10px;
+}
+nav a {
+    margin: 0 5px;
+}
 </style>

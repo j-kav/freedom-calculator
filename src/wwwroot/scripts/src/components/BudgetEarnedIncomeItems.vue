@@ -46,9 +46,7 @@ export default {
                     Amount: this.amount,
                     Timestamp: new Date(Date.now())
                 }
-                const addedBudgetEarnedIncomeItem = await api.addBudgetEarnedIncomeItem(
-                    newBudgetEarnedIncomeItem
-                )
+                const addedBudgetEarnedIncomeItem = await api.addBudgetEarnedIncomeItem(newBudgetEarnedIncomeItem)
                 this.$store.commit('addBudgetEarnedIncomeItem', addedBudgetEarnedIncomeItem)
                 this.amount = null
             } catch (error) {

@@ -83,7 +83,7 @@
                     this.$router.push('/statistics')
                 }).catch((error) => {
                     this.loggingIn = false
-                    this.error = error
+                    this.error = error.message
                 })
             },
             createAccount() {
