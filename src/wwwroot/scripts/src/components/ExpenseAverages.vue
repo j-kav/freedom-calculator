@@ -17,32 +17,39 @@
                 </tr>
             </tbody>
         </table>
+        <div v-if="error" class="error">Error {{ message }}</div>
     </div>
 </template>
 
 <script>
-    import api from '../api'
-    import utils from '../utils'
+import api from '../api'
+import utils from '../utils'
 
-    export default {
-        name: 'ExpenseAverages',
-        created() {
-            // query backend and populate store if necessary
-            if (!this.$store.state.expenseAverages) {
-                api.getExpenseAverages().then((data) => {
-                    this.$store.commit('setExpenseAverages', data)
-                    this.loading = false
-                })
-            }
-        },
-        props: ['mandatory'],
-        data() {
-            return {
-                loading: !this.$store.state.expenseAverages,
-                utils: utils,
-                isMandatory: this.mandatory
+export default {
+    name: 'ExpenseAverages',
+    async created() {
+        // query backend and populate store if necessary
+        if (!this.$store.state.expenseAverages) {
+            try {
+                const data = await api.getExpenseAverages()
+                this.$store.commit('setExpenseAverages', data)
+                this.loading = false
+            } catch (error) {
+                this.loading = false
+                this.error = true
+                this.message = error.message
             }
         }
+    },
+    props: ['mandatory'],
+    data() {
+        return {
+            error: false,
+            message: null,
+            loading: !this.$store.state.expenseAverages,
+            utils: utils,
+            isMandatory: this.mandatory
+        }
     }
-
+}
 </script>

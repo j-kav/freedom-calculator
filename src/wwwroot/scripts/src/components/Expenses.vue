@@ -26,41 +26,41 @@
     </div>
 </template>
 <script>
-    import api from '../api'
-    import Expense from './Expense.vue'
+import api from '../api'
+import Expense from './Expense.vue'
 
-    export default {
-        name: 'Expenses',
-        components: {
-            'expense': Expense
-        },
-        data() {
-            return {
-                name: '',
-                isMandatory: false,
-                error: null
+export default {
+    name: 'Expenses',
+    components: {
+        expense: Expense
+    },
+    data() {
+        return {
+            name: '',
+            isMandatory: false,
+            error: null
+        }
+    },
+    methods: {
+        async addExpense() {
+            const newExpense = {
+                name: this.name,
+                isMandatory: this.isMandatory
             }
-        },
-        methods: {
-            addExpense() {
-                const newExpense = {
-                    name: this.name,
-                    isMandatory: this.isMandatory
-                }
-                api.addExpense(newExpense).then((addedExpense) => {
-                    this.$store.commit('addExpense', addedExpense)
-                }).catch((error) => {
-                    this.error = error
-                })
+            try {
+                const addedExpense = await api.addExpense(newExpense)
+                this.$store.commit('addExpense', addedExpense)
+            } catch (error) {
+                this.error = error
             }
         }
     }
-
+}
 </script>
 
 <style scoped>
-    label {
-        display: inline-block;
-        width: 100px;
-    }
+label {
+    display: inline-block;
+    width: 100px;
+}
 </style>

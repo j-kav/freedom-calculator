@@ -16,89 +16,89 @@
                     <modal v-if="loggingIn">
                         <h3 slot="header">Logging In</h3>
                         <loading slot="body"></loading>
-                        <div slot="footer"><span>Please Wait..</span></div>
+                        <div slot="footer">
+                            <span>Please Wait..</span>
+                        </div>
                     </modal>
                 </p>
                 <button v-on:click.prevent="showRegister">Register New User</button>
             </fieldset>
         </form>
         <form id="registerForm" name="registerForm" v-if="showRegisterForm">
-                <fieldset>
+            <fieldset>
+                <div>
                     <div>
-                        <div>
-                            <input v-model="name" type="text" max="100" placeholder="Name" autofocus="" />
-                            <input v-model="email" type="text" max="100" placeholder="Email address" autofocus="" />
-                            <input v-model="password" type="password" max="100" placeholder="Password" />
-                            <input v-model="confirmPassword" type="password" max="100" placeholder="Confirm Password" />
-                        </div>
+                        <input v-model="name" type="text" max="100" placeholder="Name" autofocus="" />
+                        <input v-model="email" type="text" max="100" placeholder="Email address" autofocus="" />
+                        <input v-model="password" type="password" max="100" placeholder="Password" />
+                        <input v-model="confirmPassword" type="password" max="100" placeholder="Confirm Password" />
                     </div>
-                    <div v-if="error" class="error">
-                        {{ error }}
-                    </div>
-                    <p>
-                        <button v-on:click.prevent="createAccount">Register</button>
-                    </p>
-                    <button v-on:click.prevent="showLogin">Back to Login</button>
-                </fieldset>
-            </form>
+                </div>
+                <div v-if="error" class="error">
+                    {{ error }}
+                </div>
+                <p>
+                    <button v-on:click.prevent="createAccount">Register</button>
+                </p>
+                <button v-on:click.prevent="showLogin">Back to Login</button>
+            </fieldset>
+        </form>
     </div>
 </template>
 
 <script>
-    import api from '../api'
-    import Loading from './Loading.vue'
-    import Modal from './Modal.vue'
+import api from '../api'
+import Loading from './Loading.vue'
+import Modal from './Modal.vue'
 
-    export default {
-        name: 'Login',
-        components: {
-            'loading': Loading,
-            'modal': Modal
+export default {
+    name: 'Login',
+    components: {
+        loading: Loading,
+        modal: Modal
+    },
+    data() {
+        return {
+            showLoginForm: true,
+            showRegisterForm: false,
+            email: '',
+            password: '',
+            loggingIn: false,
+            name: '',
+            confirmPassword: '',
+            error: null
+        }
+    },
+    methods: {
+        showRegister() {
+            this.showRegisterForm = true
+            this.showLoginForm = false
         },
-        data() {
-            return {
-                showLoginForm: true,
-                showRegisterForm: false,
-                email: '',
-                password: '',
-                loggingIn: false,
-                name: '',
-                confirmPassword: '',
-                error: null
+        showLogin() {
+            this.showRegisterForm = false
+            this.showLoginForm = true
+        },
+        async login() {
+            this.loggingIn = true
+            try {
+                await api.getToken(this.email, this.password)
+                this.$store.commit('login')
+                this.$router.push('/statistics')
+            } catch (error) {
+                this.loggingIn = false
+                this.error = error.message
             }
         },
-        methods: {
-            showRegister() {
-                this.showRegisterForm = true
-                this.showLoginForm = false
-            },
-            showLogin() {
-                this.showRegisterForm = false
-                this.showLoginForm = true
-            },
-            login() {
-                this.loggingIn = true
-                api.getToken(this.email, this.password).then(() => {
-                    this.$store.commit('login')
-                    this.$router.push('/statistics')
-                }).catch((error) => {
-                    this.loggingIn = false
-                    this.error = error.message
-                })
-            },
-            createAccount() {
-                api.createAccount(this.name, this.email, this.password, this.confirmPassword).then(() => {
-                    api.getToken(this.email, this.password).then(() => {
-                        this.$store.commit('login')
-                        this.$router.push('/statistics')
-                    }).catch((error) => {
-                        this.error = error
-                    })
-                }).catch((error) => {
-                    this.error = error
-                })
+        async createAccount() {
+            try {
+                await api.createAccount(this.name, this.email, this.password, this.confirmPassword)
+                await api.getToken(this.email, this.password)
+                this.$store.commit('login')
+                this.$router.push('/statistics')
+            } catch (error) {
+                this.error = error
             }
         }
     }
-
+}
 </script>

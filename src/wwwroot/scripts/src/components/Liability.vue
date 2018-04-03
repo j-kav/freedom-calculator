@@ -9,41 +9,42 @@
 </template>
 
 <script>
-    import api from '../api'
+import api from '../api'
 
-    export default {
-        name: 'Liability',
-        data() {
-            return {
-                error: false,
-                message: null,
-                liability: this.liabilityModel
+export default {
+    name: 'Liability',
+    data() {
+        return {
+            error: false,
+            message: null,
+            liability: this.liabilityModel
+        }
+    },
+    props: ['liabilityModel'],
+    methods: {
+        async updateLiability() {
+            try {
+                await api.updateLiability(this.liability.liabilityId, this.liability)
+                this.$store.commit('updateLiability', this.liability)
+                this.error = false
+                this.message = 'updated'
+            } catch (error) {
+                this.error = true
+                this.message = error
             }
         },
-        props: ['liabilityModel'],
-        methods: {
-            updateLiability() {
-                api.updateLiability(this.liability.liabilityId, this.liability).then(() => {
-                    this.$store.commit('updateLiability', this.liability)
+        async removeLiability() {
+            if (window.confirm('Are you sure?')) {
+                try {
+                    await api.removeLiability(this.liability.liabilityId)
+                    this.$store.commit('removeLiability', this.liability.liabilityId)
                     this.error = false
-                    this.message = 'updated'
-                }).catch((error) => {
+                } catch (error) {
                     this.error = true
                     this.message = error
-                })
-            },
-            removeLiability() {
-                if (window.confirm('Are you sure?')) {
-                    api.removeLiability(this.liability.liabilityId).then(() => {
-                        this.$store.commit('removeLiability', this.liability.liabilityId)
-                        this.error = false
-                    }).catch((error) => {
-                        this.error = true
-                        this.message = error
-                    })
                 }
             }
         }
     }
-
+}
 </script>

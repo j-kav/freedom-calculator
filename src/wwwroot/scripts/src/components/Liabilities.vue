@@ -26,41 +26,41 @@
     </div>
 </template>
 <script>
-    import api from '../api'
-    import Liability from './Liability.vue'
+import api from '../api'
+import Liability from './Liability.vue'
 
-    export default {
-        name: 'Liabilities',
-        components: {
-            'liability': Liability
-        },
-        data() {
-            return {
-                name: '',
-                principal: 0,
-                error: null
+export default {
+    name: 'Liabilities',
+    components: {
+        liability: Liability
+    },
+    data() {
+        return {
+            name: '',
+            principal: 0,
+            error: null
+        }
+    },
+    methods: {
+        async addLiability() {
+            const newLiability = {
+                name: this.name,
+                principal: this.principal
             }
-        },
-        methods: {
-            addLiability() {
-                const newLiability = {
-                    name: this.name,
-                    principal: this.principal
-                }
-                api.addLiability(newLiability).then((addedLiability) => {
-                    this.$store.commit('addLiability', addedLiability)
-                }).catch((error) => {
-                    this.error = error
-                })
+            try {
+                const addedLiability = await api.addLiability(newLiability)
+                this.$store.commit('addLiability', addedLiability)
+            } catch (error) {
+                this.error = error
             }
         }
     }
-
+}
 </script>
 
 <style scoped>
-    label {
-        display: inline-block;
-        width: 100px;
-    }
+label {
+    display: inline-block;
+    width: 100px;
+}
 </style>

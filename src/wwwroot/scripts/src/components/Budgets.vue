@@ -27,46 +27,39 @@
 </template>
 
 <script>
-    import api from '../api'
-    import Budget from './Budget.vue'
+import api from '../api'
+import Budget from './Budget.vue'
 
-    export default {
-        name: 'Budgets',
-        components: {
-            'budget': Budget
-        },
-        data() {
-            return {
-                error: null
+export default {
+    name: 'Budgets',
+    components: {
+        budget: Budget
+    },
+    data() {
+        return {
+            error: null
+        }
+    },
+    methods: {
+        async addBudget() {
+            const now = new Date(Date.now())
+            const month = now.getMonth() + 1
+            const year = now.getFullYear()
+            const newBudget = {
+                month: month,
+                year: year
             }
-        },
-        methods: {
-            addBudget() {
-                const now = new Date(Date.now())
-                const month = now.getMonth() + 1
-                const year = now.getFullYear()
-                const newBudget = {
-                    month: month,
-                    year: year
+            try {
+                if (this.$store.getters.budgetByDate(month, year).length !== 0) {
+                    this.error = 'Budget already exists for the current month and year'
+                } else {
+                    const addedBudget = await api.addBudget(newBudget)
+                    this.$store.commit('addBudget', addedBudget)
                 }
-                // return promise for unit testing purposes
-                const p = new Promise((resolve, reject) => {
-                    if (this.$store.getters.budgetByDate(month, year).length !== 0) {
-                        this.error = 'Budget already exists for the current month and year'
-                        resolve(this.error)
-                    } else {
-                        api.addBudget(newBudget).then((addedBudget) => {
-                            this.$store.commit('addBudget', addedBudget)
-                            resolve()
-                        }).catch((error) => {
-                            this.error = 'error'
-                            reject(error.message) // TODO sanitize error
-                        })
-                    }
-                })
-                return p
+            } catch (error) {
+                this.error = error.message
             }
         }
     }
-
+}
 </script>

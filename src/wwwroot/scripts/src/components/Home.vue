@@ -26,33 +26,33 @@
 </template>
 
 <script>
-    export default {
-        name: 'Home'
-    }
+export default {
+    name: 'Home'
+}
 </script>
 
 <style scoped=true>
+#container {
+    display: grid;
+    grid-gap: 1em;
+    justify-items: center;
+    margin: 1em;
+}
+
+img {
+    align-self: center;
+}
+
+@media screen and (min-width: 680px) {
     #container {
-        display: grid;
-        grid-gap: 1em;
-        justify-items: center;
-        margin: 1em;
+        align-items: center;
+        grid-template-columns: 1fr 1fr;
+        margin: 0;
     }
 
-    img {
-        align-self: center;
+    div.feature-text {
+        margin-left: 2em;
+        margin-right: 2em;
     }
-
-    @media screen and (min-width: 680px) {
-        #container {
-            align-items: center;
-            grid-template-columns: 1fr 1fr;
-            margin: 0;
-        }
-
-        div.feature-text {
-            margin-left: 2em;
-            margin-right: 2em;
-        }
-    }
+}
 </style>

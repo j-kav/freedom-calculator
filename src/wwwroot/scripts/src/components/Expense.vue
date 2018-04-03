@@ -9,41 +9,42 @@
 </template>
 
 <script>
-    import api from '../api'
+import api from '../api'
 
-    export default {
-        name: 'Expense',
-        data() {
-            return {
-                error: false,
-                message: null,
-                expense: this.expenseModel
+export default {
+    name: 'Expense',
+    data() {
+        return {
+            error: false,
+            message: null,
+            expense: this.expenseModel
+        }
+    },
+    props: ['expenseModel'],
+    methods: {
+        async updateExpense() {
+            try {
+                await api.updateExpense(this.expense.expenseId, this.expense)
+                this.$store.commit('updateExpense', this.expense)
+                this.error = false
+                this.message = 'updated'
+            } catch (error) {
+                this.error = true
+                this.message = error
             }
         },
-        props: ['expenseModel'],
-        methods: {
-            updateExpense() {
-                api.updateExpense(this.expense.expenseId, this.expense).then(() => {
-                    this.$store.commit('updateExpense', this.expense)
+        async removeExpense() {
+            if (window.confirm('Are you sure?')) {
+                try {
+                    await api.removeExpense(this.expense.expenseId)
+                    this.$store.commit('removeExpense', this.expense.expenseId)
                     this.error = false
-                    this.message = 'updated'
-                }).catch((error) => {
+                } catch (error) {
                     this.error = true
                     this.message = error
-                })
-            },
-            removeExpense() {
-                if (window.confirm('Are you sure?')) {
-                    api.removeExpense(this.expense.expenseId).then(() => {
-                        this.$store.commit('removeExpense', this.expense.expenseId)
-                        this.error = false
-                    }).catch((error) => {
-                        this.error = true
-                        this.message = error
-                    })
                 }
             }
         }
     }
-
+}
 </script>
