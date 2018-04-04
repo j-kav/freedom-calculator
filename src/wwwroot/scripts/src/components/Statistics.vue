@@ -228,13 +228,13 @@ export default {
             // get all data needed concurrently, and set in store as it is received.
             const promises = []
             promises.push(
-                api.getLiabilities().then(data => {
-                    this.$store.commit('setLiabilities', data)
+                api.getAssets().then(data => {
+                    this.$store.commit('setAssets', data)
                 })
             )
             promises.push(
-                api.getAssets().then(data => {
-                    this.$store.commit('setAssets', data)
+                api.getLiabilities().then(data => {
+                    this.$store.commit('setLiabilities', data)
                 })
             )
             promises.push(

@@ -16,30 +16,31 @@
 </template>
 
 <script>
-    import api from '../api'
+import api from '../api'
 
-    export default {
-        name: 'User',
-        data() {
-            return {
-                loading: true,
-                error: null,
-                user: null
-            }
-        },
-        created() {
-            this.getUser()
-        },
-        methods: {
-            getUser() {
-                api.getUser().then((data) => {
-                    this.loading = false
-                    this.user = data
-                }).catch((error) => {
-                    this.loading = false
-                    this.error = error
-                })
+export default {
+    name: 'User',
+    data() {
+        return {
+            loading: true,
+            error: null,
+            user: null
+        }
+    },
+    created() {
+        this.getUser()
+    },
+    methods: {
+        async getUser() {
+            try {
+                const data = await api.getUser()
+                this.loading = false
+                this.user = data
+            } catch (error) {
+                this.loading = false
+                this.error = error
             }
         }
     }
+}
 </script>

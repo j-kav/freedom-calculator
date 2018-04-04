@@ -212,8 +212,8 @@ export default {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                Month: newBudget.Month,
-                Year: newBudget.Year
+                Month: newBudget.month,
+                Year: newBudget.year
             })
         }
         return await execFetchRequest('/api/budgets', fetchProps)
