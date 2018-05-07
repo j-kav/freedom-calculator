@@ -1,18 +1,17 @@
 <template>
     <tr>
         <td>{{ budgetExpense.expense.name }}</td>
-        <td><input v-model="budgetExpense.projected" v-on:change.prevent=updateExpense()>
-        </td>
+        <td><input v-model="budgetExpense.projected" @change.prevent="updateExpense"></td>
         <td class="align-right">
             <span class="link" @click="showExpenseItems=true">{{ utils.usdFormatter.format(expenseItems) }}</span>
             <modal v-if="showExpenseItems" @close="showExpenseItems=false">
                 <h3 slot="header">{{ budgetExpense.expense.name }} items</h3>
-                <budgetExpenseItems slot="body" v-if="showExpenseItems" v-bind:budgetExpense="budgetExpense" @close="showExpenseItems=false"></budgetExpenseItems>
+                <budgetExpenseItems v-if="showExpenseItems" slot="body" :budget-expense="budgetExpense" @close="showExpenseItems=false" />
             </modal>
         </td>
-        <td class="align-right" v-bind:class="remainingClass">{{ utils.usdFormatter.format(remaining) }}</td>
-        <td><input type="image" class="deleteButton" v-on:click.prevent=removeExpense() src="images/delete.png" /></td>
-        <td v-if="message" v-bind:class="messageClass">{{ message }}</td>
+        <td :class="remainingClass" class="align-right">{{ utils.usdFormatter.format(remaining) }}</td>
+        <td><input type="image" class="deleteButton" src="images/delete.png" @click.prevent="removeExpense"></td>
+        <td v-if="message" :class="messageClass">{{ message }}</td>
     </tr>
 </template>
 
@@ -24,6 +23,16 @@ import utils from '../utils'
 
 export default {
     name: 'BudgetExpense',
+    components: {
+        budgetExpenseItems: BudgetExpenseItems,
+        modal: Modal
+    },
+    props: {
+        budgetExpenseModel: {
+            type: Object,
+            default: null
+        }
+    },
     data() {
         return {
             error: false,
@@ -32,10 +41,6 @@ export default {
             showExpenseItems: false,
             utils: utils
         }
-    },
-    components: {
-        budgetExpenseItems: BudgetExpenseItems,
-        modal: Modal
     },
     computed: {
         expenseItems() {
@@ -62,7 +67,6 @@ export default {
             }
         }
     },
-    props: ['budgetExpenseModel'],
     methods: {
         async updateExpense() {
             try {

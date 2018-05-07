@@ -26,7 +26,6 @@ describe('BudgetEarnedIncomeItems', () => {
 
     it('should add a budgetEarnedIncomeItem to the store when addBudgetEarnedIncomeItem is called', async () => {
         const vm = new Vue({
-            template: '<div><test ref="test" v-bind:budget="budget"></test></div>',
             store: new Vuex.Store(mockedStore),
             components: {
                 'test': BudgetEarnedIncomeItems
@@ -35,7 +34,8 @@ describe('BudgetEarnedIncomeItems', () => {
                 return {
                     budget: { budgetId: 1, earnedIncome: [] }
                 }
-            }
+            },
+            template: '<div><test ref="test" :budget="budget"></test></div>'
         }).$mount()
         vm.$refs.test.amount = 200
         expect(vm.$store.getters.budgetById(1).earnedIncome.length).to.equal(0)

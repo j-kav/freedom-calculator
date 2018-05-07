@@ -12,7 +12,7 @@
                     {{ error }}
                 </div>
                 <p>
-                    <button v-on:click.prevent="login">Login</button>
+                    <button @click.prevent="login">Login</button>
                     <modal v-if="loggingIn">
                         <h3 slot="header">Logging In</h3>
                         <loading slot="body"></loading>
@@ -21,7 +21,7 @@
                         </div>
                     </modal>
                 </p>
-                <button v-on:click.prevent="showRegister">Register New User</button>
+                <button @click.prevent="showRegister">Register New User</button>
             </fieldset>
         </form>
         <form id="registerForm" name="registerForm" v-if="showRegisterForm">
@@ -38,9 +38,9 @@
                     {{ error }}
                 </div>
                 <p>
-                    <button v-on:click.prevent="createAccount">Register</button>
+                    <button @click.prevent="createAccount">Register</button>
                 </p>
-                <button v-on:click.prevent="showLogin">Back to Login</button>
+                <button @click.prevent="showLogin">Back to Login</button>
             </fieldset>
         </form>
     </div>

@@ -4,9 +4,9 @@
         <div>
             <label>Projected Net Earned Income</label>
             <div class="field align-right">
-                <input type="number" v-model="budget.projectedEarnedIncome" v-on:change.prevent=updateBudget()>
+                <input type="number" v-model="budget.projectedEarnedIncome" @change.prevent=updateBudget()>
             </div>
-            <span v-if="message" v-bind:class="messageClass">{{ message }}</span>
+            <span v-if="message" :class="messageClass">{{ message }}</span>
         </div>
         <div>
             <label>Net Earned Income</label>
@@ -15,7 +15,7 @@
             </div>
             <modal v-if="showEarnedIncomeItems" @close="showEarnedIncomeItems=false">
                 <h3 slot="header">Earned Income Items</h3>
-                <budgetEarnedIncomeItems slot="body" v-if="showEarnedIncomeItems" v-bind:budget="budget" @close="showEarnedIncomeItems=false"></budgetEarnedIncomeItems>
+                <budgetEarnedIncomeItems slot="body" v-if="showEarnedIncomeItems" :budget="budget" @close="showEarnedIncomeItems=false"></budgetEarnedIncomeItems>
             </modal>
         </div>
         <div>
@@ -25,7 +25,7 @@
             </div>
             <modal v-if="showPassiveIncomeItems" @close="showPassiveIncomeItems=false">
                 <h3 slot="header">Passive Income Items</h3>
-                <budgetPassiveIncomeItems slot="body" v-if="showPassiveIncomeItems" v-bind:budget="budget" @close="showPassiveIncomeItems=false"></budgetPassiveIncomeItems>
+                <budgetPassiveIncomeItems slot="body" v-if="showPassiveIncomeItems" :budget="budget" @close="showPassiveIncomeItems=false"></budgetPassiveIncomeItems>
             </modal>
         </div>
         <div>
@@ -41,13 +41,13 @@
             </div>
             <modal v-if="showExpenses" @close="showExpenses=false">
                 <h3 slot="header">Expenses</h3>
-                <budgetExpenses slot="body" v-if="showExpenses" v-bind:budget="budget" @close="showExpenses=false"></budgetExpenses>
+                <budgetExpenses slot="body" v-if="showExpenses" :budget="budget" @close="showExpenses=false"></budgetExpenses>
             </modal>
         </div>
         <div>
             <label>Income Surplus/Deficit</label>
             <div class="field align-right">
-                <span v-bind:class="surplusDeficitClass">{{ utils.usdFormatter.format(surplusDeficit) }}</span>
+                <span :class="surplusDeficitClass">{{ utils.usdFormatter.format(surplusDeficit) }}</span>
             </div>
         </div>
         <div>
@@ -57,7 +57,7 @@
             </div>
             <modal v-if="showInvestmentItems" @close="showInvestmentItems=false">
                 <h3 slot="header">Investment Items</h3>
-                <budgetInvestmentItems slot="body" v-if="showInvestmentItems" v-bind:budget="budget" @close="showInvestmentItems=false"></budgetInvestmentItems>
+                <budgetInvestmentItems slot="body" v-if="showInvestmentItems" :budget="budget" @close="showInvestmentItems=false"></budgetInvestmentItems>
             </modal>
         </div>
         <div>

@@ -21,7 +21,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <asset v-for="asset in assets" :key="asset.assetId" v-bind:assetModel="asset" v-on:loading="childLoading"></asset>
+                    <asset v-for="asset in assets" :key="asset.assetId" :assetModel="asset" :loading="childLoading"></asset>
                 </tbody>
             </table>
         </div>
@@ -92,7 +92,7 @@
             <div>
                 <label>Linked-Liability</label>
                 <select v-model="liabilityId">
-                    <option v-for="liability in $store.state.liabilities" :key="liability.liabilityId" v-bind:value="liability.liabilityId">
+                    <option v-for="liability in $store.state.liabilities" :key="liability.liabilityId" :value="liability.liabilityId">
                         {{ liability.name }}
                     </option>
                 </select>
@@ -102,7 +102,7 @@
             <label>Value</label>
             <input v-model="value">
         </div>
-        <button v-on:click.prevent=addAsset>Submit</button>
+        <button @click.prevent=addAsset>Submit</button>
         <div v-if="error" class="error">{{ error }}</div>
     </div>
 </template>

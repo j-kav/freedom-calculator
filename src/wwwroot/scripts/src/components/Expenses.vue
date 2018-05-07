@@ -5,12 +5,15 @@
                 <tr>
                     <th>Name</th>
                     <th>Mandatory</th>
-                    <th></th>
-                    <th></th>
+                    <th/>
+                    <th/>
                 </tr>
             </thead>
             <tbody>
-                <expense v-for="expense in $store.state.expenses" :key="expense.expenseId" v-bind:expenseModel="expense"></expense>
+                <expense
+                    v-for="expense in $store.state.expenses"
+                    :key="expense.expenseId"
+                    :expense-model="expense"/>
             </tbody>
         </table>
         <h3>Add new</h3>
@@ -18,11 +21,17 @@
             <label>Name</label><input v-model="name">
         </div>
         <div>
-            <label>Mandatory?</label><input type="checkbox" v-model="isMandatory">
+            <label>Mandatory?</label>
+            <input
+                v-model="isMandatory"
+                type="checkbox">
         </div>
-        <br/>
-        <button v-on:click.prevent=addExpense>Submit</button>
-        <div v-if="error" class="error">{{ error }}</div>
+        <br>
+        <button @click.prevent="addExpense">Submit</button>
+        <div
+            v-if="error"
+            class="error">{{ error }}
+        </div>
     </div>
 </template>
 <script>

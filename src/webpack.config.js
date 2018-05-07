@@ -1,5 +1,6 @@
 ﻿const webpack = require('webpack')
 const PROD = process.env.NODE_ENV === 'PROD'
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 module.exports = {
     entry: {
@@ -18,8 +19,11 @@ module.exports = {
     plugins: PROD ? [
         new webpack.optimize.UglifyJsPlugin({
             compress: { warnings: false }
-        })
-    ] : [],
+        }),
+        new VueLoaderPlugin()
+    ] : [
+        new VueLoaderPlugin()
+    ],
     module: {
         rules: [
             {

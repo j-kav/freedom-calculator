@@ -1,10 +1,10 @@
 <template>
     <tr>
         <td>{{ budgetEarnedIncomeItem.timeStamp.substring(0, 10) }}</td>
-        <td><input v-model="budgetEarnedIncomeItem.amount" v-on:change.prevent=updateEarnedIncomeItem()>
+        <td><input v-model="budgetEarnedIncomeItem.amount" @change.prevent="updateEarnedIncomeItem">
         </td>
-        <td><input type="image" class="deleteButton" v-on:click.prevent=removeEarnedIncomeItem() src="images/delete.png" /></td>
-        <td v-if="message" v-bind:class="messageClass">{{ message }}</td>
+        <td><input type="image" class="deleteButton" @click.prevent=removeEarnedIncomeItem() src="images/delete.png" /></td>
+        <td v-if="message" :class="messageClass">{{ message }}</td>
     </tr>
 </template>
 

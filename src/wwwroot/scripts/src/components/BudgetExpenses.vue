@@ -10,29 +10,29 @@
                 </tr>
             </thead>
             <tbody>
-                <budgetExpense v-for="item in budgetExpenses" :key="item.budgetExpenseId" v-bind:budgetExpenseModel="item"></budgetExpense>
+                <budgetExpense v-for="item in budgetExpenses" :key="item.budgetExpenseId" :budget-expense-model="item"/>
             </tbody>
             <tfoot>
                 <td>Total</td>
                 <td class="align-right">{{ utils.usdFormatter.format(totalProjectedExpenses) }}</td>
                 <td class="align-right">{{ utils.usdFormatter.format(parentBudget.totalActualExpenses) }}</td>
-                <td class="align-right" v-bind:class="remainingTotalClass">{{ utils.usdFormatter.format(remainingTotal) }}</td>
+                <td :class="remainingTotalClass" class="align-right">{{ utils.usdFormatter.format(remainingTotal) }}</td>
             </tfoot>
         </table>
-        <br/>
+        <br>
         <div>
             <h3>Add New</h3>
         </div>
         <div>
             <select v-model="expense">
-                <option v-for="expense in unprojectedExpenses" :key="expense.expenseId" v-bind:value="expense">
+                <option v-for="expense in unprojectedExpenses" :key="expense.expenseId" :value="expense">
                     {{ expense.name }}
                 </option>
             </select>
             <label>Projected Amount</label>
-            <input type="text" v-model="projected">
-            <button v-on:click.prevent=addExpense>Submit</button>
-            <span v-if="message" v-bind:class="messageClass">{{ message }}</span>
+            <input v-model="projected" type="text">
+            <button @click.prevent="addExpense">Submit</button>
+            <span v-if="message" :class="messageClass">{{ message }}</span>
         </div>
     </div>
 </template>
@@ -67,6 +67,12 @@ export default {
     components: {
         budgetExpense: BudgetExpense
     },
+    props: {
+        budget: {
+            type: Object,
+            default: null
+        }
+    },
     data() {
         return {
             projected: null,
@@ -79,7 +85,9 @@ export default {
     },
     computed: {
         budgetExpenses() {
-            return this.parentBudget.expenses.sort(compareBudgetExpenseByName)
+            let parentBudgetExpenses = this.parentBudget.expenses;
+            let sortedExpenses = parentBudgetExpenses.sort(compareBudgetExpenseByName);
+            return sortedExpenses;
         },
         unprojectedExpenses() {
             const notIn = expense => {
@@ -115,7 +123,6 @@ export default {
             }
         }
     },
-    props: ['budget'],
     methods: {
         async addExpense() {
             try {

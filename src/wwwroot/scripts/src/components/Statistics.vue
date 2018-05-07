@@ -80,7 +80,7 @@
                             <span class="link" @click="showAverageMandatoryExpenses=true">{{ utils.usdFormatter.format(this.$store.getters.averageMandatoryExpenses) }}</span>
                             <modal v-if="showAverageMandatoryExpenses" @close="showAverageMandatoryExpenses=false">
                                 <h3 slot="header">Average Mandatory Expenses</h3>
-                                <expenseAverages slot="body" v-bind:mandatory="true" v-if="showAverageMandatoryExpenses" @close="showAverageMandatoryExpenses=false"></expenseAverages>
+                                <expenseAverages slot="body" :mandatory="true" v-if="showAverageMandatoryExpenses" @close="showAverageMandatoryExpenses=false"></expenseAverages>
                             </modal>
                         </div>
                     </div>
@@ -90,7 +90,7 @@
                             <span class="link" @click="showAverageDiscretionaryExpenses=true">{{ utils.usdFormatter.format(this.$store.getters.averageDiscretionaryExpenses) }}</span>
                             <modal v-if="showAverageDiscretionaryExpenses" @close="showAverageDiscretionaryExpenses=false">
                                 <h3 slot="header">Average Discretionary Expenses</h3>
-                                <expenseAverages slot="body" v-bind:mandatory="false" v-if="showAverageDiscretionaryExpenses" @close="showAverageDiscretionaryExpenses=false"></expenseAverages>
+                                <expenseAverages slot="body" :mandatory="false" v-if="showAverageDiscretionaryExpenses" @close="showAverageDiscretionaryExpenses=false"></expenseAverages>
                             </modal>
                         </div>
                     </div>

@@ -8,15 +8,14 @@
                 </tr>
             </thead>
             <tbody>
-                <budgetEarnedIncomeItem v-for="item in parentBudget.earnedIncome" :key="item.budgetEarnedIncomeItemId" v-bind:budgetEarnedIncomeItemModel="item">
-                </budgetEarnedIncomeItem>
+                <budgetEarnedIncomeItem v-for="item in parentBudget.earnedIncome" :key="item.budgetEarnedIncomeItemId" :budget-earned-income-item-model="item"/>
             </tbody>
         </table>
         <div>Add new</div>
         <div>
             <label>Amount</label>
-            <input type="text" v-model="amount">
-            <button v-on:click.prevent=addAmount>Submit</button>
+            <input v-model="amount" type="text">
+            <button @click.prevent=addAmount>Submit</button>
         </div>
     </div>
 </template>

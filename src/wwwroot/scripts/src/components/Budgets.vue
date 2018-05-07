@@ -16,12 +16,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <budget v-for="budget in $store.state.budgets" :key="budget.budgetId" v-bind:budgetModel="budget"></budget>
+                    <budget v-for="budget in $store.state.budgets" :key="budget.budgetId" :budgetModel="budget"></budget>
                 </tbody>
             </table>
         </div>
         <br/>
-        <button v-on:click.prevent=addBudget>Add New</button>
+        <button @click.prevent=addBudget>Add New</button>
         <div v-if="error" class="error">{{ error }}</div>
     </div>
 </template>

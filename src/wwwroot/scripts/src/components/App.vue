@@ -2,16 +2,16 @@
     <div id="#app">
         <h1>Freedom Calculator</h1>
         <nav id="top-nav">
-            <router-link v-if="!$store.state.isLoggedIn" to="/" exact v-on:click.native="toggleResponsiveMenu">Home</router-link>
-            <router-link v-if="!$store.state.isLoggedIn" to="/login" v-on:click.native="toggleResponsiveMenu">Login</router-link>
-            <router-link v-if="$store.state.isLoggedIn" to="/statistics" v-on:click.native="toggleResponsiveMenu">Statistics</router-link>
-            <router-link v-if="$store.state.isLoggedIn && $store.state.assets" to="/assets" v-on:click.native="toggleResponsiveMenu">Assets</router-link>
-            <router-link v-if="$store.state.isLoggedIn && $store.state.liabilities" to="/liabilities" v-on:click.native="toggleResponsiveMenu">Liabilities</router-link>
-            <router-link v-if="$store.state.isLoggedIn && $store.state.expenses" to="/expenses" v-on:click.native="toggleResponsiveMenu">Expenses</router-link>
-            <router-link v-if="$store.state.isLoggedIn && $store.state.budgets" to="/budgets" v-on:click.native="toggleResponsiveMenu">Budgets</router-link>
-            <router-link v-if="$store.state.isLoggedIn" to="/user" v-on:click.native="toggleResponsiveMenu">Profile</router-link>
-            <a href="#" v-if="$store.state.isLoggedIn" v-on:click="logout">Logout</a>
-            <a href="javascript:void(0);" class="hamburger-icon" v-on:click="toggleResponsiveMenu">&#9776;</a>
+            <router-link v-if="!$store.state.isLoggedIn" to="/" exact @click.native="toggleResponsiveMenu">Home</router-link>
+            <router-link v-if="!$store.state.isLoggedIn" to="/login" @click.native="toggleResponsiveMenu">Login</router-link>
+            <router-link v-if="$store.state.isLoggedIn" to="/statistics" @click.native="toggleResponsiveMenu">Statistics</router-link>
+            <router-link v-if="$store.state.isLoggedIn && $store.state.assets" to="/assets" @click.native="toggleResponsiveMenu">Assets</router-link>
+            <router-link v-if="$store.state.isLoggedIn && $store.state.liabilities" to="/liabilities" @click.native="toggleResponsiveMenu">Liabilities</router-link>
+            <router-link v-if="$store.state.isLoggedIn && $store.state.expenses" to="/expenses" @click.native="toggleResponsiveMenu">Expenses</router-link>
+            <router-link v-if="$store.state.isLoggedIn && $store.state.budgets" to="/budgets" @click.native="toggleResponsiveMenu">Budgets</router-link>
+            <router-link v-if="$store.state.isLoggedIn" to="/user" @click.native="toggleResponsiveMenu">Profile</router-link>
+            <a href="#" v-if="$store.state.isLoggedIn" @click="logout">Logout</a>
+            <a href="javascript:void(0);" class="hamburger-icon" @click="toggleResponsiveMenu">&#9776;</a>
         </nav>
         <router-view></router-view>
         <session-monitor></session-monitor>
