@@ -4,7 +4,7 @@
         <div>
             <label>Projected Net Earned Income</label>
             <div class="field align-right">
-                <input type="number" v-model="budget.projectedEarnedIncome" @change.prevent=updateBudget()>
+                <input v-model="budget.projectedEarnedIncome" type="number" @change.prevent="updateBudget">
             </div>
             <span v-if="message" :class="messageClass">{{ message }}</span>
         </div>
@@ -15,7 +15,7 @@
             </div>
             <modal v-if="showEarnedIncomeItems" @close="showEarnedIncomeItems=false">
                 <h3 slot="header">Earned Income Items</h3>
-                <budgetEarnedIncomeItems slot="body" v-if="showEarnedIncomeItems" :budget="budget" @close="showEarnedIncomeItems=false"></budgetEarnedIncomeItems>
+                <budgetEarnedIncomeItems v-if="showEarnedIncomeItems" slot="body" :budget="budget" @close="showEarnedIncomeItems=false" />
             </modal>
         </div>
         <div>
@@ -25,7 +25,7 @@
             </div>
             <modal v-if="showPassiveIncomeItems" @close="showPassiveIncomeItems=false">
                 <h3 slot="header">Passive Income Items</h3>
-                <budgetPassiveIncomeItems slot="body" v-if="showPassiveIncomeItems" :budget="budget" @close="showPassiveIncomeItems=false"></budgetPassiveIncomeItems>
+                <budgetPassiveIncomeItems v-if="showPassiveIncomeItems" slot="body" :budget="budget" @close="showPassiveIncomeItems=false" />
             </modal>
         </div>
         <div>
@@ -41,7 +41,7 @@
             </div>
             <modal v-if="showExpenses" @close="showExpenses=false">
                 <h3 slot="header">Expenses</h3>
-                <budgetExpenses slot="body" v-if="showExpenses" :budget="budget" @close="showExpenses=false"></budgetExpenses>
+                <budgetExpenses v-if="showExpenses" slot="body" :budget="budget" @close="showExpenses=false" />
             </modal>
         </div>
         <div>
@@ -57,7 +57,7 @@
             </div>
             <modal v-if="showInvestmentItems" @close="showInvestmentItems=false">
                 <h3 slot="header">Investment Items</h3>
-                <budgetInvestmentItems slot="body" v-if="showInvestmentItems" :budget="budget" @close="showInvestmentItems=false"></budgetInvestmentItems>
+                <budgetInvestmentItems v-if="showInvestmentItems" slot="body" :budget="budget" @close="showInvestmentItems=false" />
             </modal>
         </div>
         <div>
@@ -86,9 +86,6 @@ export default {
         budgetInvestmentItems: BudgetInvestmentItems,
         budgetExpenses: BudgetExpenses,
         modal: Modal
-    },
-    created() {
-        this.budget = this.$store.getters.budgetById(this.$route.params.id)
     },
     data() {
         return {
@@ -121,6 +118,9 @@ export default {
                 success: this.surplusDeficit >= 0
             }
         }
+    },
+    created() {
+        this.budget = this.$store.getters.budgetById(this.$route.params.id)
     },
     methods: {
         async updateBudget() {

@@ -15,9 +15,9 @@
                         <th>Value</th>
                         <th v-if="isRealEstate">Linked-Liability</th>
                         <th v-if="isRealEstate">Equity</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
+                        <th/>
+                        <th/>
+                        <th/>
                     </tr>
                 </thead>
                 <tbody>
