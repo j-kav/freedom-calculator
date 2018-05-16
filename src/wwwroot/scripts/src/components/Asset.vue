@@ -1,24 +1,24 @@
 <template>
     <tr>
-        <td><input v-model="asset.name" @change.prevent=updateAsset()></td>
+        <td><input v-model="asset.name" @change.prevent="updateAsset"></td>
         <td v-if="isStockOrBond">{{ asset.symbol }}</td>
-        <td v-if="isStockOrBond"><input v-model="asset.numShares" @change.prevent=updateAsset()></td>
+        <td v-if="isStockOrBond"><input v-model="asset.numShares" @change.prevent="updateAsset"></td>
         <td v-if="isStockOrBond" class="align-right">{{ utils.usdFormatter.format(asset.sharePrice) }}</td>
         <td v-if="isRealEstate">{{ asset.address }}</td>
         <td v-if="isRealEstate">{{ asset.city }}</td>
         <td v-if="isRealEstate">{{ asset.state }}</td>
         <td v-if="isRealEstate">{{ asset.zip }}</td>
-        <td v-if="isCash"><input v-model="asset.value" @change.prevent=updateAsset()></td>
+        <td v-if="isCash"><input v-model="asset.value" @change.prevent="updateAsset"></td>
         <td v-else class="align-right">{{ utils.usdFormatter.format(asset.value) }}</td>
         <td v-if="isRealEstate">
-            <select v-model="asset.liabilityId" @change.prevent=updateEquity()>
+            <select v-model="asset.liabilityId" @change.prevent="updateEquity">
                 <option v-for="liability in $store.state.liabilities" :key="liability.liabilityId" :value="liability.liabilityId">
                     {{ liability.name }}
                 </option>
             </select>
         </td>
         <td v-if="isRealEstate" class="align-right">{{ utils.usdFormatter.format(asset.equity) }}</td>
-        <td><input type="image" class="deleteButton" @click.prevent=removeAsset() src="images/delete.png" /></td>
+        <td><input type="image" class="deleteButton" src="images/delete.png" @click.prevent="removeAsset"></td>
         <td v-if="message" :class="messageClass">{{ message }}</td>
     </tr>
 </template>
@@ -30,6 +30,12 @@ import utils from '../utils'
 
 export default {
     name: 'Asset',
+    props: {
+        assetModel: {
+            type: Object,
+            default: null
+        }
+    },
     data() {
         return {
             error: false,
@@ -53,7 +59,6 @@ export default {
             }
         }
     },
-    props: ['assetModel'],
     methods: {
         updateEquity() {
             this.$store.commit('updateAsset', this.asset)

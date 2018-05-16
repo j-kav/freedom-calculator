@@ -1,23 +1,23 @@
 <template>
     <div>
         <nav>
-            <a @click="selectCash" :class="{activeLink: cashActive, inactiveLink: !cashActive }">Cash</a>
-            <a @click="selectRealEstate" :class="{activeLink: realEstateActive, inactiveLink: !realEstateActive }">Real Estate</a>
-            <a @click="selectBonds" :class="{activeLink: bondsActive, inactiveLink: !bondsActive }">Bonds</a>
-            <a @click="selectStocks" :class="{activeLink: stocksActive, inactiveLink: !stocksActive }">Stocks</a>
+            <a :class="{activeLink: cashActive, inactiveLink: !cashActive }" @click="selectCash">Cash</a>
+            <a :class="{activeLink: realEstateActive, inactiveLink: !realEstateActive }" @click="selectRealEstate">Real Estate</a>
+            <a :class="{activeLink: bondsActive, inactiveLink: !bondsActive }" @click="selectBonds">Bonds</a>
+            <a :class="{activeLink: stocksActive, inactiveLink: !stocksActive }" @click="selectStocks">Stocks</a>
         </nav>
         <div>
             <div :class="{ activeAssetList: cashActive, inactiveAssetList: !cashActive }">
-                <assetList :assetTypeArray="[assetTypes.Cash]"></assetList>
+                <assetList :asset-type-array="[assetTypes.Cash]"/>
             </div>
             <div :class="{ activeAssetList: realEstateActive, inactiveAssetList: !realEstateActive }">
-                <assetList :assetTypeArray="[assetTypes.RealEstate]"></assetList>
+                <assetList :asset-type-array="[assetTypes.RealEstate]"/>
             </div>
             <div :class="{ activeAssetList: bondsActive, inactiveAssetList: !bondsActive }">
-                <assetList :assetTypeArray="[assetTypes.DomesticBond, assetTypes.InternationalBond]"></assetList>
+                <assetList :asset-type-array="[assetTypes.DomesticBond, assetTypes.InternationalBond]"/>
             </div>
             <div :class="{ activeAssetList: stocksActive, inactiveAssetList: !stocksActive }">
-                <assetList :assetTypeArray="[assetTypes.DomesticStock, assetTypes.InternationalStock]"></assetList>
+                <assetList :assetTypeArray="[assetTypes.DomesticStock, assetTypes.InternationalStock]"/>
             </div>
         </div>
     </div>

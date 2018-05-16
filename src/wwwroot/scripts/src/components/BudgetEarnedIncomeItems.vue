@@ -15,7 +15,7 @@
         <div>
             <label>Amount</label>
             <input v-model="amount" type="text">
-            <button @click.prevent=addAmount>Submit</button>
+            <button @click.prevent="addAmount">Submit</button>
         </div>
     </div>
 </template>

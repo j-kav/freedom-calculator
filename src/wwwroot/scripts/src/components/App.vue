@@ -10,11 +10,11 @@
             <router-link v-if="$store.state.isLoggedIn && $store.state.expenses" to="/expenses" @click.native="toggleResponsiveMenu">Expenses</router-link>
             <router-link v-if="$store.state.isLoggedIn && $store.state.budgets" to="/budgets" @click.native="toggleResponsiveMenu">Budgets</router-link>
             <router-link v-if="$store.state.isLoggedIn" to="/user" @click.native="toggleResponsiveMenu">Profile</router-link>
-            <a href="#" v-if="$store.state.isLoggedIn" @click="logout">Logout</a>
+            <a v-if="$store.state.isLoggedIn" href="#" @click="logout">Logout</a>
             <a href="javascript:void(0);" class="hamburger-icon" @click="toggleResponsiveMenu">&#9776;</a>
         </nav>
-        <router-view></router-view>
-        <session-monitor></session-monitor>
+        <router-view/>
+        <session-monitor/>
     </div>
 </template>
 

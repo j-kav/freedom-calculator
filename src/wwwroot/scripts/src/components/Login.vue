@@ -1,10 +1,10 @@
 <template>
     <div>
-        <form id="loginForm" name="loginForm" v-if="showLoginForm">
+        <form id="loginForm" v-if="showLoginForm" name="loginForm">
             <fieldset>
                 <div>
                     <div>
-                        <input v-model="email" type="text" max="100" placeholder="Email address" autofocus="" />
+                        <input v-model="email" type="text" max="100" placeholder="Email address" autofocus="">
                         <input v-model="password" type="password" max="100" placeholder="Password" />
                     </div>
                 </div>

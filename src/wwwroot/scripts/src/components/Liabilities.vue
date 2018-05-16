@@ -10,10 +10,9 @@
                 </tr>
             </thead>
             <tbody>
-                <liability
-                    v-for="liability in $store.state.liabilities"
-                    :key="liability.liabilityId"
-                    :liabilityModel="liability"/>
+                <liability v-for="liability in $store.state.liabilities"
+                           :key="liability.liabilityId"
+                           :liability-model="liability"/>
             </tbody>
         </table>
         <h3>Add new</h3>

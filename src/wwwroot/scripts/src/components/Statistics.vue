@@ -3,7 +3,7 @@
         <div v-if="loading">
             <modal>
                 <h3 slot="header">Loading</h3>
-                <loading slot="body"></loading>
+                <loading slot="body" />
                 <div slot="footer">
                     <span>Please Wait..</span>
                 </div>
@@ -33,24 +33,24 @@
                                         <span class="link" @click="showNetWorth=true">{{ netWorth }}</span>
                                         <modal v-if="showNetWorth" @close="showNetWorth=false">
                                             <h3 slot="header">Net Worth</h3>
-                                            <netWorthChart slot="body"></netWorthChart>
+                                            <netWorthChart slot="body" />
                                         </modal>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
-                        <br/>
+                        <br>
                         <span class="link" @click="showAssetBreakdown=true">Asset Breakdown</span>
                         <modal v-if="showAssetBreakdown" @close="showAssetBreakdown=false">
                             <h3 slot="header">Asset Breakdown</h3>
-                            <assetBreakdown slot="body"></assetBreakdown>
+                            <assetBreakdown slot="body" />
                         </modal>
                     </div>
                     <div>
-                        <canvas id="netWorthBarChart"></canvas>
+                        <canvas id="netWorthBarChart" />
                     </div>
                 </div>
-                <br />
+                <br>
                 <h3>Averages</h3>
                 <div>
                     <div class="content-width-container">
@@ -80,7 +80,7 @@
                             <span class="link" @click="showAverageMandatoryExpenses=true">{{ utils.usdFormatter.format(this.$store.getters.averageMandatoryExpenses) }}</span>
                             <modal v-if="showAverageMandatoryExpenses" @close="showAverageMandatoryExpenses=false">
                                 <h3 slot="header">Average Mandatory Expenses</h3>
-                                <expenseAverages slot="body" :mandatory="true" v-if="showAverageMandatoryExpenses" @close="showAverageMandatoryExpenses=false"></expenseAverages>
+                                <expenseAverages v-if="showAverageMandatoryExpenses" slot="body" :mandatory="true" @close="showAverageMandatoryExpenses=false" />
                             </modal>
                         </div>
                     </div>
@@ -90,16 +90,16 @@
                             <span class="link" @click="showAverageDiscretionaryExpenses=true">{{ utils.usdFormatter.format(this.$store.getters.averageDiscretionaryExpenses) }}</span>
                             <modal v-if="showAverageDiscretionaryExpenses" @close="showAverageDiscretionaryExpenses=false">
                                 <h3 slot="header">Average Discretionary Expenses</h3>
-                                <expenseAverages slot="body" :mandatory="false" v-if="showAverageDiscretionaryExpenses" @close="showAverageDiscretionaryExpenses=false"></expenseAverages>
+                                <expenseAverages v-if="showAverageDiscretionaryExpenses" slot="body" :mandatory="false" @close="showAverageDiscretionaryExpenses=false" />
                             </modal>
                         </div>
                     </div>
                     <div class="content-width-container">
                         <div class="content-width-container-header">Total Expenses</div>
-                        <div class="align-right">{{ utils.usdFormatter.format(this.$store.getters.averageMandatoryExpenses + this.$store.getters.averageDiscretionaryExpenses)}}</div>
+                        <div class="align-right">{{ utils.usdFormatter.format(this.$store.getters.averageMandatoryExpenses + this.$store.getters.averageDiscretionaryExpenses) }}</div>
                     </div>
                 </div>
-                <br/>
+                <br>
                 <h3>Emergency Fund Recommendation</h3>
                 <div>
                     <div class="content-width-container">
@@ -115,7 +115,7 @@
                         <div class="align-right">{{ utils.usdFormatter.format(surplusDeficit) }}</div>
                     </div>
                 </div>
-                <br/>
+                <br>
                 <div class="grid-2-container">
                     <div>
                         <h3 class="table-header">Freedom Date Estimate</h3>
@@ -137,7 +137,7 @@
                         </table>
                     </div>
                     <div>
-                        <canvas id="independenceEstimatePieChart"></canvas>
+                        <canvas id="independenceEstimatePieChart" />
                     </div>
                 </div>
             </div>
@@ -163,20 +163,6 @@ export default {
         expenseAverages: ExpenseAverages,
         netWorthChart: NetWorthChart,
         assetBreakdown: AssetBreakdown
-    },
-    async created() {
-        // if there are no assets in the store, get all the data and then create charts
-        if (!this.$store.state.assets) {
-            try {
-                await this.getData()
-                this.createNetWorthBarChart()
-                this.createIndependenceEstimatePieChart()
-                this.loading = false
-            } catch (error) {
-                this.loading = false
-                this.error = error
-            }
-        }
     },
     mounted() {
         // if there is already data in the store, just create charts from it
@@ -221,6 +207,20 @@ export default {
                 this.$store.getters.netWorth,
                 12
             )
+        }
+    },
+    async created() {
+        // if there are no assets in the store, get all the data and then create charts
+        if (!this.$store.state.assets) {
+            try {
+                await this.getData()
+                this.createNetWorthBarChart()
+                this.createIndependenceEstimatePieChart()
+                this.loading = false
+            } catch (error) {
+                this.loading = false
+                this.error = error
+            }
         }
     },
     methods: {

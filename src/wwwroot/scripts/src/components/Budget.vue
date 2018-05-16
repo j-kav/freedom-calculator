@@ -10,10 +10,10 @@
         <td class="align-right">{{ utils.usdFormatter.format(budget.totalPassiveIncome) }}</td>
         <td class="align-right">{{ utils.usdFormatter.format(totalIncome) }}</td>
         <td class="align-right">{{ `${utils.usdFormatter.format(budget.totalActualExpenses)} / ${utils.usdFormatter.format(budget.totalProjectedExpenses)}` }}</td>
-        <td class="align-right" :class="surplusDeficitClass">{{ utils.usdFormatter.format(surplusDeficit) }}</td>
+        <td :class="surplusDeficitClass" class="align-right">{{ utils.usdFormatter.format(surplusDeficit) }}</td>
         <td class="align-right">{{ utils.usdFormatter.format(budget.totalInvestments) }}</td>
         <td class="align-right">{{ budget.savingsRatePercent }}</td>
-        <td><input type="image" class="deleteButton" @click.prevent=removeBudget() src="images/delete.png" /></td>
+        <td><input type="image" class="deleteButton" @click.prevent=removeBudget() src="images/delete.png"></td>
         <td v-if="message" :class="messageClass">{{ message }}</td>
     </tr>
 </template>

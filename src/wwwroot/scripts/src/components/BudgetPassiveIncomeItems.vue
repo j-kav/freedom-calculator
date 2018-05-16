@@ -8,7 +8,7 @@
                 </tr>
             </thead>
             <tbody>
-                <budgetPassiveIncomeItem v-for="item in parentBudget.passiveIncome" :key="item.budgetPassiveIncomeItemId" :budget-passive-income-item-model="item"/>
+                <budgetPassiveIncomeItem v-for="item in parentBudget.passiveIncome" :key="item.budgetPassiveIncomeItemId" :budget-passive-income-item-model="item" />
             </tbody>
         </table>
         <div>Add new</div>
@@ -29,6 +29,12 @@ export default {
     components: {
         budgetPassiveIncomeItem: BudgetPassiveIncomeItem
     },
+    props: {
+        budget: {
+            type: Object,
+            default: null
+        }
+    },
     data() {
         return {
             amount: null,
@@ -36,7 +42,6 @@ export default {
             error: null
         }
     },
-    props: ['budget'],
     methods: {
         async addAmount() {
             try {
