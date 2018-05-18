@@ -22,8 +22,8 @@
         <div>
             <label>Principal</label><input v-model="principal">
         </div>
-        <br/>
-        <button @click.prevent=addLiability>Submit</button>
+        <br>
+        <button @click.prevent="addLiability">Submit</button>
         <div v-if="error" class="error">{{ error }}</div>
     </div>
 </template>

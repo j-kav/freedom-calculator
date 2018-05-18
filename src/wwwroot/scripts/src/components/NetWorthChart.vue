@@ -1,6 +1,6 @@
 <template>
     <div class="chart-container" style="position: relative; height:50vh; width:50vw">
-        <canvas id="netWorthChart"></canvas>
+        <canvas id="netWorthChart"/>
     </div>
 </template>
 

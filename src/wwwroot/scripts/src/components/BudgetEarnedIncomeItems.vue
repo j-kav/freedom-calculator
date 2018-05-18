@@ -8,7 +8,7 @@
                 </tr>
             </thead>
             <tbody>
-                <budgetEarnedIncomeItem v-for="item in parentBudget.earnedIncome" :key="item.budgetEarnedIncomeItemId" :budget-earned-income-item-model="item"/>
+                <budgetEarnedIncomeItem v-for="item in parentBudget.earnedIncome" :key="item.budgetEarnedIncomeItemId" :budget-earned-income-item-model="item" />
             </tbody>
         </table>
         <div>Add new</div>
@@ -29,6 +29,12 @@ export default {
     components: {
         budgetEarnedIncomeItem: BudgetEarnedIncomeItem
     },
+    props: {
+        budget: {
+            type: Object,
+            default: null
+        }
+    },
     data() {
         return {
             amount: null,
@@ -36,7 +42,6 @@ export default {
             error: null
         }
     },
-    props: ['budget'],
     methods: {
         async addAmount() {
             try {

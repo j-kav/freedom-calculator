@@ -164,13 +164,6 @@ export default {
         netWorthChart: NetWorthChart,
         assetBreakdown: AssetBreakdown
     },
-    mounted() {
-        // if there is already data in the store, just create charts from it
-        if (this.$store.state.assets) {
-            this.createNetWorthBarChart()
-            this.createIndependenceEstimatePieChart()
-        }
-    },
     data() {
         return {
             loading: !this.$store.state.assets,
@@ -207,6 +200,13 @@ export default {
                 this.$store.getters.netWorth,
                 12
             )
+        }
+    },
+    mounted() {
+        // if there is already data in the store, just create charts from it
+        if (this.$store.state.assets) {
+            this.createNetWorthBarChart()
+            this.createIndependenceEstimatePieChart()
         }
     },
     async created() {
