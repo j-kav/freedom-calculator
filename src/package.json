@@ -3,8 +3,8 @@
   "name": "freedomcalculator",
   "private": true,
   "scripts": {
-    "dev-build": "webpack --watch --hide-modules --progress",
-    "rel-build": "set NODE_ENV=PROD&& webpack --hide-modules --progress",
+    "dev-build": "webpack --mode=development --watch --hide-modules --progress",
+    "rel-build": "webpack --mode=production --hide-modules --progress",
     "test": "mocha-webpack --webpack-config webpack.config-test.babel.js -r jsdom-global/register wwwroot/scripts/test"
   },
   "author": "Scott Anderson",
