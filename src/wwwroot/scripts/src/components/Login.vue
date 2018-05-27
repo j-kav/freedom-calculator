@@ -1,46 +1,46 @@
 <template>
     <div>
-        <form id="loginForm" name="loginForm" v-if="showLoginForm">
+        <form v-if="showLoginForm" id="loginForm" name="loginForm">
             <fieldset>
                 <div>
                     <div>
-                        <input v-model="email" type="text" max="100" placeholder="Email address" autofocus="" />
-                        <input v-model="password" type="password" max="100" placeholder="Password" />
+                        <input v-model="email" type="text" max="100" placeholder="Email address" autofocus="">
+                        <input v-model="password" type="password" max="100" placeholder="Password">
                     </div>
                 </div>
                 <div v-if="error" class="error">
                     {{ error }}
                 </div>
                 <p>
-                    <button v-on:click.prevent="login">Login</button>
+                    <button @click.prevent="login">Login</button>
                     <modal v-if="loggingIn">
                         <h3 slot="header">Logging In</h3>
-                        <loading slot="body"></loading>
+                        <loading slot="body"/>
                         <div slot="footer">
                             <span>Please Wait..</span>
                         </div>
                     </modal>
                 </p>
-                <button v-on:click.prevent="showRegister">Register New User</button>
+                <button @click.prevent="showRegister">Register New User</button>
             </fieldset>
         </form>
-        <form id="registerForm" name="registerForm" v-if="showRegisterForm">
+        <form v-if="showRegisterForm" id="registerForm" name="registerForm">
             <fieldset>
                 <div>
                     <div>
-                        <input v-model="name" type="text" max="100" placeholder="Name" autofocus="" />
-                        <input v-model="email" type="text" max="100" placeholder="Email address" autofocus="" />
-                        <input v-model="password" type="password" max="100" placeholder="Password" />
-                        <input v-model="confirmPassword" type="password" max="100" placeholder="Confirm Password" />
+                        <input v-model="name" type="text" max="100" placeholder="Name" autofocus="">
+                        <input v-model="email" type="text" max="100" placeholder="Email address" autofocus="">
+                        <input v-model="password" type="password" max="100" placeholder="Password">
+                        <input v-model="confirmPassword" type="password" max="100" placeholder="Confirm Password">
                     </div>
                 </div>
                 <div v-if="error" class="error">
                     {{ error }}
                 </div>
                 <p>
-                    <button v-on:click.prevent="createAccount">Register</button>
+                    <button @click.prevent="createAccount">Register</button>
                 </p>
-                <button v-on:click.prevent="showLogin">Back to Login</button>
+                <button @click.prevent="showLogin">Back to Login</button>
             </fieldset>
         </form>
     </div>

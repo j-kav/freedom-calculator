@@ -1,23 +1,23 @@
 <template>
     <div>
         <nav>
-            <a v-on:click="selectCash" v-bind:class="{activeLink: cashActive, inactiveLink: !cashActive }">Cash</a>
-            <a v-on:click="selectRealEstate" v-bind:class="{activeLink: realEstateActive, inactiveLink: !realEstateActive }">Real Estate</a>
-            <a v-on:click="selectBonds" v-bind:class="{activeLink: bondsActive, inactiveLink: !bondsActive }">Bonds</a>
-            <a v-on:click="selectStocks" v-bind:class="{activeLink: stocksActive, inactiveLink: !stocksActive }">Stocks</a>
+            <a :class="{activeLink: cashActive, inactiveLink: !cashActive }" @click="selectCash">Cash</a>
+            <a :class="{activeLink: realEstateActive, inactiveLink: !realEstateActive }" @click="selectRealEstate">Real Estate</a>
+            <a :class="{activeLink: bondsActive, inactiveLink: !bondsActive }" @click="selectBonds">Bonds</a>
+            <a :class="{activeLink: stocksActive, inactiveLink: !stocksActive }" @click="selectStocks">Stocks</a>
         </nav>
         <div>
-            <div v-bind:class="{ activeAssetList: cashActive, inactiveAssetList: !cashActive }">
-                <assetList v-bind:assetTypeArray="[assetTypes.Cash]"></assetList>
+            <div :class="{ activeAssetList: cashActive, inactiveAssetList: !cashActive }">
+                <assetList :asset-type-array="[assetTypes.Cash]"/>
             </div>
-            <div v-bind:class="{ activeAssetList: realEstateActive, inactiveAssetList: !realEstateActive }">
-                <assetList v-bind:assetTypeArray="[assetTypes.RealEstate]"></assetList>
+            <div :class="{ activeAssetList: realEstateActive, inactiveAssetList: !realEstateActive }">
+                <assetList :asset-type-array="[assetTypes.RealEstate]"/>
             </div>
-            <div v-bind:class="{ activeAssetList: bondsActive, inactiveAssetList: !bondsActive }">
-                <assetList v-bind:assetTypeArray="[assetTypes.DomesticBond, assetTypes.InternationalBond]"></assetList>
+            <div :class="{ activeAssetList: bondsActive, inactiveAssetList: !bondsActive }">
+                <assetList :asset-type-array="[assetTypes.DomesticBond, assetTypes.InternationalBond]"/>
             </div>
-            <div v-bind:class="{ activeAssetList: stocksActive, inactiveAssetList: !stocksActive }">
-                <assetList v-bind:assetTypeArray="[assetTypes.DomesticStock, assetTypes.InternationalStock]"></assetList>
+            <div :class="{ activeAssetList: stocksActive, inactiveAssetList: !stocksActive }">
+                <assetList :asset-type-array="[assetTypes.DomesticStock, assetTypes.InternationalStock]"/>
             </div>
         </div>
     </div>

@@ -8,20 +8,19 @@
                 </tr>
             </thead>
             <tbody>
-                <budgetExpenseItem v-for="item in parentBudgetExpense.budgetExpenseItems" :key="item.budgetExpenseItemId" v-bind:budgetExpenseItemModel="item" v-bind:budgetExpense="parentBudgetExpense">
-                </budgetExpenseItem>
+                <budgetExpenseItem v-for="item in parentBudgetExpense.budgetExpenseItems" :key="item.budgetExpenseItemId" :budget-expense-item-model="item" :budget-expense="parentBudgetExpense" />
             </tbody>
             <tfoot>
                 <td>Total</td>
                 <td>{{ total }}</td>
             </tfoot>
         </table>
-        <br/>
+        <br>
         <div>Add new</div>
         <div>
             <label>Amount</label>
-            <input type="text" v-model="amount">
-            <button v-on:click.prevent=addAmount>Submit</button>
+            <input v-model="amount" type="text">
+            <button @click.prevent="addAmount">Submit</button>
         </div>
     </div>
 </template>
@@ -36,6 +35,12 @@ export default {
     components: {
         budgetExpenseItem: BudgetExpenseItem
     },
+    props: {
+        budgetExpense: {
+            type: Object,
+            default: null
+        }
+    },
     data() {
         return {
             amount: null,
@@ -43,7 +48,6 @@ export default {
             error: null
         }
     },
-    props: ['budgetExpense'],
     computed: {
         total() {
             let total = 0

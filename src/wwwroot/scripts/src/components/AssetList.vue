@@ -15,20 +15,20 @@
                         <th>Value</th>
                         <th v-if="isRealEstate">Linked-Liability</th>
                         <th v-if="isRealEstate">Equity</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
+                        <th/>
+                        <th/>
+                        <th/>
                     </tr>
                 </thead>
                 <tbody>
-                    <asset v-for="asset in assets" :key="asset.assetId" v-bind:assetModel="asset" v-on:loading="childLoading"></asset>
+                    <asset v-for="asset in assets" :key="asset.assetId" :asset-model="asset" :loading="childLoading" />
                 </tbody>
             </table>
         </div>
         <div v-if="loading">
             <modal>
                 <h3 slot="header">Loading</h3>
-                <loading slot="body"></loading>
+                <loading slot="body" />
                 <div slot="footer">
                     <span>Please Wait..</span>
                 </div>
@@ -92,7 +92,7 @@
             <div>
                 <label>Linked-Liability</label>
                 <select v-model="liabilityId">
-                    <option v-for="liability in $store.state.liabilities" :key="liability.liabilityId" v-bind:value="liability.liabilityId">
+                    <option v-for="liability in $store.state.liabilities" :key="liability.liabilityId" :value="liability.liabilityId">
                         {{ liability.name }}
                     </option>
                 </select>
@@ -102,7 +102,7 @@
             <label>Value</label>
             <input v-model="value">
         </div>
-        <button v-on:click.prevent=addAsset>Submit</button>
+        <button @click.prevent="addAsset">Submit</button>
         <div v-if="error" class="error">{{ error }}</div>
     </div>
 </template>
@@ -119,6 +119,12 @@ export default {
         asset: Asset,
         modal: Modal,
         loading: Loading
+    },
+    props: {
+        assetTypeArray: {
+            type: Array,
+            default: null
+        }
     },
     data() {
         return {
@@ -143,7 +149,6 @@ export default {
             loading: false
         }
     },
-    props: ['assetTypeArray'],
     computed: {
         assets() {
             return this.$store.getters.assetsByType(this.assetTypeArray)

@@ -16,24 +16,13 @@ import Modal from './Modal.vue'
 
 export default {
     name: 'App',
+    components: {
+        modal: Modal
+    },
     data() {
         return {
             showSessionTimingout: false,
             showSessionExpired: false
-        }
-    },
-    components: {
-        modal: Modal
-    },
-    methods: {
-        extendSession() {
-            this.showSessionTimingout = false
-            this.$store.state.authData.lastActivityDate = new Date().getTime()
-        },
-        endSession() {
-            this.showSessionExpired = false
-            this.$store.commit('logout')
-            this.$router.push('/login')
         }
     },
     computed: {
@@ -56,6 +45,17 @@ export default {
                     this.showSessionExpired = true
                 }, 5 * 60 * 1000) // 5 min
             }, 15 * 60 * 1000) // 15 min
+        }
+    },
+    methods: {
+        extendSession() {
+            this.showSessionTimingout = false
+            this.$store.state.authData.lastActivityDate = new Date().getTime()
+        },
+        endSession() {
+            this.showSessionExpired = false
+            this.$store.commit('logout')
+            this.$router.push('/login')
         }
     }
 }

@@ -41,11 +41,11 @@ describe('Statistics', () => {
 
     it('should populate budgets in the store when created', async () => {
         const vm = new Vue({
-            template: '<div><test ref="test"></test></div>',
-            store: new Vuex.Store(mockedStore),
             components: {
                 'test': Statistics
-            }
+            },
+            template: '<div><test ref="test"></test></div>',
+            store: new Vuex.Store(mockedStore)
         }).$mount()
         try {
             await vm.$refs.test.getData()

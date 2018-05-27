@@ -3,65 +3,66 @@
         <table>
             <tr>
                 <td class="asset-breakdown-title">All Assets</td>
-                <tr>
-                    <td>Total Cash</td>
-                    <td class="align-right">{{ totalCashFormatted }}</td>
-                    <td class="align-right">{{ percentCash }}</td>
-                </tr>
-                <tr>
-                    <td>Total Real Estate (Equity)</td>
-                    <td class="align-right">{{ totalRealEstateFormatted }}</td>
-                    <td class="align-right">{{ percentRealEstate }}</td>
-                </tr>
-                <tr>
-                    <td>Total Stock</td>
-                    <td class="align-right">{{ totalStockFormatted }}</td>
-                    <td class="align-right">{{ percentStock }}</td>
-                </tr>
-                <tr>
-                    <td>Total Bonds</td>
-                    <td class="align-right">{{ totalBondsFormatted }}</td>
-                    <td class="align-right">{{ percentBonds }}</td>
-                </tr>
-                <tr>
-                    <td class="asset-breakdown-title">Stocks vs Bonds Breakdown</td>
-                </tr>
-                <tr>
-                    <td>Stocks</td>
-                    <td class="align-right">{{ totalStockFormatted }}</td>
-                    <td class="align-right">{{ percentStockVsBonds }}</td>
-                </tr>
-                <tr>
-                    <td>Bonds</td>
-                    <td class="align-right">{{ totalBondsFormatted }}</td>
-                    <td class="align-right">{{ percentBondsVsStock }}</td>
-                </tr>
-                <tr>
-                    <td class="asset-breakdown-title">Stocks Breakdown</td>
-                </tr>
-                <tr>
-                    <td>Total Domestic</td>
-                    <td class="align-right">{{ totalDomesticStockFormatted }}</td>
-                    <td class="align-right">{{ percentDomesticStock }}</td>
-                </tr>
-                <tr>
-                    <td>Total International</td>
-                    <td class="align-right">{{ totalInternationalStockFormatted }}</td>
-                    <td class="align-right">{{ percentInternationalStock }}</td>
-                </tr>
-                <tr>
-                    <td class="asset-breakdown-title">Bonds Breakdown</td>
-                </tr>
-                <tr>
-                    <td>Total Domestic</td>
-                    <td class="align-right">{{ totalDomesticBondFormatted }}</td>
-                    <td class="align-right">{{ percentDomesticBonds }}</td>
-                </tr>
-                <tr>
-                    <td>Total International</td>
-                    <td class="align-right">{{ totalInternationalBondFormatted }}</td>
-                    <td class="align-right">{{ percentInternationalBonds }}</td>
-                </tr>
+            </tr>
+            <tr>
+                <td>Total Cash</td>
+                <td class="align-right">{{ totalCashFormatted }}</td>
+                <td class="align-right">{{ percentCash }}</td>
+            </tr>
+            <tr>
+                <td>Total Real Estate (Equity)</td>
+                <td class="align-right">{{ totalRealEstateFormatted }}</td>
+                <td class="align-right">{{ percentRealEstate }}</td>
+            </tr>
+            <tr>
+                <td>Total Stock</td>
+                <td class="align-right">{{ totalStockFormatted }}</td>
+                <td class="align-right">{{ percentStock }}</td>
+            </tr>
+            <tr>
+                <td>Total Bonds</td>
+                <td class="align-right">{{ totalBondsFormatted }}</td>
+                <td class="align-right">{{ percentBonds }}</td>
+            </tr>
+            <tr>
+                <td class="asset-breakdown-title">Stocks vs Bonds Breakdown</td>
+            </tr>
+            <tr>
+                <td>Stocks</td>
+                <td class="align-right">{{ totalStockFormatted }}</td>
+                <td class="align-right">{{ percentStockVsBonds }}</td>
+            </tr>
+            <tr>
+                <td>Bonds</td>
+                <td class="align-right">{{ totalBondsFormatted }}</td>
+                <td class="align-right">{{ percentBondsVsStock }}</td>
+            </tr>
+            <tr>
+                <td class="asset-breakdown-title">Stocks Breakdown</td>
+            </tr>
+            <tr>
+                <td>Total Domestic</td>
+                <td class="align-right">{{ totalDomesticStockFormatted }}</td>
+                <td class="align-right">{{ percentDomesticStock }}</td>
+            </tr>
+            <tr>
+                <td>Total International</td>
+                <td class="align-right">{{ totalInternationalStockFormatted }}</td>
+                <td class="align-right">{{ percentInternationalStock }}</td>
+            </tr>
+            <tr>
+                <td class="asset-breakdown-title">Bonds Breakdown</td>
+            </tr>
+            <tr>
+                <td>Total Domestic</td>
+                <td class="align-right">{{ totalDomesticBondFormatted }}</td>
+                <td class="align-right">{{ percentDomesticBonds }}</td>
+            </tr>
+            <tr>
+                <td>Total International</td>
+                <td class="align-right">{{ totalInternationalBondFormatted }}</td>
+                <td class="align-right">{{ percentInternationalBonds }}</td>
+            </tr>
         </table>
     </div>
 </template>

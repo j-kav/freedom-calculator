@@ -17,7 +17,8 @@
                 </tr>
             </tbody>
         </table>
-        <div v-if="error" class="error">Error {{ message }}</div>
+        <div v-if="error" class="error">Error {{ message }}
+        </div>
     </div>
 </template>
 
@@ -27,6 +28,21 @@ import utils from '../utils'
 
 export default {
     name: 'ExpenseAverages',
+    props: {
+        mandatory: {
+            type: Boolean,
+            default: false
+        }
+    },
+    data() {
+        return {
+            error: false,
+            message: null,
+            loading: !this.$store.state.expenseAverages,
+            utils: utils,
+            isMandatory: this.mandatory
+        }
+    },
     async created() {
         // query backend and populate store if necessary
         if (!this.$store.state.expenseAverages) {
@@ -39,16 +55,6 @@ export default {
                 this.error = true
                 this.message = error.message
             }
-        }
-    },
-    props: ['mandatory'],
-    data() {
-        return {
-            error: false,
-            message: null,
-            loading: !this.$store.state.expenseAverages,
-            utils: utils,
-            isMandatory: this.mandatory
         }
     }
 }

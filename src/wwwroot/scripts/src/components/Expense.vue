@@ -1,10 +1,10 @@
 <template>
     <tr>
-        <td><input v-model="expense.name" v-on:change.prevent=updateExpense()></td>
-        <td><input type="checkbox" v-model="expense.isMandatory" v-on:change.prevent=updateExpense()></td>
-        <td><input type="image" class="deleteButton" v-on:click.prevent=removeExpense() src="images/delete.png" /></td>
+        <td><input v-model="expense.name" @change.prevent="updateExpense"></td>
+        <td><input v-model="expense.isMandatory" type="checkbox" @change.prevent="updateExpense"></td>
+        <td><input type="image" src="images/delete.png" class="deleteButton" @click.prevent="removeExpense"></td>
         <td v-if="error && message" class="error">{{ message }}</td>
-        <td v-else-if="message" class="success-icon-container"><img src="images/success.png" class="success-icon" /></td>
+        <td v-else-if="message" class="success-icon-container"><img src="images/success.png" class="success-icon"></td>
     </tr>
 </template>
 
@@ -13,6 +13,12 @@ import api from '../api'
 
 export default {
     name: 'Expense',
+    props: {
+        expenseModel: {
+            type: Object,
+            default: null
+        }
+    },
     data() {
         return {
             error: false,
@@ -20,7 +26,6 @@ export default {
             expense: this.expenseModel
         }
     },
-    props: ['expenseModel'],
     methods: {
         async updateExpense() {
             try {

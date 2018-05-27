@@ -1,9 +1,9 @@
 <template>
     <tr>
         <td>{{ budgetInvestmentItem.timeStamp.substring(0, 10) }}</td>
-        <td><input v-model="budgetInvestmentItem.amount" v-on:change.prevent=updateInvestmentItem()></td>
-        <td><input type="image" class="deleteButton" v-on:click.prevent=removeInvestmentItem() src="images/delete.png" /></td>
-        <td v-if="message" v-bind:class="messageClass">{{ message }}</td>
+        <td><input v-model="budgetInvestmentItem.amount" @change.prevent="updateInvestmentItem"></td>
+        <td><input type="image" class="deleteButton" src="images/delete.png" @click.prevent="removeInvestmentItem"></td>
+        <td v-if="message" :class="messageClass">{{ message }}</td>
     </tr>
 </template>
 
@@ -12,6 +12,12 @@ import api from '../api'
 
 export default {
     name: 'BudgetInvestmentItem',
+    props: {
+        budgetInvestmentItemModel: {
+            type: Object,
+            default: null
+        }
+    },
     data() {
         return {
             error: false,
@@ -27,7 +33,6 @@ export default {
             }
         }
     },
-    props: ['budgetInvestmentItemModel'],
     methods: {
         async updateInvestmentItem() {
             try {

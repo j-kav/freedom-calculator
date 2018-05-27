@@ -10,11 +10,11 @@
         <td class="align-right">{{ utils.usdFormatter.format(budget.totalPassiveIncome) }}</td>
         <td class="align-right">{{ utils.usdFormatter.format(totalIncome) }}</td>
         <td class="align-right">{{ `${utils.usdFormatter.format(budget.totalActualExpenses)} / ${utils.usdFormatter.format(budget.totalProjectedExpenses)}` }}</td>
-        <td class="align-right" v-bind:class="surplusDeficitClass">{{ utils.usdFormatter.format(surplusDeficit) }}</td>
+        <td :class="surplusDeficitClass" class="align-right">{{ utils.usdFormatter.format(surplusDeficit) }}</td>
         <td class="align-right">{{ utils.usdFormatter.format(budget.totalInvestments) }}</td>
         <td class="align-right">{{ budget.savingsRatePercent }}</td>
-        <td><input type="image" class="deleteButton" v-on:click.prevent=removeBudget() src="images/delete.png" /></td>
-        <td v-if="message" v-bind:class="messageClass">{{ message }}</td>
+        <td><input type="image" src="images/delete.png" class="deleteButton" @click.prevent="removeBudget"></td>
+        <td v-if="message" :class="messageClass">{{ message }}</td>
     </tr>
 </template>
 
@@ -24,6 +24,12 @@ import utils from '../utils'
 
 export default {
     name: 'Budget',
+    props: {
+        budgetModel: {
+            type: Object,
+            default: null
+        }
+    },
     data() {
         return {
             error: false,
@@ -52,7 +58,6 @@ export default {
             }
         }
     },
-    props: ['budgetModel'],
     methods: {
         async removeBudget() {
             if (window.confirm('Are you sure?')) {

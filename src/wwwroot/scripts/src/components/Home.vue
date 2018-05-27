@@ -4,20 +4,20 @@
             <span>Welcome to Freedom Calculator. Track your assets and liabilities and calculate net worth.</span>
         </div>
         <div>
-            <img src="images/assets-vs-liabilities.png" />
+            <img src="images/assets-vs-liabilities.png">
         </div>
         <div class="feature-text">
             <span>See how your net worth grows over time.</span>
         </div>
         <div>
-            <img src="images/net-worth.png" />
+            <img src="images/net-worth.png">
         </div>
         <div class="feature-text">
             <span>Determine how much you need to save for financial independence and when you will get there.</span>
         </div>
         <div>
-            <img src="images/fi-estimate.png" />
-            <br/>
+            <img src="images/fi-estimate.png">
+            <br>
             <span>Time Until Financial Independence:
                 <em>8 years</em>
             </span>

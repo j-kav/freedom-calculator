@@ -5,12 +5,14 @@
                 <tr>
                     <th>Name</th>
                     <th>Principal</th>
-                    <th></th>
-                    <th></th>
+                    <th/>
+                    <th/>
                 </tr>
             </thead>
             <tbody>
-                <liability v-for="liability in $store.state.liabilities" :key="liability.liabilityId" v-bind:liabilityModel="liability"></liability>
+                <liability v-for="liability in $store.state.liabilities"
+                           :key="liability.liabilityId"
+                           :liability-model="liability"/>
             </tbody>
         </table>
         <h3>Add new</h3>
@@ -20,8 +22,8 @@
         <div>
             <label>Principal</label><input v-model="principal">
         </div>
-        <br/>
-        <button v-on:click.prevent=addLiability>Submit</button>
+        <br>
+        <button @click.prevent="addLiability">Submit</button>
         <div v-if="error" class="error">{{ error }}</div>
     </div>
 </template>
