@@ -5,28 +5,29 @@
   "scripts": {
     "dev-build": "webpack --mode=development --watch --hide-modules --progress",
     "rel-build": "webpack --mode=production --hide-modules --progress",
-    "test": "mocha-webpack --webpack-config webpack.config-test.babel.js -r jsdom-global/register wwwroot/scripts/test"
+    "test": "mocha-webpack --mode=development --webpack-config webpack.config-test.babel.js -r jsdom-global/register wwwroot/scripts/test"
   },
   "author": "Scott Anderson",
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.4",
-    "babel-preset-env": "^1.6.1",
+    "babel-preset-env": "^1.7.0",
     "chai": "^4.1.2",
     "css-loader": "^0.28.11",
     "eslint": "^4.19.1",
     "eslint-config-vue": "^2.0.1",
     "eslint-loader": "^2.0.0",
     "eslint-plugin-vue": "^4.5.0",
-    "fetch-mock": "^6.3.0",
+    "fetch-mock": "^6.4.2",
     "jsdom": "11.10.0",
     "jsdom-global": "3.0.2",
-    "mocha": "^5.1.1",
-    "mocha-webpack": "^1.1.0",
-    "vue-loader": "^15.0.8",
+    "mocha": "^5.2.0",
+    "mocha-webpack": "^2.0.0-beta.0",
+    "node-fetch": "^2.1.2",
+    "vue-loader": "^15.2.1",
     "vue-template-compiler": "^2.5.16",
-    "webpack": "^4.7.0",
-    "webpack-cli": "^2.1.2",
+    "webpack": "^4.9.1",
+    "webpack-cli": "^2.1.4",
     "webpack-node-externals": "^1.7.2"
   },
   "dependencies": {
