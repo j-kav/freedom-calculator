@@ -48,7 +48,7 @@ namespace FreedomCalculator2
                     while ((responseString = await stream.ReadLineAsync()) != null)
                     {
                         string[] contents = responseString.Split(',');
-                        AssetQuote quote = new AssetQuote { Symbol = contents[0], SharePrice = Convert.ToDecimal(contents[1]) };
+                        AssetQuote quote = new AssetQuote { Symbol = contents?[0], SharePrice = Convert.ToDecimal(contents?[1] ?? "0") };
                         retVal.Add(quote);
                     }
                 }
