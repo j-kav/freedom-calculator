@@ -54,8 +54,7 @@ namespace FreedomCalculator2
                 .AddDefaultTokenProviders();
 
             // Configure Identity to use the same JWT claims as OpenIddict instead
-            // of the legacy WS-Federation claims it uses by default (ClaimTypes),
-            // which saves you from doing the mapping in your authorization controller.
+            // of the legacy WS-Federation claims it uses by default (ClaimTypes)
             services.Configure<IdentityOptions>(options =>
             {
                 options.ClaimsIdentity.UserNameClaimType = OpenIdConnectConstants.Claims.Name;
@@ -63,31 +62,38 @@ namespace FreedomCalculator2
                 options.ClaimsIdentity.RoleClaimType = OpenIdConnectConstants.Claims.Role;
             });
 
-            services.AddOpenIddict(options =>
-            {
-                // Register the Entity Framework stores.
-                options.AddEntityFrameworkCoreStores<ApplicationDbContext>();
+            services.AddOpenIddict()
 
-                // Register the ASP.NET Core MVC binder used by OpenIddict in order to
-                // bind OpenIdConnectRequest and OpenIdConnectResponse parameters.
-                options.AddMvcBinders();
-
-                // Enable the token endpoint.
-                options.EnableTokenEndpoint("/connect/token");
-
-                // Enable the password and the refresh token flows.
-                options.AllowPasswordFlow()
-                       .AllowRefreshTokenFlow();
-
-                // Override the default token timeout to 20 min
-                options.SetAccessTokenLifetime(new TimeSpan(0, 20, 0));
-
-                // Disable the HTTPS requirement for dev env.
-                if (HostingEnvironment.IsDevelopment())
+                // Register the OpenIddict core services.
+                .AddCore(options =>
                 {
-                    options.DisableHttpsRequirement();
-                }
-            });
+                    // Register the Entity Framework stores and models.
+                    options.UseEntityFrameworkCore()
+                           .UseDbContext<ApplicationDbContext>();
+                })
+
+                // Register the OpenIddict server handler.
+                .AddServer(options =>
+                {
+                    // Register the ASP.NET Core MVC binder used by OpenIddict.
+                    options.UseMvc();
+
+                    // Enable the token endpoint.
+                    options.EnableTokenEndpoint("/connect/token");
+
+                    // Enable the password and the refresh token flows.
+                    options.AllowPasswordFlow()
+                           .AllowRefreshTokenFlow();
+
+                    // Override the default token timeout to 20 min
+                    options.SetAccessTokenLifetime(new TimeSpan(0, 20, 0));
+                    
+                    // Disable the HTTPS requirement for dev env.
+                    if (HostingEnvironment.IsDevelopment())
+                    {
+                        options.DisableHttpsRequirement();
+                    }
+                });
 
             services.AddAuthentication().AddOAuthValidation();
 
