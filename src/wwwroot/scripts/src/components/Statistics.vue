@@ -63,8 +63,7 @@
                     </div>
                     <div class="content-width-container">
                         <div class="content-width-container-header">Total Income</div>
-                        <div class="align-right">{{ utils.usdFormatter.format(this.$store.getters.averageEarnedIncome + this.$store.getters.averagePassiveIncome) }}
-                        </div>
+                        <div class="align-right">{{ utils.usdFormatter.format(this.$store.getters.averageEarnedIncome + this.$store.getters.averagePassiveIncome) }}</div>
                     </div>
                     <div class="content-width-container">
                         <div class="content-width-container-header">Investments</div>
