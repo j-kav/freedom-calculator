@@ -13,7 +13,7 @@
             <img src="images/net-worth.png">
         </div>
         <div class="feature-text">
-            <span>Determine how much you need to save for financial independence and when you will get there.</span>
+            <span>Determine how much you need to save for financial independence, and when you will get there.</span>
         </div>
         <div>
             <img src="images/fi-estimate.png">
