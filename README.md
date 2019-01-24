@@ -12,7 +12,8 @@
     npm run dev-build
     ```
   * Backend
-    * Install SQL Server Express with LocalDB enabled (it's unchecked by default in the installation options)
+    * Install SQL Server Express with LocalDB enabled (it's unchecked by default in the installation options) from https://www.microsoft.com/en-us/sql-server/sql-server-editions-express
+      * When running the installer, select "Download Media" and then "LocalDB"
     * Install .NET Core SDK 2.2 from https://www.microsoft.com/net/core#windowscmd
     * Install Visual Studio Code with extensions:
       * C# (ms-vscode.csharp)
