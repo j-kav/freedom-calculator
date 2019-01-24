@@ -85,6 +85,9 @@ namespace FreedomCalculator2
                     options.AllowPasswordFlow()
                            .AllowRefreshTokenFlow();
 
+                    // Accept anonymous clients (i.e clients that don't send a client_id).
+                    options.AcceptAnonymousClients();
+
                     // Override the default token timeout to 20 min
                     options.SetAccessTokenLifetime(new TimeSpan(0, 20, 0));
                     

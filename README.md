@@ -13,7 +13,7 @@
     ```
   * Backend
     * Install SQL Server Express with LocalDB enabled (it's unchecked by default in the installation options)
-    * Install .NET Core SDK 2.0 from https://www.microsoft.com/net/core#windowscmd
+    * Install .NET Core SDK 2.2 from https://www.microsoft.com/net/core#windowscmd
     * Install Visual Studio Code with extensions:
       * C# (ms-vscode.csharp)
       * mssql (ms-mssql.mssql)
