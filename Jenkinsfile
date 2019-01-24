@@ -29,13 +29,13 @@ pipeline {
             steps {
                 dir("src") {
                   bat "dotnet publish"
-                  bat 'copy %FreedomCalculator2appSettingsProduction% "%CD%\\bin\\Debug\\netcoreapp2.1\\publish"'
+                  bat 'copy %FreedomCalculatorappSettingsProduction% "%CD%\\bin\\Debug\\netcoreapp2.2\\publish"'
                   // msdeploy can be downloaded here: https://www.iis.net/downloads/microsoft/web-deploy
                   // after installation, add it to the path env variable
                   bat "msdeploy -enableRule:AppOffline \
                                 -verb:sync \
-                                -source:contentPath='%CD%\\bin\\Debug\\netcoreapp2.1\\publish' \
-                                -dest:contentPath=freedomcalculator2,publishsettings=%FreedomCalculator2PublishSettings%"
+                                -source:contentPath='%CD%\\bin\\Debug\\netcoreapp2.2\\publish' \
+                                -dest:contentPath=freedomcalculator,publishsettings=%FreedomCalculatorPublishSettings%"
                 }
             }
         }
