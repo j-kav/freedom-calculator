@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
-    "chart.js": "2.7.3",
+    "chart.js": "2.8.0",
     "intl": "^1.2.5",
     "vue": "2.5.22",
     "vue-router": "3.0.2",
