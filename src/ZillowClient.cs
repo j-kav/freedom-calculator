@@ -1,10 +1,10 @@
+using Microsoft.Extensions.Options;
 using System;
 using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using Microsoft.Extensions.Options;
 
 namespace FreedomCalculator2
 {

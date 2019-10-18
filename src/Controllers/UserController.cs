@@ -1,13 +1,12 @@
-﻿using System.Threading.Tasks;
-using FreedomCalculator2.Models;
+﻿using FreedomCalculator2.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using AspNet.Security.OAuth.Validation;
+using System.Threading.Tasks;
 
 namespace FreedomCalculator2.Controllers
 {
-    [Authorize(AuthenticationSchemes = OAuthValidationDefaults.AuthenticationScheme)]
+    [Authorize]
     public class UserController : Controller
 	{
 		UserManager<ApplicationUser> _userManager;

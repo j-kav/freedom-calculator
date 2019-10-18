@@ -15,6 +15,7 @@ namespace FreedomCalculator2.Models
 
         [Range(0, (double)decimal.MaxValue, ErrorMessage = "Value must be positve")]
         [DataType(DataType.Currency)]
+        [Column(TypeName = "decimal(18,2)")]
         public decimal Principal { get; set; }
     }
 }

@@ -1,16 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using FreedomCalculator2.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using AspNet.Security.OAuth.Validation;
-using FreedomCalculator2.Models;
+using System.Threading.Tasks;
 
 namespace FreedomCalculator2.Controllers
 {
     [Route("api/budgetexpenseitems")]
-    [Authorize(AuthenticationSchemes = OAuthValidationDefaults.AuthenticationScheme)]
+    [Authorize]
     public class BudgetExpenseItemController : Controller
     {
         UserManager<ApplicationUser> _userManager;

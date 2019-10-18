@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace FreedomCalculator2.Models
 {
     public class ExpenseAverage

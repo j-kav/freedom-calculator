@@ -13,6 +13,7 @@
 
 <script>
 import Modal from './Modal.vue'
+import api from '../api'
 
 export default {
     name: 'App',
@@ -48,9 +49,9 @@ export default {
         }
     },
     methods: {
-        extendSession() {
+        async extendSession() {
             this.showSessionTimingout = false
-            this.$store.state.authData.lastActivityDate = new Date().getTime()
+            await api.extendSession()
         },
         endSession() {
             this.showSessionExpired = false

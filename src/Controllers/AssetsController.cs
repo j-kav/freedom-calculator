@@ -1,17 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using AspNet.Security.OAuth.Validation;
-using FreedomCalculator2.Models;
+﻿using FreedomCalculator2.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace FreedomCalculator2.Controllers
 {
     [Route("api/assets")]
-    [Authorize(AuthenticationSchemes = OAuthValidationDefaults.AuthenticationScheme)]
+    [Authorize]
     public class AssetsController : Controller
     {
         UserManager<ApplicationUser> _userManager;
