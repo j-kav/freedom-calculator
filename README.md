@@ -14,7 +14,7 @@
   * Backend
     * Install SQL Server Express with LocalDB enabled (it's unchecked by default in the installation options) from https://www.microsoft.com/en-us/sql-server/sql-server-editions-express
       * When running the installer, select "Download Media" and then "LocalDB"
-    * Install .NET Core SDK 2.2 from https://www.microsoft.com/net/core#windowscmd
+    * Install .NET Core SDK 3.0 from https://dotnet.microsoft.com/download/dotnet-core/3.0
     * Install Visual Studio Code with extensions:
       * C# (ms-vscode.csharp)
       * mssql (ms-mssql.mssql)
@@ -25,12 +25,14 @@
       {
         "FreedomCalculatorConfig": {
           "AlphaVantageApiKey": "",
-          "ZillowClientId": ""
+          "ZillowClientId": "",
+          "JWTSecret": ""
         }
       }
       ```
       * Set the "AlphaVantageApiKey" field to the Alpha Vantage API key obtained from https://www.alphavantage.co/
       * Set the "ZillowClientId" field to the Zillow Web Services ID obtained from [Zillow API Overview](http://www.zillow.com/howto/api/APIOverview.htm)
+      * Set the "JWTSecret" field to any unique value
     * In the src directory, run
     ```bat
     dotnet restore
@@ -38,10 +40,13 @@
     * Select ".NET Core Launch (web)" config in debug menu to debug the app
       * The database is created the first time the app runs, and is updated with migrations as they are available when it runs
         * To query db, open queries.sql, and create connection with the mssql extension with parameters:
-          * server: (localdb)\\MSSQLLocalDB
-          * database: FreedomCalculator2  
+          * server: (localdb)\.
+          * database: FreedomCalculator2
+          * authentication type: Integrated
+          * name: FreedomCalculator2
           Then execute the statement(s) using Ctrl+Shift+e, and selecting the connection created.
         * Use [.NET Core CLI](https://docs.microsoft.com/en-us/ef/core/miscellaneous/cli/dotnet) to perform Entity Framework migrations when needed
+          * You may need to install the tool with `dotnet tool install --global dotnet-ef`
 * Testing
     * Frontend
       * In the src directory, run

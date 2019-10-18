@@ -3,7 +3,7 @@ import { store } from './store'
 // check if token is expired and refresh it if necessary
 async function refreshTokenIfNecessary() {
     if (store.state.authData.expirationDate < new Date().getTime()) {
-        return await fetchTokens(`grant_type=refresh_token&refresh_token=${store.state.authData.refresh_token}&scope=openid offline_access`)
+        return await refreshToken()
     }
 }
 
@@ -39,32 +39,52 @@ async function execNonDataFetchRequest(url, fetchProps) {
     return response
 }
 
-async function fetchTokens(fetchBody) {
+async function fetchToken(fetchBody) {
     const fetchProps = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        headers: { 'Content-Type': 'application/json' },
         body: fetchBody
     }
-    const response = await window.fetch('/connect/token', fetchProps)
+    const response = await window.fetch('/api/authenticate', fetchProps)
     const data = await response.json()
+    saveToken(data)
+}
+
+async function refreshToken() {
+    const fetchProps = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${store.state.authData.access_token}` }
+    }
+    const response = await window.fetch('/api/refreshToken', fetchProps)
+    const data = await response.json()
+    saveToken(data)
+}
+
+const saveToken = (data) => {
     if (data.error) {
         throw new Error(data.error_description)
     } else {
-        // reuse previous refresh token if a new one isn't issued
-        if (store.state.authData.refresh_token && !data.refresh_token) {
-            data.refresh_token = store.state.authData.refresh_token
-        }
         const now = new Date().getTime()
-        data.lastActivityDate = now
-        const expiresInMilliseconds = data.expires_in * 1000
-        data.expirationDate = new Date(now + expiresInMilliseconds).getTime()
-        store.state.authData = data
+        let parsedToken = parseJwt(data)
+        const expiresInMilliseconds = parsedToken.exp * 1000
+        store.state.authData = { lastActivityDate: now, access_token: data, expirationDate: expiresInMilliseconds }
     }
 }
 
+const parseJwt = (token) => {
+    try {
+        return JSON.parse(atob(token.split('.')[1]));
+    } catch (e) {
+        return null;
+    }
+};
+
 export default {
     async getToken(email, password) {
-        return await fetchTokens(`grant_type=password&username=${email}&password=${password}&scope=openid offline_access`)
+        return await fetchToken(`{"Username":"${email}","Password":"${password}"}`)
+    },
+    async extendSession() {
+        return await refreshToken()
     },
     async getUser() {
         return await execFetchRequest('/api/user')
@@ -104,8 +124,8 @@ export default {
                 State: newAsset.state,
                 Zip: newAsset.zip,
                 NumShares: newAsset.numShares,
-                SharePrice: newAsset.sharePrice,
-                Value: newAsset.value,
+                SharePrice: Number(newAsset.sharePrice),
+                Value: Number(newAsset.value),
                 LiabilityId: newAsset.liabilityId
             })
         }
@@ -128,8 +148,8 @@ export default {
                 Name: updatedAsset.name,
                 Symbol: updatedAsset.symbol,
                 NumShares: updatedAsset.numShares,
-                SharePrice: updatedAsset.sharePrice,
-                Value: updatedAsset.value,
+                SharePrice: Number(updatedAsset.sharePrice),
+                Value: Number(updatedAsset.value),
                 LiabilityId: updatedAsset.liabilityId
             })
         }
@@ -146,7 +166,7 @@ export default {
             },
             body: JSON.stringify({
                 Name: newLiability.name,
-                Principal: newLiability.principal
+                Principal: Number(newLiability.principal)
             })
         }
         return await execFetchRequest('/api/liabilities', fetchProps)
@@ -165,7 +185,7 @@ export default {
             },
             body: JSON.stringify({
                 Name: updatedLiability.name,
-                Principal: updatedLiability.principal
+                Principal: Number(updatedLiability.principal)
             })
         }
         return await execNonDataFetchRequest(`/api/liabilities/${id}`, fetchProps)
@@ -235,8 +255,8 @@ export default {
             },
             body: JSON.stringify({
                 BudgetId: budget.budgetId,
-                ProjectedEarnedIncome: budget.projectedEarnedIncome,
-                NetWorth: budget.netWorth
+                ProjectedEarnedIncome: Number(budget.projectedEarnedIncome),
+                NetWorth: Number(budget.netWorth)
             })
         }
         return await execNonDataFetchRequest('/api/budgets', fetchProps)
@@ -250,7 +270,7 @@ export default {
             body: JSON.stringify({
                 BudgetId: newBudgetEarnedIncomeItem.BudgetId,
                 Timestamp: newBudgetEarnedIncomeItem.Timestamp,
-                Amount: newBudgetEarnedIncomeItem.Amount
+                Amount: Number(newBudgetEarnedIncomeItem.Amount)
             })
         }
         return await execFetchRequest('/api/budgetearnedincomeitems', fetchProps)
@@ -262,7 +282,7 @@ export default {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                Amount: updatedBudgetIncomeItem.amount
+                Amount: Number(updatedBudgetIncomeItem.amount)
             })
         }
         return await execFetchRequest(`/api/budgetearnedincomeitems/${id}`, fetchProps)
@@ -282,7 +302,7 @@ export default {
             body: JSON.stringify({
                 BudgetId: newBudgetPassiveIncomeItem.BudgetId,
                 Timestamp: newBudgetPassiveIncomeItem.Timestamp,
-                Amount: newBudgetPassiveIncomeItem.Amount
+                Amount: Number(newBudgetPassiveIncomeItem.Amount)
             })
         }
         return await execFetchRequest('/api/budgetpassiveincomeitems', fetchProps)
@@ -294,7 +314,7 @@ export default {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                Amount: updatedBudgetIncomeItem.amount
+                Amount: Number(updatedBudgetIncomeItem.amount)
             })
         }
         return await execNonDataFetchRequest(`/api/budgetpassiveincomeitems/${id}`, fetchProps)
@@ -314,7 +334,7 @@ export default {
             body: JSON.stringify({
                 BudgetId: newBudgetInvestmentItem.BudgetId,
                 Timestamp: newBudgetInvestmentItem.Timestamp,
-                Amount: newBudgetInvestmentItem.Amount
+                Amount: Number(newBudgetInvestmentItem.Amount)
             })
         }
         return await execFetchRequest('/api/budgetinvestmentitems', fetchProps)
@@ -326,7 +346,7 @@ export default {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                Amount: updatedBudgetInvestmentItem.amount
+                Amount: Number(updatedBudgetInvestmentItem.amount)
             })
         }
         return await execNonDataFetchRequest(`/api/budgetinvestmentitems/${id}`, fetchProps)
@@ -346,7 +366,7 @@ export default {
             body: JSON.stringify({
                 BudgetId: newBudgetExpense.BudgetId,
                 ExpenseId: newBudgetExpense.ExpenseId,
-                Projected: newBudgetExpense.Projected
+                Projected: Number(newBudgetExpense.Projected)
             })
         }
         return await execFetchRequest('/api/budgetexpenses', fetchProps)
@@ -358,7 +378,7 @@ export default {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                Projected: updatedBudgetExpense.projected
+                Projected: Number(updatedBudgetExpense.projected)
             })
         }
         return await execNonDataFetchRequest(`/api/budgetexpenses/${id}`, fetchProps)
@@ -377,7 +397,7 @@ export default {
             },
             body: JSON.stringify({
                 BudgetExpenseId: newBudgetExpenseItem.BudgetExpenseId,
-                Amount: newBudgetExpenseItem.Amount,
+                Amount: Number(newBudgetExpenseItem.Amount),
                 Timestamp: newBudgetExpenseItem.Timestamp
             })
         }
@@ -390,7 +410,7 @@ export default {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                Amount: updatedBudgetExpenseItem.amount
+                Amount: Number(updatedBudgetExpenseItem.amount)
             })
         }
         return await execNonDataFetchRequest(`/api/budgetexpenseitems/${id}`, fetchProps)

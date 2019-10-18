@@ -4,5 +4,6 @@ namespace FreedomCalculator2
     {
         public string AlphaVantageApiKey { get; set; }
         public string ZillowClientId { get; set; }
+        public string JWTSecret { get; set; }
     }
 }

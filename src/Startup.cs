@@ -1,6 +1,6 @@
-﻿using AspNet.Security.OpenIdConnect.Primitives;
+﻿using FreedomCalculator2.Migrations;
 using FreedomCalculator2.Models;
-using FreedomCalculator2.Migrations;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -8,16 +8,18 @@ using Microsoft.AspNetCore.Rewrite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
+using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace FreedomCalculator2
 {
     public class Startup
     {
         public IConfigurationRoot Configuration { get; set; }
-        public IHostingEnvironment HostingEnvironment { get; set; }
+        public IWebHostEnvironment HostingEnvironment { get; set; }
 
-        public Startup(IHostingEnvironment env)
+        public Startup(IWebHostEnvironment env)
         {
             // add the config file which stores the connection string
             IConfigurationBuilder builder = new ConfigurationBuilder()
@@ -31,76 +33,51 @@ namespace FreedomCalculator2
 
         public void ConfigureServices(IServiceCollection services)
         {
-            // add MVC for web api
-            services.AddMvc().AddJsonOptions(options =>
+            services.AddCors();
+            services.AddControllers().AddNewtonsoftJson(options =>
             {
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             });
 
-            // add options to be injected (settings from app.settings file)
-            services.AddOptions();
-            services.Configure<FreedomCalculatorConfig>((options) => Configuration.GetSection("FreedomCalculatorConfig").Bind(options));
-
             // add entity framework using the config connection string
-            services.AddEntityFrameworkSqlServer()
-                .AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<ApplicationDbContext>(options =>
                 {
                     options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]);
-                    options.UseOpenIddict();
                 });
+
             // add identity
             services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+                    .AddEntityFrameworkStores<ApplicationDbContext>()
+                    .AddDefaultTokenProviders();
 
-            // Configure Identity to use the same JWT claims as OpenIddict instead
-            // of the legacy WS-Federation claims it uses by default (ClaimTypes)
-            services.Configure<IdentityOptions>(options =>
+            // add options to be injected (settings from app.settings file)
+            services.AddOptions();
+            IConfigurationSection freedomCalculatorConfigSection = Configuration.GetSection("FreedomCalculatorConfig");
+            services.Configure<FreedomCalculatorConfig>((options) => freedomCalculatorConfigSection.Bind(options));
+
+            // configure jwt authentication
+            FreedomCalculatorConfig freedomCalculatorConfig = freedomCalculatorConfigSection.Get<FreedomCalculatorConfig>();
+            byte[] key = Encoding.ASCII.GetBytes(freedomCalculatorConfig.JWTSecret);
+            services.AddAuthentication(authOptions =>
             {
-                options.ClaimsIdentity.UserNameClaimType = OpenIdConnectConstants.Claims.Name;
-                options.ClaimsIdentity.UserIdClaimType = OpenIdConnectConstants.Claims.Subject;
-                options.ClaimsIdentity.RoleClaimType = OpenIdConnectConstants.Claims.Role;
+                authOptions.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                authOptions.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(jwtOptions =>
+            {
+                jwtOptions.RequireHttpsMetadata = false;
+                jwtOptions.SaveToken = true;
+                jwtOptions.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
             });
 
-            services.AddOpenIddict()
-
-                // Register the OpenIddict core services.
-                .AddCore(options =>
-                {
-                    // Register the Entity Framework stores and models.
-                    options.UseEntityFrameworkCore()
-                           .UseDbContext<ApplicationDbContext>();
-                })
-
-                // Register the OpenIddict server handler.
-                .AddServer(options =>
-                {
-                    // Register the ASP.NET Core MVC binder used by OpenIddict.
-                    options.UseMvc();
-
-                    // Enable the token endpoint.
-                    options.EnableTokenEndpoint("/connect/token");
-
-                    // Enable the password and the refresh token flows.
-                    options.AllowPasswordFlow()
-                           .AllowRefreshTokenFlow();
-
-                    // Accept anonymous clients (i.e clients that don't send a client_id).
-                    options.AcceptAnonymousClients();
-
-                    // Override the default token timeout to 20 min
-                    options.SetAccessTokenLifetime(new TimeSpan(0, 20, 0));
-                    
-                    // Disable the HTTPS requirement for dev env.
-                    if (HostingEnvironment.IsDevelopment())
-                    {
-                        options.DisableHttpsRequirement();
-                    }
-                });
-
-            services.AddAuthentication().AddOAuthValidation();
-
             // for creating and seeding the database if necessary
+            // TODO review if these should be singleton/trasient/scoped
             services.AddTransient<IDatabaseInitializer, DatabaseInitializer>();
             services.AddScoped<IFreedomCalculatorRepository, FreedomCalculatorRepository>();
             services.AddScoped<IZillowClient, ZillowClient>();
@@ -108,13 +85,9 @@ namespace FreedomCalculator2
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
+            if (!HostingEnvironment.IsDevelopment())
             {
                 // force https on production
                 var options = new RewriteOptions().AddRedirectToHttps();
@@ -123,8 +96,21 @@ namespace FreedomCalculator2
 
             app.UseDefaultFiles();
             app.UseStaticFiles();
+
+            // global cors policy
+            // TODO review
+            app.UseCors(corsPolicy => corsPolicy
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+
             app.UseAuthentication();
-            app.UseMvcWithDefaultRoute(); // setup API
+            app.UseAuthorization();
+            app.UseRouting();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }

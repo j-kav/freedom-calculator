@@ -1,16 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using FreedomCalculator2.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using AspNet.Security.OAuth.Validation;
-using FreedomCalculator2.Models;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace FreedomCalculator2.Controllers
 {
     [Route("api/expenseaverages")]
-    [Authorize(AuthenticationSchemes = OAuthValidationDefaults.AuthenticationScheme)]
+    [Authorize]
     public class ExpenseAveragesController : Controller
     {
         UserManager<ApplicationUser> _userManager;

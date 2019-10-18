@@ -1,11 +1,11 @@
+using FreedomCalculator2.Models;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using FreedomCalculator2.Models;
-using Microsoft.Extensions.Options;
 
 namespace FreedomCalculator2
 {
