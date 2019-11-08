@@ -17,7 +17,7 @@
                 <assetList :asset-type-array="[assetTypes.DomesticBond, assetTypes.InternationalBond]"/>
             </div>
             <div :class="{ activeAssetList: stocksActive, inactiveAssetList: !stocksActive }">
-                <assetList :asset-type-array="[assetTypes.DomesticStock, assetTypes.InternationalStock]"/>
+                <assetList :asset-type-array="[assetTypes.DomesticStock, assetTypes.InternationalStock, assetTypes.ConstantDomesticStock]"/>
             </div>
         </div>
     </div>

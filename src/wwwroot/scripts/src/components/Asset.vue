@@ -1,9 +1,15 @@
 <template>
     <tr>
         <td><input v-model="asset.name" @change.prevent="updateAsset"></td>
-        <td v-if="isStockOrBond">{{ asset.symbol }}</td>
-        <td v-if="isStockOrBond"><input v-model="asset.numShares" @change.prevent="updateAsset"></td>
-        <td v-if="isStockOrBond" class="align-right">{{ utils.usdFormatter.format(asset.sharePrice) }}</td>
+        <td v-if="isStockOrBond">{{ asset.symbol || "N/A" }}</td>
+        <td v-if="isStockOrBond">
+            <input v-if="!(assetModel.assetType===assetTypes.ConstantDomesticStock)" v-model="asset.numShares" @change.prevent="updateAsset">
+            <input v-if="(assetModel.assetType===assetTypes.ConstantDomesticStock)" v-model="asset.value" @change.prevent="updateAsset">
+        </td>
+        <td v-if="isStockOrBond" class="align-right">
+            <span v-if="!(assetModel.assetType===assetTypes.ConstantDomesticStock)">{{ utils.usdFormatter.format(asset.sharePrice) }}</span>
+            <span v-if="(assetModel.assetType===assetTypes.ConstantDomesticStock)">{{ utils.usdFormatter.format(1) }}</span>
+        </td>
         <td v-if="isRealEstate">{{ asset.address }}</td>
         <td v-if="isRealEstate">{{ asset.city }}</td>
         <td v-if="isRealEstate">{{ asset.state }}</td>
@@ -45,10 +51,12 @@ export default {
                 this.assetModel.assetType === assetTypes.DomesticBond ||
                 this.assetModel.assetType === assetTypes.InternationalBond ||
                 this.assetModel.assetType === assetTypes.DomesticStock ||
-                this.assetModel.assetType === assetTypes.InternationalStock,
+                this.assetModel.assetType === assetTypes.InternationalStock ||
+                this.assetModel.assetType === assetTypes.ConstantDomesticStock,
             isRealEstate: this.assetModel.assetType === assetTypes.RealEstate,
             isCash: this.assetModel.assetType === assetTypes.Cash,
-            utils: utils
+            utils: utils,
+            assetTypes: assetTypes
         }
     },
     computed: {

@@ -40,15 +40,6 @@
             <input v-model="name">
         </div>
         <div v-if="isStockOrBond">
-            <div>
-                <label>Symbol</label>
-                <input v-model="symbol">
-                <span class="symbol-message">Enter a stock or ETF. Mutual funds are not supported.</span>
-            </div>
-            <div>
-                <label>Number of Shares</label>
-                <input v-model="numShares">
-            </div>
             <div v-if="isStock">
                 <label>Type</label>
                 <select v-model="assetType">
@@ -57,6 +48,9 @@
                     </option>
                     <option value="5">
                         International Stock
+                    </option>
+                    <option value="6">
+                        Constant Domestic Stock (pension, etc)
                     </option>
                 </select>
             </div>
@@ -70,6 +64,20 @@
                         International Bond
                     </option>
                 </select>
+            </div>
+            <div v-if="!(assetType==assetTypes.ConstantDomesticStock)">
+                <label>Symbol</label>
+                <input v-model="symbol">
+                <span class="symbol-message">Enter a stock or ETF. Mutual funds are not supported.</span>
+            </div>
+            <div v-if="(assetType==assetTypes.ConstantDomesticStock)">
+                <label>Value</label>
+                <input v-model="value">
+                <span class="symbol-message">Enter current value (for funds fixed at $1 per share such as within a pension).</span>
+            </div>
+            <div v-if="!(assetType==assetTypes.ConstantDomesticStock)">
+                <label>Number of Shares</label>
+                <input v-model="numShares">
             </div>
         </div>
         <div v-if="isRealEstate">

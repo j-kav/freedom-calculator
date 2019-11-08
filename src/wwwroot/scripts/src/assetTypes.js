@@ -4,5 +4,6 @@ export default {
     DomesticBond: 2,
     InternationalBond: 3,
     DomesticStock: 4,
-    InternationalStock: 5
+    InternationalStock: 5,
+    ConstantDomesticStock: 6
 }

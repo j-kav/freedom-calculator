@@ -94,7 +94,7 @@ namespace FreedomCalculator2.Models
             assetToUpdate.NumShares = updatedAsset.NumShares;
             assetToUpdate.Symbol = updatedAsset.Symbol;
             assetToUpdate.LiabilityId = updatedAsset.LiabilityId;
-            if (assetToUpdate.AssetType == AssetType.Cash)
+            if (assetToUpdate.AssetType == AssetType.Cash || assetToUpdate.AssetType == AssetType.ConstantDomesticStock)
             {
                 assetToUpdate.Value = updatedAsset.Value;
             }
