@@ -93,7 +93,8 @@ export default {
         },
         totalDomesticStock() {
             let totalStock = 0
-            const stockAssets = this.$store.getters.assetsByType([assetTypes.DomesticStock])
+            let stockAssets = this.$store.getters.assetsByType([assetTypes.DomesticStock])
+            stockAssets = stockAssets.concat(this.$store.getters.assetsByType([assetTypes.ConstantDomesticStock]))
             for (const stockAsset of stockAssets) {
                 totalStock += stockAsset.value
             }

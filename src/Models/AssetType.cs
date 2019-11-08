@@ -8,6 +8,7 @@
 		InternationalBond,
 		DomesticStock,
 		InternationalStock,
+		ConstantDomesticStock,
 		Any
 	}
 }
