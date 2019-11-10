@@ -191,7 +191,13 @@ namespace FreedomCalculator2.Models
         {
             Budget budgetToUpdate = db.Budgets.Where(budget => budget.BudgetId == id).FirstOrDefault();
             budgetToUpdate.ProjectedEarnedIncome = updatedBudget.ProjectedEarnedIncome;
-            budgetToUpdate.NetWorth = updatedBudget.NetWorth;
+
+            // Only update the state of net worth for the budget if it is the current month
+            if (budgetToUpdate.Year == DateTime.Now.Year && budgetToUpdate.Month == DateTime.Now.Month)
+            {
+                budgetToUpdate.NetWorth = updatedBudget.NetWorth;
+            }
+
             await SaveChanges();
         }
 
