@@ -14,7 +14,7 @@
   * Backend
     * Install SQL Server Express with LocalDB enabled (it's unchecked by default in the installation options) from https://www.microsoft.com/en-us/sql-server/sql-server-editions-express
       * When running the installer, select "Download Media" and then "LocalDB"
-    * Install .NET Core SDK 3.0 from https://dotnet.microsoft.com/download/dotnet-core/3.0
+    * Install .NET Core SDK 3.1 from https://dotnet.microsoft.com/download/dotnet-core/3.1
     * Install Visual Studio Code with extensions:
       * C# (ms-vscode.csharp)
       * mssql (ms-mssql.mssql)
