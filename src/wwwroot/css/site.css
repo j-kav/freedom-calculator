@@ -46,6 +46,12 @@ div.content-width-container-header {
 	font-weight: bold;
 }
 
+div.footnote {
+	font-style: italic;
+	font-weight: lighter;
+	font-size: small;
+}
+
 div.field,
 label {
 	display: inline-block;
