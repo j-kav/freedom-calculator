@@ -99,21 +99,30 @@
                     </div>
                 </div>
                 <br>
-                <h3>Emergency Fund Recommendation</h3>
+                <h3>Cash Funds Recommendation</h3>
                 <div>
                     <div class="content-width-container">
-                        <div class="content-width-container-header">Total cash saved</div>
+                        <div class="content-width-container-header">Total Cash Saved</div>
                         <div class="align-right">{{ utils.usdFormatter.format(this.$store.getters.totalCash) }}</div>
                     </div>
                     <div class="content-width-container">
-                        <div class="content-width-container-header">6 months of expenses</div>
+                        <div class="content-width-container-header">6 Months of Expenses</div>
                         <div class="align-right">{{ utils.usdFormatter.format(sixMonthsExpenses) }}</div>
+                    </div>
+                    <div class="content-width-container">
+                        <div class="content-width-container-header">10% of Net Worth</div>
+                        <div class="align-right">{{ utils.usdFormatter.format(tenPercentOfNetWorth) }}</div>
+                    </div>
+                    <div class="content-width-container">
+                        <div class="content-width-container-header">Target*</div>
+                        <div class="align-right">{{ utils.usdFormatter.format(cashFundsReccomendation) }}</div>
                     </div>
                     <div class="content-width-container">
                         <div class="content-width-container-header">Surplus/Deficit</div>
                         <div class="align-right">{{ utils.usdFormatter.format(surplusDeficit) }}</div>
                     </div>
                 </div>
+                <div class="footnote">*Greater of 6 months of expenses or 10% of net worth</div>
                 <br>
                 <div class="grid-2-container">
                     <div>
@@ -187,8 +196,14 @@ export default {
         sixMonthsExpenses() {
             return this.$store.getters.averageMandatoryExpenses * 6
         },
+        tenPercentOfNetWorth() {
+            return this.$store.getters.netWorth * 0.10
+        },
+        cashFundsReccomendation() {
+            return this.sixMonthsExpenses > this.tenPercentOfNetWorth ? this.sixMonthsExpenses: this.tenPercentOfNetWorth
+        },
         surplusDeficit() {
-            return this.$store.getters.totalCash - this.sixMonthsExpenses
+            return this.$store.getters.totalCash - this.cashFundsReccomendation
         },
         amountNeededForFinancialIndependence() {
             return utils.calculateAmountToCoverExpenses(this.$store.getters.averageMandatoryExpenses)
